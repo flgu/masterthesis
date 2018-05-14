@@ -8,7 +8,7 @@
 }
 
 @article{knoll_jacobian-free_2004,
-	title = {Jacobian-free {Newton}–{Krylov} methods: a survey of approaches and applications},
+	title = {Jacobian-free {Newton} {Krylov} methods: a survey of approaches and applications},
 	volume = {193},
 	issn = {00219991},
 	shorttitle = {Jacobian-free {Newton}–{Krylov} methods},
@@ -24,4 +24,57 @@
 	year = {2004},
 	pages = {357--397},
 	file = {Knoll and Keyes - 2004 - Jacobian-free Newton–Krylov methods a survey of a.pdf:/home/desktop/.mozilla/firefox/a82l8a20.default/zotero/storage/A8BQBD5X/Knoll and Keyes - 2004 - Jacobian-free Newton–Krylov methods a survey of a.pdf:application/pdf}
+}
+
+@article{nejat_newtonkrylov_2011,
+	title = {A {Newton}–{Krylov} finite volume algorithm for the power-law non-{Newtonian} fluid flow using pseudo-compressibility technique},
+	volume = {166},
+	issn = {03770257},
+	url = {http://linkinghub.elsevier.com/retrieve/pii/S0377025711001777},
+	doi = {10.1016/j.jnnfm.2011.07.003},
+	abstract = {An implicit Newton–Krylov ﬁnite volume algorithm has been developed for efﬁcient steady-state computation of the power-law non-Newtonian ﬂuid ﬂows. The pseudo-compressibility technique is used for the coupling of continuity and momentum equations. The spatial discretization is central (second-order) for both convective and diffusive terms and the accuracy of the solution is veriﬁed. The nine block diagonal Jacobian matrix (needed for implicit formulation) is computed directly through the ﬂux differentiation. Five-diagonal and three-diagonal block matrices (the simpliﬁed versions of the main Jacobian matrix) are used with the ILU(0 \& 1) and the Thomas linear solvers for preconditioning, respectively. The performance of the Newton-GMRES solver is examined in detail for different preconditioning strategies. The effects of the power-law behavior index and Re number on the convergence rate are also studied. The performance of the Newton-BiCGSTAB and the Newton-GMRES solvers are compared with each other. The results show, the ILU(1)/Newton-GMRES is the most efﬁcient combination that is robust even in high Reynolds number shear-thinning ﬂuid ﬂow cases.},
+	language = {en},
+	number = {19-20},
+	urldate = {2018-05-14},
+	journal = {Journal of Non-Newtonian Fluid Mechanics},
+	author = {Nejat, Amir and Jalali, Alireza and Sharbatdar, Mahkame},
+	month = oct,
+	year = {2011},
+	pages = {1158--1172},
+	file = {Nejat et al. - 2011 - A Newton–Krylov finite volume algorithm for the po.pdf:/home/desktop/.mozilla/firefox/a82l8a20.default/zotero/storage/76SEE8SN/Nejat et al. - 2011 - A Newton–Krylov finite volume algorithm for the po.pdf:application/pdf}
+}
+
+@article{bahi_parallel_nodate,
+	title = {Parallel {GMRES} implementation for solving sparse linear systems on {GPU} clusters},
+	abstract = {In this paper, we propose an efﬁcient parallel implementation of the GMRES method for GPU clusters. This implementation requires us to parallelize the GMRES algorithm between CPUs of the cluster. Hence, all parallel and intensive computations on local data are performed on GPUs and reduction operations to compute global results are carried out by CPUs. The performances of our parallel GMRES solver are evaluated on test matrices of sizes exceeding 107 rows. They show that solving large and sparse linear systems on a GPU cluster is faster than that performed on its CPU counterpart. It is noticed that a cluster of 12 GPUs is about 8 times faster than a cluster of 12 CPUs and about 5 times faster than a cluster of 24 CPUs.},
+	language = {en},
+	author = {Bahi, Jacques M and Couturier, Raphael and Khodja, Lilia Ziane},
+	pages = {9},
+	file = {Bahi et al. - Parallel GMRES implementation for solving sparse l.pdf:/home/desktop/.mozilla/firefox/a82l8a20.default/zotero/storage/7E82WYKM/Bahi et al. - Parallel GMRES implementation for solving sparse l.pdf:application/pdf}
+}
+
+@book{lasia_electrochemical_2014,
+	address = {New York},
+	title = {Electrochemical impedance spectroscopy and its applications},
+	isbn = {978-1-4614-8932-0},
+	language = {en},
+	publisher = {Springer},
+	author = {Lasia, Andrzej},
+	year = {2014},
+	keywords = {Impedance spectroscopy},
+	file = {Lasia - 2014 - Electrochemical impedance spectroscopy and its app.pdf:/home/desktop/.mozilla/firefox/a82l8a20.default/zotero/storage/JTAGYV7Z/Lasia - 2014 - Electrochemical impedance spectroscopy and its app.pdf:application/pdf}
+}
+
+@misc{noauthor_numpy.fft.fft_nodate,
+	title = {numpy.fft.fft — {NumPy} v1.14 {Manual}},
+	url = {https://docs.scipy.org/doc/numpy/reference/generated/numpy.fft.fft.html},
+	urldate = {2018-05-14},
+	file = {numpy.fft.fft — NumPy v1.14 Manual:/home/desktop/.mozilla/firefox/a82l8a20.default/zotero/storage/VWSQZTT3/numpy.fft.fft.html:text/html}
+}
+
+@misc{noauthor_discrete_nodate,
+	title = {Discrete {Fourier} {Transform} (numpy.fft) - {NumPy} v1.14 {Manual}},
+	url = {https://docs.scipy.org/doc/numpy/reference/routines.fft.html},
+	urldate = {2018-05-14},
+	file = {Discrete Fourier Transform (numpy.fft) — NumPy v1.14 Manual:/home/desktop/.mozilla/firefox/a82l8a20.default/zotero/storage/PPIJYKNH/routines.fft.html:text/html}
 }

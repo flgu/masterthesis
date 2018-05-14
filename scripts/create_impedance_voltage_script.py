@@ -9,6 +9,9 @@ Testing upwinding implementation in module res.
 Compare solutions (res.pyd = old implementation)
 
 """
+
+
+import ..functions.system_tools as st
 #%%
 import matplotlib
 matplotlib.use("Qt5Agg")
@@ -91,6 +94,6 @@ setup_dict = {
     "jC0":jC0,
     "kCI":kCI,
     "kC0":kC0,
-    "jCI":jCI    
+    "jCI":jCI
     }
 np.save("setup_input.npy",setup_dict)

@@ -1171,9 +1171,9 @@ In order to include the flow of information we define the following upwind
 \begin_layout Standard
 \begin_inset Formula 
 \begin{align*}
--f_{c}(c(x_{i}),t) & =\begin{cases}
-D_{i}\chi_{1}zc_{i-1}(t)\frac{2(\phi_{i}-\phi_{i-1})}{x_{i+1}-x_{i-1}} & ,\text{if }-D_{i}\chi_{1}z\frac{2(\phi_{i}-\phi_{i-1})}{x_{i+1}-x_{i-1}}>0\\
-D_{i}\chi_{1}zc_{i}(t)\frac{2(\phi_{i}-\phi_{i-1})}{x_{i+1}-x_{i-1}} & ,\text{if }-D_{i}\chi_{1}z\frac{2(\phi_{i}-\phi_{i-1})}{x_{i+1}-x_{i-1}}\leq0
+f_{c}(c(x_{i}),t) & =-2D_{i}\chi_{1}z\frac{(\phi_{i}-\phi_{i-1})}{x_{i+1}-x_{i-1}}\begin{cases}
+c_{i-1}(t) & ,\text{if }-D_{i}\chi_{1}z\frac{2(\phi_{i}-\phi_{i-1})}{x_{i+1}-x_{i-1}}>0\\
+c_{i}(t) & ,\text{if }-D_{i}\chi_{1}z\frac{2(\phi_{i}-\phi_{i-1})}{x_{i+1}-x_{i-1}}\leq0
 \end{cases}
 \end{align*}
 
@@ -1185,9 +1185,9 @@ On the other cell interface
 \begin_layout Standard
 \begin_inset Formula 
 \begin{align*}
-f_{c}(c(x_{i+1}),t) & =\begin{cases}
--D_{i+1}\chi_{1}zc_{i}(t)\frac{2(\phi_{i+1}-\phi_{i})}{x_{i+2}-x_{i}} & ,\text{if }-D_{i+1}\chi_{1}z\frac{2(\phi_{i+1}-\phi_{i})}{x_{i+2}-x_{i}}>0\\
--D_{i+1}\chi_{1}zc_{i+1}(t)\frac{2(\phi_{i+1}-\phi_{i})}{x_{i+2}-x_{i}} & ,\text{if }-D_{i+1}\chi_{1}z\frac{2(\phi_{i+1}-\phi_{i})}{x_{i+2}-x_{i}}\leq0
+f_{c}(c(x_{i+1}),t) & =-2D_{i+1}\chi_{1}z\frac{(\phi_{i+1}-\phi_{i})}{x_{i+2}-x_{i}}\begin{cases}
+c_{i}(t) & ,\text{if }-D_{i+1}\chi_{1}z\frac{2(\phi_{i+1}-\phi_{i})}{x_{i+2}-x_{i}}>0\\
+c_{i+1}(t) & ,\text{if }-D_{i+1}\chi_{1}z\frac{2(\phi_{i+1}-\phi_{i})}{x_{i+2}-x_{i}}\leq0
 \end{cases}
 \end{align*}
 
@@ -1419,6 +1419,560 @@ At the boundaries:
 Fully Implicit Time Discretization
 \end_layout
 
+\begin_layout Standard
+We use a fully implicit version based on the backwards differenting formulas.
+ Therefore we discretize the flux equations at the next time step 
+\begin_inset Formula $t_{j+1}=t_{j}+\Delta t$
+\end_inset
+
+.
+ In order to simplify our notation we denote allready discretized fluxes
+ with indizes 
+\begin_inset Formula $i$
+\end_inset
+
+ for the cell interface location and with 
+\begin_inset Formula $j$
+\end_inset
+
+ for the time step.
+\begin_inset Formula 
+\begin{align*}
+f_{d}\left(c\left(x_{i},t_{j}\right)\right) & =f_{d,i,j}
+\end{align*}
+
+\end_inset
+
+Using this notation and the definition of the BDF1 formula we can rewrite
+ our discrete conservation law.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align}
+\frac{c_{i,j}-c_{i,j-1}}{\Delta t}+\frac{f_{d,i+1,j}-f_{d,i,j}}{\Delta x_{i}}+\frac{f_{c,i+1,j}-f_{c,i,j}}{\Delta x_{i}} & =0\nonumber \\
+c_{i,j}-c_{i,j-1}+\frac{\Delta t}{\Delta x_{i}}\left(f_{d,i+1,j}+f_{c,i+1,j}-f_{d,i,j}-f_{c,i,j}\right) & =0\label{eq:fully_implicit_conservation_law}
+\end{align}
+
+\end_inset
+
+At the electrode boundaries we replace the fluxes out of the electrolyte
+ with boundary condition fluxes 
+\begin_inset Formula $f_{A}\left(t\right)$
+\end_inset
+
+ and 
+\begin_inset Formula $f_{C}\left(t\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align}
+c_{0,j}-c_{0,j-1}+\frac{\Delta t}{\Delta x_{0}}\left(f_{d,1,j}+f_{c,1,j}-f_{A}\left(t\right)\right) & =0\nonumber \\
+c_{I-1,j}-c_{I-1,j-1}+\frac{\Delta t}{\Delta x_{I-1}}\left(f_{C}\left(t\right)-f_{d,I-1,j}-f_{c,I-1,j}\right) & =0\label{eq:fully_implicit_conservation_law_bc}
+\end{align}
+
+\end_inset
+
+Since the electrostatic potential is not explicitly time dependent it will
+ also be evaluated at the newest time step 
+\begin_inset Formula $t_{j}$
+\end_inset
+
+.
+\begin_inset Formula 
+\begin{align*}
+\epsilon_{i+1}\frac{2(\phi_{i+1}\left(t\right)-\phi_{i}\left(t\right))}{\left(x_{i+1}-x_{i}\right)\left(x_{i+2}-x_{i}\right)}-\epsilon_{i}\frac{2(\phi_{i}\left(t\right)-\phi_{i-1}\left(t\right))}{\left(x_{i+1}-x_{i}\right)\left(x_{i+1}-x_{i-1}\right)} & =-\chi_{2}\left(c_{i}^{+}(t)-c_{i}^{-}(t)\right)\\
+\epsilon_{i+1}\frac{2(\phi_{i+1,j}-\phi_{i,j})}{\left(x_{i+1}-x_{i}\right)\left(x_{i+2}-x_{i}\right)}-\epsilon_{i}\frac{2(\phi_{i,j}-\phi_{i-1,j})}{\left(x_{i+1}-x_{i}\right)\left(x_{i+1}-x_{i-1}\right)} & =-\chi_{2}\left(c_{i,j}^{+}-c_{i,j}^{-}\right)
+\end{align*}
+
+\end_inset
+
+And at the boundaries we evaluate the electrode potential also at the newest
+ time step.
+\begin_inset Formula 
+\begin{align*}
+\phi_{C,j} & =\phi_{C}\left(t_{j}\right)
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Nonlinear Solver
+\end_layout
+
+\begin_layout Subsection
+Nonlinear System
+\end_layout
+
+\begin_layout Standard
+The discretized Poisson Nernst Planck equations are a system of coupled
+ nonlinear equations.
+ In order to solve this system we have choosen to deploy a Newton iteration
+ based solution method solving the coupled nonlinear system at once.
+ We write all equations in a residual form forming the residual vector 
+\begin_inset Formula $\mathbf{F}$
+\end_inset
+
+.
+ The first 
+\begin_inset Formula $0,...,I-1$
+\end_inset
+
+ components are the discretized Nernst Planck equations for the positive
+ cations 
+\begin_inset Formula $c_{i}^{+}$
+\end_inset
+
+, followed by the equations for the anions 
+\begin_inset Formula $c_{i}^{-}$
+\end_inset
+
+ at 
+\begin_inset Formula $I,...,2I-1$
+\end_inset
+
+ and afterwards the discretized Poisson equation with elements at 
+\begin_inset Formula $2I,...,3I-1$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align}
+\begin{pmatrix}c_{i,j}^{+}-c_{i,j-1}^{+}+\frac{\Delta t}{\Delta x_{i}}\left(f_{d,i+1,j}^{+}+f_{c,i+1,j}^{+}-f_{d,i,j}^{+}-f_{c,i,j}^{+}\right)\\
+\vdots\\
+c_{i,j}^{-}-c_{i,j-1}^{-}+\frac{\Delta t}{\Delta x_{i}}\left(f_{d,i+1,j}^{-}+f_{c,i+1,j}^{-}-f_{d,i,j}^{-}-f_{c,i,j}^{-}\right)\\
+\vdots\\
+\frac{\phi_{i-1}-2\phi_{i}+\phi_{i+1}}{\Delta x^{2}}+\frac{\chi_{2}}{\epsilon}\left(z^{+}c_{i}(t)+z^{-}c_{i}(t\right)
+\end{pmatrix} & =\bm{F}(\mathbf{x}_{j})=0\label{eq:residual_vector_nonlin_sys}
+\end{align}
+
+\end_inset
+
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+The solution vector of this system is structured similarly.
+\begin_inset Formula 
+\begin{align*}
+\bm{x}_{j} & =\begin{pmatrix}\vdots\\
+c_{i,j}^{+}\\
+\vdots\\
+c_{i,j}^{-}\\
+\vdots\\
+\phi_{i,j}\\
+\vdots
+\end{pmatrix}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We can expand the residual vector using a multivariate Taylor expansion
+ around an expansion point 
+\begin_inset Formula $\bm{x}_{j,k}$
+\end_inset
+
+ and stop after the linear term.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align}
+\bm{F}\left(\bm{x}_{j}\right) & \approx\bm{F}\left(\bm{x}_{j,k}\right)+\bm{F}^{\prime}\left(\bm{x}_{j,k}\right)\left(\bm{x}_{j}-\bm{x}_{j,k}\right)\label{eq:newton_taylor_expansion}
+\end{align}
+
+\end_inset
+
+ This linear approximation uses the Jacobian 
+\begin_inset Formula $\bm{F}^{\prime}\left(\bm{x}_{j,k}\right)$
+\end_inset
+
+ of the system.
+ 
+\begin_inset Formula 
+\begin{align}
+\bm{F}^{\prime}\left(\bm{x}_{j,k}\right) & =\begin{pmatrix}\partial_{c_{i,j}^{+}}F_{0,..,I-1} & \partial_{c_{i,j}^{-}}F_{0,..,I-1} & \partial_{\phi}F_{0,..,I-1}\\
+\partial_{c_{i,j}^{+}}F_{I,..,2I-1} & \partial_{c_{i,j}^{-}}F_{I,..,2I-1} & \partial_{\phi}F_{I,..,2I-1}\\
+\partial_{c_{i,j}^{+}}F_{2I,..,3I-1} & \partial_{c_{i,j}^{-}}F_{2I,..,3I-1} & \partial_{\phi}F_{2I,..,3I-1}
+\end{pmatrix}\label{eq:jacobian_matrix}
+\end{align}
+
+\end_inset
+
+ In this equation every element of the matrix is a 
+\begin_inset Formula $I\times I$
+\end_inset
+
+ matrix by itself.
+ We set 
+\begin_inset Formula $\bm{F}\left(\bm{x_{j}}\right)=0$
+\end_inset
+
+ in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:newton_taylor_expansion"
+
+\end_inset
+
+ because we are interested in finding the residual solution of the system.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+0 & =\bm{F}\left(\bm{x}_{j,k}\right)+\bm{F}^{\prime}\left(\bm{x}_{j,k}\right)\left(\bm{x}_{j}-\bm{x}_{j,k}\right)\\
+\bm{x}_{j} & =\bm{x}_{j,k}-\left[\bm{F}^{\prime}\left(\bm{x}_{j,k}\right)\right]^{-1}\bm{F}\left(\bm{x}_{j,k}\right)
+\end{align*}
+
+\end_inset
+
+If we consider this equation as an iterative update process we can use the
+ index 
+\begin_inset Formula $k$
+\end_inset
+
+ as the Newton update stage.
+\begin_inset Formula 
+\begin{align*}
+\bm{x}_{j,k+1} & =\bm{x}_{j,k}-\left[\bm{F}^{\prime}\left(\bm{x}_{j,k}\right)\right]^{-1}\bm{F}\left(\bm{x}_{j,k}\right)
+\end{align*}
+
+\end_inset
+
+ Following the review article by Knoll and Keyes 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "knoll_jacobian-free_2004"
+
+\end_inset
+
+ the usual approach is as follows.
+\end_layout
+
+\begin_layout Enumerate
+Solve the linear system 
+\begin_inset Formula 
+\begin{align*}
+\bm{F}^{\prime}\left(\bm{x}_{j,k}\right)\bm{\delta x}_{j,k} & =-\bm{F}\left(\bm{x}_{j,k}\right)
+\end{align*}
+
+\end_inset
+
+for the unknown 
+\begin_inset Formula $\bm{\delta x}_{j,k}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Update the solution vector
+\begin_inset Formula 
+\begin{align*}
+\bm{x}_{j,k+1} & =\bm{x}_{j,k}+\bm{\delta x}_{j,k}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Check convergence criterion
+\begin_inset Formula 
+\begin{align*}
+\frac{\left\Vert \bm{\delta x}_{j,k}\right\Vert }{\left\Vert \bm{x}_{j,k}\right\Vert } & <tol
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+So far the solution method consists of two nested loops, the outer time
+ stepping loop and the inner Newton iteration.
+ Each Newton iteration a linear system has to be solved.
+\end_layout
+
+\begin_layout Subsection
+Jacobian
+\end_layout
+
+\begin_layout Standard
+For the linearization of the equation system we need to calculate the Jacobian,
+ see equation 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:jacobian_matrix"
+
+\end_inset
+
+, of the system.
+ All six submatrices have a simple structure and can be categorized into
+ coupled or noncoupled ones.
+ Because of simplicity we number all submatrices in the following manner.
+\begin_inset Formula 
+\begin{align*}
+\bm{F}^{\prime}\left(\bm{x}_{j,k}\right) & =\begin{pmatrix}\bm{A}_{00} & \bm{A}_{01} & \bm{A}_{02}\\
+\bm{A}_{10} & \bm{A}_{11} & \bm{A}_{12}\\
+\bm{A}_{20} & \bm{A}_{21} & \bm{A}_{22}
+\end{pmatrix}
+\end{align*}
+
+\end_inset
+
+Matrices 
+\begin_inset Formula $\bm{A}_{00},\bm{A}_{01},\bm{A}_{10},\bm{A}_{11}$
+\end_inset
+
+ differ only by the ion type and the sign of the valency of the ions, therefore
+ we can limit our calculation to 
+\begin_inset Formula $\bm{A}_{00}$
+\end_inset
+
+ and 
+\begin_inset Formula $\bm{A}_{10}$
+\end_inset
+
+.
+ We perform these calculations without explicitly distinguishing between
+ anions and cations therefore we drop the superscript 
+\begin_inset Formula $\pm$
+\end_inset
+
+.
+\begin_inset Formula 
+\begin{align*}
+\bm{A}_{00} & =\partial_{c_{i,j}^{+}}F_{0,..,I-1}
+\end{align*}
+
+\end_inset
+
+The inner elements of this matrix consists of derivatives of the conservation
+ law.
+ We write the derivative with respect to a concentration 
+\begin_inset Formula $c_{m}$
+\end_inset
+
+ and we use the Kronecker delta 
+\begin_inset Formula $\delta_{i,j}$
+\end_inset
+
+.
+\begin_inset Formula 
+\begin{align*}
+ & \partial_{c_{m,j}}\left[c_{i,j}-c_{i,j-1}+\frac{\Delta t}{\Delta x_{i}}\left(f_{d,i+1,j}+f_{c,i+1,j}-f_{d,i,j}-f_{c,i,j}\right)\right]\\
+ & =\delta_{m,i}+\frac{\Delta t}{\Delta x_{i}}\left(\partial_{c_{m,j}}f_{d,i+1,j}+\partial_{c_{m,j}}f_{c,i+1,j}-\partial_{c_{m,j}}f_{d,i,j}-\partial_{c_{m,j}}f_{c,i,j}\right)
+\end{align*}
+
+\end_inset
+
+Hence we must evaluate the derivatives of the diffusive and convective fluxes.
+\begin_inset Formula 
+\begin{align*}
+\partial_{c_{m,j}}f_{d,i+1,j} & =\partial_{c_{m,j}}\left(-D_{i+1}\frac{2(c_{i+1,j}-c_{i,j})}{x_{i+2}-x_{i}}\right)\\
+ & =-\frac{2D_{i+1}}{x_{i+2}-x_{i}}\left(\delta_{m,i+1}-\delta_{m,i}\right)\\
+\partial_{c_{m,j}}f_{d,i,j} & =\partial_{c_{m,j}}\left(-D_{i}\frac{2(c_{i,j}-c_{i-1,j})}{x_{i+1}-x_{i-1}}\right)\\
+ & =-\frac{2D_{i}}{x_{i+1}-x_{i}}\left(\delta_{m,i}-\delta_{m,i-1}\right)
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+\partial_{c_{m,j}}f_{c,i+1,j} & =\partial_{c_{m,j}}\left(-2D_{i+1}\chi_{1}z\frac{(\phi_{i+1,j}-\phi_{i,j})}{x_{i+2}-x_{i}}\begin{cases}
+c_{i,j} & ,\text{if }-D_{i+1}\chi_{1}z\frac{2(\phi_{i+1,j}-\phi_{i,j})}{x_{i+2}-x_{i}}>0\\
+c_{i+1,j} & ,\text{if }-D_{i+1}\chi_{1}z\frac{2(\phi_{i+1,j}-\phi_{i,j})}{x_{i+2}-x_{i}}\leq0
+\end{cases}\right)\\
+ & =-2D_{i+1}\chi_{1}z\frac{(\phi_{i+1,j}-\phi_{i,j})}{x_{i+2}-x_{i}}\begin{cases}
+\delta_{m,i} & ,\text{if }-D_{i+1}\chi_{1}z\frac{2(\phi_{i+1,j}-\phi_{i,j})}{x_{i+2}-x_{i}}>0\\
+\delta_{m,i+1} & ,\text{if }-D_{i+1}\chi_{1}z\frac{2(\phi_{i+1,j}-\phi_{i,j})}{x_{i+2}-x_{i}}\leq0
+\end{cases}\\
+\partial_{c_{m,j}}f_{c,i,j} & =\partial_{c_{m,j}}\left(-2D_{i}\chi_{1}z\frac{(\phi_{i,j}-\phi_{i-1,j})}{x_{i+1}-x_{i-1}}\begin{cases}
+c_{i-1,j} & ,\text{if }-D_{i}\chi_{1}z\frac{2(\phi_{i,j}-\phi_{i-1,j})}{x_{i+1}-x_{i-1}}>0\\
+c_{i,j} & ,\text{if }-D_{i}\chi_{1}z\frac{2(\phi_{i,j}-\phi_{i-1,j})}{x_{i+1}-x_{i-1}}\leq0
+\end{cases}\right)\\
+ & =-2D_{i}\chi_{1}z\frac{(\phi_{i,j}-\phi_{i-1,j})}{x_{i+1}-x_{i-1}}\begin{cases}
+\delta_{m,i-1} & ,\text{if }-D_{i}\chi_{1}z\frac{2(\phi_{i,j}-\phi_{i-1,j})}{x_{i+1}-x_{i-1}}>0\\
+\delta_{m,i} & ,\text{if }-D_{i}\chi_{1}z\frac{2(\phi_{i,j}-\phi_{i-1,j})}{x_{i+1}-x_{i-1}}\leq0
+\end{cases}
+\end{align*}
+
+\end_inset
+
+We see that 
+\begin_inset Formula $\bm{A}_{00}$
+\end_inset
+
+ is a tridiagonal matrix with entries 
+\begin_inset Formula $\left(\bm{A}_{00}\right)_{i,i-1},\left(\bm{A}_{00}\right)_{i,i},\left(\bm{A}_{00}\right)_{i,i+1}$
+\end_inset
+
+.
+ All other components vanish.
+\begin_inset Formula 
+\begin{align*}
+\left(\bm{A}_{00}\right)_{i,i-1} & =\frac{2\Delta t}{\Delta x_{i}}\left(-\frac{D_{i}}{x_{i+1}-x_{i}}+D_{i}\chi_{1}z\frac{(\phi_{i,j}-\phi_{i-1,j})}{x_{i+1}-x_{i-1}}\begin{cases}
+1 & ,\text{if }-D_{i}\chi_{1}z\frac{2(\phi_{i,j}-\phi_{i-1,j})}{x_{i+1}-x_{i-1}}>0\\
+0 & ,\text{if }-D_{i}\chi_{1}z\frac{2(\phi_{i,j}-\phi_{i-1,j})}{x_{i+1}-x_{i-1}}\leq0
+\end{cases}\right)\\
+\left(\bm{A}_{00}\right)_{i,i} & =1+\frac{2\Delta t}{\Delta x_{i}}\left(\frac{2D}{x_{i+2}-x_{i}}-D_{i+1}\chi_{1}z\frac{(\phi_{i+1,j}-\phi_{i,j})}{x_{i+2}-x_{i}}\begin{cases}
+1 & ,\text{if }-D_{i+1}\chi_{1}z\frac{2(\phi_{i+1,j}-\phi_{i,j})}{x_{i+2}-x_{i}}>0\\
+0 & ,\text{if }-D_{i+1}\chi_{1}z\frac{2(\phi_{i+1,j}-\phi_{i,j})}{x_{i+2}-x_{i}}\leq0
+\end{cases}\right.\\
+ & \left.+\frac{D_{i}}{x_{i+1}-x_{i}}+D_{i}\chi_{1}z\frac{(\phi_{i,j}-\phi_{i-1,j})}{x_{i+1}-x_{i-1}}\begin{cases}
+0 & ,\text{if }-D_{i}\chi_{1}z\frac{2(\phi_{i,j}-\phi_{i-1,j})}{x_{i+1}-x_{i-1}}>0\\
+1 & ,\text{if }-D_{i}\chi_{1}z\frac{2(\phi_{i,j}-\phi_{i-1,j})}{x_{i+1}-x_{i-1}}\leq0
+\end{cases}\right)\\
+\left(\bm{A}_{00}\right)_{i,i+1} & =\frac{2\Delta t}{\Delta x_{i}}\left(-\frac{D_{i+1}}{x_{i+2}-x_{i}}-D_{i+1}\chi_{1}z\frac{(\phi_{i+1,j}-\phi_{i,j})}{x_{i+2}-x_{i}}\begin{cases}
+0 & ,\text{if }-D_{i+1}\chi_{1}z\frac{2(\phi_{i+1,j}-\phi_{i,j})}{x_{i+2}-x_{i}}>0\\
+1 & ,\text{if }-D_{i+1}\chi_{1}z\frac{2(\phi_{i+1,j}-\phi_{i,j})}{x_{i+2}-x_{i}}\leq0
+\end{cases}\right)
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Kontrolliere Implementierung
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Newton Krylov Approach
+\end_layout
+
+\begin_layout Standard
+The explicit calculation of the Jacobian at every iteration step in equation
+ is computational expensive or not even possible.
+ Therefore a widely used method is to approximate the Jacobian using finite
+ differences.
+ 
+\end_layout
+
+\begin_layout Subsection
+GMRES
+\end_layout
+
+\begin_layout Subsection
+Preconditioning
+\end_layout
+
+\begin_layout Section
+Electrochemical Impedance Spectroscopy
+\end_layout
+
+\begin_layout Standard
+Definition of Impedance .
+ 
+\end_layout
+
+\begin_layout Subsection
+Calculation of Impedance Using Fourier Transform
+\end_layout
+
+\begin_layout Standard
+As stated in the previous sections we utilize a constant spacing in the
+ time domain 
+\begin_inset Formula $t_{j}-t_{j-1}=\Delta t=const$
+\end_inset
+
+.
+ This gives us the possibility to calculate the impedance with  Discrete
+ Fourier Transform from Lasia 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "lasia_electrochemical_2014"
+
+\end_inset
+
+.
+ Therefore we have a predefined time axis with 
+\begin_inset Formula $N$
+\end_inset
+
+ elements.
+\begin_inset Formula 
+\begin{align*}
+t_{j} & =j\cdot\Delta t\\
+j & =0,1,...,N-1
+\end{align*}
+
+\end_inset
+
+This gives us a sampling frequency, which determines the frequency resolution.
+ Here we have to convert the nondimensionalized entities back.
+\begin_inset Formula 
+\begin{align*}
+f_{sample} & =\frac{1}{N\cdot\Delta t\cdot T_{0}}
+\end{align*}
+
+\end_inset
+
+We ensure that the number of time sample points 
+\begin_inset Formula $N$
+\end_inset
+
+ is a power of 2 in order to use the Fast Fourier Transform algorithm implemente
+d in the NumPy FFT library 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "noauthor_discrete_nodate"
+
+\end_inset
+
+The maximal resolvable frequency is limited by the Nyquist frequency.
+\begin_inset Formula 
+\begin{align*}
+f_{Nyquist} & =\frac{1}{2\cdot\Delta t\cdot T_{0}}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Multi-Sine Pertubation
+\end_layout
+
+\begin_layout Standard
+We 
+\end_layout
+
 \begin_layout Section
 Current Calculation
 \end_layout
@@ -1600,157 +2154,6 @@ Because in the solution process of the time dependent Nernst Planck equation
  afterwards.
 \end_layout
 
-\begin_layout Section
-Nonlinear Solver
-\end_layout
-
-\begin_layout Subsection
-Nonlinear System
-\end_layout
-
-\begin_layout Standard
-The discretized Poisson Nernst Planck equations are a system of coupled
- nonlinear equations.
- Instead of using a segregated solution approach frequently used in literature
- we have choosen to deploy a Newton iteration based solution method solving
- the coupled nonlinear system at once.
- We write all equations in a residual form 
-\backslash
-ref{eq:residual_F} forming the residual vector $
-\backslash
-mathbf{F}^j(
-\backslash
-mathbf{c},
-\backslash
-mathbf{f})$ at time step $t_j$.
- 
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\begin{align*}
-\begin{align}\begin{pmatrix}\frac{d}{dt}c_{i}^{+}(t)+\frac{f_{i+\frac{1}{2}}^{+}(t)-f(_{i-\frac{1}{2}}^{+}(t)}{\Delta x}\\
-\vdots\\
-\frac{d}{dt}c_{i}^{-}(t)+\frac{f_{i+\frac{1}{2}}^{-}(t)-f_{i-\frac{1}{2}}^{-}(t)}{\Delta x}\\
-\\
-\frac{\phi_{i-1}-2\phi_{i}+\phi_{i+1}}{\Delta x^{2}}+\frac{\chi_{2}}{\epsilon}\left(z^{+}c_{i}(t)+z^{-}c_{i}(t\right)
-\end{pmatrix}\end{align}
- & =\mathbf{F}^{j}(\mathbf{x})=0
-\end{align*}
-
-\end_inset
-
-
-\family roman
-\series medium
-\shape up
-\size normal
-\emph off
-\bar no
-\strikeout off
-\uuline off
-\uwave off
-\noun off
-\color none
-Here the vector 
-\begin_inset Formula $\mathbf{\bm{x}}$
-\end_inset
-
- gives the solutions of the above system.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\begin{align*}
-\begin{align}\mathbf{x}\end{align}
- & =\begin{pmatrix}c_{0}^{+}\\
-\vdots\\
-c_{0}^{-}\\
-\vdots\\
-\phi_{0}\\
-\vdots
-\end{pmatrix}
-\end{align*}
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Subsection
-Jacobian
-\end_layout
-
-\begin_layout Subsection
-Newton Krylov Solver
-\end_layout
-
-\begin_layout Standard
-The idea behind the Newton method is to linearize the residual equation
- using linear Taylor approximation and to use an fixed point iteration.
- The iterationstep is denoted by subscript 
-\begin_inset Formula $k=0,1,\dots$
-\end_inset
-
-.
- In the iteration scheme one have also to know the Jacobian 
-\begin_inset Formula $\mathbf{J}(\mathbf{F}(\mathbf{x}_{k}))=\mathbf{F}^{\prime}\left(\mathbf{x}\right)$
-\end_inset
-
-.
- 
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\begin{align}
-\mathbf{x}_{k+1}=\mathbf{x}_{k}+\left(\mathbf{F}^{\prime}(\mathbf{x}_{k}))\right)^{-1}\cdot\mathbf{F}(\mathbf{x}_{k})=\mathbf{x}_{k}+\mathbf{s}_{k}\label{eq:newton_iter_scheme}
-\end{align}
-
-\end_inset
-
-The correction to the previous iteration is given by 
-\begin_inset Formula $\mathbf{s}_{k}$
-\end_inset
-
- and for 
-\begin_inset Formula $k=0$
-\end_inset
-
- is the initial condition.
- The Jacobian is not inverted directly, but the following linear system
- is solved at every iteration step.
- 
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\begin{align}
-\mathbf{s}_{k}=\left(\mathbf{F}^{\prime}(\mathbf{x}_{k})\right)^{-1}\cdot\mathbf{F}(\mathbf{x}_{k})\nonumber \\
-\mathbf{F}^{\prime}(\mathbf{x}_{k})\mathbf{s}_{k}=\mathbf{F}(\mathbf{x}_{k})
-\end{align}
-
-\end_inset
-
-The explicit calculation of the Jacobian at every iteration step in equation
- is computational expensive or not even possible.
- Therefore a widely used method is to approximate the Jacobian using finite
- differences.
- 
-\end_layout
-
-\begin_layout Subsection
-GMRES
-\end_layout
-
-\begin_layout Subsection
-Preconditioning
-\end_layout
-
-\begin_layout Section
-Electrochemical Impedance Spectroscopy
-\end_layout
-
 \begin_layout Chapter
 Model 0
 \end_layout
@@ -1902,10 +2305,14 @@ In our model the reduced species, the metal atoms, are bound to the electrode
  in the electrolyte.
  Negative ions are assumed to be inert and have the role of supporting ions.
  The reaction occurs only at the pointlike boundary of the simulation domain.
- % 
-\backslash
-subsection{Arrhenius Law} % The structure of the kinetic rate constants
- 
+\end_layout
+
+\begin_layout Subsection
+Arrhenius Law
+\end_layout
+
+\begin_layout Standard
+The structure of the kinetic rate constants 
 \begin_inset Formula $k_{ox}$
 \end_inset
 
@@ -1920,20 +2327,28 @@ cite{schmickler_interfacial_1996}.
  One reactive molecule can occupy two stable states in an energy landscape,
  the oxidized state and the reduced state.
  Both states are separated by an energy barrier, which is the Gibbs energy
- of activation $
-\backslash
-Delta G_{ox}$ and $
-\backslash
-Delta G_{red}$ for both processes.
+ of activation 
+\begin_inset Formula $\Delta G_{ox}$
+\end_inset
+
+ and 
+\begin_inset Formula $\Delta G_{red}$
+\end_inset
+
+ for both processes.
  Following the explanation of Schmickler 
 \backslash
 cite{schmickler_interfacial_1996} the phenomenological assumption here is
  that the activation energies are functions of the electrostatic potential
- in the metal $
-\backslash
-phi_M$ and the solution $
-\backslash
-phi_S$ respectively.
+ in the metal 
+\begin_inset Formula $\phi_{M}$
+\end_inset
+
+ and the solution 
+\begin_inset Formula $\phi_{S}$
+\end_inset
+
+ respectively.
 \begin_inset Formula 
 \begin{align}
 k_{ox}=A_{ox}\exp\left(-\frac{\Delta G_{ox}(\phi_{M})}{k_{B}T}\right)\nonumber \\
@@ -1951,15 +2366,23 @@ k_{red}=A_{red}\exp\left(-\frac{\Delta G_{red}(\phi_{S})}{k_{B}T}\right)
 \end_inset
 
  are frequency factors which gives the rates without energy barrier.
- % 
-\backslash
-subsection{First Model: Linear Kinetics} % As stated before the energy barriers
- of the rate constants are functions of the electrostatic energy at the
- two possible states.
+\end_layout
+
+\begin_layout Subsection
+First Model: Linear Kinetics
+\end_layout
+
+\begin_layout Standard
+As stated before the energy barriers of the rate constants are functions
+ of the electrostatic energy at the two possible states.
  In an Taylor expansion of the Gibbs energy along the electrostatic potential
  and a not further specified equilibrium potential difference between solution
- and metal $E_0$, which will be more elaborated in the upcoming sections,
- the Gibbs energies of activation are constants.
+ and metal 
+\begin_inset Formula $E_{0}$
+\end_inset
+
+, which will be more elaborated in the upcoming sections, the Gibbs energies
+ of activation are constants.
  % 
 \backslash
 begin{align} k_{ox} = A_{ox} 
