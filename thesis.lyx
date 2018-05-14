@@ -80,6 +80,15 @@
 
 \begin_body
 
+\begin_layout Standard
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Chapter
 Introduction
 \end_layout
@@ -2851,6 +2860,13 @@ The forward reaction is an electron loosing process, therefore it becomes
 \end_layout
 
 \begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+bibfiles "masterthesis_citations"
+options "bibtotoc,plain"
+
+\end_inset
+
 
 \end_layout
 
