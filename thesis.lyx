@@ -76,14 +76,19 @@
 \html_math_output 0
 \html_css_as_file 0
 \html_be_strict false
-\author -1210384125 "Florian Gutsche"
 \end_header
 
 \begin_body
 
 \begin_layout Chapter
+Introduction
+\end_layout
 
-\change_inserted -1210384125 1526282018
+\begin_layout Section
+Nondimensionalization
+\end_layout
+
+\begin_layout Chapter
 Methods
 \end_layout
 
@@ -768,25 +773,203 @@ At the boundaries:
 \end_inset
 
 
-\change_inserted -1210384125 1526282152
+\end_layout
+
+\begin_layout Section
+Fully Implicit Time Discretization
+\end_layout
+
+\begin_layout Section
+Nonlinear Solver
+\end_layout
+
+\begin_layout Subsection
+Nonlinear System
+\end_layout
+
+\begin_layout Standard
+The discretized Poisson Nernst Planck equations are a system of coupled
+ nonlinear equations.
+ Instead of using a segregated solution approach frequently used in literature
+ we have choosen to deploy a Newton iteration based solution method solving
+ the coupled nonlinear system at once.
+ We write all equations in a residual form 
+\backslash
+ref{eq:residual_F} forming the residual vector $
+\backslash
+mathbf{F}^j(
+\backslash
+mathbf{c},
+\backslash
+mathbf{f})$ at time step $t_j$.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\begin{align}\begin{pmatrix}\frac{d}{dt}c_{i}^{+}(t)+\frac{f_{i+\frac{1}{2}}^{+}(t)-f(_{i-\frac{1}{2}}^{+}(t)}{\Delta x}\\
+\vdots\\
+\frac{d}{dt}c_{i}^{-}(t)+\frac{f_{i+\frac{1}{2}}^{-}(t)-f_{i-\frac{1}{2}}^{-}(t)}{\Delta x}\\
+\\
+\frac{\phi_{i-1}-2\phi_{i}+\phi_{i+1}}{\Delta x^{2}}+\frac{\chi_{2}}{\epsilon}\left(z^{+}c_{i}(t)+z^{-}c_{i}(t\right)
+\end{pmatrix}\end{align}
+ & =\mathbf{F}^{j}(\mathbf{x})=0
+\end{align*}
+
+\end_inset
+
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+Here the vector 
+\begin_inset Formula $\mathbf{\bm{x}}$
+\end_inset
+
+ gives the solutions of the above system.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\begin{align}\mathbf{x}\end{align}
+ & =\begin{pmatrix}c_{0}^{+}\\
+\vdots\\
+c_{0}^{-}\\
+\vdots\\
+\phi_{0}\\
+\vdots
+\end{pmatrix}
+\end{align*}
+
+\end_inset
+
 
 \end_layout
 
-\begin_layout Chapter
+\begin_layout Subsection
+Jacobian
+\end_layout
 
-\change_inserted -1210384125 1526282162
+\begin_layout Subsection
+Newton Krylov Solver
+\end_layout
+
+\begin_layout Standard
+The idea behind the Newton method is to linearize the residual equation
+ using linear Taylor approximation and to use an fixed point iteration.
+ The iterationstep is denoted by subscript 
+\begin_inset Formula $k=0,1,\dots$
+\end_inset
+
+.
+ In the iteration scheme one have also to know the Jacobian 
+\begin_inset Formula $\mathbf{J}(\mathbf{F}(\mathbf{x}_{k}))=\mathbf{F}^{\prime}\left(\mathbf{x}\right)$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align}
+\mathbf{x}_{k+1}=\mathbf{x}_{k}+\left(\mathbf{F}^{\prime}(\mathbf{x}_{k}))\right)^{-1}\cdot\mathbf{F}(\mathbf{x}_{k})=\mathbf{x}_{k}+\mathbf{s}_{k}\label{eq:newton_iter_scheme}
+\end{align}
+
+\end_inset
+
+The correction to the previous iteration is given by 
+\begin_inset Formula $\mathbf{s}_{k}$
+\end_inset
+
+ and for 
+\begin_inset Formula $k=0$
+\end_inset
+
+ is the initial condition.
+ The Jacobian is not inverted directly, but the following linear system
+ is solved at every iteration step.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align}
+\mathbf{s}_{k}=\left(\mathbf{F}^{\prime}(\mathbf{x}_{k})\right)^{-1}\cdot\mathbf{F}(\mathbf{x}_{k})\nonumber \\
+\mathbf{F}^{\prime}(\mathbf{x}_{k})\mathbf{s}_{k}=\mathbf{F}(\mathbf{x}_{k})
+\end{align}
+
+\end_inset
+
+The explicit calculation of the Jacobian at every iteration step in equation
+ is computational expensive or not even possible.
+ Therefore a widely used method is to approximate the Jacobian using finite
+ differences.
+ 
+\end_layout
+
+\begin_layout Subsection
+GMRES
+\end_layout
+
+\begin_layout Subsection
+Preconditioning
+\end_layout
+
+\begin_layout Section
+Electrochemical Impedance Spectroscopy
+\end_layout
+
+\begin_layout Chapter
 Model 0
 \end_layout
 
 \begin_layout Section
-
-\change_inserted -1210384125 1526282168
 Equations
-\change_unchanged
-
 \end_layout
 
 \begin_layout Standard
+In this model approach we consider fully blocking electrodes, which means,
+ that ions cannot penetrate into the electrodes.
+ We achieve this by setting the boundary fluxes for the cations to zero.
+ The anion flux at the boundaries is zero by default.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align}
+f_{A}\left(t\right) & =0\label{eq:model_0_flux_boundary_conditions}\\
+f_{C}\left(t\right) & =0
+\end{align}
+
+\end_inset
+
+Therefore we can formulate a control parameter of the system to investigate
+ the stability of the solution, the integrated ion concentration has to
+ be time invariant.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align}
+\partial_{t}\int_{0}^{1}c^{\pm}\left(x,t\right)dx & =0\nonumber \\
+\partial_{t}\sum_{i=0}^{I-1}\int_{x_{i}}^{x_{i+1}}c^{\pm}\left(x,t\right)dx & =0\nonumber \\
+\partial_{t}\sum_{i=0}^{I-1}\Delta x_{i}c_{i}^{\pm}\left(t\right) & =0\nonumber \\
+\sum_{i=0}^{I-1}\Delta x_{i}c_{i}^{\pm}\left(t\right) & =const=c^{\pm}\left(t=0\right)\label{eq:model_0_const_conc}
+\end{align}
+
+\end_inset
+
 
 \end_layout
 
