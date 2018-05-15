@@ -1970,7 +1970,93 @@ Multi-Sine Pertubation
 \end_layout
 
 \begin_layout Standard
-We 
+As the pertubation voltage 
+\begin_inset Formula $v\left(t\right)$
+\end_inset
+
+ we follow one approach from Lasia 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "lasia_electrochemical_2014"
+
+\end_inset
+
+ and apply a sum of 
+\begin_inset Formula $K$
+\end_inset
+
+ sine voltages.
+\begin_inset Formula 
+\begin{align*}
+v\left(t\right) & =v_{0}\sum_{i=0}^{K}\sin\left(\omega_{k}t\right)
+\end{align*}
+
+\end_inset
+
+In order to keep the system linear we minimze the amplitudes 
+\begin_inset Formula $v_{0}$
+\end_inset
+
+ such that the total amplitude is smaller than the half of the thermal voltage.
+\begin_inset Formula 
+\begin{align*}
+\left|\max\left(v\left(t\right)\right)-\min\left(v\left(t\right)\right)\right| & \leq\frac{k_{B}T}{2\cdot e}
+\end{align*}
+
+\end_inset
+
+We use 50 different sine's equally spaced in the logarithmic frequency domain.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename figures/sec_272_voltage_input_example.pdf
+
+\end_inset
+
+
+\begin_inset Caption Below
+
+\begin_layout Plain Layout
+Example of a multi sine input voltage for a sample size 
+\begin_inset Formula $N=2^{19}$
+\end_inset
+
+ and a time spacing 
+\begin_inset Formula $\Delta t=0.001$
+\end_inset
+
+ which yields a sampling frequency 
+\begin_inset Formula $f_{sampling}\approx19$
+\end_inset
+
+Hz.
+ The upper plot shows the voltage in the time domain, the lower one the
+ imaginary part of the Fourier transform.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
@@ -3287,6 +3373,262 @@ The forward reaction is an electron loosing process, therefore it becomes
 LatexCommand bibtex
 bibfiles "masterthesis_citations"
 options "bibtotoc,plain"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter
+Attachements
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+def createImpedanceVoltage(N, Dt, U_offset = 0, num = 40):
+\end_layout
+
+\begin_layout Plain Layout
+
+    # create time axis     time = np.zeros(N, dtype = np.float64)
+\end_layout
+
+\begin_layout Plain Layout
+
+    for j in range(0,N):         
+\end_layout
+
+\begin_layout Plain Layout
+
+		time[j] = j*Dt
+\end_layout
+
+\begin_layout Plain Layout
+
+    # Sampling and Nyquist Frequency
+\end_layout
+
+\begin_layout Plain Layout
+
+    f_Ny = np.floor(1.0 / (2.2 * Dt))
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	# Maximal frerquency with secturity 2.2     
+\end_layout
+
+\begin_layout Plain Layout
+
+	f_s = 1.0 / (N * Dt)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+    # create factor array
+\end_layout
+
+\begin_layout Plain Layout
+
+    fac_arr = np.concatenate( (np.array([2, 4, 6, 8]), np.geomspace(10,np.floor(f_Ny
+ / f_s), num = num)) )
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+    # minimization of the total amplitude through minimization of single
+ amplitudes
+\end_layout
+
+\begin_layout Plain Layout
+
+    def calcMultiSine( single_ampl, *args ):
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+        # extract tuple *args (factor_array, f_sample, time, phi0)
+\end_layout
+
+\begin_layout Plain Layout
+
+        factor_array  = args[0][0]
+\end_layout
+
+\begin_layout Plain Layout
+
+        f_sample = args[0][1]
+\end_layout
+
+\begin_layout Plain Layout
+
+        time = args[0][2]
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+        # define voltage output vector
+\end_layout
+
+\begin_layout Plain Layout
+
+        voltage = np.zeros(N, dtype = np.float64)
+\end_layout
+
+\begin_layout Plain Layout
+
+        # loop over all multiplicative factors
+\end_layout
+
+\begin_layout Plain Layout
+
+        for i in range(0, factor_array.size):
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+            freq = f_sample * int(factor_array[i]) # calc frequency
+\end_layout
+
+\begin_layout Plain Layout
+
+            voltage += single_ampl * np.sin( 2 * np.pi * freq * time ) # add
+ sine to voltage output
+\end_layout
+
+\begin_layout Plain Layout
+
+        
+\end_layout
+
+\begin_layout Plain Layout
+
+		# calc total amplitude
+\end_layout
+
+\begin_layout Plain Layout
+
+        total_ampl = np.abs( voltage.max() - voltage.min() )
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+        return np.abs(total_ampl - 1.0 / 2.0 )
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+    # minimize total amplitude
+\end_layout
+
+\begin_layout Plain Layout
+
+    singl_ampl_opt = minimize( calcMultiSine, 1e-2, args = [fac_arr, f_s,
+ time], tol = 1e-7, bounds = ((0.0, None),)  )
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+    # use optimized amplitude and create output
+\end_layout
+
+\begin_layout Plain Layout
+
+    voltage = np.zeros(N, dtype = np.float64)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+    # loop over all multiplicative factors
+\end_layout
+
+\begin_layout Plain Layout
+
+    for i in range(0, fac_arr.size):
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+        freq = f_s * int(fac_arr[i]) # calc frequency
+\end_layout
+
+\begin_layout Plain Layout
+
+        voltage += singl_ampl_opt.x * np.sin( 2 * np.pi * freq * time ) # add
+ sine to voltage output
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+    # add constants offset     
+\end_layout
+
+\begin_layout Plain Layout
+
+	voltage += U_offset
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+    return voltage
+\end_layout
 
 \end_inset
 
