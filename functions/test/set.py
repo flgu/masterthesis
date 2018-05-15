@@ -11,6 +11,6 @@ from Cython.Build import cythonize
 import numpy
 
 setup(
-      ext_modules = cythonize("c_fun.pyx"),
+      ext_modules = cythonize("new_solver_test.pyx"),
       include_dirs = [numpy.get_include()]
       )

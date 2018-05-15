@@ -13,6 +13,10 @@ def main(double [:] arr_view_1, double [:] arr_view_2):
 
     for i in xrange(0, arr_view_1.shape[0]):
 
-        out_arr[i] =
+		# add views
+        out_view[i] = arr_view_1[i] + arr_view_2[i]
 
-    return np.asarray(out_view, dtype = np.float64)
+	# out array
+    return out_arr
+
+# np.asarray(out_view, dtype = np.float64)
