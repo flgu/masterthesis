@@ -4,13 +4,7 @@ import time
 import imp
 import os
 
-functionspath = r"D:\masterthesis\implementations\functions"
-
-(file, pathname, description) = imp.find_module("solver_tools",
- [os.path.join(functionspath)])
-solver_tools = imp.load_module("solver_tools",file, pathname, description)
-
-from solver_tools import *
+from functions.solver_tools import *
 
 def createAxis(I):
 
@@ -45,8 +39,8 @@ def PDEsolver( I, x_, t_, sol_initial, phiC, DC, DA, epsilon, chi1, chi2, Dt, kA
             print("Time Step: ", j)
         elif j > 100 and np.mod(j,100) == 0:
             print("Time Step: ", j)
-        
-        sol[:,j] = newton_krylov( lambda y: residual_model1( I, x_, y, sol[:,j-1], chi1, chi2, DC, DA, Dt, kA, 
+
+        sol[:,j] = newton_krylov( lambda y: residual_model1( I, x_, y, sol[:,j-1], chi1, chi2, DC, DA, Dt, kA,
         kC, foxA, foxC, phiC[j], epsilon), sol[:,j-1], inner_M = Jacinv, method = "lgmres")
 
         if np.linalg.norm(sol[0:I,j] - sol[0:I,j-1],ord=2) < 1e-8:
@@ -85,11 +79,11 @@ def SweepSolver( I, x_, t_, sol_initial, phiC, DC, DA, epsilon, chi1, chi2, Dt, 
             print("Time Step: ", j)
         elif j > 100 and np.mod(j,100) == 0:
             print("Time Step: ", j)
-        
-        sol[:,j] = newton_krylov( lambda y: residual_model1( I, x_, y, sol[:,j-1], chi1, chi2, DC, DA, Dt, kA, 
+
+        sol[:,j] = newton_krylov( lambda y: residual_model1( I, x_, y, sol[:,j-1], chi1, chi2, DC, DA, Dt, kA,
         kC, foxA, foxC, phiC[j], epsilon), sol[:,j-1], inner_M = Jacinv, method = "lgmres")
 
-        
+
         # calculate boundary fluxes and current density
         fA = foxA - kA * sol[0,j]
         fC = kC * solN[I-1,j] - foxC
@@ -97,7 +91,7 @@ def SweepSolver( I, x_, t_, sol_initial, phiC, DC, DA, epsilon, chi1, chi2, Dt, 
 
         current[0,j] = fA - ( sol[2*I,j] - sol[2*I,j-1] ) /((x_[1]-x_[0])*Dt*chi2)
         current[1,j] = fC - ( phiC[j] - sol[3*I-1,j] - phiC[j-1] + sol[3*I-1,j-1] ) /((x_[I] - x_[I-1])*Dt*chi2)
-        
+
         if np.linalg.norm(sol[0:I,j] - sol[0:I,j-1],ord=2) < 1e-8:
             print("Steady State after ",j," Time Steps")
             break
@@ -133,8 +127,8 @@ def ImpedanceSolverModel0( I, x_, t_, sol_initial, phiC, DC, DA, epsilon, chi1, 
             print("Time Step: ", j)
         elif j > 100 and np.mod(j,100) == 0:
             print("Time Step: ", j)
-        
-        sol[:,j] = newton_krylov( lambda y: residual_model0( I, x_, y, sol[:,j-1], chi1, chi2, DC, DA, Dt, 
+
+        sol[:,j] = newton_krylov( lambda y: residual_model0( I, x_, y, sol[:,j-1], chi1, chi2, DC, DA, Dt,
         phiC[j], epsilon), sol[:,j-1], inner_M = Jacinv, method = "lgmres")
 
         current[0,j] = - ( sol[2*I,j] - sol[2*I,j-1] ) /((x_[1]-x_[0])*Dt*chi2)
@@ -167,11 +161,11 @@ def ImpedanceSolver( I, x_, t_, sol_initial, phiC, DC, DA, epsilon, chi1, chi2, 
             print("Time Step: ", j)
         elif j > 100 and np.mod(j,100) == 0:
             print("Time Step: ", j)
-        
-        sol[:,j] = newton_krylov( lambda y: residual_model1( I, x_, y, sol[:,j-1], chi1, chi2, DC, DA, Dt, kA, 
+
+        sol[:,j] = newton_krylov( lambda y: residual_model1( I, x_, y, sol[:,j-1], chi1, chi2, DC, DA, Dt, kA,
         kC, foxA, foxC, phiC[j], epsilon), sol[:,j-1], inner_M = Jacinv, method = "lgmres")
 
-        
+
         # calculate boundary fluxes and current density
         fA = foxA - kA * sol[0,j]
         fC = kC * sol[I-1,j] - foxC

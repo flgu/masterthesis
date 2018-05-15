@@ -5,7 +5,7 @@ import scipy
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 
-def createImpedanceVoltage(N, Dt, T0, U_offset = 0, num = 40):
+def createImpedanceVoltage(N, Dt, T0, phi0, U_offset = 0, num = 40):
 
     # create time axis
     time = np.zeros(N, dtype = np.float64)
@@ -66,7 +66,7 @@ def createImpedanceVoltage(N, Dt, T0, U_offset = 0, num = 40):
     print("Maximal Frequency, Nyquist [Hz]: ", 1.0 / (T0 * 2.2 * Dt))
     print("Maximal Frequency, Nyquist [None]: ", 1.0 / (2.2 * Dt))
     print("Number of Points: ", N)
-    print("Total Amplitude: ", np.abs( voltage.max() - voltage.min() ))
+    print("Total Amplitude [mV]: ", np.abs( voltage.max() - voltage.min() ) * phi0 *1e3)
 
     return voltage
 

@@ -2283,6 +2283,10 @@ Therefore we can formulate a control parameter of the system to investigate
 
 \end_layout
 
+\begin_layout Section
+Influence of Electrode Separation Length
+\end_layout
+
 \begin_layout Chapter
 Model 1
 \end_layout
@@ -3391,6 +3395,21 @@ status open
 \begin_layout Plain Layout
 
 def createImpedanceVoltage(N, Dt, U_offset = 0, num = 40):
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\end_layout
+
+\begin_layout Plain Layout
+
+	# 2018.05.15
+\end_layout
+
+\begin_layout Plain Layout
+
+	
 \end_layout
 
 \begin_layout Plain Layout
