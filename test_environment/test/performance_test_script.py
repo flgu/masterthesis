@@ -6,6 +6,7 @@ import c_fun
 
 # old solver tools for comparison
 from solver_tools import residual_model0
+#%%
 from new_solver_test import residual_model0_new
 
 def createAxis(I):
@@ -77,5 +78,7 @@ residual_model0( I, x_, sol1, sol2, chi1, chi2, DC, DA, Dt, 0.01, epsilon )
 %%timeit
 residual_model0_new( I, x_, sol1, sol2, chi1, chi2, DC, DA, Dt, 0.01, epsilon )
 
-
+#%%
+sol_old = residual_model0( I, x_, sol1, sol2, chi1, chi2, DC, DA, Dt, 0.01, epsilon )
+sol_new = residual_model0_new( I, x_, sol1, sol2, chi1, chi2, DC, DA, Dt, 0.01, epsilon )
 

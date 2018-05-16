@@ -2473,63 +2473,55 @@ As stated before the energy barriers of the rate constants are functions
 
 , which will be more elaborated in the upcoming sections, the Gibbs energies
  of activation are constants.
- % 
-\backslash
-begin{align} k_{ox} = A_{ox} 
-\backslash
-exp
-\backslash
-left( - 
-\backslash
-frac{
-\backslash
-Delta G_{ox}}{k_BT} 
-\backslash
-right) = k_{ox}^
-\backslash
-prime
-\backslash
-notag 
-\backslash
+\begin_inset Formula 
+\begin{align}
+k_{ox}=A_{ox}\exp\left(-\frac{\Delta G_{ox}}{k_{B}T}\right)=k_{ox}^{\prime}\nonumber \\
+k_{red}=A_{red}\exp\left(-\frac{\Delta G_{red}}{k_{B}T}\right)=k_{red}^{\prime}
+\end{align}
 
-\backslash
- k_{red} = A_{red} 
-\backslash
-exp
-\backslash
-left( - 
-\backslash
-frac{
-\backslash
-Delta G_{red}}{k_BT} 
-\backslash
-right) = k_{red}^
-\backslash
-prime 
-\backslash
-end{align} % In this situation the energy states of reacting species is
- determined a priori by the choice of effective rate constants.
+\end_inset
+
+In this situation the energy states of reacting species is determined a
+ priori by the choice of effective rate constants.
  Therefore the flux through the boundary is only determined by the concentration
  of involved species.
  Each electrode has never in equilibrium with the solution, but the whole
  system has an equilibrium determined by the mass transport through the
  electrolyte, therefore following the Transport equations.
- % If we consider the choice of the x direction a positive flux is going
- from the anode into the electrolyte, hence we define the net anode flux
- as % 
+ If we consider the choice of the x direction a positive flux is going from
+ the anode into the electrolyte, hence we define the net anode flux as 
+\begin_inset Formula 
+\begin{align}
+f_{A}=k_{ox}c_{red}-k_{red}c_{ox}
+\end{align}
+
+\end_inset
+
+On the other boundary the positive direction points from the electrolyte
+ into the catode electrode, hence we define the catode boundary flux as
+\begin_inset Formula 
+\begin{align}
+f_{C}=k_{red}c_{ox}-k_{ox}c_{red}
+\end{align}
+
+\end_inset
+
+ 
 \backslash
-begin{align} f_A = k_{ox} c_{red} - k_{red} c_{ox} 
-\backslash
-end{align} % On the other boundary the positive direction points from the
- electrolyte into the catode electrode, hence we define the catode boundary
- flux as % 
-\backslash
-begin{align} f_C = k_{red} c_{ox} - k_{ox} c_{red} 
-\backslash
-end{align} % 
-\backslash
-subsection{Implementation} % In our finite volume implementation we impose
- an boundary flux at the anode $f_A$ and catode $f_C$.
+subsection{Implementation}
+\end_layout
+
+\begin_layout Standard
+In our finite volume implementation we impose an boundary flux at the anode
+ 
+\begin_inset Formula $f_{A}$
+\end_inset
+
+ and catode 
+\begin_inset Formula $f_{C}$
+\end_inset
+
+.
  We assume that the concentration of the nearest control volume beside the
  boundary point is the concentration available for reaction.
  We assume also that in the simulation time the amount of metal molecules

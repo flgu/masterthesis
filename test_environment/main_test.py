@@ -15,11 +15,13 @@ import numpy as np
 if __name__ == "__main__":
 
     # import setup
-    path_2_setupfile = r"M:\QMR\Abteilungsprojekte\FG\local\masterthesis\setup.txt"
-    path_2_solution = r"M:\QMR\Abteilungsprojekte\FG\local\masterthesis\solutions\impedance_test_2.npy"
+    path_2_setupfile = r"M:\QMR\Abteilungsprojekte\FG\local\masterthesis\test_environment\test_setup.txt"
+    
     
     stp = setup( path_2_setupfile )
-
+    
+    stp.N = 1024
+    
     # create voltage
     phiC = createImpedanceVoltage(stp.N, stp.Dt, stp.T0, stp.phi0, U_offset = 0, num = 40)
     
@@ -30,5 +32,3 @@ if __name__ == "__main__":
     # call solver
     current = ImpedanceSolver_m0( stp.I, stp.L, stp.c0, stp.epsilon_m, stp.phi0, stp.T, stp.N, stp.Dt, sol_initial, phiC, stp.DC, stp.DA, stp.epsilon)
     
-    # save output
-    np.save(path_2_solution, current)

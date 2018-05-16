@@ -10,7 +10,7 @@ from cython.view cimport array as cvarray
 # ersetze solN durch memoryview
 # ersetze sol1 durch memoryview
 
-def residual_model0_new( int I,
+def residual_m0( int I,
         double [:] xview,
         double [:] solNview,
         double [:] sol1view,
@@ -22,12 +22,12 @@ def residual_model0_new( int I,
         double phiC,
         double [:] epsilonview ):
     '''
-    Stand: 03.05.2018
+    Stand: 16.05.2018
     '''
     cdef:
         int i
         object[ double, ndim=1] residual = np.zeros(3*I, dtype = np.float64)
-        #efine memoryview on the residual
+        # define memoryview on the residual
         double [:] res_view = residual
 
         # upwinding
