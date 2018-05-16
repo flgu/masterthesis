@@ -16,7 +16,7 @@ if __name__ == "__main__":
 
     # import setup
     path_2_setupfile = r"M:\QMR\Abteilungsprojekte\FG\local\masterthesis\setup.txt"
-    path_2_solution = r"M:\QMR\Abteilungsprojekte\FG\local\masterthesis\solutions\impedance_test_2.npy"
+    path_2_solution = r"M:\QMR\Abteilungsprojekte\FG\local\masterthesis\solutions\impedance_test_3.npy"
     
     stp = setup( path_2_setupfile )
 
