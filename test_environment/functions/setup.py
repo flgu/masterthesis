@@ -11,6 +11,6 @@ from Cython.Build import cythonize
 import numpy
 
 setup(
-      ext_modules = cythonize("residual.pyx"),
+      ext_modules = cythonize("jacobian.pyx"),
       include_dirs = [numpy.get_include()]
       )

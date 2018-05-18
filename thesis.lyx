@@ -608,44 +608,37 @@ Methods
 \end_layout
 
 \begin_layout Section
-Finite Volume Discretization
+Finite Volume Mesh
 \end_layout
 
 \begin_layout Standard
-The fundament of the Nernst Planck transport equation is the mass conservation
- law 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "eq:mass_conservation_law"
+Divergence theorem (Gauss Integral Law)
+\end_layout
 
-\end_inset
+\begin_layout Standard
+rewrite potential driven flux as convective
+\end_layout
 
-, which relates the change of ion concentrations in time with the spatial
- change of ion flux.
- 
-\begin_inset Formula 
-\begin{align*}
-\partial_{t}c^{\pm}(x,t) & =-\partial_{x}f^{\pm}(x,t)
-\end{align*}
+\begin_layout Standard
+replace surface integral of the cell by a summation over the surface integral
+ over the single fluxes
+\end_layout
 
-\end_inset
+\begin_layout Standard
+Approximation!! Gaussian quadrature of surface integral of single side
+\end_layout
 
-It would be favorable if the numerical approach is also conservative.
- Our first finite difference approach was not convinient because of severe
- numerical dissipation.
- We encountered similar problems like they were reported by Flavell et.
- al.
- 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "Flavell2014"
+\begin_layout Standard
+piecewise constants approximation of concentration values and potential
+ values!!!
+\end_layout
 
-\end_inset
+\begin_layout Standard
+cell centered approach
+\end_layout
 
- with a standard finite difference approach.
- Therefore we decided to use a finite volume discretization scheme, which
- is conservative by nature.
- We divide the one dimensional computational space into 
+\begin_layout Standard
+We divide the one dimensional computational space into 
 \begin_inset Formula $I$
 \end_inset
 
@@ -677,10 +670,182 @@ x_{i+1}-x_{i} & =\Delta x_{i}
 
 \end_inset
 
-The next step is to integrate the mass conservation law 
+
+\end_layout
+
+\begin_layout Section
+Reconstruction
+\end_layout
+
+\begin_layout Standard
+Reconstruct Fluxes at cell interfaces from cell averaged values using piecewose
+ linear functions.
+\end_layout
+
+\begin_layout Standard
+Flux from left to right at cell interface at 
+\begin_inset Formula $x_{i+1}$
+\end_inset
+
+ ist denoted with 
+\begin_inset Formula $f_{i+1}^{L}$
+\end_inset
+
+ and flux at this interface coming from the right to the left is denoted
+ with 
+\begin_inset Formula $f_{i+1}^{R}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+if 
+\begin_inset Formula $c_{i}$
+\end_inset
+
+ is the local maximum 
+\begin_inset Formula $f_{i+1}^{L}=c_{i}$
+\end_inset
+
+, if not local maximum piecewise linear reconstruction 
+\end_layout
+
+\begin_layout Standard
+Sensor for linearity function 
+\begin_inset Formula $r$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+r & =\frac{c_{i+1}-c_{i}}{c_{i}-c_{i-1}}
+\end{align*}
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+Reconstruction at left cell edge
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+f_{i}^{R} & =c_{i}-\frac{c_{i}-c_{i-1}}{\Delta x_{i}+\Delta x_{i-1}}\Delta x_{i}\phi\left(r\right)
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+f_{i}^{L} & =c_{i-1}+\frac{c_{i}-c_{i-1}}{\Delta x_{i}+\Delta x_{i-1}}\Delta x_{i-1}\phi\left(r\right)
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Reconstruction at right cell edge
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+f_{i+1}^{L} & =c_{i}+\frac{c_{i+1}-c_{i}}{\Delta x_{i+1}+\Delta x_{i}}\cdot\Delta x_{i}\phi\left(r\right)
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+f_{i+1}^{R} & =c_{i+1}-\frac{c_{i+1}-c_{i}}{\Delta x_{i+1}+\Delta x_{i}}\Delta x_{i+1}\phi\left(r\right)
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Limiter function van Leer:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\phi\left(r\right) & =\begin{cases}
+0 & r\leq0\\
+\frac{2r}{1+r} & r>0
+\end{cases}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Discretization of the Conservation Law
+\end_layout
+
+\begin_layout Standard
+The fundament of the Nernst Planck transport equation is the mass conservation
+ law 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "eq:"
+reference "eq:mass_conservation_law"
+
+\end_inset
+
+, which relates the change of ion concentrations in time with the spatial
+ change of ion flux.
+ 
+\begin_inset Formula 
+\begin{align*}
+\partial_{t}c^{\pm}(x,t) & =-\partial_{x}f^{\pm}(x,t)
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+It would be favorable if the numerical approach is also conservative.
+ Our first finite difference approach was not convinient because of severe
+ numerical dissipation.
+ We encountered similar problems like they were reported by Flavell et.
+ al.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Flavell2014"
+
+\end_inset
+
+ with a standard finite difference approach.
+ Therefore we decided to use a finite volume discretization scheme, which
+ is conservative by nature.
+ The next step is to integrate the mass conservation law 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:mass_conservation_law"
 
 \end_inset
 
@@ -872,7 +1037,7 @@ Without loss of generality we set
 \begin_inset Formula 
 \begin{align*}
 \epsilon_{1}\frac{2(\phi_{1}-\phi_{0})}{\left(x_{1}-x_{0}\right)\left(x_{2}-x_{0}\right)}-\epsilon_{0}\frac{\phi_{0}(t)}{\left(x_{1}-x_{0}\right)\left(x_{1}-x_{0}\right)} & =-\chi_{2}\left(c_{0}^{+}(t)dx-c_{0}^{-}(t)\right)\\
--\frac{1}{\left(x_{1}-x_{0}\right)}\left(\frac{2\epsilon_{1}}{\left(x_{2}-x_{0}\right)}+\frac{\epsilon_{0}}{\left(x_{1}-x_{0}\right)}\right) & \phi_{0}\left(t\right)+\frac{2\epsilon_{1}}{\left(x_{1}-x_{0}\right)\left(x_{2}-x_{0}\right)}\phi_{1}=-\chi_{2}\left(c_{0}^{+}(t)dx-c_{0}^{-}(t)\right)
+\frac{1}{\left(x_{1}-x_{0}\right)}\left[-\left(\frac{2\epsilon_{1}}{\left(x_{2}-x_{0}\right)}+\frac{\epsilon_{0}}{\left(x_{1}-x_{0}\right)}\right)\phi_{0}\left(t\right)+\frac{2\epsilon_{1}}{\left(x_{2}-x_{0}\right)}\phi_{1}\right] & =-\chi_{2}\left(c_{0}^{+}(t)dx-c_{0}^{-}(t)\right)
 \end{align*}
 
 \end_inset
@@ -1068,6 +1233,28 @@ c_{i+1}(t) & ,\text{if }-D_{i+1}\chi_{1}z\frac{2(\phi_{i+1}-\phi_{i})}{x_{i+2}-x
 
 \end_inset
 
+We can write this Godunov scheme in a more compact notation if we use the
+ abbreviation for the velocity term.
+\begin_inset Formula 
+\begin{align*}
+v_{i}\left(t\right) & =-2D_{i}\chi_{1}z\frac{(\phi_{i}-\phi_{i-1})}{x_{i+1}-x_{i-1}}\\
+v_{i+1}\left(t\right) & =-2D_{i+1}\chi_{1}z\frac{(\phi_{i+1}-\phi_{i})}{x_{i+2}-x_{i}}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+f_{c}\left(c\left(x_{i}\right),t\right) & =\frac{v_{i}\left(t\right)\cdot}{2}\left(c_{i-1}\left(t\right)+c_{i}\left(t\right)\right)-\frac{\left|v_{i}\left(t\right)\right|\cdot}{2}\left(c_{i}\left(t\right)-c_{i-1}\left(t\right)\right)\\
+f_{c}\left(c\left(x_{i+1}\right),t\right) & =\frac{v_{i+1}\left(t\right)\cdot}{2}\left(c_{i}\left(t\right)+c_{i+1}\left(t\right)\right)-\frac{\left|v_{i+1}\left(t\right)\right|\cdot}{2}\left(c_{i+1}\left(t\right)-c_{i}\left(t\right)\right)
+\end{align*}
+
+\end_inset
+
 
 \end_layout
 
@@ -1076,15 +1263,7 @@ Boundary Conditions
 \end_layout
 
 \begin_layout Standard
-At the boundaries we impose 
-\begin_inset Quotes eld
-\end_inset
-
-Flo, ich liebe dich
-\begin_inset Quotes erd
-\end_inset
-
- an anode flux 
+At the boundaries we impose an anode flux 
 \begin_inset Formula $f_{A}$
 \end_inset
 
@@ -1954,12 +2133,26 @@ cite{CohenCooley1965, BrumleveBuck1978}.
 \end_inset
 
 .
- If we use a reference current density 
+ If we use the reference current density 
 \begin_inset Formula $f_{0}=\frac{D_{0}c_{0}}{L}$
 \end_inset
 
- we can calculate the dimensionless current density 
-\begin_inset Formula $j_{total}(x,t)$
+ in units of 
+\begin_inset Formula $\frac{1}{\text{length}^{2}\cdot\text{s}}$
+\end_inset
+
+.
+ Our usually used lengthscale is given in nm, so we can use the factor 
+\begin_inset Formula $10^{17}\cdot e$
+\end_inset
+
+ for the conversion to 
+\begin_inset Formula $\frac{mA}{cm^{2}}$
+\end_inset
+
+.
+ We can calculate the dimensionless current density 
+\begin_inset Formula $f_{total}(x,t)$
 \end_inset
 
  through the cell.
@@ -1968,7 +2161,7 @@ cite{CohenCooley1965, BrumleveBuck1978}.
 \begin_layout Standard
 \begin_inset Formula 
 \begin{align}
-I(x,t) & =f_{total}\left(x,t\right)\cdot f_{0}\cdot e\label{eq:dimCurrentDensity}
+I(x,t) & =f_{total}\left(x,t\right)\cdot f_{0}\cdot e\cdot10^{17}\label{eq:dimCurrentDensity}
 \end{align}
 
 \end_inset

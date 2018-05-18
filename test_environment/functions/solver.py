@@ -27,13 +27,21 @@ def ImpedanceSolver_m0( I, L, c0, epsilon_m, phi0, T, N, Dt, sol_initial, phiC, 
     chi1 = st.calcChi2( L, c0, phi0, epsilon_m )
 
     # create x axis for simulation
+    xi = np.zeros(I+1, dtype = np.float64)
     x_ = np.zeros(I+1, dtype = np.float64)
-    Dx = 1.0/I
-
+    
     for i in range(0,I+1):
 
-        x_[i] = i * Dx
-
+        xi[i] = i / I
+    
+    # creating x axis with functional relation
+    x_ = xi
+    #x_ = np.sin( ( np.pi * xi  ) / 2 ) ** 2
+    
+    # getting cell volumes
+    Dx = np.zeros(I, dtype = np.float64)
+    Dx = x_[1:] - x_[:I]
+    
     # create time axis
     t_ = np.zeros(N)
 
@@ -50,11 +58,16 @@ def ImpedanceSolver_m0( I, L, c0, epsilon_m, phi0, T, N, Dt, sol_initial, phiC, 
     t1 = time.clock()
 
     # init and preallocate
-    sol = np.zeros([3 * I,N], dtype = np.float64)
-    sol[:,0] = sol_initial
+#    sol = np.zeros([3 * I,N], dtype = np.float64)
+    
+    sol1 = np.zeros([3 * I], dtype = np.float64)
+    sol2 = np.zeros([3 * I], dtype = np.float64)
+    
+    
+    sol1 = sol_initial
 
     # calculate jacobian and invert it for the first points
-    Jac = calcJac(I, np.zeros( sol[:,0].shape ), x_, DC_vec, DA_vec, chi1, chi2, Dt )
+    Jac = calcJac(I, np.zeros( sol1.shape ), x_, DC_vec, DA_vec, chi1, chi2, Dt )
     Jacinv = np.linalg.inv(Jac)
 
     # delete Jacobian - only inverse J is needed
@@ -66,12 +79,17 @@ def ImpedanceSolver_m0( I, L, c0, epsilon_m, phi0, T, N, Dt, sol_initial, phiC, 
             print("Time Step: ", j)
         elif j > 100 and np.mod(j,100) == 0:
             print("Time Step: ", j)
+        
+        # input --> sol1  --> output sol2
+        
+        sol2 = newton_krylov( lambda y: residual_m0( I, Dx, y, sol1, chi1, chi2, DC_vec, DA_vec, Dt,
+        phiC[j], epsilon_vec), sol1, inner_M = Jacinv, method = "lgmres")
 
-        sol[:,j] = newton_krylov( lambda y: residual_m0( I, x_, y, sol[:,j-1], chi1, chi2, DC_vec, DA_vec, Dt,
-        phiC[j], epsilon_vec), sol[:,j-1], inner_M = Jacinv, method = "lgmres")
-
-        current[0,j] = - ( sol[2*I,j] - sol[2*I,j-1] ) /((x_[1]-x_[0])*Dt*chi2)
-        current[1,j] = - ( phiC[j] - sol[3*I-1,j] - phiC[j-1] + sol[3*I-1,j-1] ) /((x_[I] - x_[I-1])*Dt*chi2)
+        current[0,j] = - ( sol2[2*I] - sol1[2*I] ) / (Dx[0] * Dt * chi2)
+        current[1,j] = - ( phiC[j] - sol2[3*I-1] - phiC[j-1] + sol1[3*I-1] ) / (Dx[I-1] * Dt * chi2)
+        
+        # step solution sol1 = sol2 --> sol1 old solution j-1
+        sol1 = sol2
 
     t2 = time.clock()
     print("Simulation Runtime: ", t2-t1)

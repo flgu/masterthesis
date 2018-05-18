@@ -11,7 +11,7 @@ from cython.view cimport array as cvarray
 # ersetze sol1 durch memoryview
 
 def residual_m0( int I,
-        double [:] xview,
+        double [:] Dxview,
         double [:] solNview,
         double [:] sol1view,
         double chi1,
@@ -50,101 +50,157 @@ def residual_m0( int I,
 
     # Anode, upflux only, substitute downflux with boundary condition
     # calculate upwinding velocities
-    velup = -chi1*2*(solNview[2*I+1]-solNview[2*I])/(xview[2]-xview[0])
+    velup = -chi1*2*(solNview[2*I+1] - solNview[2*I]) / (Dxview[1] + Dxview[0])
 
     # calc upwinding
     # cations
-    if DCview[1]*velup >=0:
-        upfluxC = solNview[0]*velup* DCview[1]
+    if DCview[1] * velup >=0:
+        
+        upfluxC = velup * DCview[1] * solNview[0]
+        
     else:
-        upfluxC = solNview[1]*velup* DCview[1]
+        
+        upfluxC = velup * DCview[1] * solNview[1]
 
     # anions
     if -DAview[1]*velup >=0:
-        upfluxA = -solNview[I]*velup*DAview[1]
+        
+        upfluxA = -velup * DAview[1] * solNview[I]
+        
     else:
-        upfluxA = -solNview[I+1]*velup*DAview[1]
-
-
+        
+        upfluxA = -velup * DAview[1] * solNview[I+1]
+        
     # cation
-    res_view[0] = ( solNview[0] - sol1view[0] + Dt/(xview[1]-xview[0])*( -DCview[1]*2*(solNview[1]-solNview[0])/(xview[2]-xview[0]) + upfluxC ))
+    res_view[0] = ( solNview[0] - sol1view[0] 
+    
+    + Dt * ( -DCview[1] * 2.0 * (solNview[1]-solNview[0]) / (Dxview[0] + Dxview[1])  + upfluxC ) / Dxview[0] )
 
     # anion
-    res_view[I] = ( solNview[I] - sol1view[I] + Dt/(xview[1]-xview[0])*( -DAview[1]*2*(solNview[I+1]-solNview[I])/(xview[2]-xview[0]) + upfluxA ) )
+    res_view[I] = ( solNview[I] - sol1view[I] 
+    
+    + Dt * ( -DAview[1] * 2 * (solNview[I+1]-solNview[I]) / (Dxview[1] + Dxview[0]) + upfluxA ) / Dxview[0] )
 
-    # potential at x0 , boundary condition
-    res_view[2*I] = (( 2*epsilonview[1]*(solNview[2*I+1]-solNview[2*I])/(xview[2]-xview[0]) - epsilonview[0]*solNview[2*I]/(xview[1]-xview[0]) )/(xview[1]-xview[0])
-        + chi2*( solNview[0] - solNview[I]) )
+    # potential at x0 , boundary condition phiA = 0.0 oBdA
+    res_view[2*I] = (( 2 * epsilonview[1]*(solNview[2*I+1]-solNview[2*I]) / (Dxview[0] + Dxview[1]) 
+    
+    - epsilonview[0]*solNview[2*I] / Dxview[0] ) / Dxview[0] + chi2*( solNview[0] - solNview[I]) )
 
     # inner points, loop over cell centers
     for i in range(1,I-1):
-
+        
+        #
+        # Godunov scheme
+        #
+        
         # calculate upwinding velocities
-        veldown = -chi1*2*(solNview[2*I+i]-solNview[2*I+i-1])/ (xview[i+1]-xview[i-1])
-        velup = -chi1*2*(solNview[2*I+i+1]-solNview[2*I+i])/(xview[i+2]-xview[i])
+        velup = -chi1 * 2.0 * (solNview[2*I+i+1] - solNview[2*I+i]) / (Dxview[i+1] + Dxview[i])
+        veldown = -chi1 * 2.0 * (solNview[2*I+i] - solNview[2*I+i-1]) / (Dxview[i] + Dxview[i-1])
 
-        # calc upwinding
+        # flux at rigth cell edge
+        # for reconstruction: slope is 2 * (c_i+1 - c_i) / (Dx_i+1 + Dx_i)
+        
         # cations
-        if DCview[i]* veldown >=0:
-            downfluxC = solNview[i-1]*veldown* DCview[i]
+        if DCview[i+1] * velup >=0:
+            
+            upfluxC = velup * solNview[i] * DCview[i+1]
+            
         else:
-            downfluxC = solNview[i]*veldown* DCview[i]
-
-        if DCview[i+1]* velup >=0:
-            upfluxC = solNview[i]*velup* DCview[i+1]
-        else:
-            upfluxC = solNview[i+1]*velup* DCview[i+1]
-
+            
+            upfluxC = velup * solNview[i+1] * DCview[i+1]
+        
         # anions
-        if -DAview[i]*veldown >=0:
-            downfluxA = -solNview[I+i-1]*veldown*DAview[i]
+        if -DAview[i+1] * velup >=0:
+            
+            upfluxA = -velup * solNview[I+i] * DAview[i+1]
+            
         else:
-            downfluxA = -solNview[I+i]*veldown*DAview[i]
+            
+            upfluxA = -velup * solNview[I+i+1] * DAview[i+1]
+        
+        # flux at left cell edge
+        
+        # cations
+        if DCview[i] * veldown >=0:
+            
+            downfluxC = veldown * solNview[i-1] * DCview[i]
+            
+        else:
+            
+            downfluxC = veldown * solNview[i] * DCview[i]
+            
+        # anions
+        if -DAview[i] * veldown >=0:
+            
+            downfluxA = -veldown * solNview[I+i-1] * DAview[i]
+            
+        else:
+            
+            downfluxA = -veldown * solNview[I+i] * DAview[i]
 
-        if -DAview[i+1]*velup >=0:
-            upfluxA = -solNview[I+i]*velup*DAview[i+1]
-        else:
-            upfluxA = -solNview[I+i+1]*velup*DAview[i+1]
+        # end Godunov / upwinding calculation ----------------------------------
 
         # cations
-        res_view[i] = ( solNview[i] - sol1view[i] + Dt/( xview[i+1] - xview[i]  )*( -DCview[i+1]*2*(solNview[i+1]-solNview[i])/(xview[i+2]-xview[i])
-            +DCview[i]*2*(solNview[i]-solNview[i-1])/(xview[i+1]-xview[i-1]) + upfluxC - downfluxC ))
+        res_view[i] = ( solNview[i] - sol1view[i] 
+        
+        + Dt * ( -DCview[i+1] * 2 * (solNview[i+1] - solNview[i]) / (Dxview[i+1] + Dxview[i])
+        
+        + DCview[i] * 2 * (solNview[i] - solNview[i-1]) / (Dxview[i] + Dxview[i-1]) + upfluxC - downfluxC ) / Dxview[i] )
 
         # anions shifted about I
-        res_view[I+i] = ( solNview[I+i] - sol1view[I+i] + Dt/( xview[i+1] - xview[i]  )*( -DAview[i+1]*2*(solNview[I+i+1]-solNview[I+i])/(xview[i+2]-xview[i])
-            + DAview[i]*2*(solNview[I+i]-solNview[I+i-1])/(xview[i+1]-xview[i-1]) + upfluxA - downfluxA ))
+        res_view[I+i] = ( solNview[I+i] - sol1view[I+i] 
+        
+        + Dt * ( -DAview[i+1] * 2 * (solNview[I+i+1] - solNview[I+i]) / (Dxview[i+1] + Dxview[i])
+        
+        + DAview[i] * 2 * (solNview[I+i] - solNview[I+i-1]) / (Dxview[i] + Dxview[i-1]) + upfluxA - downfluxA ) / Dxview[i])
 
         # potential equation from 1:I-2 --> two extra calculations needed
-        res_view[2*I+i] = (( 2*epsilonview[i+1]*(solNview[2*I+i+1] - solNview[2*I+i])/(xview[i+2] - xview[i])
-            -2*epsilonview[i]*(solNview[2*I+i] - solNview[2*I+i-1])/(xview[i+1] - xview[i-1]) )/(xview[i+1]-xview[i]) + chi2*( solNview[i] - solNview[I+i]) )
+        res_view[2*I+i] = ( ( 2 * epsilonview[i+1] * (solNview[2*I+i+1] - solNview[2*I+i]) / (Dxview[i+1] + Dxview[i])
+        
+            -2 * epsilonview[i] * (solNview[2*I+i] - solNview[2*I+i-1]) / (Dxview[i] + Dxview[i-1]) ) 
+        
+        / Dxview[i] + chi2 * ( solNview[i] - solNview[I+i]) )
 
     # catode, downflux only, substitute upflux with boundary condition
     # calc upwinding
 
     # calculate upwinding velocities
-    veldown = -chi1*2*(solNview[3*I-1]-solNview[3*I-2])/(xview[I]-xview[I-2])
+    veldown = -chi1 * 2 * (solNview[3*I-1] - solNview[3*I-2]) / (Dxview[I-1] + Dxview[I-2])
 
     # cations
-    if DCview[I-1]* veldown >=0:
-        downfluxC = solNview[I-2]*veldown* DCview[I-1]
+    if DCview[I-1] * veldown >=0:
+        
+        downfluxC = veldown * solNview[I-2] * DCview[I-1]
+        
     else:
-        downfluxC = solNview[I-1]*veldown* DCview[I-1]
+        
+        downfluxC = veldown * solNview[I-1] * DCview[I-1]
 
     # anions
-    if -DAview[I-1]*veldown >=0:
-        downfluxA = -solNview[2*I-2]*veldown*DAview[I-1]
+    if -DAview[I-1] * veldown >=0:
+        
+        downfluxA = -veldown * solNview[2*I-2] * DAview[I-1]
+        
     else:
-        downfluxA = -solNview[2*I-1]*veldown*DAview[I-1]
+        
+        downfluxA = -veldown * solNview[2*I-1] * DAview[I-1]
 
     # catode boundary conditions
     # cations
-    res_view[I-1] = ( solNview[I-1] - sol1view[I-1] + Dt/(xview[I] - xview[I-1])*( + DCview[I-1]*2*(solNview[I-1]-solNview[I-2])/(xview[I]-xview[I-2]) -downfluxC ))
+    res_view[I-1] = ( solNview[I-1] - sol1view[I-1]
+    
+    + Dt * ( DCview[I-1] * 2 * (solNview[I-1] - solNview[I-2]) / (Dxview[I-1] + Dxview[I-2]) -downfluxC ) / Dxview[I-1] )
 
     # anions
-    res_view[2*I-1] = ( solNview[2*I-1] - sol1view[2*I-1] + Dt/(xview[I] - xview[I-1])*( +DAview[I-1]*2*(solNview[2*I-1]-solNview[2*I-2])/(xview[I]-xview[I-2]) - downfluxA ))
+    res_view[2*I-1] = ( solNview[2*I-1] - sol1view[2*I-1]
+    
+    + Dt * ( DAview[I-1] * 2 * (solNview[2*I-1] - solNview[2*I-2]) / (Dxview[I-1] + Dxview[I-2]) - downfluxA ) / Dxview[I-1] )
 
     # potential at right boundary
-    res_view[3*I-1] = (( epsilonview[I-1]*(phiC - solNview[3*I-1])/(xview[I] - xview[I-1])
-        -epsilonview[I]*2*(solNview[3*I-1]-solNview[3*I-2])/(xview[I]-xview[I-2]) )/(xview[I]-xview[I-1]) + chi2*( solNview[I-1] - solNview[2*I-1]))
+    res_view[3*I-1] = ( ( epsilonview[I-1] * (phiC - solNview[3*I-1]) / Dxview[I-1]
+    
+        -epsilonview[I] * 2 * (solNview[3*I-1] - solNview[3*I-2]) / (Dxview[I-1] + Dxview[I-2]) ) / Dxview[I-1]
+    
+    + chi2*( solNview[I-1] - solNview[2*I-1]))
 
     return residual

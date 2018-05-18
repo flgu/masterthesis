@@ -11,19 +11,21 @@ from functions.solver import ImpedanceSolver_m0
 from functions.read_setup import setup
 from functions.impedance_functions import createImpedanceVoltage
 import numpy as np
+import matplotlib.pyplot as plt
 
 if __name__ == "__main__":
 
     # import setup
-    path_2_setupfile = r"M:\QMR\Abteilungsprojekte\FG\local\masterthesis\test_environment\test_setup.txt"
+    path_2_setupfile = r"test_setup.txt"
     
     
     stp = setup( path_2_setupfile )
     
-    stp.N = 1024
+    stp.I = 400
     
     # create voltage
-    phiC = createImpedanceVoltage(stp.N, stp.Dt, stp.T0, stp.phi0, U_offset = 0, num = 40)
+    # phiC = createImpedanceVoltage(stp.N, stp.Dt, stp.T0, stp.phi0, U_offset = 0, num = 40)
+    phiC = np.ones(stp.N, dtype = np.float64) * 0.01 / stp.phi0
     
     # initial condition
     sol_initial = np.zeros([3 * stp.I], dtype = np.float64)
@@ -32,3 +34,10 @@ if __name__ == "__main__":
     # call solver
     current = ImpedanceSolver_m0( stp.I, stp.L, stp.c0, stp.epsilon_m, stp.phi0, stp.T, stp.N, stp.Dt, sol_initial, phiC, stp.DC, stp.DA, stp.epsilon)
     
+    # dont save because its a test file
+    
+#%% plotting
+fig = plt.figure()
+ax = fig.add_subplot(1,1,1)
+
+ax.plot(current[0,2:])
