@@ -13,6 +13,7 @@ from functions.impedance_functions import createImpedanceVoltage
 import numpy as np
 import matplotlib.pyplot as plt
 
+
 if __name__ == "__main__":
 
     # import setup
@@ -20,19 +21,24 @@ if __name__ == "__main__":
     
     
     stp = setup( path_2_setupfile )
+    stp.N = 2 ** 12
+    stp.I = int(400)
+    stp.Dt = 1e-5
+    M = 1e0
     
-    stp.I = 400
+    stp.T0 = M * stp.L ** 2 / stp.D0
     
     # create voltage
-    # phiC = createImpedanceVoltage(stp.N, stp.Dt, stp.T0, stp.phi0, U_offset = 0, num = 40)
-    phiC = np.ones(stp.N, dtype = np.float64) * 0.01 / stp.phi0
+    phiC = createImpedanceVoltage(stp.N, stp.Dt, stp.T0, stp.phi0, U_offset = 0, num = 40)
+    #phiC = np.ones(stp.N, dtype = np.float64) * 0.01 / stp.phi0
     
     # initial condition
     sol_initial = np.zeros([3 * stp.I], dtype = np.float64)
     sol_initial[0:2*stp.I] = 1.0 / 2.0
     
     # call solver
-    current = ImpedanceSolver_m0( stp.I, stp.L, stp.c0, stp.epsilon_m, stp.phi0, stp.T, stp.N, stp.Dt, sol_initial, phiC, stp.DC, stp.DA, stp.epsilon)
+    current = ImpedanceSolver_m0( stp.I, stp.L, stp.c0, stp.epsilon_m, stp.phi0, stp.T, stp.N, stp.Dt, M,
+                                 sol_initial, phiC, stp.DC, stp.DA, stp.epsilon)
     
     # dont save because its a test file
     

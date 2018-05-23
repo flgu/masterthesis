@@ -2,7 +2,7 @@ import numpy as np
 from scipy.optimize import newton_krylov
 import time
 
-from functions.residual import *
+from functions.residual import residual
 import functions.system_tools as st
 from functions.jacobian import calcJac
 
@@ -20,7 +20,7 @@ def createAxis(I):
 
     return x_, x
 
-def ImpedanceSolver_m0( I, L, c0, epsilon_m, phi0, T, N, Dt, sol_initial, phiC, DC, DA, epsilon):
+def ImpedanceSolver_m0( I, L, c0, epsilon_m, phi0, T, N, Dt, M, sol_initial, phiC, DC, DA, epsilon):
     
     # calculate numerical constants
     chi2 = st.calcChi1( phi0, T )
@@ -67,7 +67,7 @@ def ImpedanceSolver_m0( I, L, c0, epsilon_m, phi0, T, N, Dt, sol_initial, phiC, 
     sol1 = sol_initial
 
     # calculate jacobian and invert it for the first points
-    Jac = calcJac(I, np.zeros( sol1.shape ), x_, DC_vec, DA_vec, chi1, chi2, Dt )
+    Jac = calcJac(I, np.zeros( sol1.shape ), x_, DC_vec, DA_vec, chi1, chi2, Dt, M )
     Jacinv = np.linalg.inv(Jac)
 
     # delete Jacobian - only inverse J is needed
@@ -82,7 +82,7 @@ def ImpedanceSolver_m0( I, L, c0, epsilon_m, phi0, T, N, Dt, sol_initial, phiC, 
         
         # input --> sol1  --> output sol2
         
-        sol2 = newton_krylov( lambda y: residual_m0( I, Dx, y, sol1, chi1, chi2, DC_vec, DA_vec, Dt,
+        sol2 = newton_krylov( lambda y: residual( I, Dx, y, sol1, chi1, chi2, DC_vec, DA_vec, Dt, M,
         phiC[j], epsilon_vec), sol1, inner_M = Jacinv, method = "lgmres")
 
         current[0,j] = - ( sol2[2*I] - sol1[2*I] ) / (Dx[0] * Dt * chi2)

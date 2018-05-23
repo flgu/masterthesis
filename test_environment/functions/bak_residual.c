@@ -2088,6 +2088,7 @@ static PyObject *__pyx_builtin_Ellipsis;
 static PyObject *__pyx_builtin_id;
 static PyObject *__pyx_builtin_IndexError;
 static const char __pyx_k_I[] = "I";
+static const char __pyx_k_M[] = "M";
 static const char __pyx_k_O[] = "O";
 static const char __pyx_k_c[] = "c";
 static const char __pyx_k_i[] = "i";
@@ -2230,6 +2231,7 @@ static PyObject *__pyx_n_s_IndexError;
 static PyObject *__pyx_kp_s_Indirect_dimensions_not_supporte;
 static PyObject *__pyx_kp_s_Invalid_mode_expected_c_or_fortr;
 static PyObject *__pyx_kp_s_Invalid_shape_in_axis_d_d;
+static PyObject *__pyx_n_s_M;
 static PyObject *__pyx_n_s_MemoryError;
 static PyObject *__pyx_kp_s_MemoryView_of_r_at_0x_x;
 static PyObject *__pyx_kp_s_MemoryView_of_r_object;
@@ -2333,7 +2335,7 @@ static PyObject *__pyx_n_s_upfluxC;
 static PyObject *__pyx_n_s_veldown;
 static PyObject *__pyx_n_s_velup;
 static PyObject *__pyx_n_s_zeros;
-static PyObject *__pyx_pf_9functions_8residual_residual_m0(CYTHON_UNUSED PyObject *__pyx_self, int __pyx_v_I, __Pyx_memviewslice __pyx_v_Dxview, __Pyx_memviewslice __pyx_v_solNview, __Pyx_memviewslice __pyx_v_sol1view, double __pyx_v_chi1, double __pyx_v_chi2, __Pyx_memviewslice __pyx_v_DCview, __Pyx_memviewslice __pyx_v_DAview, double __pyx_v_Dt, double __pyx_v_phiC, __Pyx_memviewslice __pyx_v_epsilonview); /* proto */
+static PyObject *__pyx_pf_9functions_8residual_residual_m0(CYTHON_UNUSED PyObject *__pyx_self, int __pyx_v_I, __Pyx_memviewslice __pyx_v_Dxview, __Pyx_memviewslice __pyx_v_solNview, __Pyx_memviewslice __pyx_v_sol1view, double __pyx_v_chi1, double __pyx_v_chi2, __Pyx_memviewslice __pyx_v_DCview, __Pyx_memviewslice __pyx_v_DAview, double __pyx_v_Dt, double __pyx_v_M, double __pyx_v_phiC, __Pyx_memviewslice __pyx_v_epsilonview); /* proto */
 static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, Py_buffer *__pyx_v_info, int __pyx_v_flags); /* proto */
 static void __pyx_pf_5numpy_7ndarray_2__releasebuffer__(PyArrayObject *__pyx_v_self, Py_buffer *__pyx_v_info); /* proto */
 static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array___cinit__(struct __pyx_array_obj *__pyx_v_self, PyObject *__pyx_v_shape, Py_ssize_t __pyx_v_itemsize, PyObject *__pyx_v_format, PyObject *__pyx_v_mode, int __pyx_v_allocate_buffer); /* proto */
@@ -2449,18 +2451,21 @@ static PyObject *__pyx_pw_9functions_8residual_1residual_m0(PyObject *__pyx_self
   __Pyx_memviewslice __pyx_v_DCview = { 0, 0, { 0 }, { 0 }, { 0 } };
   __Pyx_memviewslice __pyx_v_DAview = { 0, 0, { 0 }, { 0 }, { 0 } };
   double __pyx_v_Dt;
+  double __pyx_v_M;
   double __pyx_v_phiC;
   __Pyx_memviewslice __pyx_v_epsilonview = { 0, 0, { 0 }, { 0 }, { 0 } };
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("residual_m0 (wrapper)", 0);
   {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_I,&__pyx_n_s_Dxview,&__pyx_n_s_solNview,&__pyx_n_s_sol1view,&__pyx_n_s_chi1,&__pyx_n_s_chi2,&__pyx_n_s_DCview,&__pyx_n_s_DAview,&__pyx_n_s_Dt,&__pyx_n_s_phiC,&__pyx_n_s_epsilonview,0};
-    PyObject* values[11] = {0,0,0,0,0,0,0,0,0,0,0};
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_I,&__pyx_n_s_Dxview,&__pyx_n_s_solNview,&__pyx_n_s_sol1view,&__pyx_n_s_chi1,&__pyx_n_s_chi2,&__pyx_n_s_DCview,&__pyx_n_s_DAview,&__pyx_n_s_Dt,&__pyx_n_s_M,&__pyx_n_s_phiC,&__pyx_n_s_epsilonview,0};
+    PyObject* values[12] = {0,0,0,0,0,0,0,0,0,0,0,0};
     if (unlikely(__pyx_kwds)) {
       Py_ssize_t kw_args;
       const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
       switch (pos_args) {
+        case 12: values[11] = PyTuple_GET_ITEM(__pyx_args, 11);
+        CYTHON_FALLTHROUGH;
         case 11: values[10] = PyTuple_GET_ITEM(__pyx_args, 10);
         CYTHON_FALLTHROUGH;
         case 10: values[9] = PyTuple_GET_ITEM(__pyx_args, 9);
@@ -2495,67 +2500,73 @@ static PyObject *__pyx_pw_9functions_8residual_1residual_m0(PyObject *__pyx_self
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_Dxview)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("residual_m0", 1, 11, 11, 1); __PYX_ERR(0, 13, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("residual_m0", 1, 12, 12, 1); __PYX_ERR(0, 13, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_solNview)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("residual_m0", 1, 11, 11, 2); __PYX_ERR(0, 13, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("residual_m0", 1, 12, 12, 2); __PYX_ERR(0, 13, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
         if (likely((values[3] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_sol1view)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("residual_m0", 1, 11, 11, 3); __PYX_ERR(0, 13, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("residual_m0", 1, 12, 12, 3); __PYX_ERR(0, 13, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  4:
         if (likely((values[4] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_chi1)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("residual_m0", 1, 11, 11, 4); __PYX_ERR(0, 13, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("residual_m0", 1, 12, 12, 4); __PYX_ERR(0, 13, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  5:
         if (likely((values[5] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_chi2)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("residual_m0", 1, 11, 11, 5); __PYX_ERR(0, 13, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("residual_m0", 1, 12, 12, 5); __PYX_ERR(0, 13, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  6:
         if (likely((values[6] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_DCview)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("residual_m0", 1, 11, 11, 6); __PYX_ERR(0, 13, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("residual_m0", 1, 12, 12, 6); __PYX_ERR(0, 13, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  7:
         if (likely((values[7] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_DAview)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("residual_m0", 1, 11, 11, 7); __PYX_ERR(0, 13, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("residual_m0", 1, 12, 12, 7); __PYX_ERR(0, 13, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  8:
         if (likely((values[8] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_Dt)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("residual_m0", 1, 11, 11, 8); __PYX_ERR(0, 13, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("residual_m0", 1, 12, 12, 8); __PYX_ERR(0, 13, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  9:
-        if (likely((values[9] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_phiC)) != 0)) kw_args--;
+        if (likely((values[9] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_M)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("residual_m0", 1, 11, 11, 9); __PYX_ERR(0, 13, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("residual_m0", 1, 12, 12, 9); __PYX_ERR(0, 13, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case 10:
-        if (likely((values[10] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_epsilonview)) != 0)) kw_args--;
+        if (likely((values[10] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_phiC)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("residual_m0", 1, 11, 11, 10); __PYX_ERR(0, 13, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("residual_m0", 1, 12, 12, 10); __PYX_ERR(0, 13, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case 11:
+        if (likely((values[11] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_epsilonview)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("residual_m0", 1, 12, 12, 11); __PYX_ERR(0, 13, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
         if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "residual_m0") < 0)) __PYX_ERR(0, 13, __pyx_L3_error)
       }
-    } else if (PyTuple_GET_SIZE(__pyx_args) != 11) {
+    } else if (PyTuple_GET_SIZE(__pyx_args) != 12) {
       goto __pyx_L5_argtuple_error;
     } else {
       values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
@@ -2569,6 +2580,7 @@ static PyObject *__pyx_pw_9functions_8residual_1residual_m0(PyObject *__pyx_self
       values[8] = PyTuple_GET_ITEM(__pyx_args, 8);
       values[9] = PyTuple_GET_ITEM(__pyx_args, 9);
       values[10] = PyTuple_GET_ITEM(__pyx_args, 10);
+      values[11] = PyTuple_GET_ITEM(__pyx_args, 11);
     }
     __pyx_v_I = __Pyx_PyInt_As_int(values[0]); if (unlikely((__pyx_v_I == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 13, __pyx_L3_error)
     __pyx_v_Dxview = __Pyx_PyObject_to_MemoryviewSlice_ds_double(values[1], PyBUF_WRITABLE); if (unlikely(!__pyx_v_Dxview.memview)) __PYX_ERR(0, 14, __pyx_L3_error)
@@ -2579,25 +2591,26 @@ static PyObject *__pyx_pw_9functions_8residual_1residual_m0(PyObject *__pyx_self
     __pyx_v_DCview = __Pyx_PyObject_to_MemoryviewSlice_ds_double(values[6], PyBUF_WRITABLE); if (unlikely(!__pyx_v_DCview.memview)) __PYX_ERR(0, 19, __pyx_L3_error)
     __pyx_v_DAview = __Pyx_PyObject_to_MemoryviewSlice_ds_double(values[7], PyBUF_WRITABLE); if (unlikely(!__pyx_v_DAview.memview)) __PYX_ERR(0, 20, __pyx_L3_error)
     __pyx_v_Dt = __pyx_PyFloat_AsDouble(values[8]); if (unlikely((__pyx_v_Dt == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 21, __pyx_L3_error)
-    __pyx_v_phiC = __pyx_PyFloat_AsDouble(values[9]); if (unlikely((__pyx_v_phiC == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 22, __pyx_L3_error)
-    __pyx_v_epsilonview = __Pyx_PyObject_to_MemoryviewSlice_ds_double(values[10], PyBUF_WRITABLE); if (unlikely(!__pyx_v_epsilonview.memview)) __PYX_ERR(0, 23, __pyx_L3_error)
+    __pyx_v_M = __pyx_PyFloat_AsDouble(values[9]); if (unlikely((__pyx_v_M == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 22, __pyx_L3_error)
+    __pyx_v_phiC = __pyx_PyFloat_AsDouble(values[10]); if (unlikely((__pyx_v_phiC == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 23, __pyx_L3_error)
+    __pyx_v_epsilonview = __Pyx_PyObject_to_MemoryviewSlice_ds_double(values[11], PyBUF_WRITABLE); if (unlikely(!__pyx_v_epsilonview.memview)) __PYX_ERR(0, 24, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("residual_m0", 1, 11, 11, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 13, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("residual_m0", 1, 12, 12, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 13, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("functions.residual.residual_m0", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_9functions_8residual_residual_m0(__pyx_self, __pyx_v_I, __pyx_v_Dxview, __pyx_v_solNview, __pyx_v_sol1view, __pyx_v_chi1, __pyx_v_chi2, __pyx_v_DCview, __pyx_v_DAview, __pyx_v_Dt, __pyx_v_phiC, __pyx_v_epsilonview);
+  __pyx_r = __pyx_pf_9functions_8residual_residual_m0(__pyx_self, __pyx_v_I, __pyx_v_Dxview, __pyx_v_solNview, __pyx_v_sol1view, __pyx_v_chi1, __pyx_v_chi2, __pyx_v_DCview, __pyx_v_DAview, __pyx_v_Dt, __pyx_v_M, __pyx_v_phiC, __pyx_v_epsilonview);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_9functions_8residual_residual_m0(CYTHON_UNUSED PyObject *__pyx_self, int __pyx_v_I, __Pyx_memviewslice __pyx_v_Dxview, __Pyx_memviewslice __pyx_v_solNview, __Pyx_memviewslice __pyx_v_sol1view, double __pyx_v_chi1, double __pyx_v_chi2, __Pyx_memviewslice __pyx_v_DCview, __Pyx_memviewslice __pyx_v_DAview, double __pyx_v_Dt, double __pyx_v_phiC, __Pyx_memviewslice __pyx_v_epsilonview) {
+static PyObject *__pyx_pf_9functions_8residual_residual_m0(CYTHON_UNUSED PyObject *__pyx_self, int __pyx_v_I, __Pyx_memviewslice __pyx_v_Dxview, __Pyx_memviewslice __pyx_v_solNview, __Pyx_memviewslice __pyx_v_sol1view, double __pyx_v_chi1, double __pyx_v_chi2, __Pyx_memviewslice __pyx_v_DCview, __Pyx_memviewslice __pyx_v_DAview, double __pyx_v_Dt, double __pyx_v_M, double __pyx_v_phiC, __Pyx_memviewslice __pyx_v_epsilonview) {
   int __pyx_v_i;
   PyObject *__pyx_v_residual = 0;
   __Pyx_memviewslice __pyx_v_res_view = { 0, 0, { 0 }, { 0 }, { 0 } };
@@ -2790,35 +2803,35 @@ static PyObject *__pyx_pf_9functions_8residual_residual_m0(CYTHON_UNUSED PyObjec
   __pyx_pybuffernd_residual.data = NULL;
   __pyx_pybuffernd_residual.rcbuffer = &__pyx_pybuffer_residual;
 
-  /* "functions/residual.pyx":29
+  /* "functions/residual.pyx":30
  *     cdef:
  *         int i
  *         object[ double, ndim=1] residual = np.zeros(3*I, dtype = np.float64)             # <<<<<<<<<<<<<<
  *         # define memoryview on the residual
  *         double [:] res_view = residual
  */
-  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 29, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 30, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 29, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 30, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyInt_From_long((3 * __pyx_v_I)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 29, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_long((3 * __pyx_v_I)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 30, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 29, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 30, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_1);
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 29, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 30, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 29, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 30, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_float64); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 29, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_float64); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 30, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, __pyx_t_5) < 0) __PYX_ERR(0, 29, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, __pyx_t_5) < 0) __PYX_ERR(0, 30, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_3, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 29, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_3, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 30, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -2827,26 +2840,26 @@ static PyObject *__pyx_pf_9functions_8residual_residual_m0(CYTHON_UNUSED PyObjec
     __Pyx_BufFmt_StackElem __pyx_stack[1];
     if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_residual.rcbuffer->pybuffer, (PyObject*)((PyObject *)__pyx_t_5), &__Pyx_TypeInfo_double, PyBUF_FORMAT| PyBUF_INDIRECT, 1, 0, __pyx_stack) == -1)) {
       __pyx_v_residual = ((PyObject *)Py_None); __Pyx_INCREF(Py_None); __pyx_pybuffernd_residual.rcbuffer->pybuffer.buf = NULL;
-      __PYX_ERR(0, 29, __pyx_L1_error)
+      __PYX_ERR(0, 30, __pyx_L1_error)
     } else {__pyx_pybuffernd_residual.diminfo[0].strides = __pyx_pybuffernd_residual.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_residual.diminfo[0].shape = __pyx_pybuffernd_residual.rcbuffer->pybuffer.shape[0]; __pyx_pybuffernd_residual.diminfo[0].suboffsets = __pyx_pybuffernd_residual.rcbuffer->pybuffer.suboffsets[0];
     }
   }
   __pyx_v_residual = ((PyObject *)__pyx_t_5);
   __pyx_t_5 = 0;
 
-  /* "functions/residual.pyx":31
+  /* "functions/residual.pyx":32
  *         object[ double, ndim=1] residual = np.zeros(3*I, dtype = np.float64)
  *         # define memoryview on the residual
  *         double [:] res_view = residual             # <<<<<<<<<<<<<<
  * 
  *         # upwinding
  */
-  __pyx_t_6 = __Pyx_PyObject_to_MemoryviewSlice_ds_double(((PyObject *)__pyx_v_residual), PyBUF_WRITABLE); if (unlikely(!__pyx_t_6.memview)) __PYX_ERR(0, 31, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_to_MemoryviewSlice_ds_double(((PyObject *)__pyx_v_residual), PyBUF_WRITABLE); if (unlikely(!__pyx_t_6.memview)) __PYX_ERR(0, 32, __pyx_L1_error)
   __pyx_v_res_view = __pyx_t_6;
   __pyx_t_6.memview = NULL;
   __pyx_t_6.data = NULL;
 
-  /* "functions/residual.pyx":34
+  /* "functions/residual.pyx":35
  * 
  *         # upwinding
  *         double velup = 0.0             # <<<<<<<<<<<<<<
@@ -2855,7 +2868,7 @@ static PyObject *__pyx_pf_9functions_8residual_residual_m0(CYTHON_UNUSED PyObjec
  */
   __pyx_v_velup = 0.0;
 
-  /* "functions/residual.pyx":35
+  /* "functions/residual.pyx":36
  *         # upwinding
  *         double velup = 0.0
  *         double veldown = 0.0             # <<<<<<<<<<<<<<
@@ -2864,7 +2877,7 @@ static PyObject *__pyx_pf_9functions_8residual_residual_m0(CYTHON_UNUSED PyObjec
  */
   __pyx_v_veldown = 0.0;
 
-  /* "functions/residual.pyx":36
+  /* "functions/residual.pyx":37
  *         double velup = 0.0
  *         double veldown = 0.0
  *         double upfluxC = 0.0             # <<<<<<<<<<<<<<
@@ -2873,7 +2886,7 @@ static PyObject *__pyx_pf_9functions_8residual_residual_m0(CYTHON_UNUSED PyObjec
  */
   __pyx_v_upfluxC = 0.0;
 
-  /* "functions/residual.pyx":37
+  /* "functions/residual.pyx":38
  *         double veldown = 0.0
  *         double upfluxC = 0.0
  *         double upfluxA = 0.0             # <<<<<<<<<<<<<<
@@ -2882,7 +2895,7 @@ static PyObject *__pyx_pf_9functions_8residual_residual_m0(CYTHON_UNUSED PyObjec
  */
   __pyx_v_upfluxA = 0.0;
 
-  /* "functions/residual.pyx":38
+  /* "functions/residual.pyx":39
  *         double upfluxC = 0.0
  *         double upfluxA = 0.0
  *         double downfluxC = 0.0             # <<<<<<<<<<<<<<
@@ -2891,7 +2904,7 @@ static PyObject *__pyx_pf_9functions_8residual_residual_m0(CYTHON_UNUSED PyObjec
  */
   __pyx_v_downfluxC = 0.0;
 
-  /* "functions/residual.pyx":39
+  /* "functions/residual.pyx":40
  *         double upfluxA = 0.0
  *         double downfluxC = 0.0
  *         double downfluxA = 0.0             # <<<<<<<<<<<<<<
@@ -2900,7 +2913,7 @@ static PyObject *__pyx_pf_9functions_8residual_residual_m0(CYTHON_UNUSED PyObjec
  */
   __pyx_v_downfluxA = 0.0;
 
-  /* "functions/residual.pyx":53
+  /* "functions/residual.pyx":64
  *     # Anode, upflux only, substitute downflux with boundary condition
  *     # calculate upwinding velocities
  *     velup = -chi1*2*(solNview[2*I+1] - solNview[2*I]) / (Dxview[1] + Dxview[0])             # <<<<<<<<<<<<<<
@@ -2915,11 +2928,11 @@ static PyObject *__pyx_pf_9functions_8residual_residual_m0(CYTHON_UNUSED PyObjec
   __pyx_t_12 = ((*((double *) ( /* dim=0 */ (__pyx_v_Dxview.data + __pyx_t_10 * __pyx_v_Dxview.strides[0]) ))) + (*((double *) ( /* dim=0 */ (__pyx_v_Dxview.data + __pyx_t_11 * __pyx_v_Dxview.strides[0]) ))));
   if (unlikely(__pyx_t_12 == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(0, 53, __pyx_L1_error)
+    __PYX_ERR(0, 64, __pyx_L1_error)
   }
   __pyx_v_velup = (__pyx_t_9 / __pyx_t_12);
 
-  /* "functions/residual.pyx":57
+  /* "functions/residual.pyx":68
  *     # calc upwinding
  *     # cations
  *     if DCview[1] * velup >=0:             # <<<<<<<<<<<<<<
@@ -2930,7 +2943,7 @@ static PyObject *__pyx_pf_9functions_8residual_residual_m0(CYTHON_UNUSED PyObjec
   __pyx_t_14 = ((((*((double *) ( /* dim=0 */ (__pyx_v_DCview.data + __pyx_t_13 * __pyx_v_DCview.strides[0]) ))) * __pyx_v_velup) >= 0.0) != 0);
   if (__pyx_t_14) {
 
-    /* "functions/residual.pyx":59
+    /* "functions/residual.pyx":70
  *     if DCview[1] * velup >=0:
  * 
  *         upfluxC = velup * DCview[1] * solNview[0]             # <<<<<<<<<<<<<<
@@ -2941,7 +2954,7 @@ static PyObject *__pyx_pf_9functions_8residual_residual_m0(CYTHON_UNUSED PyObjec
     __pyx_t_16 = 0;
     __pyx_v_upfluxC = ((__pyx_v_velup * (*((double *) ( /* dim=0 */ (__pyx_v_DCview.data + __pyx_t_15 * __pyx_v_DCview.strides[0]) )))) * (*((double *) ( /* dim=0 */ (__pyx_v_solNview.data + __pyx_t_16 * __pyx_v_solNview.strides[0]) ))));
 
-    /* "functions/residual.pyx":57
+    /* "functions/residual.pyx":68
  *     # calc upwinding
  *     # cations
  *     if DCview[1] * velup >=0:             # <<<<<<<<<<<<<<
@@ -2951,7 +2964,7 @@ static PyObject *__pyx_pf_9functions_8residual_residual_m0(CYTHON_UNUSED PyObjec
     goto __pyx_L3;
   }
 
-  /* "functions/residual.pyx":63
+  /* "functions/residual.pyx":74
  *     else:
  * 
  *         upfluxC = velup * DCview[1] * solNview[1]             # <<<<<<<<<<<<<<
@@ -2965,7 +2978,7 @@ static PyObject *__pyx_pf_9functions_8residual_residual_m0(CYTHON_UNUSED PyObjec
   }
   __pyx_L3:;
 
-  /* "functions/residual.pyx":66
+  /* "functions/residual.pyx":77
  * 
  *     # anions
  *     if -DAview[1]*velup >=0:             # <<<<<<<<<<<<<<
@@ -2976,7 +2989,7 @@ static PyObject *__pyx_pf_9functions_8residual_residual_m0(CYTHON_UNUSED PyObjec
   __pyx_t_14 = ((((-(*((double *) ( /* dim=0 */ (__pyx_v_DAview.data + __pyx_t_19 * __pyx_v_DAview.strides[0]) )))) * __pyx_v_velup) >= 0.0) != 0);
   if (__pyx_t_14) {
 
-    /* "functions/residual.pyx":68
+    /* "functions/residual.pyx":79
  *     if -DAview[1]*velup >=0:
  * 
  *         upfluxA = -velup * DAview[1] * solNview[I]             # <<<<<<<<<<<<<<
@@ -2987,7 +3000,7 @@ static PyObject *__pyx_pf_9functions_8residual_residual_m0(CYTHON_UNUSED PyObjec
     __pyx_t_21 = __pyx_v_I;
     __pyx_v_upfluxA = (((-__pyx_v_velup) * (*((double *) ( /* dim=0 */ (__pyx_v_DAview.data + __pyx_t_20 * __pyx_v_DAview.strides[0]) )))) * (*((double *) ( /* dim=0 */ (__pyx_v_solNview.data + __pyx_t_21 * __pyx_v_solNview.strides[0]) ))));
 
-    /* "functions/residual.pyx":66
+    /* "functions/residual.pyx":77
  * 
  *     # anions
  *     if -DAview[1]*velup >=0:             # <<<<<<<<<<<<<<
@@ -2997,7 +3010,7 @@ static PyObject *__pyx_pf_9functions_8residual_residual_m0(CYTHON_UNUSED PyObjec
     goto __pyx_L4;
   }
 
-  /* "functions/residual.pyx":72
+  /* "functions/residual.pyx":83
  *     else:
  * 
  *         upfluxA = -velup * DAview[1] * solNview[I+1]             # <<<<<<<<<<<<<<
@@ -3011,20 +3024,20 @@ static PyObject *__pyx_pf_9functions_8residual_residual_m0(CYTHON_UNUSED PyObjec
   }
   __pyx_L4:;
 
-  /* "functions/residual.pyx":75
+  /* "functions/residual.pyx":86
  * 
  *     # cation
  *     res_view[0] = ( solNview[0] - sol1view[0]             # <<<<<<<<<<<<<<
  * 
- *     + Dt * ( -DCview[1] * 2.0 * (solNview[1]-solNview[0]) / (Dxview[0] + Dxview[1])  + upfluxC ) / Dxview[0] )
+ *     + M * Dt * ( -DCview[1] * 2.0 * (solNview[1]-solNview[0]) / (Dxview[0] + Dxview[1])  + upfluxC ) / Dxview[0] )
  */
   __pyx_t_24 = 0;
   __pyx_t_25 = 0;
 
-  /* "functions/residual.pyx":77
+  /* "functions/residual.pyx":88
  *     res_view[0] = ( solNview[0] - sol1view[0]
  * 
- *     + Dt * ( -DCview[1] * 2.0 * (solNview[1]-solNview[0]) / (Dxview[0] + Dxview[1])  + upfluxC ) / Dxview[0] )             # <<<<<<<<<<<<<<
+ *     + M * Dt * ( -DCview[1] * 2.0 * (solNview[1]-solNview[0]) / (Dxview[0] + Dxview[1])  + upfluxC ) / Dxview[0] )             # <<<<<<<<<<<<<<
  * 
  *     # anion
  */
@@ -3037,40 +3050,40 @@ static PyObject *__pyx_pf_9functions_8residual_residual_m0(CYTHON_UNUSED PyObjec
   __pyx_t_9 = ((*((double *) ( /* dim=0 */ (__pyx_v_Dxview.data + __pyx_t_29 * __pyx_v_Dxview.strides[0]) ))) + (*((double *) ( /* dim=0 */ (__pyx_v_Dxview.data + __pyx_t_30 * __pyx_v_Dxview.strides[0]) ))));
   if (unlikely(__pyx_t_9 == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(0, 77, __pyx_L1_error)
+    __PYX_ERR(0, 88, __pyx_L1_error)
   }
-  __pyx_t_31 = (__pyx_v_Dt * ((__pyx_t_12 / __pyx_t_9) + __pyx_v_upfluxC));
+  __pyx_t_31 = ((__pyx_v_M * __pyx_v_Dt) * ((__pyx_t_12 / __pyx_t_9) + __pyx_v_upfluxC));
   __pyx_t_32 = 0;
   __pyx_t_9 = (*((double *) ( /* dim=0 */ (__pyx_v_Dxview.data + __pyx_t_32 * __pyx_v_Dxview.strides[0]) )));
   if (unlikely(__pyx_t_9 == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(0, 77, __pyx_L1_error)
+    __PYX_ERR(0, 88, __pyx_L1_error)
   }
 
-  /* "functions/residual.pyx":75
+  /* "functions/residual.pyx":86
  * 
  *     # cation
  *     res_view[0] = ( solNview[0] - sol1view[0]             # <<<<<<<<<<<<<<
  * 
- *     + Dt * ( -DCview[1] * 2.0 * (solNview[1]-solNview[0]) / (Dxview[0] + Dxview[1])  + upfluxC ) / Dxview[0] )
+ *     + M * Dt * ( -DCview[1] * 2.0 * (solNview[1]-solNview[0]) / (Dxview[0] + Dxview[1])  + upfluxC ) / Dxview[0] )
  */
   __pyx_t_33 = 0;
   *((double *) ( /* dim=0 */ (__pyx_v_res_view.data + __pyx_t_33 * __pyx_v_res_view.strides[0]) )) = (((*((double *) ( /* dim=0 */ (__pyx_v_solNview.data + __pyx_t_24 * __pyx_v_solNview.strides[0]) ))) - (*((double *) ( /* dim=0 */ (__pyx_v_sol1view.data + __pyx_t_25 * __pyx_v_sol1view.strides[0]) )))) + (__pyx_t_31 / __pyx_t_9));
 
-  /* "functions/residual.pyx":80
+  /* "functions/residual.pyx":91
  * 
  *     # anion
  *     res_view[I] = ( solNview[I] - sol1view[I]             # <<<<<<<<<<<<<<
  * 
- *     + Dt * ( -DAview[1] * 2 * (solNview[I+1]-solNview[I]) / (Dxview[1] + Dxview[0]) + upfluxA ) / Dxview[0] )
+ *     + M * Dt * ( -DAview[1] * 2 * (solNview[I+1]-solNview[I]) / (Dxview[1] + Dxview[0]) + upfluxA ) / Dxview[0] )
  */
   __pyx_t_34 = __pyx_v_I;
   __pyx_t_35 = __pyx_v_I;
 
-  /* "functions/residual.pyx":82
+  /* "functions/residual.pyx":93
  *     res_view[I] = ( solNview[I] - sol1view[I]
  * 
- *     + Dt * ( -DAview[1] * 2 * (solNview[I+1]-solNview[I]) / (Dxview[1] + Dxview[0]) + upfluxA ) / Dxview[0] )             # <<<<<<<<<<<<<<
+ *     + M * Dt * ( -DAview[1] * 2 * (solNview[I+1]-solNview[I]) / (Dxview[1] + Dxview[0]) + upfluxA ) / Dxview[0] )             # <<<<<<<<<<<<<<
  * 
  *     # potential at x0 , boundary condition phiA = 0.0 oBdA
  */
@@ -3083,27 +3096,27 @@ static PyObject *__pyx_pf_9functions_8residual_residual_m0(CYTHON_UNUSED PyObjec
   __pyx_t_31 = ((*((double *) ( /* dim=0 */ (__pyx_v_Dxview.data + __pyx_t_39 * __pyx_v_Dxview.strides[0]) ))) + (*((double *) ( /* dim=0 */ (__pyx_v_Dxview.data + __pyx_t_40 * __pyx_v_Dxview.strides[0]) ))));
   if (unlikely(__pyx_t_31 == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(0, 82, __pyx_L1_error)
+    __PYX_ERR(0, 93, __pyx_L1_error)
   }
-  __pyx_t_12 = (__pyx_v_Dt * ((__pyx_t_9 / __pyx_t_31) + __pyx_v_upfluxA));
+  __pyx_t_12 = ((__pyx_v_M * __pyx_v_Dt) * ((__pyx_t_9 / __pyx_t_31) + __pyx_v_upfluxA));
   __pyx_t_41 = 0;
   __pyx_t_31 = (*((double *) ( /* dim=0 */ (__pyx_v_Dxview.data + __pyx_t_41 * __pyx_v_Dxview.strides[0]) )));
   if (unlikely(__pyx_t_31 == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(0, 82, __pyx_L1_error)
+    __PYX_ERR(0, 93, __pyx_L1_error)
   }
 
-  /* "functions/residual.pyx":80
+  /* "functions/residual.pyx":91
  * 
  *     # anion
  *     res_view[I] = ( solNview[I] - sol1view[I]             # <<<<<<<<<<<<<<
  * 
- *     + Dt * ( -DAview[1] * 2 * (solNview[I+1]-solNview[I]) / (Dxview[1] + Dxview[0]) + upfluxA ) / Dxview[0] )
+ *     + M * Dt * ( -DAview[1] * 2 * (solNview[I+1]-solNview[I]) / (Dxview[1] + Dxview[0]) + upfluxA ) / Dxview[0] )
  */
   __pyx_t_42 = __pyx_v_I;
   *((double *) ( /* dim=0 */ (__pyx_v_res_view.data + __pyx_t_42 * __pyx_v_res_view.strides[0]) )) = (((*((double *) ( /* dim=0 */ (__pyx_v_solNview.data + __pyx_t_34 * __pyx_v_solNview.strides[0]) ))) - (*((double *) ( /* dim=0 */ (__pyx_v_sol1view.data + __pyx_t_35 * __pyx_v_sol1view.strides[0]) )))) + (__pyx_t_12 / __pyx_t_31));
 
-  /* "functions/residual.pyx":85
+  /* "functions/residual.pyx":96
  * 
  *     # potential at x0 , boundary condition phiA = 0.0 oBdA
  *     res_view[2*I] = (( 2 * epsilonview[1]*(solNview[2*I+1]-solNview[2*I]) / (Dxview[0] + Dxview[1])             # <<<<<<<<<<<<<<
@@ -3119,10 +3132,10 @@ static PyObject *__pyx_pf_9functions_8residual_residual_m0(CYTHON_UNUSED PyObjec
   __pyx_t_12 = ((*((double *) ( /* dim=0 */ (__pyx_v_Dxview.data + __pyx_t_46 * __pyx_v_Dxview.strides[0]) ))) + (*((double *) ( /* dim=0 */ (__pyx_v_Dxview.data + __pyx_t_47 * __pyx_v_Dxview.strides[0]) ))));
   if (unlikely(__pyx_t_12 == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(0, 85, __pyx_L1_error)
+    __PYX_ERR(0, 96, __pyx_L1_error)
   }
 
-  /* "functions/residual.pyx":87
+  /* "functions/residual.pyx":98
  *     res_view[2*I] = (( 2 * epsilonview[1]*(solNview[2*I+1]-solNview[2*I]) / (Dxview[0] + Dxview[1])
  * 
  *     - epsilonview[0]*solNview[2*I] / Dxview[0] ) / Dxview[0] + chi2*( solNview[0] - solNview[I]) )             # <<<<<<<<<<<<<<
@@ -3136,19 +3149,19 @@ static PyObject *__pyx_pf_9functions_8residual_residual_m0(CYTHON_UNUSED PyObjec
   __pyx_t_51 = (*((double *) ( /* dim=0 */ (__pyx_v_Dxview.data + __pyx_t_50 * __pyx_v_Dxview.strides[0]) )));
   if (unlikely(__pyx_t_51 == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(0, 87, __pyx_L1_error)
+    __PYX_ERR(0, 98, __pyx_L1_error)
   }
   __pyx_t_52 = ((__pyx_t_31 / __pyx_t_12) - (__pyx_t_9 / __pyx_t_51));
   __pyx_t_53 = 0;
   __pyx_t_51 = (*((double *) ( /* dim=0 */ (__pyx_v_Dxview.data + __pyx_t_53 * __pyx_v_Dxview.strides[0]) )));
   if (unlikely(__pyx_t_51 == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(0, 87, __pyx_L1_error)
+    __PYX_ERR(0, 98, __pyx_L1_error)
   }
   __pyx_t_54 = 0;
   __pyx_t_55 = __pyx_v_I;
 
-  /* "functions/residual.pyx":85
+  /* "functions/residual.pyx":96
  * 
  *     # potential at x0 , boundary condition phiA = 0.0 oBdA
  *     res_view[2*I] = (( 2 * epsilonview[1]*(solNview[2*I+1]-solNview[2*I]) / (Dxview[0] + Dxview[1])             # <<<<<<<<<<<<<<
@@ -3158,7 +3171,7 @@ static PyObject *__pyx_pf_9functions_8residual_residual_m0(CYTHON_UNUSED PyObjec
   __pyx_t_56 = (2 * __pyx_v_I);
   *((double *) ( /* dim=0 */ (__pyx_v_res_view.data + __pyx_t_56 * __pyx_v_res_view.strides[0]) )) = ((__pyx_t_52 / __pyx_t_51) + (__pyx_v_chi2 * ((*((double *) ( /* dim=0 */ (__pyx_v_solNview.data + __pyx_t_54 * __pyx_v_solNview.strides[0]) ))) - (*((double *) ( /* dim=0 */ (__pyx_v_solNview.data + __pyx_t_55 * __pyx_v_solNview.strides[0]) ))))));
 
-  /* "functions/residual.pyx":90
+  /* "functions/residual.pyx":101
  * 
  *     # inner points, loop over cell centers
  *     for i in range(1,I-1):             # <<<<<<<<<<<<<<
@@ -3170,7 +3183,7 @@ static PyObject *__pyx_pf_9functions_8residual_residual_m0(CYTHON_UNUSED PyObjec
   for (__pyx_t_59 = 1; __pyx_t_59 < __pyx_t_58; __pyx_t_59+=1) {
     __pyx_v_i = __pyx_t_59;
 
-    /* "functions/residual.pyx":97
+    /* "functions/residual.pyx":108
  * 
  *         # calculate upwinding velocities
  *         velup = -chi1 * 2.0 * (solNview[2*I+i+1] - solNview[2*I+i]) / (Dxview[i+1] + Dxview[i])             # <<<<<<<<<<<<<<
@@ -3185,11 +3198,11 @@ static PyObject *__pyx_pf_9functions_8residual_residual_m0(CYTHON_UNUSED PyObjec
     __pyx_t_52 = ((*((double *) ( /* dim=0 */ (__pyx_v_Dxview.data + __pyx_t_62 * __pyx_v_Dxview.strides[0]) ))) + (*((double *) ( /* dim=0 */ (__pyx_v_Dxview.data + __pyx_t_63 * __pyx_v_Dxview.strides[0]) ))));
     if (unlikely(__pyx_t_52 == 0)) {
       PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-      __PYX_ERR(0, 97, __pyx_L1_error)
+      __PYX_ERR(0, 108, __pyx_L1_error)
     }
     __pyx_v_velup = (__pyx_t_51 / __pyx_t_52);
 
-    /* "functions/residual.pyx":98
+    /* "functions/residual.pyx":109
  *         # calculate upwinding velocities
  *         velup = -chi1 * 2.0 * (solNview[2*I+i+1] - solNview[2*I+i]) / (Dxview[i+1] + Dxview[i])
  *         veldown = -chi1 * 2.0 * (solNview[2*I+i] - solNview[2*I+i-1]) / (Dxview[i] + Dxview[i-1])             # <<<<<<<<<<<<<<
@@ -3204,11 +3217,11 @@ static PyObject *__pyx_pf_9functions_8residual_residual_m0(CYTHON_UNUSED PyObjec
     __pyx_t_51 = ((*((double *) ( /* dim=0 */ (__pyx_v_Dxview.data + __pyx_t_66 * __pyx_v_Dxview.strides[0]) ))) + (*((double *) ( /* dim=0 */ (__pyx_v_Dxview.data + __pyx_t_67 * __pyx_v_Dxview.strides[0]) ))));
     if (unlikely(__pyx_t_51 == 0)) {
       PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-      __PYX_ERR(0, 98, __pyx_L1_error)
+      __PYX_ERR(0, 109, __pyx_L1_error)
     }
     __pyx_v_veldown = (__pyx_t_52 / __pyx_t_51);
 
-    /* "functions/residual.pyx":104
+    /* "functions/residual.pyx":115
  * 
  *         # cations
  *         if DCview[i+1] * velup >=0:             # <<<<<<<<<<<<<<
@@ -3219,7 +3232,7 @@ static PyObject *__pyx_pf_9functions_8residual_residual_m0(CYTHON_UNUSED PyObjec
     __pyx_t_14 = ((((*((double *) ( /* dim=0 */ (__pyx_v_DCview.data + __pyx_t_68 * __pyx_v_DCview.strides[0]) ))) * __pyx_v_velup) >= 0.0) != 0);
     if (__pyx_t_14) {
 
-      /* "functions/residual.pyx":106
+      /* "functions/residual.pyx":117
  *         if DCview[i+1] * velup >=0:
  * 
  *             upfluxC = velup * solNview[i] * DCview[i+1]             # <<<<<<<<<<<<<<
@@ -3230,7 +3243,7 @@ static PyObject *__pyx_pf_9functions_8residual_residual_m0(CYTHON_UNUSED PyObjec
       __pyx_t_70 = (__pyx_v_i + 1);
       __pyx_v_upfluxC = ((__pyx_v_velup * (*((double *) ( /* dim=0 */ (__pyx_v_solNview.data + __pyx_t_69 * __pyx_v_solNview.strides[0]) )))) * (*((double *) ( /* dim=0 */ (__pyx_v_DCview.data + __pyx_t_70 * __pyx_v_DCview.strides[0]) ))));
 
-      /* "functions/residual.pyx":104
+      /* "functions/residual.pyx":115
  * 
  *         # cations
  *         if DCview[i+1] * velup >=0:             # <<<<<<<<<<<<<<
@@ -3240,7 +3253,7 @@ static PyObject *__pyx_pf_9functions_8residual_residual_m0(CYTHON_UNUSED PyObjec
       goto __pyx_L7;
     }
 
-    /* "functions/residual.pyx":110
+    /* "functions/residual.pyx":121
  *         else:
  * 
  *             upfluxC = velup * solNview[i+1] * DCview[i+1]             # <<<<<<<<<<<<<<
@@ -3254,7 +3267,7 @@ static PyObject *__pyx_pf_9functions_8residual_residual_m0(CYTHON_UNUSED PyObjec
     }
     __pyx_L7:;
 
-    /* "functions/residual.pyx":113
+    /* "functions/residual.pyx":124
  * 
  *         # anions
  *         if -DAview[i+1] * velup >=0:             # <<<<<<<<<<<<<<
@@ -3265,7 +3278,7 @@ static PyObject *__pyx_pf_9functions_8residual_residual_m0(CYTHON_UNUSED PyObjec
     __pyx_t_14 = ((((-(*((double *) ( /* dim=0 */ (__pyx_v_DAview.data + __pyx_t_73 * __pyx_v_DAview.strides[0]) )))) * __pyx_v_velup) >= 0.0) != 0);
     if (__pyx_t_14) {
 
-      /* "functions/residual.pyx":115
+      /* "functions/residual.pyx":126
  *         if -DAview[i+1] * velup >=0:
  * 
  *             upfluxA = -velup * solNview[I+i] * DAview[i+1]             # <<<<<<<<<<<<<<
@@ -3276,7 +3289,7 @@ static PyObject *__pyx_pf_9functions_8residual_residual_m0(CYTHON_UNUSED PyObjec
       __pyx_t_75 = (__pyx_v_i + 1);
       __pyx_v_upfluxA = (((-__pyx_v_velup) * (*((double *) ( /* dim=0 */ (__pyx_v_solNview.data + __pyx_t_74 * __pyx_v_solNview.strides[0]) )))) * (*((double *) ( /* dim=0 */ (__pyx_v_DAview.data + __pyx_t_75 * __pyx_v_DAview.strides[0]) ))));
 
-      /* "functions/residual.pyx":113
+      /* "functions/residual.pyx":124
  * 
  *         # anions
  *         if -DAview[i+1] * velup >=0:             # <<<<<<<<<<<<<<
@@ -3286,7 +3299,7 @@ static PyObject *__pyx_pf_9functions_8residual_residual_m0(CYTHON_UNUSED PyObjec
       goto __pyx_L8;
     }
 
-    /* "functions/residual.pyx":119
+    /* "functions/residual.pyx":130
  *         else:
  * 
  *             upfluxA = -velup * solNview[I+i+1] * DAview[i+1]             # <<<<<<<<<<<<<<
@@ -3300,7 +3313,7 @@ static PyObject *__pyx_pf_9functions_8residual_residual_m0(CYTHON_UNUSED PyObjec
     }
     __pyx_L8:;
 
-    /* "functions/residual.pyx":124
+    /* "functions/residual.pyx":135
  * 
  *         # cations
  *         if DCview[i] * veldown >=0:             # <<<<<<<<<<<<<<
@@ -3311,7 +3324,7 @@ static PyObject *__pyx_pf_9functions_8residual_residual_m0(CYTHON_UNUSED PyObjec
     __pyx_t_14 = ((((*((double *) ( /* dim=0 */ (__pyx_v_DCview.data + __pyx_t_78 * __pyx_v_DCview.strides[0]) ))) * __pyx_v_veldown) >= 0.0) != 0);
     if (__pyx_t_14) {
 
-      /* "functions/residual.pyx":126
+      /* "functions/residual.pyx":137
  *         if DCview[i] * veldown >=0:
  * 
  *             downfluxC = veldown * solNview[i-1] * DCview[i]             # <<<<<<<<<<<<<<
@@ -3322,7 +3335,7 @@ static PyObject *__pyx_pf_9functions_8residual_residual_m0(CYTHON_UNUSED PyObjec
       __pyx_t_80 = __pyx_v_i;
       __pyx_v_downfluxC = ((__pyx_v_veldown * (*((double *) ( /* dim=0 */ (__pyx_v_solNview.data + __pyx_t_79 * __pyx_v_solNview.strides[0]) )))) * (*((double *) ( /* dim=0 */ (__pyx_v_DCview.data + __pyx_t_80 * __pyx_v_DCview.strides[0]) ))));
 
-      /* "functions/residual.pyx":124
+      /* "functions/residual.pyx":135
  * 
  *         # cations
  *         if DCview[i] * veldown >=0:             # <<<<<<<<<<<<<<
@@ -3332,7 +3345,7 @@ static PyObject *__pyx_pf_9functions_8residual_residual_m0(CYTHON_UNUSED PyObjec
       goto __pyx_L9;
     }
 
-    /* "functions/residual.pyx":130
+    /* "functions/residual.pyx":141
  *         else:
  * 
  *             downfluxC = veldown * solNview[i] * DCview[i]             # <<<<<<<<<<<<<<
@@ -3346,7 +3359,7 @@ static PyObject *__pyx_pf_9functions_8residual_residual_m0(CYTHON_UNUSED PyObjec
     }
     __pyx_L9:;
 
-    /* "functions/residual.pyx":133
+    /* "functions/residual.pyx":144
  * 
  *         # anions
  *         if -DAview[i] * veldown >=0:             # <<<<<<<<<<<<<<
@@ -3357,7 +3370,7 @@ static PyObject *__pyx_pf_9functions_8residual_residual_m0(CYTHON_UNUSED PyObjec
     __pyx_t_14 = ((((-(*((double *) ( /* dim=0 */ (__pyx_v_DAview.data + __pyx_t_83 * __pyx_v_DAview.strides[0]) )))) * __pyx_v_veldown) >= 0.0) != 0);
     if (__pyx_t_14) {
 
-      /* "functions/residual.pyx":135
+      /* "functions/residual.pyx":146
  *         if -DAview[i] * veldown >=0:
  * 
  *             downfluxA = -veldown * solNview[I+i-1] * DAview[i]             # <<<<<<<<<<<<<<
@@ -3368,7 +3381,7 @@ static PyObject *__pyx_pf_9functions_8residual_residual_m0(CYTHON_UNUSED PyObjec
       __pyx_t_85 = __pyx_v_i;
       __pyx_v_downfluxA = (((-__pyx_v_veldown) * (*((double *) ( /* dim=0 */ (__pyx_v_solNview.data + __pyx_t_84 * __pyx_v_solNview.strides[0]) )))) * (*((double *) ( /* dim=0 */ (__pyx_v_DAview.data + __pyx_t_85 * __pyx_v_DAview.strides[0]) ))));
 
-      /* "functions/residual.pyx":133
+      /* "functions/residual.pyx":144
  * 
  *         # anions
  *         if -DAview[i] * veldown >=0:             # <<<<<<<<<<<<<<
@@ -3378,7 +3391,7 @@ static PyObject *__pyx_pf_9functions_8residual_residual_m0(CYTHON_UNUSED PyObjec
       goto __pyx_L10;
     }
 
-    /* "functions/residual.pyx":139
+    /* "functions/residual.pyx":150
  *         else:
  * 
  *             downfluxA = -veldown * solNview[I+i] * DAview[i]             # <<<<<<<<<<<<<<
@@ -3392,20 +3405,20 @@ static PyObject *__pyx_pf_9functions_8residual_residual_m0(CYTHON_UNUSED PyObjec
     }
     __pyx_L10:;
 
-    /* "functions/residual.pyx":144
+    /* "functions/residual.pyx":155
  * 
  *         # cations
  *         res_view[i] = ( solNview[i] - sol1view[i]             # <<<<<<<<<<<<<<
  * 
- *         + Dt * ( -DCview[i+1] * 2 * (solNview[i+1] - solNview[i]) / (Dxview[i+1] + Dxview[i])
+ *         + M * Dt * ( -DCview[i+1] * 2 * (solNview[i+1] - solNview[i]) / (Dxview[i+1] + Dxview[i])
  */
     __pyx_t_88 = __pyx_v_i;
     __pyx_t_89 = __pyx_v_i;
 
-    /* "functions/residual.pyx":146
+    /* "functions/residual.pyx":157
  *         res_view[i] = ( solNview[i] - sol1view[i]
  * 
- *         + Dt * ( -DCview[i+1] * 2 * (solNview[i+1] - solNview[i]) / (Dxview[i+1] + Dxview[i])             # <<<<<<<<<<<<<<
+ *         + M * Dt * ( -DCview[i+1] * 2 * (solNview[i+1] - solNview[i]) / (Dxview[i+1] + Dxview[i])             # <<<<<<<<<<<<<<
  * 
  *         + DCview[i] * 2 * (solNview[i] - solNview[i-1]) / (Dxview[i] + Dxview[i-1]) + upfluxC - downfluxC ) / Dxview[i] )
  */
@@ -3418,11 +3431,11 @@ static PyObject *__pyx_pf_9functions_8residual_residual_m0(CYTHON_UNUSED PyObjec
     __pyx_t_52 = ((*((double *) ( /* dim=0 */ (__pyx_v_Dxview.data + __pyx_t_93 * __pyx_v_Dxview.strides[0]) ))) + (*((double *) ( /* dim=0 */ (__pyx_v_Dxview.data + __pyx_t_94 * __pyx_v_Dxview.strides[0]) ))));
     if (unlikely(__pyx_t_52 == 0)) {
       PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-      __PYX_ERR(0, 146, __pyx_L1_error)
+      __PYX_ERR(0, 157, __pyx_L1_error)
     }
 
-    /* "functions/residual.pyx":148
- *         + Dt * ( -DCview[i+1] * 2 * (solNview[i+1] - solNview[i]) / (Dxview[i+1] + Dxview[i])
+    /* "functions/residual.pyx":159
+ *         + M * Dt * ( -DCview[i+1] * 2 * (solNview[i+1] - solNview[i]) / (Dxview[i+1] + Dxview[i])
  * 
  *         + DCview[i] * 2 * (solNview[i] - solNview[i-1]) / (Dxview[i] + Dxview[i-1]) + upfluxC - downfluxC ) / Dxview[i] )             # <<<<<<<<<<<<<<
  * 
@@ -3437,20 +3450,20 @@ static PyObject *__pyx_pf_9functions_8residual_residual_m0(CYTHON_UNUSED PyObjec
     __pyx_t_12 = ((*((double *) ( /* dim=0 */ (__pyx_v_Dxview.data + __pyx_t_98 * __pyx_v_Dxview.strides[0]) ))) + (*((double *) ( /* dim=0 */ (__pyx_v_Dxview.data + __pyx_t_99 * __pyx_v_Dxview.strides[0]) ))));
     if (unlikely(__pyx_t_12 == 0)) {
       PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-      __PYX_ERR(0, 148, __pyx_L1_error)
+      __PYX_ERR(0, 159, __pyx_L1_error)
     }
 
-    /* "functions/residual.pyx":146
+    /* "functions/residual.pyx":157
  *         res_view[i] = ( solNview[i] - sol1view[i]
  * 
- *         + Dt * ( -DCview[i+1] * 2 * (solNview[i+1] - solNview[i]) / (Dxview[i+1] + Dxview[i])             # <<<<<<<<<<<<<<
+ *         + M * Dt * ( -DCview[i+1] * 2 * (solNview[i+1] - solNview[i]) / (Dxview[i+1] + Dxview[i])             # <<<<<<<<<<<<<<
  * 
  *         + DCview[i] * 2 * (solNview[i] - solNview[i-1]) / (Dxview[i] + Dxview[i-1]) + upfluxC - downfluxC ) / Dxview[i] )
  */
-    __pyx_t_31 = (__pyx_v_Dt * ((((__pyx_t_51 / __pyx_t_52) + (__pyx_t_9 / __pyx_t_12)) + __pyx_v_upfluxC) - __pyx_v_downfluxC));
+    __pyx_t_31 = ((__pyx_v_M * __pyx_v_Dt) * ((((__pyx_t_51 / __pyx_t_52) + (__pyx_t_9 / __pyx_t_12)) + __pyx_v_upfluxC) - __pyx_v_downfluxC));
 
-    /* "functions/residual.pyx":148
- *         + Dt * ( -DCview[i+1] * 2 * (solNview[i+1] - solNview[i]) / (Dxview[i+1] + Dxview[i])
+    /* "functions/residual.pyx":159
+ *         + M * Dt * ( -DCview[i+1] * 2 * (solNview[i+1] - solNview[i]) / (Dxview[i+1] + Dxview[i])
  * 
  *         + DCview[i] * 2 * (solNview[i] - solNview[i-1]) / (Dxview[i] + Dxview[i-1]) + upfluxC - downfluxC ) / Dxview[i] )             # <<<<<<<<<<<<<<
  * 
@@ -3460,33 +3473,33 @@ static PyObject *__pyx_pf_9functions_8residual_residual_m0(CYTHON_UNUSED PyObjec
     __pyx_t_12 = (*((double *) ( /* dim=0 */ (__pyx_v_Dxview.data + __pyx_t_100 * __pyx_v_Dxview.strides[0]) )));
     if (unlikely(__pyx_t_12 == 0)) {
       PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-      __PYX_ERR(0, 148, __pyx_L1_error)
+      __PYX_ERR(0, 159, __pyx_L1_error)
     }
 
-    /* "functions/residual.pyx":144
+    /* "functions/residual.pyx":155
  * 
  *         # cations
  *         res_view[i] = ( solNview[i] - sol1view[i]             # <<<<<<<<<<<<<<
  * 
- *         + Dt * ( -DCview[i+1] * 2 * (solNview[i+1] - solNview[i]) / (Dxview[i+1] + Dxview[i])
+ *         + M * Dt * ( -DCview[i+1] * 2 * (solNview[i+1] - solNview[i]) / (Dxview[i+1] + Dxview[i])
  */
     __pyx_t_101 = __pyx_v_i;
     *((double *) ( /* dim=0 */ (__pyx_v_res_view.data + __pyx_t_101 * __pyx_v_res_view.strides[0]) )) = (((*((double *) ( /* dim=0 */ (__pyx_v_solNview.data + __pyx_t_88 * __pyx_v_solNview.strides[0]) ))) - (*((double *) ( /* dim=0 */ (__pyx_v_sol1view.data + __pyx_t_89 * __pyx_v_sol1view.strides[0]) )))) + (__pyx_t_31 / __pyx_t_12));
 
-    /* "functions/residual.pyx":151
+    /* "functions/residual.pyx":162
  * 
  *         # anions shifted about I
  *         res_view[I+i] = ( solNview[I+i] - sol1view[I+i]             # <<<<<<<<<<<<<<
  * 
- *         + Dt * ( -DAview[i+1] * 2 * (solNview[I+i+1] - solNview[I+i]) / (Dxview[i+1] + Dxview[i])
+ *         + M * Dt * ( -DAview[i+1] * 2 * (solNview[I+i+1] - solNview[I+i]) / (Dxview[i+1] + Dxview[i])
  */
     __pyx_t_102 = (__pyx_v_I + __pyx_v_i);
     __pyx_t_103 = (__pyx_v_I + __pyx_v_i);
 
-    /* "functions/residual.pyx":153
+    /* "functions/residual.pyx":164
  *         res_view[I+i] = ( solNview[I+i] - sol1view[I+i]
  * 
- *         + Dt * ( -DAview[i+1] * 2 * (solNview[I+i+1] - solNview[I+i]) / (Dxview[i+1] + Dxview[i])             # <<<<<<<<<<<<<<
+ *         + M * Dt * ( -DAview[i+1] * 2 * (solNview[I+i+1] - solNview[I+i]) / (Dxview[i+1] + Dxview[i])             # <<<<<<<<<<<<<<
  * 
  *         + DAview[i] * 2 * (solNview[I+i] - solNview[I+i-1]) / (Dxview[i] + Dxview[i-1]) + upfluxA - downfluxA ) / Dxview[i])
  */
@@ -3499,11 +3512,11 @@ static PyObject *__pyx_pf_9functions_8residual_residual_m0(CYTHON_UNUSED PyObjec
     __pyx_t_31 = ((*((double *) ( /* dim=0 */ (__pyx_v_Dxview.data + __pyx_t_107 * __pyx_v_Dxview.strides[0]) ))) + (*((double *) ( /* dim=0 */ (__pyx_v_Dxview.data + __pyx_t_108 * __pyx_v_Dxview.strides[0]) ))));
     if (unlikely(__pyx_t_31 == 0)) {
       PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-      __PYX_ERR(0, 153, __pyx_L1_error)
+      __PYX_ERR(0, 164, __pyx_L1_error)
     }
 
-    /* "functions/residual.pyx":155
- *         + Dt * ( -DAview[i+1] * 2 * (solNview[I+i+1] - solNview[I+i]) / (Dxview[i+1] + Dxview[i])
+    /* "functions/residual.pyx":166
+ *         + M * Dt * ( -DAview[i+1] * 2 * (solNview[I+i+1] - solNview[I+i]) / (Dxview[i+1] + Dxview[i])
  * 
  *         + DAview[i] * 2 * (solNview[I+i] - solNview[I+i-1]) / (Dxview[i] + Dxview[i-1]) + upfluxA - downfluxA ) / Dxview[i])             # <<<<<<<<<<<<<<
  * 
@@ -3518,20 +3531,20 @@ static PyObject *__pyx_pf_9functions_8residual_residual_m0(CYTHON_UNUSED PyObjec
     __pyx_t_52 = ((*((double *) ( /* dim=0 */ (__pyx_v_Dxview.data + __pyx_t_112 * __pyx_v_Dxview.strides[0]) ))) + (*((double *) ( /* dim=0 */ (__pyx_v_Dxview.data + __pyx_t_113 * __pyx_v_Dxview.strides[0]) ))));
     if (unlikely(__pyx_t_52 == 0)) {
       PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-      __PYX_ERR(0, 155, __pyx_L1_error)
+      __PYX_ERR(0, 166, __pyx_L1_error)
     }
 
-    /* "functions/residual.pyx":153
+    /* "functions/residual.pyx":164
  *         res_view[I+i] = ( solNview[I+i] - sol1view[I+i]
  * 
- *         + Dt * ( -DAview[i+1] * 2 * (solNview[I+i+1] - solNview[I+i]) / (Dxview[i+1] + Dxview[i])             # <<<<<<<<<<<<<<
+ *         + M * Dt * ( -DAview[i+1] * 2 * (solNview[I+i+1] - solNview[I+i]) / (Dxview[i+1] + Dxview[i])             # <<<<<<<<<<<<<<
  * 
  *         + DAview[i] * 2 * (solNview[I+i] - solNview[I+i-1]) / (Dxview[i] + Dxview[i-1]) + upfluxA - downfluxA ) / Dxview[i])
  */
-    __pyx_t_51 = (__pyx_v_Dt * ((((__pyx_t_12 / __pyx_t_31) + (__pyx_t_9 / __pyx_t_52)) + __pyx_v_upfluxA) - __pyx_v_downfluxA));
+    __pyx_t_51 = ((__pyx_v_M * __pyx_v_Dt) * ((((__pyx_t_12 / __pyx_t_31) + (__pyx_t_9 / __pyx_t_52)) + __pyx_v_upfluxA) - __pyx_v_downfluxA));
 
-    /* "functions/residual.pyx":155
- *         + Dt * ( -DAview[i+1] * 2 * (solNview[I+i+1] - solNview[I+i]) / (Dxview[i+1] + Dxview[i])
+    /* "functions/residual.pyx":166
+ *         + M * Dt * ( -DAview[i+1] * 2 * (solNview[I+i+1] - solNview[I+i]) / (Dxview[i+1] + Dxview[i])
  * 
  *         + DAview[i] * 2 * (solNview[I+i] - solNview[I+i-1]) / (Dxview[i] + Dxview[i-1]) + upfluxA - downfluxA ) / Dxview[i])             # <<<<<<<<<<<<<<
  * 
@@ -3541,20 +3554,20 @@ static PyObject *__pyx_pf_9functions_8residual_residual_m0(CYTHON_UNUSED PyObjec
     __pyx_t_52 = (*((double *) ( /* dim=0 */ (__pyx_v_Dxview.data + __pyx_t_114 * __pyx_v_Dxview.strides[0]) )));
     if (unlikely(__pyx_t_52 == 0)) {
       PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-      __PYX_ERR(0, 155, __pyx_L1_error)
+      __PYX_ERR(0, 166, __pyx_L1_error)
     }
 
-    /* "functions/residual.pyx":151
+    /* "functions/residual.pyx":162
  * 
  *         # anions shifted about I
  *         res_view[I+i] = ( solNview[I+i] - sol1view[I+i]             # <<<<<<<<<<<<<<
  * 
- *         + Dt * ( -DAview[i+1] * 2 * (solNview[I+i+1] - solNview[I+i]) / (Dxview[i+1] + Dxview[i])
+ *         + M * Dt * ( -DAview[i+1] * 2 * (solNview[I+i+1] - solNview[I+i]) / (Dxview[i+1] + Dxview[i])
  */
     __pyx_t_115 = (__pyx_v_I + __pyx_v_i);
     *((double *) ( /* dim=0 */ (__pyx_v_res_view.data + __pyx_t_115 * __pyx_v_res_view.strides[0]) )) = (((*((double *) ( /* dim=0 */ (__pyx_v_solNview.data + __pyx_t_102 * __pyx_v_solNview.strides[0]) ))) - (*((double *) ( /* dim=0 */ (__pyx_v_sol1view.data + __pyx_t_103 * __pyx_v_sol1view.strides[0]) )))) + (__pyx_t_51 / __pyx_t_52));
 
-    /* "functions/residual.pyx":158
+    /* "functions/residual.pyx":169
  * 
  *         # potential equation from 1:I-2 --> two extra calculations needed
  *         res_view[2*I+i] = ( ( 2 * epsilonview[i+1] * (solNview[2*I+i+1] - solNview[2*I+i]) / (Dxview[i+1] + Dxview[i])             # <<<<<<<<<<<<<<
@@ -3570,10 +3583,10 @@ static PyObject *__pyx_pf_9functions_8residual_residual_m0(CYTHON_UNUSED PyObjec
     __pyx_t_51 = ((*((double *) ( /* dim=0 */ (__pyx_v_Dxview.data + __pyx_t_119 * __pyx_v_Dxview.strides[0]) ))) + (*((double *) ( /* dim=0 */ (__pyx_v_Dxview.data + __pyx_t_120 * __pyx_v_Dxview.strides[0]) ))));
     if (unlikely(__pyx_t_51 == 0)) {
       PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-      __PYX_ERR(0, 158, __pyx_L1_error)
+      __PYX_ERR(0, 169, __pyx_L1_error)
     }
 
-    /* "functions/residual.pyx":160
+    /* "functions/residual.pyx":171
  *         res_view[2*I+i] = ( ( 2 * epsilonview[i+1] * (solNview[2*I+i+1] - solNview[2*I+i]) / (Dxview[i+1] + Dxview[i])
  * 
  *             -2 * epsilonview[i] * (solNview[2*I+i] - solNview[2*I+i-1]) / (Dxview[i] + Dxview[i-1]) )             # <<<<<<<<<<<<<<
@@ -3589,11 +3602,11 @@ static PyObject *__pyx_pf_9functions_8residual_residual_m0(CYTHON_UNUSED PyObjec
     __pyx_t_31 = ((*((double *) ( /* dim=0 */ (__pyx_v_Dxview.data + __pyx_t_124 * __pyx_v_Dxview.strides[0]) ))) + (*((double *) ( /* dim=0 */ (__pyx_v_Dxview.data + __pyx_t_125 * __pyx_v_Dxview.strides[0]) ))));
     if (unlikely(__pyx_t_31 == 0)) {
       PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-      __PYX_ERR(0, 160, __pyx_L1_error)
+      __PYX_ERR(0, 171, __pyx_L1_error)
     }
     __pyx_t_12 = ((__pyx_t_52 / __pyx_t_51) - (__pyx_t_9 / __pyx_t_31));
 
-    /* "functions/residual.pyx":162
+    /* "functions/residual.pyx":173
  *             -2 * epsilonview[i] * (solNview[2*I+i] - solNview[2*I+i-1]) / (Dxview[i] + Dxview[i-1]) )
  * 
  *         / Dxview[i] + chi2 * ( solNview[i] - solNview[I+i]) )             # <<<<<<<<<<<<<<
@@ -3604,12 +3617,12 @@ static PyObject *__pyx_pf_9functions_8residual_residual_m0(CYTHON_UNUSED PyObjec
     __pyx_t_31 = (*((double *) ( /* dim=0 */ (__pyx_v_Dxview.data + __pyx_t_126 * __pyx_v_Dxview.strides[0]) )));
     if (unlikely(__pyx_t_31 == 0)) {
       PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-      __PYX_ERR(0, 162, __pyx_L1_error)
+      __PYX_ERR(0, 173, __pyx_L1_error)
     }
     __pyx_t_127 = __pyx_v_i;
     __pyx_t_128 = (__pyx_v_I + __pyx_v_i);
 
-    /* "functions/residual.pyx":158
+    /* "functions/residual.pyx":169
  * 
  *         # potential equation from 1:I-2 --> two extra calculations needed
  *         res_view[2*I+i] = ( ( 2 * epsilonview[i+1] * (solNview[2*I+i+1] - solNview[2*I+i]) / (Dxview[i+1] + Dxview[i])             # <<<<<<<<<<<<<<
@@ -3620,7 +3633,7 @@ static PyObject *__pyx_pf_9functions_8residual_residual_m0(CYTHON_UNUSED PyObjec
     *((double *) ( /* dim=0 */ (__pyx_v_res_view.data + __pyx_t_129 * __pyx_v_res_view.strides[0]) )) = ((__pyx_t_12 / __pyx_t_31) + (__pyx_v_chi2 * ((*((double *) ( /* dim=0 */ (__pyx_v_solNview.data + __pyx_t_127 * __pyx_v_solNview.strides[0]) ))) - (*((double *) ( /* dim=0 */ (__pyx_v_solNview.data + __pyx_t_128 * __pyx_v_solNview.strides[0]) ))))));
   }
 
-  /* "functions/residual.pyx":168
+  /* "functions/residual.pyx":179
  * 
  *     # calculate upwinding velocities
  *     veldown = -chi1 * 2 * (solNview[3*I-1] - solNview[3*I-2]) / (Dxview[I-1] + Dxview[I-2])             # <<<<<<<<<<<<<<
@@ -3635,11 +3648,11 @@ static PyObject *__pyx_pf_9functions_8residual_residual_m0(CYTHON_UNUSED PyObjec
   __pyx_t_12 = ((*((double *) ( /* dim=0 */ (__pyx_v_Dxview.data + __pyx_t_132 * __pyx_v_Dxview.strides[0]) ))) + (*((double *) ( /* dim=0 */ (__pyx_v_Dxview.data + __pyx_t_133 * __pyx_v_Dxview.strides[0]) ))));
   if (unlikely(__pyx_t_12 == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(0, 168, __pyx_L1_error)
+    __PYX_ERR(0, 179, __pyx_L1_error)
   }
   __pyx_v_veldown = (__pyx_t_31 / __pyx_t_12);
 
-  /* "functions/residual.pyx":171
+  /* "functions/residual.pyx":182
  * 
  *     # cations
  *     if DCview[I-1] * veldown >=0:             # <<<<<<<<<<<<<<
@@ -3650,7 +3663,7 @@ static PyObject *__pyx_pf_9functions_8residual_residual_m0(CYTHON_UNUSED PyObjec
   __pyx_t_14 = ((((*((double *) ( /* dim=0 */ (__pyx_v_DCview.data + __pyx_t_134 * __pyx_v_DCview.strides[0]) ))) * __pyx_v_veldown) >= 0.0) != 0);
   if (__pyx_t_14) {
 
-    /* "functions/residual.pyx":173
+    /* "functions/residual.pyx":184
  *     if DCview[I-1] * veldown >=0:
  * 
  *         downfluxC = veldown * solNview[I-2] * DCview[I-1]             # <<<<<<<<<<<<<<
@@ -3661,7 +3674,7 @@ static PyObject *__pyx_pf_9functions_8residual_residual_m0(CYTHON_UNUSED PyObjec
     __pyx_t_136 = (__pyx_v_I - 1);
     __pyx_v_downfluxC = ((__pyx_v_veldown * (*((double *) ( /* dim=0 */ (__pyx_v_solNview.data + __pyx_t_135 * __pyx_v_solNview.strides[0]) )))) * (*((double *) ( /* dim=0 */ (__pyx_v_DCview.data + __pyx_t_136 * __pyx_v_DCview.strides[0]) ))));
 
-    /* "functions/residual.pyx":171
+    /* "functions/residual.pyx":182
  * 
  *     # cations
  *     if DCview[I-1] * veldown >=0:             # <<<<<<<<<<<<<<
@@ -3671,7 +3684,7 @@ static PyObject *__pyx_pf_9functions_8residual_residual_m0(CYTHON_UNUSED PyObjec
     goto __pyx_L11;
   }
 
-  /* "functions/residual.pyx":177
+  /* "functions/residual.pyx":188
  *     else:
  * 
  *         downfluxC = veldown * solNview[I-1] * DCview[I-1]             # <<<<<<<<<<<<<<
@@ -3685,7 +3698,7 @@ static PyObject *__pyx_pf_9functions_8residual_residual_m0(CYTHON_UNUSED PyObjec
   }
   __pyx_L11:;
 
-  /* "functions/residual.pyx":180
+  /* "functions/residual.pyx":191
  * 
  *     # anions
  *     if -DAview[I-1] * veldown >=0:             # <<<<<<<<<<<<<<
@@ -3696,7 +3709,7 @@ static PyObject *__pyx_pf_9functions_8residual_residual_m0(CYTHON_UNUSED PyObjec
   __pyx_t_14 = ((((-(*((double *) ( /* dim=0 */ (__pyx_v_DAview.data + __pyx_t_139 * __pyx_v_DAview.strides[0]) )))) * __pyx_v_veldown) >= 0.0) != 0);
   if (__pyx_t_14) {
 
-    /* "functions/residual.pyx":182
+    /* "functions/residual.pyx":193
  *     if -DAview[I-1] * veldown >=0:
  * 
  *         downfluxA = -veldown * solNview[2*I-2] * DAview[I-1]             # <<<<<<<<<<<<<<
@@ -3707,7 +3720,7 @@ static PyObject *__pyx_pf_9functions_8residual_residual_m0(CYTHON_UNUSED PyObjec
     __pyx_t_141 = (__pyx_v_I - 1);
     __pyx_v_downfluxA = (((-__pyx_v_veldown) * (*((double *) ( /* dim=0 */ (__pyx_v_solNview.data + __pyx_t_140 * __pyx_v_solNview.strides[0]) )))) * (*((double *) ( /* dim=0 */ (__pyx_v_DAview.data + __pyx_t_141 * __pyx_v_DAview.strides[0]) ))));
 
-    /* "functions/residual.pyx":180
+    /* "functions/residual.pyx":191
  * 
  *     # anions
  *     if -DAview[I-1] * veldown >=0:             # <<<<<<<<<<<<<<
@@ -3717,7 +3730,7 @@ static PyObject *__pyx_pf_9functions_8residual_residual_m0(CYTHON_UNUSED PyObjec
     goto __pyx_L12;
   }
 
-  /* "functions/residual.pyx":186
+  /* "functions/residual.pyx":197
  *     else:
  * 
  *         downfluxA = -veldown * solNview[2*I-1] * DAview[I-1]             # <<<<<<<<<<<<<<
@@ -3731,20 +3744,20 @@ static PyObject *__pyx_pf_9functions_8residual_residual_m0(CYTHON_UNUSED PyObjec
   }
   __pyx_L12:;
 
-  /* "functions/residual.pyx":190
+  /* "functions/residual.pyx":201
  *     # catode boundary conditions
  *     # cations
  *     res_view[I-1] = ( solNview[I-1] - sol1view[I-1]             # <<<<<<<<<<<<<<
  * 
- *     + Dt * ( DCview[I-1] * 2 * (solNview[I-1] - solNview[I-2]) / (Dxview[I-1] + Dxview[I-2]) -downfluxC ) / Dxview[I-1] )
+ *     + M * Dt * ( DCview[I-1] * 2 * (solNview[I-1] - solNview[I-2]) / (Dxview[I-1] + Dxview[I-2]) -downfluxC ) / Dxview[I-1] )
  */
   __pyx_t_144 = (__pyx_v_I - 1);
   __pyx_t_145 = (__pyx_v_I - 1);
 
-  /* "functions/residual.pyx":192
+  /* "functions/residual.pyx":203
  *     res_view[I-1] = ( solNview[I-1] - sol1view[I-1]
  * 
- *     + Dt * ( DCview[I-1] * 2 * (solNview[I-1] - solNview[I-2]) / (Dxview[I-1] + Dxview[I-2]) -downfluxC ) / Dxview[I-1] )             # <<<<<<<<<<<<<<
+ *     + M * Dt * ( DCview[I-1] * 2 * (solNview[I-1] - solNview[I-2]) / (Dxview[I-1] + Dxview[I-2]) -downfluxC ) / Dxview[I-1] )             # <<<<<<<<<<<<<<
  * 
  *     # anions
  */
@@ -3757,40 +3770,40 @@ static PyObject *__pyx_pf_9functions_8residual_residual_m0(CYTHON_UNUSED PyObjec
   __pyx_t_31 = ((*((double *) ( /* dim=0 */ (__pyx_v_Dxview.data + __pyx_t_149 * __pyx_v_Dxview.strides[0]) ))) + (*((double *) ( /* dim=0 */ (__pyx_v_Dxview.data + __pyx_t_150 * __pyx_v_Dxview.strides[0]) ))));
   if (unlikely(__pyx_t_31 == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(0, 192, __pyx_L1_error)
+    __PYX_ERR(0, 203, __pyx_L1_error)
   }
-  __pyx_t_9 = (__pyx_v_Dt * ((__pyx_t_12 / __pyx_t_31) - __pyx_v_downfluxC));
+  __pyx_t_9 = ((__pyx_v_M * __pyx_v_Dt) * ((__pyx_t_12 / __pyx_t_31) - __pyx_v_downfluxC));
   __pyx_t_151 = (__pyx_v_I - 1);
   __pyx_t_31 = (*((double *) ( /* dim=0 */ (__pyx_v_Dxview.data + __pyx_t_151 * __pyx_v_Dxview.strides[0]) )));
   if (unlikely(__pyx_t_31 == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(0, 192, __pyx_L1_error)
+    __PYX_ERR(0, 203, __pyx_L1_error)
   }
 
-  /* "functions/residual.pyx":190
+  /* "functions/residual.pyx":201
  *     # catode boundary conditions
  *     # cations
  *     res_view[I-1] = ( solNview[I-1] - sol1view[I-1]             # <<<<<<<<<<<<<<
  * 
- *     + Dt * ( DCview[I-1] * 2 * (solNview[I-1] - solNview[I-2]) / (Dxview[I-1] + Dxview[I-2]) -downfluxC ) / Dxview[I-1] )
+ *     + M * Dt * ( DCview[I-1] * 2 * (solNview[I-1] - solNview[I-2]) / (Dxview[I-1] + Dxview[I-2]) -downfluxC ) / Dxview[I-1] )
  */
   __pyx_t_152 = (__pyx_v_I - 1);
   *((double *) ( /* dim=0 */ (__pyx_v_res_view.data + __pyx_t_152 * __pyx_v_res_view.strides[0]) )) = (((*((double *) ( /* dim=0 */ (__pyx_v_solNview.data + __pyx_t_144 * __pyx_v_solNview.strides[0]) ))) - (*((double *) ( /* dim=0 */ (__pyx_v_sol1view.data + __pyx_t_145 * __pyx_v_sol1view.strides[0]) )))) + (__pyx_t_9 / __pyx_t_31));
 
-  /* "functions/residual.pyx":195
+  /* "functions/residual.pyx":206
  * 
  *     # anions
  *     res_view[2*I-1] = ( solNview[2*I-1] - sol1view[2*I-1]             # <<<<<<<<<<<<<<
  * 
- *     + Dt * ( DAview[I-1] * 2 * (solNview[2*I-1] - solNview[2*I-2]) / (Dxview[I-1] + Dxview[I-2]) - downfluxA ) / Dxview[I-1] )
+ *     + M * Dt * ( DAview[I-1] * 2 * (solNview[2*I-1] - solNview[2*I-2]) / (Dxview[I-1] + Dxview[I-2]) - downfluxA ) / Dxview[I-1] )
  */
   __pyx_t_153 = ((2 * __pyx_v_I) - 1);
   __pyx_t_154 = ((2 * __pyx_v_I) - 1);
 
-  /* "functions/residual.pyx":197
+  /* "functions/residual.pyx":208
  *     res_view[2*I-1] = ( solNview[2*I-1] - sol1view[2*I-1]
  * 
- *     + Dt * ( DAview[I-1] * 2 * (solNview[2*I-1] - solNview[2*I-2]) / (Dxview[I-1] + Dxview[I-2]) - downfluxA ) / Dxview[I-1] )             # <<<<<<<<<<<<<<
+ *     + M * Dt * ( DAview[I-1] * 2 * (solNview[2*I-1] - solNview[2*I-2]) / (Dxview[I-1] + Dxview[I-2]) - downfluxA ) / Dxview[I-1] )             # <<<<<<<<<<<<<<
  * 
  *     # potential at right boundary
  */
@@ -3803,27 +3816,27 @@ static PyObject *__pyx_pf_9functions_8residual_residual_m0(CYTHON_UNUSED PyObjec
   __pyx_t_9 = ((*((double *) ( /* dim=0 */ (__pyx_v_Dxview.data + __pyx_t_158 * __pyx_v_Dxview.strides[0]) ))) + (*((double *) ( /* dim=0 */ (__pyx_v_Dxview.data + __pyx_t_159 * __pyx_v_Dxview.strides[0]) ))));
   if (unlikely(__pyx_t_9 == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(0, 197, __pyx_L1_error)
+    __PYX_ERR(0, 208, __pyx_L1_error)
   }
-  __pyx_t_12 = (__pyx_v_Dt * ((__pyx_t_31 / __pyx_t_9) - __pyx_v_downfluxA));
+  __pyx_t_12 = ((__pyx_v_M * __pyx_v_Dt) * ((__pyx_t_31 / __pyx_t_9) - __pyx_v_downfluxA));
   __pyx_t_160 = (__pyx_v_I - 1);
   __pyx_t_9 = (*((double *) ( /* dim=0 */ (__pyx_v_Dxview.data + __pyx_t_160 * __pyx_v_Dxview.strides[0]) )));
   if (unlikely(__pyx_t_9 == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(0, 197, __pyx_L1_error)
+    __PYX_ERR(0, 208, __pyx_L1_error)
   }
 
-  /* "functions/residual.pyx":195
+  /* "functions/residual.pyx":206
  * 
  *     # anions
  *     res_view[2*I-1] = ( solNview[2*I-1] - sol1view[2*I-1]             # <<<<<<<<<<<<<<
  * 
- *     + Dt * ( DAview[I-1] * 2 * (solNview[2*I-1] - solNview[2*I-2]) / (Dxview[I-1] + Dxview[I-2]) - downfluxA ) / Dxview[I-1] )
+ *     + M * Dt * ( DAview[I-1] * 2 * (solNview[2*I-1] - solNview[2*I-2]) / (Dxview[I-1] + Dxview[I-2]) - downfluxA ) / Dxview[I-1] )
  */
   __pyx_t_161 = ((2 * __pyx_v_I) - 1);
   *((double *) ( /* dim=0 */ (__pyx_v_res_view.data + __pyx_t_161 * __pyx_v_res_view.strides[0]) )) = (((*((double *) ( /* dim=0 */ (__pyx_v_solNview.data + __pyx_t_153 * __pyx_v_solNview.strides[0]) ))) - (*((double *) ( /* dim=0 */ (__pyx_v_sol1view.data + __pyx_t_154 * __pyx_v_sol1view.strides[0]) )))) + (__pyx_t_12 / __pyx_t_9));
 
-  /* "functions/residual.pyx":200
+  /* "functions/residual.pyx":211
  * 
  *     # potential at right boundary
  *     res_view[3*I-1] = ( ( epsilonview[I-1] * (phiC - solNview[3*I-1]) / Dxview[I-1]             # <<<<<<<<<<<<<<
@@ -3837,10 +3850,10 @@ static PyObject *__pyx_pf_9functions_8residual_residual_m0(CYTHON_UNUSED PyObjec
   __pyx_t_12 = (*((double *) ( /* dim=0 */ (__pyx_v_Dxview.data + __pyx_t_164 * __pyx_v_Dxview.strides[0]) )));
   if (unlikely(__pyx_t_12 == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(0, 200, __pyx_L1_error)
+    __PYX_ERR(0, 211, __pyx_L1_error)
   }
 
-  /* "functions/residual.pyx":202
+  /* "functions/residual.pyx":213
  *     res_view[3*I-1] = ( ( epsilonview[I-1] * (phiC - solNview[3*I-1]) / Dxview[I-1]
  * 
  *         -epsilonview[I] * 2 * (solNview[3*I-1] - solNview[3*I-2]) / (Dxview[I-1] + Dxview[I-2]) ) / Dxview[I-1]             # <<<<<<<<<<<<<<
@@ -3856,17 +3869,17 @@ static PyObject *__pyx_pf_9functions_8residual_residual_m0(CYTHON_UNUSED PyObjec
   __pyx_t_51 = ((*((double *) ( /* dim=0 */ (__pyx_v_Dxview.data + __pyx_t_168 * __pyx_v_Dxview.strides[0]) ))) + (*((double *) ( /* dim=0 */ (__pyx_v_Dxview.data + __pyx_t_169 * __pyx_v_Dxview.strides[0]) ))));
   if (unlikely(__pyx_t_51 == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(0, 202, __pyx_L1_error)
+    __PYX_ERR(0, 213, __pyx_L1_error)
   }
   __pyx_t_52 = ((__pyx_t_9 / __pyx_t_12) - (__pyx_t_31 / __pyx_t_51));
   __pyx_t_170 = (__pyx_v_I - 1);
   __pyx_t_51 = (*((double *) ( /* dim=0 */ (__pyx_v_Dxview.data + __pyx_t_170 * __pyx_v_Dxview.strides[0]) )));
   if (unlikely(__pyx_t_51 == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(0, 202, __pyx_L1_error)
+    __PYX_ERR(0, 213, __pyx_L1_error)
   }
 
-  /* "functions/residual.pyx":204
+  /* "functions/residual.pyx":215
  *         -epsilonview[I] * 2 * (solNview[3*I-1] - solNview[3*I-2]) / (Dxview[I-1] + Dxview[I-2]) ) / Dxview[I-1]
  * 
  *     + chi2*( solNview[I-1] - solNview[2*I-1]))             # <<<<<<<<<<<<<<
@@ -3876,7 +3889,7 @@ static PyObject *__pyx_pf_9functions_8residual_residual_m0(CYTHON_UNUSED PyObjec
   __pyx_t_171 = (__pyx_v_I - 1);
   __pyx_t_172 = ((2 * __pyx_v_I) - 1);
 
-  /* "functions/residual.pyx":200
+  /* "functions/residual.pyx":211
  * 
  *     # potential at right boundary
  *     res_view[3*I-1] = ( ( epsilonview[I-1] * (phiC - solNview[3*I-1]) / Dxview[I-1]             # <<<<<<<<<<<<<<
@@ -3886,7 +3899,7 @@ static PyObject *__pyx_pf_9functions_8residual_residual_m0(CYTHON_UNUSED PyObjec
   __pyx_t_173 = ((3 * __pyx_v_I) - 1);
   *((double *) ( /* dim=0 */ (__pyx_v_res_view.data + __pyx_t_173 * __pyx_v_res_view.strides[0]) )) = ((__pyx_t_52 / __pyx_t_51) + (__pyx_v_chi2 * ((*((double *) ( /* dim=0 */ (__pyx_v_solNview.data + __pyx_t_171 * __pyx_v_solNview.strides[0]) ))) - (*((double *) ( /* dim=0 */ (__pyx_v_solNview.data + __pyx_t_172 * __pyx_v_solNview.strides[0]) ))))));
 
-  /* "functions/residual.pyx":206
+  /* "functions/residual.pyx":217
  *     + chi2*( solNview[I-1] - solNview[2*I-1]))
  * 
  *     return residual             # <<<<<<<<<<<<<<
@@ -20044,6 +20057,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_s_Indirect_dimensions_not_supporte, __pyx_k_Indirect_dimensions_not_supporte, sizeof(__pyx_k_Indirect_dimensions_not_supporte), 0, 0, 1, 0},
   {&__pyx_kp_s_Invalid_mode_expected_c_or_fortr, __pyx_k_Invalid_mode_expected_c_or_fortr, sizeof(__pyx_k_Invalid_mode_expected_c_or_fortr), 0, 0, 1, 0},
   {&__pyx_kp_s_Invalid_shape_in_axis_d_d, __pyx_k_Invalid_shape_in_axis_d_d, sizeof(__pyx_k_Invalid_shape_in_axis_d_d), 0, 0, 1, 0},
+  {&__pyx_n_s_M, __pyx_k_M, sizeof(__pyx_k_M), 0, 0, 1, 1},
   {&__pyx_n_s_MemoryError, __pyx_k_MemoryError, sizeof(__pyx_k_MemoryError), 0, 0, 1, 1},
   {&__pyx_kp_s_MemoryView_of_r_at_0x_x, __pyx_k_MemoryView_of_r_at_0x_x, sizeof(__pyx_k_MemoryView_of_r_at_0x_x), 0, 0, 1, 0},
   {&__pyx_kp_s_MemoryView_of_r_object, __pyx_k_MemoryView_of_r_object, sizeof(__pyx_k_MemoryView_of_r_object), 0, 0, 1, 0},
@@ -20150,7 +20164,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, 0, 0, 0, 0, 0, 0}
 };
 static int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 90, __pyx_L1_error)
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 101, __pyx_L1_error)
   __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(1, 229, __pyx_L1_error)
   __pyx_builtin_RuntimeError = __Pyx_GetBuiltinName(__pyx_n_s_RuntimeError); if (!__pyx_builtin_RuntimeError) __PYX_ERR(1, 810, __pyx_L1_error)
   __pyx_builtin_ImportError = __Pyx_GetBuiltinName(__pyx_n_s_ImportError); if (!__pyx_builtin_ImportError) __PYX_ERR(1, 1000, __pyx_L1_error)
@@ -20498,10 +20512,10 @@ static int __Pyx_InitCachedConstants(void) {
  *         double [:] Dxview,
  *         double [:] solNview,
  */
-  __pyx_tuple__31 = PyTuple_Pack(20, __pyx_n_s_I, __pyx_n_s_Dxview, __pyx_n_s_solNview, __pyx_n_s_sol1view, __pyx_n_s_chi1, __pyx_n_s_chi2, __pyx_n_s_DCview, __pyx_n_s_DAview, __pyx_n_s_Dt, __pyx_n_s_phiC, __pyx_n_s_epsilonview, __pyx_n_s_i, __pyx_n_s_residual, __pyx_n_s_res_view, __pyx_n_s_velup, __pyx_n_s_veldown, __pyx_n_s_upfluxC, __pyx_n_s_upfluxA, __pyx_n_s_downfluxC, __pyx_n_s_downfluxA); if (unlikely(!__pyx_tuple__31)) __PYX_ERR(0, 13, __pyx_L1_error)
+  __pyx_tuple__31 = PyTuple_Pack(21, __pyx_n_s_I, __pyx_n_s_Dxview, __pyx_n_s_solNview, __pyx_n_s_sol1view, __pyx_n_s_chi1, __pyx_n_s_chi2, __pyx_n_s_DCview, __pyx_n_s_DAview, __pyx_n_s_Dt, __pyx_n_s_M, __pyx_n_s_phiC, __pyx_n_s_epsilonview, __pyx_n_s_i, __pyx_n_s_residual, __pyx_n_s_res_view, __pyx_n_s_velup, __pyx_n_s_veldown, __pyx_n_s_upfluxC, __pyx_n_s_upfluxA, __pyx_n_s_downfluxC, __pyx_n_s_downfluxA); if (unlikely(!__pyx_tuple__31)) __PYX_ERR(0, 13, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__31);
   __Pyx_GIVEREF(__pyx_tuple__31);
-  __pyx_codeobj__32 = (PyObject*)__Pyx_PyCode_New(11, 0, 20, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__31, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_residual_pyx, __pyx_n_s_residual_m0, 13, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__32)) __PYX_ERR(0, 13, __pyx_L1_error)
+  __pyx_codeobj__32 = (PyObject*)__Pyx_PyCode_New(12, 0, 21, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__31, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_residual_pyx, __pyx_n_s_residual_m0, 13, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__32)) __PYX_ERR(0, 13, __pyx_L1_error)
 
   /* "View.MemoryView":285
  *         return self.name

@@ -2087,6 +2087,7 @@ static const char __pyx_k_DC[] = "DC";
 static const char __pyx_k_Dt[] = "Dt";
 static const char __pyx_k_id[] = "id";
 static const char __pyx_k_np[] = "np";
+static const char __pyx_k_Jac[] = "Jac";
 static const char __pyx_k_new[] = "__new__";
 static const char __pyx_k_obj[] = "obj";
 static const char __pyx_k_sol[] = "sol";
@@ -2212,6 +2213,7 @@ static PyObject *__pyx_n_s_IndexError;
 static PyObject *__pyx_kp_s_Indirect_dimensions_not_supporte;
 static PyObject *__pyx_kp_s_Invalid_mode_expected_c_or_fortr;
 static PyObject *__pyx_kp_s_Invalid_shape_in_axis_d_d;
+static PyObject *__pyx_n_s_Jac;
 static PyObject *__pyx_n_s_M;
 static PyObject *__pyx_n_s_MemoryError;
 static PyObject *__pyx_kp_s_MemoryView_of_r_at_0x_x;
@@ -2310,7 +2312,7 @@ static PyObject *__pyx_n_s_unpack;
 static PyObject *__pyx_n_s_update;
 static PyObject *__pyx_n_s_x;
 static PyObject *__pyx_n_s_zeros;
-static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *__pyx_self, int __pyx_v_I, PyArrayObject *__pyx_v_sol, PyArrayObject *__pyx_v_x_, PyArrayObject *__pyx_v_DC, PyArrayObject *__pyx_v_DA, double __pyx_v_chi1, double __pyx_v_chi2, double __pyx_v_Dt); /* proto */
+static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *__pyx_self, int __pyx_v_I, PyArrayObject *__pyx_v_sol, PyArrayObject *__pyx_v_x_, PyArrayObject *__pyx_v_DC, PyArrayObject *__pyx_v_DA, double __pyx_v_chi1, double __pyx_v_chi2, double __pyx_v_Dt, double __pyx_v_M); /* proto */
 static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, Py_buffer *__pyx_v_info, int __pyx_v_flags); /* proto */
 static void __pyx_pf_5numpy_7ndarray_2__releasebuffer__(PyArrayObject *__pyx_v_self, Py_buffer *__pyx_v_info); /* proto */
 static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array___cinit__(struct __pyx_array_obj *__pyx_v_self, PyObject *__pyx_v_shape, Py_ssize_t __pyx_v_itemsize, PyObject *__pyx_v_format, PyObject *__pyx_v_mode, int __pyx_v_allocate_buffer); /* proto */
@@ -2414,7 +2416,8 @@ static PyObject *__pyx_codeobj__39;
 
 /* Python wrapper */
 static PyObject *__pyx_pw_9functions_8jacobian_1calcJac(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_9functions_8jacobian_1calcJac = {"calcJac", (PyCFunction)__pyx_pw_9functions_8jacobian_1calcJac, METH_VARARGS|METH_KEYWORDS, 0};
+static char __pyx_doc_9functions_8jacobian_calcJac[] = "\n    \n    Nondimensionalization:\n    ----------------------\n    \n    From nondimensionalozation of the time scale we have a parameter M multiplicated to\n    time step Dt --> M * Dt. This is used to shorten the Impedance simulations.\n    ";
+static PyMethodDef __pyx_mdef_9functions_8jacobian_1calcJac = {"calcJac", (PyCFunction)__pyx_pw_9functions_8jacobian_1calcJac, METH_VARARGS|METH_KEYWORDS, __pyx_doc_9functions_8jacobian_calcJac};
 static PyObject *__pyx_pw_9functions_8jacobian_1calcJac(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   int __pyx_v_I;
   PyArrayObject *__pyx_v_sol = 0;
@@ -2424,16 +2427,19 @@ static PyObject *__pyx_pw_9functions_8jacobian_1calcJac(PyObject *__pyx_self, Py
   double __pyx_v_chi1;
   double __pyx_v_chi2;
   double __pyx_v_Dt;
+  double __pyx_v_M;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("calcJac (wrapper)", 0);
   {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_I,&__pyx_n_s_sol,&__pyx_n_s_x,&__pyx_n_s_DC,&__pyx_n_s_DA,&__pyx_n_s_chi1,&__pyx_n_s_chi2,&__pyx_n_s_Dt,0};
-    PyObject* values[8] = {0,0,0,0,0,0,0,0};
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_I,&__pyx_n_s_sol,&__pyx_n_s_x,&__pyx_n_s_DC,&__pyx_n_s_DA,&__pyx_n_s_chi1,&__pyx_n_s_chi2,&__pyx_n_s_Dt,&__pyx_n_s_M,0};
+    PyObject* values[9] = {0,0,0,0,0,0,0,0,0};
     if (unlikely(__pyx_kwds)) {
       Py_ssize_t kw_args;
       const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
       switch (pos_args) {
+        case  9: values[8] = PyTuple_GET_ITEM(__pyx_args, 8);
+        CYTHON_FALLTHROUGH;
         case  8: values[7] = PyTuple_GET_ITEM(__pyx_args, 7);
         CYTHON_FALLTHROUGH;
         case  7: values[6] = PyTuple_GET_ITEM(__pyx_args, 6);
@@ -2462,49 +2468,55 @@ static PyObject *__pyx_pw_9functions_8jacobian_1calcJac(PyObject *__pyx_self, Py
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_sol)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("calcJac", 1, 8, 8, 1); __PYX_ERR(0, 6, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("calcJac", 1, 9, 9, 1); __PYX_ERR(0, 6, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_x)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("calcJac", 1, 8, 8, 2); __PYX_ERR(0, 6, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("calcJac", 1, 9, 9, 2); __PYX_ERR(0, 6, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
         if (likely((values[3] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_DC)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("calcJac", 1, 8, 8, 3); __PYX_ERR(0, 6, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("calcJac", 1, 9, 9, 3); __PYX_ERR(0, 6, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  4:
         if (likely((values[4] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_DA)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("calcJac", 1, 8, 8, 4); __PYX_ERR(0, 6, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("calcJac", 1, 9, 9, 4); __PYX_ERR(0, 6, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  5:
         if (likely((values[5] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_chi1)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("calcJac", 1, 8, 8, 5); __PYX_ERR(0, 6, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("calcJac", 1, 9, 9, 5); __PYX_ERR(0, 6, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  6:
         if (likely((values[6] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_chi2)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("calcJac", 1, 8, 8, 6); __PYX_ERR(0, 6, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("calcJac", 1, 9, 9, 6); __PYX_ERR(0, 6, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  7:
         if (likely((values[7] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_Dt)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("calcJac", 1, 8, 8, 7); __PYX_ERR(0, 6, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("calcJac", 1, 9, 9, 7); __PYX_ERR(0, 6, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  8:
+        if (likely((values[8] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_M)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("calcJac", 1, 9, 9, 8); __PYX_ERR(0, 6, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
         if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "calcJac") < 0)) __PYX_ERR(0, 6, __pyx_L3_error)
       }
-    } else if (PyTuple_GET_SIZE(__pyx_args) != 8) {
+    } else if (PyTuple_GET_SIZE(__pyx_args) != 9) {
       goto __pyx_L5_argtuple_error;
     } else {
       values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
@@ -2515,6 +2527,7 @@ static PyObject *__pyx_pw_9functions_8jacobian_1calcJac(PyObject *__pyx_self, Py
       values[5] = PyTuple_GET_ITEM(__pyx_args, 5);
       values[6] = PyTuple_GET_ITEM(__pyx_args, 6);
       values[7] = PyTuple_GET_ITEM(__pyx_args, 7);
+      values[8] = PyTuple_GET_ITEM(__pyx_args, 8);
     }
     __pyx_v_I = __Pyx_PyInt_As_int(values[0]); if (unlikely((__pyx_v_I == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 6, __pyx_L3_error)
     __pyx_v_sol = ((PyArrayObject *)values[1]);
@@ -2524,10 +2537,11 @@ static PyObject *__pyx_pw_9functions_8jacobian_1calcJac(PyObject *__pyx_self, Py
     __pyx_v_chi1 = __pyx_PyFloat_AsDouble(values[5]); if (unlikely((__pyx_v_chi1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 11, __pyx_L3_error)
     __pyx_v_chi2 = __pyx_PyFloat_AsDouble(values[6]); if (unlikely((__pyx_v_chi2 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 12, __pyx_L3_error)
     __pyx_v_Dt = __pyx_PyFloat_AsDouble(values[7]); if (unlikely((__pyx_v_Dt == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 13, __pyx_L3_error)
+    __pyx_v_M = __pyx_PyFloat_AsDouble(values[8]); if (unlikely((__pyx_v_M == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 14, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("calcJac", 1, 8, 8, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 6, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("calcJac", 1, 9, 9, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 6, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("functions.jacobian.calcJac", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -2537,7 +2551,7 @@ static PyObject *__pyx_pw_9functions_8jacobian_1calcJac(PyObject *__pyx_self, Py
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_x_), __pyx_ptype_5numpy_ndarray, 1, "x_", 0))) __PYX_ERR(0, 8, __pyx_L1_error)
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_DC), __pyx_ptype_5numpy_ndarray, 1, "DC", 0))) __PYX_ERR(0, 9, __pyx_L1_error)
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_DA), __pyx_ptype_5numpy_ndarray, 1, "DA", 0))) __PYX_ERR(0, 10, __pyx_L1_error)
-  __pyx_r = __pyx_pf_9functions_8jacobian_calcJac(__pyx_self, __pyx_v_I, __pyx_v_sol, __pyx_v_x_, __pyx_v_DC, __pyx_v_DA, __pyx_v_chi1, __pyx_v_chi2, __pyx_v_Dt);
+  __pyx_r = __pyx_pf_9functions_8jacobian_calcJac(__pyx_self, __pyx_v_I, __pyx_v_sol, __pyx_v_x_, __pyx_v_DC, __pyx_v_DA, __pyx_v_chi1, __pyx_v_chi2, __pyx_v_Dt, __pyx_v_M);
 
   /* function exit code */
   goto __pyx_L0;
@@ -2548,8 +2562,8 @@ static PyObject *__pyx_pw_9functions_8jacobian_1calcJac(PyObject *__pyx_self, Py
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *__pyx_self, int __pyx_v_I, PyArrayObject *__pyx_v_sol, PyArrayObject *__pyx_v_x_, PyArrayObject *__pyx_v_DC, PyArrayObject *__pyx_v_DA, double __pyx_v_chi1, double __pyx_v_chi2, double __pyx_v_Dt) {
-  PyArrayObject *__pyx_v_M = 0;
+static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *__pyx_self, int __pyx_v_I, PyArrayObject *__pyx_v_sol, PyArrayObject *__pyx_v_x_, PyArrayObject *__pyx_v_DC, PyArrayObject *__pyx_v_DA, double __pyx_v_chi1, double __pyx_v_chi2, double __pyx_v_Dt, double __pyx_v_M) {
+  PyArrayObject *__pyx_v_Jac = 0;
   int __pyx_v_i;
   double __pyx_v_dfAdc;
   double __pyx_v_dfAdp;
@@ -2559,8 +2573,8 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
   __Pyx_Buffer __pyx_pybuffer_DA;
   __Pyx_LocalBuf_ND __pyx_pybuffernd_DC;
   __Pyx_Buffer __pyx_pybuffer_DC;
-  __Pyx_LocalBuf_ND __pyx_pybuffernd_M;
-  __Pyx_Buffer __pyx_pybuffer_M;
+  __Pyx_LocalBuf_ND __pyx_pybuffernd_Jac;
+  __Pyx_Buffer __pyx_pybuffer_Jac;
   __Pyx_LocalBuf_ND __pyx_pybuffernd_sol;
   __Pyx_Buffer __pyx_pybuffer_sol;
   __Pyx_LocalBuf_ND __pyx_pybuffernd_x_;
@@ -3137,10 +3151,10 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
   Py_ssize_t __pyx_t_568;
   Py_ssize_t __pyx_t_569;
   __Pyx_RefNannySetupContext("calcJac", 0);
-  __pyx_pybuffer_M.pybuffer.buf = NULL;
-  __pyx_pybuffer_M.refcount = 0;
-  __pyx_pybuffernd_M.data = NULL;
-  __pyx_pybuffernd_M.rcbuffer = &__pyx_pybuffer_M;
+  __pyx_pybuffer_Jac.pybuffer.buf = NULL;
+  __pyx_pybuffer_Jac.refcount = 0;
+  __pyx_pybuffernd_Jac.data = NULL;
+  __pyx_pybuffernd_Jac.rcbuffer = &__pyx_pybuffer_Jac;
   __pyx_pybuffer_sol.pybuffer.buf = NULL;
   __pyx_pybuffer_sol.refcount = 0;
   __pyx_pybuffernd_sol.data = NULL;
@@ -3178,23 +3192,23 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
   }
   __pyx_pybuffernd_DA.diminfo[0].strides = __pyx_pybuffernd_DA.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_DA.diminfo[0].shape = __pyx_pybuffernd_DA.rcbuffer->pybuffer.shape[0];
 
-  /* "functions/jacobian.pyx":16
+  /* "functions/jacobian.pyx":25
  * 
  *     cdef:
- *         cnp.ndarray[ cnp.float64_t, ndim=2] M = np.zeros([3*I,3*I], dtype = np.float64)             # <<<<<<<<<<<<<<
+ *         cnp.ndarray[ cnp.float64_t, ndim=2] Jac = np.zeros([3*I,3*I], dtype = np.float64)             # <<<<<<<<<<<<<<
  *         int i
  * 
  */
-  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 16, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 25, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 16, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 25, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyInt_From_long((3 * __pyx_v_I)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 16, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_long((3 * __pyx_v_I)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 25, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyInt_From_long((3 * __pyx_v_I)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 16, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_From_long((3 * __pyx_v_I)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 25, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = PyList_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 16, __pyx_L1_error)
+  __pyx_t_4 = PyList_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 25, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_GIVEREF(__pyx_t_1);
   PyList_SET_ITEM(__pyx_t_4, 0, __pyx_t_1);
@@ -3202,40 +3216,40 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
   PyList_SET_ITEM(__pyx_t_4, 1, __pyx_t_3);
   __pyx_t_1 = 0;
   __pyx_t_3 = 0;
-  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 16, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 25, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_4);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_4);
   __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 16, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 25, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 16, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 25, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_float64); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 16, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_float64); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 25, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_dtype, __pyx_t_5) < 0) __PYX_ERR(0, 16, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_dtype, __pyx_t_5) < 0) __PYX_ERR(0, 25, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 16, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 25, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (!(likely(((__pyx_t_5) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_5, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 16, __pyx_L1_error)
+  if (!(likely(((__pyx_t_5) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_5, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 25, __pyx_L1_error)
   __pyx_t_6 = ((PyArrayObject *)__pyx_t_5);
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_M.rcbuffer->pybuffer, (PyObject*)__pyx_t_6, &__Pyx_TypeInfo_nn___pyx_t_5numpy_float64_t, PyBUF_FORMAT| PyBUF_STRIDES| PyBUF_WRITABLE, 2, 0, __pyx_stack) == -1)) {
-      __pyx_v_M = ((PyArrayObject *)Py_None); __Pyx_INCREF(Py_None); __pyx_pybuffernd_M.rcbuffer->pybuffer.buf = NULL;
-      __PYX_ERR(0, 16, __pyx_L1_error)
-    } else {__pyx_pybuffernd_M.diminfo[0].strides = __pyx_pybuffernd_M.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_M.diminfo[0].shape = __pyx_pybuffernd_M.rcbuffer->pybuffer.shape[0]; __pyx_pybuffernd_M.diminfo[1].strides = __pyx_pybuffernd_M.rcbuffer->pybuffer.strides[1]; __pyx_pybuffernd_M.diminfo[1].shape = __pyx_pybuffernd_M.rcbuffer->pybuffer.shape[1];
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_Jac.rcbuffer->pybuffer, (PyObject*)__pyx_t_6, &__Pyx_TypeInfo_nn___pyx_t_5numpy_float64_t, PyBUF_FORMAT| PyBUF_STRIDES| PyBUF_WRITABLE, 2, 0, __pyx_stack) == -1)) {
+      __pyx_v_Jac = ((PyArrayObject *)Py_None); __Pyx_INCREF(Py_None); __pyx_pybuffernd_Jac.rcbuffer->pybuffer.buf = NULL;
+      __PYX_ERR(0, 25, __pyx_L1_error)
+    } else {__pyx_pybuffernd_Jac.diminfo[0].strides = __pyx_pybuffernd_Jac.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_Jac.diminfo[0].shape = __pyx_pybuffernd_Jac.rcbuffer->pybuffer.shape[0]; __pyx_pybuffernd_Jac.diminfo[1].strides = __pyx_pybuffernd_Jac.rcbuffer->pybuffer.strides[1]; __pyx_pybuffernd_Jac.diminfo[1].shape = __pyx_pybuffernd_Jac.rcbuffer->pybuffer.shape[1];
     }
   }
   __pyx_t_6 = 0;
-  __pyx_v_M = ((PyArrayObject *)__pyx_t_5);
+  __pyx_v_Jac = ((PyArrayObject *)__pyx_t_5);
   __pyx_t_5 = 0;
 
-  /* "functions/jacobian.pyx":20
+  /* "functions/jacobian.pyx":29
  * 
  *         # calculate derivatives of boundary condition
  *         double dfAdc = 0.0             # <<<<<<<<<<<<<<
@@ -3244,7 +3258,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
  */
   __pyx_v_dfAdc = 0.0;
 
-  /* "functions/jacobian.pyx":21
+  /* "functions/jacobian.pyx":30
  *         # calculate derivatives of boundary condition
  *         double dfAdc = 0.0
  *         double dfAdp = 0.0             # <<<<<<<<<<<<<<
@@ -3253,7 +3267,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
  */
   __pyx_v_dfAdp = 0.0;
 
-  /* "functions/jacobian.pyx":22
+  /* "functions/jacobian.pyx":31
  *         double dfAdc = 0.0
  *         double dfAdp = 0.0
  *         double dfCdc = 0.0             # <<<<<<<<<<<<<<
@@ -3262,7 +3276,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
  */
   __pyx_v_dfCdc = 0.0;
 
-  /* "functions/jacobian.pyx":23
+  /* "functions/jacobian.pyx":32
  *         double dfAdp = 0.0
  *         double dfCdc = 0.0
  *         double dfCdp = 0.0             # <<<<<<<<<<<<<<
@@ -3271,7 +3285,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
  */
   __pyx_v_dfCdp = 0.0;
 
-  /* "functions/jacobian.pyx":26
+  /* "functions/jacobian.pyx":35
  * 
  *     # loop over potential rows and fill jacobian for potential
  *     for i in range(0,I):             # <<<<<<<<<<<<<<
@@ -3283,10 +3297,10 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
   for (__pyx_t_9 = 0; __pyx_t_9 < __pyx_t_8; __pyx_t_9+=1) {
     __pyx_v_i = __pyx_t_9;
 
-    /* "functions/jacobian.pyx":29
+    /* "functions/jacobian.pyx":38
  * 
  *         # fill cation diagonal
- *         M[2*I+i,i] = chi2             # <<<<<<<<<<<<<<
+ *         Jac[2*I+i,i] = chi2             # <<<<<<<<<<<<<<
  * 
  *         # fill anion diagonal
  */
@@ -3294,23 +3308,23 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
     __pyx_t_11 = __pyx_v_i;
     __pyx_t_12 = -1;
     if (__pyx_t_10 < 0) {
-      __pyx_t_10 += __pyx_pybuffernd_M.diminfo[0].shape;
+      __pyx_t_10 += __pyx_pybuffernd_Jac.diminfo[0].shape;
       if (unlikely(__pyx_t_10 < 0)) __pyx_t_12 = 0;
-    } else if (unlikely(__pyx_t_10 >= __pyx_pybuffernd_M.diminfo[0].shape)) __pyx_t_12 = 0;
+    } else if (unlikely(__pyx_t_10 >= __pyx_pybuffernd_Jac.diminfo[0].shape)) __pyx_t_12 = 0;
     if (__pyx_t_11 < 0) {
-      __pyx_t_11 += __pyx_pybuffernd_M.diminfo[1].shape;
+      __pyx_t_11 += __pyx_pybuffernd_Jac.diminfo[1].shape;
       if (unlikely(__pyx_t_11 < 0)) __pyx_t_12 = 1;
-    } else if (unlikely(__pyx_t_11 >= __pyx_pybuffernd_M.diminfo[1].shape)) __pyx_t_12 = 1;
+    } else if (unlikely(__pyx_t_11 >= __pyx_pybuffernd_Jac.diminfo[1].shape)) __pyx_t_12 = 1;
     if (unlikely(__pyx_t_12 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_12);
-      __PYX_ERR(0, 29, __pyx_L1_error)
+      __PYX_ERR(0, 38, __pyx_L1_error)
     }
-    *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_M.rcbuffer->pybuffer.buf, __pyx_t_10, __pyx_pybuffernd_M.diminfo[0].strides, __pyx_t_11, __pyx_pybuffernd_M.diminfo[1].strides) = __pyx_v_chi2;
+    *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_Jac.rcbuffer->pybuffer.buf, __pyx_t_10, __pyx_pybuffernd_Jac.diminfo[0].strides, __pyx_t_11, __pyx_pybuffernd_Jac.diminfo[1].strides) = __pyx_v_chi2;
 
-    /* "functions/jacobian.pyx":32
+    /* "functions/jacobian.pyx":41
  * 
  *         # fill anion diagonal
- *         M[2*I+i,I+i] = -chi2             # <<<<<<<<<<<<<<
+ *         Jac[2*I+i,I+i] = -chi2             # <<<<<<<<<<<<<<
  * 
  *         # fill tridiagonal for inner points
  */
@@ -3318,20 +3332,20 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
     __pyx_t_14 = (__pyx_v_I + __pyx_v_i);
     __pyx_t_12 = -1;
     if (__pyx_t_13 < 0) {
-      __pyx_t_13 += __pyx_pybuffernd_M.diminfo[0].shape;
+      __pyx_t_13 += __pyx_pybuffernd_Jac.diminfo[0].shape;
       if (unlikely(__pyx_t_13 < 0)) __pyx_t_12 = 0;
-    } else if (unlikely(__pyx_t_13 >= __pyx_pybuffernd_M.diminfo[0].shape)) __pyx_t_12 = 0;
+    } else if (unlikely(__pyx_t_13 >= __pyx_pybuffernd_Jac.diminfo[0].shape)) __pyx_t_12 = 0;
     if (__pyx_t_14 < 0) {
-      __pyx_t_14 += __pyx_pybuffernd_M.diminfo[1].shape;
+      __pyx_t_14 += __pyx_pybuffernd_Jac.diminfo[1].shape;
       if (unlikely(__pyx_t_14 < 0)) __pyx_t_12 = 1;
-    } else if (unlikely(__pyx_t_14 >= __pyx_pybuffernd_M.diminfo[1].shape)) __pyx_t_12 = 1;
+    } else if (unlikely(__pyx_t_14 >= __pyx_pybuffernd_Jac.diminfo[1].shape)) __pyx_t_12 = 1;
     if (unlikely(__pyx_t_12 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_12);
-      __PYX_ERR(0, 32, __pyx_L1_error)
+      __PYX_ERR(0, 41, __pyx_L1_error)
     }
-    *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_M.rcbuffer->pybuffer.buf, __pyx_t_13, __pyx_pybuffernd_M.diminfo[0].strides, __pyx_t_14, __pyx_pybuffernd_M.diminfo[1].strides) = (-__pyx_v_chi2);
+    *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_Jac.rcbuffer->pybuffer.buf, __pyx_t_13, __pyx_pybuffernd_Jac.diminfo[0].strides, __pyx_t_14, __pyx_pybuffernd_Jac.diminfo[1].strides) = (-__pyx_v_chi2);
 
-    /* "functions/jacobian.pyx":35
+    /* "functions/jacobian.pyx":44
  * 
  *         # fill tridiagonal for inner points
  *         if i > 0 and i < I-1:             # <<<<<<<<<<<<<<
@@ -3349,10 +3363,10 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
     __pyx_L6_bool_binop_done:;
     if (__pyx_t_15) {
 
-      /* "functions/jacobian.pyx":39
+      /* "functions/jacobian.pyx":48
  *             #--- dP / dc & dP / dp------------------------------------------------------------------------
  *             # fill lower diag
- *             M[2*I+i,2*I+i-1] = 1.0/(x_[i+1] - x_[i-1]) * 2.0/(x_[i+1] - x_[i])             # <<<<<<<<<<<<<<
+ *             Jac[2*I+i,2*I+i-1] = 1.0/(x_[i+1] - x_[i-1]) * 2.0/(x_[i+1] - x_[i])             # <<<<<<<<<<<<<<
  * 
  *             # fill diag
  */
@@ -3364,7 +3378,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_17 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 39, __pyx_L1_error)
+        __PYX_ERR(0, 48, __pyx_L1_error)
       }
       __pyx_t_18 = (__pyx_v_i - 1);
       __pyx_t_12 = -1;
@@ -3374,12 +3388,12 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_18 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 39, __pyx_L1_error)
+        __PYX_ERR(0, 48, __pyx_L1_error)
       }
       __pyx_t_19 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_17, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_18, __pyx_pybuffernd_x_.diminfo[0].strides)));
       if (unlikely(__pyx_t_19 == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-        __PYX_ERR(0, 39, __pyx_L1_error)
+        __PYX_ERR(0, 48, __pyx_L1_error)
       }
       __pyx_t_20 = ((1.0 / __pyx_t_19) * 2.0);
       __pyx_t_21 = (__pyx_v_i + 1);
@@ -3390,7 +3404,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_21 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 39, __pyx_L1_error)
+        __PYX_ERR(0, 48, __pyx_L1_error)
       }
       __pyx_t_22 = __pyx_v_i;
       __pyx_t_12 = -1;
@@ -3400,34 +3414,34 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_22 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 39, __pyx_L1_error)
+        __PYX_ERR(0, 48, __pyx_L1_error)
       }
       __pyx_t_19 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_21, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_22, __pyx_pybuffernd_x_.diminfo[0].strides)));
       if (unlikely(__pyx_t_19 == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-        __PYX_ERR(0, 39, __pyx_L1_error)
+        __PYX_ERR(0, 48, __pyx_L1_error)
       }
       __pyx_t_23 = ((2 * __pyx_v_I) + __pyx_v_i);
       __pyx_t_24 = (((2 * __pyx_v_I) + __pyx_v_i) - 1);
       __pyx_t_12 = -1;
       if (__pyx_t_23 < 0) {
-        __pyx_t_23 += __pyx_pybuffernd_M.diminfo[0].shape;
+        __pyx_t_23 += __pyx_pybuffernd_Jac.diminfo[0].shape;
         if (unlikely(__pyx_t_23 < 0)) __pyx_t_12 = 0;
-      } else if (unlikely(__pyx_t_23 >= __pyx_pybuffernd_M.diminfo[0].shape)) __pyx_t_12 = 0;
+      } else if (unlikely(__pyx_t_23 >= __pyx_pybuffernd_Jac.diminfo[0].shape)) __pyx_t_12 = 0;
       if (__pyx_t_24 < 0) {
-        __pyx_t_24 += __pyx_pybuffernd_M.diminfo[1].shape;
+        __pyx_t_24 += __pyx_pybuffernd_Jac.diminfo[1].shape;
         if (unlikely(__pyx_t_24 < 0)) __pyx_t_12 = 1;
-      } else if (unlikely(__pyx_t_24 >= __pyx_pybuffernd_M.diminfo[1].shape)) __pyx_t_12 = 1;
+      } else if (unlikely(__pyx_t_24 >= __pyx_pybuffernd_Jac.diminfo[1].shape)) __pyx_t_12 = 1;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 39, __pyx_L1_error)
+        __PYX_ERR(0, 48, __pyx_L1_error)
       }
-      *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_M.rcbuffer->pybuffer.buf, __pyx_t_23, __pyx_pybuffernd_M.diminfo[0].strides, __pyx_t_24, __pyx_pybuffernd_M.diminfo[1].strides) = (__pyx_t_20 / __pyx_t_19);
+      *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_Jac.rcbuffer->pybuffer.buf, __pyx_t_23, __pyx_pybuffernd_Jac.diminfo[0].strides, __pyx_t_24, __pyx_pybuffernd_Jac.diminfo[1].strides) = (__pyx_t_20 / __pyx_t_19);
 
-      /* "functions/jacobian.pyx":42
+      /* "functions/jacobian.pyx":51
  * 
  *             # fill diag
- *             M[2*I+i,2*I+i] = ( -1.0/(x_[i+2] - x_[i]) - 1.0/(x_[i+1] - x_[i-1]) ) * 2.0/(x_[i+1] - x_[i])             # <<<<<<<<<<<<<<
+ *             Jac[2*I+i,2*I+i] = ( -1.0/(x_[i+2] - x_[i]) - 1.0/(x_[i+1] - x_[i-1]) ) * 2.0/(x_[i+1] - x_[i])             # <<<<<<<<<<<<<<
  * 
  *             # fill upper diag
  */
@@ -3439,7 +3453,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_25 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 42, __pyx_L1_error)
+        __PYX_ERR(0, 51, __pyx_L1_error)
       }
       __pyx_t_26 = __pyx_v_i;
       __pyx_t_12 = -1;
@@ -3449,12 +3463,12 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_26 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 42, __pyx_L1_error)
+        __PYX_ERR(0, 51, __pyx_L1_error)
       }
       __pyx_t_19 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_25, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_26, __pyx_pybuffernd_x_.diminfo[0].strides)));
       if (unlikely(__pyx_t_19 == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-        __PYX_ERR(0, 42, __pyx_L1_error)
+        __PYX_ERR(0, 51, __pyx_L1_error)
       }
       __pyx_t_27 = (__pyx_v_i + 1);
       __pyx_t_12 = -1;
@@ -3464,7 +3478,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_27 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 42, __pyx_L1_error)
+        __PYX_ERR(0, 51, __pyx_L1_error)
       }
       __pyx_t_28 = (__pyx_v_i - 1);
       __pyx_t_12 = -1;
@@ -3474,12 +3488,12 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_28 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 42, __pyx_L1_error)
+        __PYX_ERR(0, 51, __pyx_L1_error)
       }
       __pyx_t_20 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_27, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_28, __pyx_pybuffernd_x_.diminfo[0].strides)));
       if (unlikely(__pyx_t_20 == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-        __PYX_ERR(0, 42, __pyx_L1_error)
+        __PYX_ERR(0, 51, __pyx_L1_error)
       }
       __pyx_t_29 = (((-1.0 / __pyx_t_19) - (1.0 / __pyx_t_20)) * 2.0);
       __pyx_t_30 = (__pyx_v_i + 1);
@@ -3490,7 +3504,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_30 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 42, __pyx_L1_error)
+        __PYX_ERR(0, 51, __pyx_L1_error)
       }
       __pyx_t_31 = __pyx_v_i;
       __pyx_t_12 = -1;
@@ -3500,34 +3514,34 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_31 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 42, __pyx_L1_error)
+        __PYX_ERR(0, 51, __pyx_L1_error)
       }
       __pyx_t_20 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_30, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_31, __pyx_pybuffernd_x_.diminfo[0].strides)));
       if (unlikely(__pyx_t_20 == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-        __PYX_ERR(0, 42, __pyx_L1_error)
+        __PYX_ERR(0, 51, __pyx_L1_error)
       }
       __pyx_t_32 = ((2 * __pyx_v_I) + __pyx_v_i);
       __pyx_t_33 = ((2 * __pyx_v_I) + __pyx_v_i);
       __pyx_t_12 = -1;
       if (__pyx_t_32 < 0) {
-        __pyx_t_32 += __pyx_pybuffernd_M.diminfo[0].shape;
+        __pyx_t_32 += __pyx_pybuffernd_Jac.diminfo[0].shape;
         if (unlikely(__pyx_t_32 < 0)) __pyx_t_12 = 0;
-      } else if (unlikely(__pyx_t_32 >= __pyx_pybuffernd_M.diminfo[0].shape)) __pyx_t_12 = 0;
+      } else if (unlikely(__pyx_t_32 >= __pyx_pybuffernd_Jac.diminfo[0].shape)) __pyx_t_12 = 0;
       if (__pyx_t_33 < 0) {
-        __pyx_t_33 += __pyx_pybuffernd_M.diminfo[1].shape;
+        __pyx_t_33 += __pyx_pybuffernd_Jac.diminfo[1].shape;
         if (unlikely(__pyx_t_33 < 0)) __pyx_t_12 = 1;
-      } else if (unlikely(__pyx_t_33 >= __pyx_pybuffernd_M.diminfo[1].shape)) __pyx_t_12 = 1;
+      } else if (unlikely(__pyx_t_33 >= __pyx_pybuffernd_Jac.diminfo[1].shape)) __pyx_t_12 = 1;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 42, __pyx_L1_error)
+        __PYX_ERR(0, 51, __pyx_L1_error)
       }
-      *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_M.rcbuffer->pybuffer.buf, __pyx_t_32, __pyx_pybuffernd_M.diminfo[0].strides, __pyx_t_33, __pyx_pybuffernd_M.diminfo[1].strides) = (__pyx_t_29 / __pyx_t_20);
+      *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_Jac.rcbuffer->pybuffer.buf, __pyx_t_32, __pyx_pybuffernd_Jac.diminfo[0].strides, __pyx_t_33, __pyx_pybuffernd_Jac.diminfo[1].strides) = (__pyx_t_29 / __pyx_t_20);
 
-      /* "functions/jacobian.pyx":45
+      /* "functions/jacobian.pyx":54
  * 
  *             # fill upper diag
- *             M[2*I+i,2*I+i+1] = 1.0/(x_[i+2] - x_[i]) * 2.0/(x_[i+1] - x_[i])             # <<<<<<<<<<<<<<
+ *             Jac[2*I+i,2*I+i+1] = 1.0/(x_[i+2] - x_[i]) * 2.0/(x_[i+1] - x_[i])             # <<<<<<<<<<<<<<
  * 
  *             #--- dNP+ / dc--------------------------------------------------------------------------------
  */
@@ -3539,7 +3553,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_34 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 45, __pyx_L1_error)
+        __PYX_ERR(0, 54, __pyx_L1_error)
       }
       __pyx_t_35 = __pyx_v_i;
       __pyx_t_12 = -1;
@@ -3549,12 +3563,12 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_35 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 45, __pyx_L1_error)
+        __PYX_ERR(0, 54, __pyx_L1_error)
       }
       __pyx_t_20 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_34, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_35, __pyx_pybuffernd_x_.diminfo[0].strides)));
       if (unlikely(__pyx_t_20 == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-        __PYX_ERR(0, 45, __pyx_L1_error)
+        __PYX_ERR(0, 54, __pyx_L1_error)
       }
       __pyx_t_29 = ((1.0 / __pyx_t_20) * 2.0);
       __pyx_t_36 = (__pyx_v_i + 1);
@@ -3565,7 +3579,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_36 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 45, __pyx_L1_error)
+        __PYX_ERR(0, 54, __pyx_L1_error)
       }
       __pyx_t_37 = __pyx_v_i;
       __pyx_t_12 = -1;
@@ -3575,34 +3589,34 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_37 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 45, __pyx_L1_error)
+        __PYX_ERR(0, 54, __pyx_L1_error)
       }
       __pyx_t_20 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_36, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_37, __pyx_pybuffernd_x_.diminfo[0].strides)));
       if (unlikely(__pyx_t_20 == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-        __PYX_ERR(0, 45, __pyx_L1_error)
+        __PYX_ERR(0, 54, __pyx_L1_error)
       }
       __pyx_t_38 = ((2 * __pyx_v_I) + __pyx_v_i);
       __pyx_t_39 = (((2 * __pyx_v_I) + __pyx_v_i) + 1);
       __pyx_t_12 = -1;
       if (__pyx_t_38 < 0) {
-        __pyx_t_38 += __pyx_pybuffernd_M.diminfo[0].shape;
+        __pyx_t_38 += __pyx_pybuffernd_Jac.diminfo[0].shape;
         if (unlikely(__pyx_t_38 < 0)) __pyx_t_12 = 0;
-      } else if (unlikely(__pyx_t_38 >= __pyx_pybuffernd_M.diminfo[0].shape)) __pyx_t_12 = 0;
+      } else if (unlikely(__pyx_t_38 >= __pyx_pybuffernd_Jac.diminfo[0].shape)) __pyx_t_12 = 0;
       if (__pyx_t_39 < 0) {
-        __pyx_t_39 += __pyx_pybuffernd_M.diminfo[1].shape;
+        __pyx_t_39 += __pyx_pybuffernd_Jac.diminfo[1].shape;
         if (unlikely(__pyx_t_39 < 0)) __pyx_t_12 = 1;
-      } else if (unlikely(__pyx_t_39 >= __pyx_pybuffernd_M.diminfo[1].shape)) __pyx_t_12 = 1;
+      } else if (unlikely(__pyx_t_39 >= __pyx_pybuffernd_Jac.diminfo[1].shape)) __pyx_t_12 = 1;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 45, __pyx_L1_error)
+        __PYX_ERR(0, 54, __pyx_L1_error)
       }
-      *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_M.rcbuffer->pybuffer.buf, __pyx_t_38, __pyx_pybuffernd_M.diminfo[0].strides, __pyx_t_39, __pyx_pybuffernd_M.diminfo[1].strides) = (__pyx_t_29 / __pyx_t_20);
+      *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_Jac.rcbuffer->pybuffer.buf, __pyx_t_38, __pyx_pybuffernd_Jac.diminfo[0].strides, __pyx_t_39, __pyx_pybuffernd_Jac.diminfo[1].strides) = (__pyx_t_29 / __pyx_t_20);
 
-      /* "functions/jacobian.pyx":49
+      /* "functions/jacobian.pyx":58
  *             #--- dNP+ / dc--------------------------------------------------------------------------------
  *             # fill lower diag
- *             M[i,i-1] = Dt * ( -2*DC[i]/(x_[i+1] - x_[i-1]) + DC[i]*chi1*2* fmax(sol[2*I+i] - sol[2*I+i-1],0.0)/(x_[i+1] - x_[i-1]) ) / (x_[i+1] - x_[i])             # <<<<<<<<<<<<<<
+ *             Jac[i,i-1] = M * Dt * ( -2*DC[i]/(x_[i+1] - x_[i-1]) + DC[i]*chi1*2* fmax(sol[2*I+i] - sol[2*I+i-1],0.0)/(x_[i+1] - x_[i-1]) ) / (x_[i+1] - x_[i])             # <<<<<<<<<<<<<<
  * 
  *             # fill diag
  */
@@ -3614,7 +3628,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_40 >= __pyx_pybuffernd_DC.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 49, __pyx_L1_error)
+        __PYX_ERR(0, 58, __pyx_L1_error)
       }
       __pyx_t_20 = (-2.0 * (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_DC.rcbuffer->pybuffer.buf, __pyx_t_40, __pyx_pybuffernd_DC.diminfo[0].strides)));
       __pyx_t_41 = (__pyx_v_i + 1);
@@ -3625,7 +3639,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_41 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 49, __pyx_L1_error)
+        __PYX_ERR(0, 58, __pyx_L1_error)
       }
       __pyx_t_42 = (__pyx_v_i - 1);
       __pyx_t_12 = -1;
@@ -3635,12 +3649,12 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_42 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 49, __pyx_L1_error)
+        __PYX_ERR(0, 58, __pyx_L1_error)
       }
       __pyx_t_29 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_41, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_42, __pyx_pybuffernd_x_.diminfo[0].strides)));
       if (unlikely(__pyx_t_29 == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-        __PYX_ERR(0, 49, __pyx_L1_error)
+        __PYX_ERR(0, 58, __pyx_L1_error)
       }
       __pyx_t_43 = __pyx_v_i;
       __pyx_t_12 = -1;
@@ -3650,7 +3664,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_43 >= __pyx_pybuffernd_DC.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 49, __pyx_L1_error)
+        __PYX_ERR(0, 58, __pyx_L1_error)
       }
       __pyx_t_44 = ((2 * __pyx_v_I) + __pyx_v_i);
       __pyx_t_12 = -1;
@@ -3660,7 +3674,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_44 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 49, __pyx_L1_error)
+        __PYX_ERR(0, 58, __pyx_L1_error)
       }
       __pyx_t_45 = (((2 * __pyx_v_I) + __pyx_v_i) - 1);
       __pyx_t_12 = -1;
@@ -3670,7 +3684,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_45 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 49, __pyx_L1_error)
+        __PYX_ERR(0, 58, __pyx_L1_error)
       }
       __pyx_t_19 = ((((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_DC.rcbuffer->pybuffer.buf, __pyx_t_43, __pyx_pybuffernd_DC.diminfo[0].strides)) * __pyx_v_chi1) * 2.0) * fmax(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_44, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_45, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0));
       __pyx_t_46 = (__pyx_v_i + 1);
@@ -3681,7 +3695,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_46 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 49, __pyx_L1_error)
+        __PYX_ERR(0, 58, __pyx_L1_error)
       }
       __pyx_t_47 = (__pyx_v_i - 1);
       __pyx_t_12 = -1;
@@ -3691,14 +3705,14 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_47 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 49, __pyx_L1_error)
+        __PYX_ERR(0, 58, __pyx_L1_error)
       }
       __pyx_t_48 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_46, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_47, __pyx_pybuffernd_x_.diminfo[0].strides)));
       if (unlikely(__pyx_t_48 == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-        __PYX_ERR(0, 49, __pyx_L1_error)
+        __PYX_ERR(0, 58, __pyx_L1_error)
       }
-      __pyx_t_49 = (__pyx_v_Dt * ((__pyx_t_20 / __pyx_t_29) + (__pyx_t_19 / __pyx_t_48)));
+      __pyx_t_49 = ((__pyx_v_M * __pyx_v_Dt) * ((__pyx_t_20 / __pyx_t_29) + (__pyx_t_19 / __pyx_t_48)));
       __pyx_t_50 = (__pyx_v_i + 1);
       __pyx_t_12 = -1;
       if (__pyx_t_50 < 0) {
@@ -3707,7 +3721,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_50 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 49, __pyx_L1_error)
+        __PYX_ERR(0, 58, __pyx_L1_error)
       }
       __pyx_t_51 = __pyx_v_i;
       __pyx_t_12 = -1;
@@ -3717,34 +3731,34 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_51 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 49, __pyx_L1_error)
+        __PYX_ERR(0, 58, __pyx_L1_error)
       }
       __pyx_t_48 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_50, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_51, __pyx_pybuffernd_x_.diminfo[0].strides)));
       if (unlikely(__pyx_t_48 == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-        __PYX_ERR(0, 49, __pyx_L1_error)
+        __PYX_ERR(0, 58, __pyx_L1_error)
       }
       __pyx_t_52 = __pyx_v_i;
       __pyx_t_53 = (__pyx_v_i - 1);
       __pyx_t_12 = -1;
       if (__pyx_t_52 < 0) {
-        __pyx_t_52 += __pyx_pybuffernd_M.diminfo[0].shape;
+        __pyx_t_52 += __pyx_pybuffernd_Jac.diminfo[0].shape;
         if (unlikely(__pyx_t_52 < 0)) __pyx_t_12 = 0;
-      } else if (unlikely(__pyx_t_52 >= __pyx_pybuffernd_M.diminfo[0].shape)) __pyx_t_12 = 0;
+      } else if (unlikely(__pyx_t_52 >= __pyx_pybuffernd_Jac.diminfo[0].shape)) __pyx_t_12 = 0;
       if (__pyx_t_53 < 0) {
-        __pyx_t_53 += __pyx_pybuffernd_M.diminfo[1].shape;
+        __pyx_t_53 += __pyx_pybuffernd_Jac.diminfo[1].shape;
         if (unlikely(__pyx_t_53 < 0)) __pyx_t_12 = 1;
-      } else if (unlikely(__pyx_t_53 >= __pyx_pybuffernd_M.diminfo[1].shape)) __pyx_t_12 = 1;
+      } else if (unlikely(__pyx_t_53 >= __pyx_pybuffernd_Jac.diminfo[1].shape)) __pyx_t_12 = 1;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 49, __pyx_L1_error)
+        __PYX_ERR(0, 58, __pyx_L1_error)
       }
-      *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_M.rcbuffer->pybuffer.buf, __pyx_t_52, __pyx_pybuffernd_M.diminfo[0].strides, __pyx_t_53, __pyx_pybuffernd_M.diminfo[1].strides) = (__pyx_t_49 / __pyx_t_48);
+      *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_Jac.rcbuffer->pybuffer.buf, __pyx_t_52, __pyx_pybuffernd_Jac.diminfo[0].strides, __pyx_t_53, __pyx_pybuffernd_Jac.diminfo[1].strides) = (__pyx_t_49 / __pyx_t_48);
 
-      /* "functions/jacobian.pyx":52
+      /* "functions/jacobian.pyx":61
  * 
  *             # fill diag
- *             M[i,i] = ( 1 + Dt * ( 2*DC[i+1]/(x_[i+2] - x_[i]) + 2*DC[i]/(x_[i+1] - x_[i-1])             # <<<<<<<<<<<<<<
+ *             Jac[i,i] = ( 1 + M * Dt * ( 2*DC[i+1]/(x_[i+2] - x_[i]) + 2*DC[i]/(x_[i+1] - x_[i-1])             # <<<<<<<<<<<<<<
  *                                - DC[i+1]*chi1*2* fmax(sol[2*I+i+1]- sol[2*I+i],0.0) / (x_[i+2] - x_[i])
  *                                + DC[i]*chi1*2* fmin(sol[2*I+i] - sol[2*I+i-1],0.0) / (x_[i+1] - x_[i-1]) ) / (x_[i+1] - x_[i]) )
  */
@@ -3756,7 +3770,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_54 >= __pyx_pybuffernd_DC.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 52, __pyx_L1_error)
+        __PYX_ERR(0, 61, __pyx_L1_error)
       }
       __pyx_t_48 = (2.0 * (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_DC.rcbuffer->pybuffer.buf, __pyx_t_54, __pyx_pybuffernd_DC.diminfo[0].strides)));
       __pyx_t_55 = (__pyx_v_i + 2);
@@ -3767,7 +3781,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_55 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 52, __pyx_L1_error)
+        __PYX_ERR(0, 61, __pyx_L1_error)
       }
       __pyx_t_56 = __pyx_v_i;
       __pyx_t_12 = -1;
@@ -3777,12 +3791,12 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_56 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 52, __pyx_L1_error)
+        __PYX_ERR(0, 61, __pyx_L1_error)
       }
       __pyx_t_49 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_55, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_56, __pyx_pybuffernd_x_.diminfo[0].strides)));
       if (unlikely(__pyx_t_49 == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-        __PYX_ERR(0, 52, __pyx_L1_error)
+        __PYX_ERR(0, 61, __pyx_L1_error)
       }
       __pyx_t_57 = __pyx_v_i;
       __pyx_t_12 = -1;
@@ -3792,7 +3806,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_57 >= __pyx_pybuffernd_DC.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 52, __pyx_L1_error)
+        __PYX_ERR(0, 61, __pyx_L1_error)
       }
       __pyx_t_19 = (2.0 * (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_DC.rcbuffer->pybuffer.buf, __pyx_t_57, __pyx_pybuffernd_DC.diminfo[0].strides)));
       __pyx_t_58 = (__pyx_v_i + 1);
@@ -3803,7 +3817,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_58 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 52, __pyx_L1_error)
+        __PYX_ERR(0, 61, __pyx_L1_error)
       }
       __pyx_t_59 = (__pyx_v_i - 1);
       __pyx_t_12 = -1;
@@ -3813,17 +3827,17 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_59 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 52, __pyx_L1_error)
+        __PYX_ERR(0, 61, __pyx_L1_error)
       }
       __pyx_t_29 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_58, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_59, __pyx_pybuffernd_x_.diminfo[0].strides)));
       if (unlikely(__pyx_t_29 == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-        __PYX_ERR(0, 52, __pyx_L1_error)
+        __PYX_ERR(0, 61, __pyx_L1_error)
       }
 
-      /* "functions/jacobian.pyx":53
+      /* "functions/jacobian.pyx":62
  *             # fill diag
- *             M[i,i] = ( 1 + Dt * ( 2*DC[i+1]/(x_[i+2] - x_[i]) + 2*DC[i]/(x_[i+1] - x_[i-1])
+ *             Jac[i,i] = ( 1 + M * Dt * ( 2*DC[i+1]/(x_[i+2] - x_[i]) + 2*DC[i]/(x_[i+1] - x_[i-1])
  *                                - DC[i+1]*chi1*2* fmax(sol[2*I+i+1]- sol[2*I+i],0.0) / (x_[i+2] - x_[i])             # <<<<<<<<<<<<<<
  *                                + DC[i]*chi1*2* fmin(sol[2*I+i] - sol[2*I+i-1],0.0) / (x_[i+1] - x_[i-1]) ) / (x_[i+1] - x_[i]) )
  * 
@@ -3836,7 +3850,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_60 >= __pyx_pybuffernd_DC.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 53, __pyx_L1_error)
+        __PYX_ERR(0, 62, __pyx_L1_error)
       }
       __pyx_t_61 = (((2 * __pyx_v_I) + __pyx_v_i) + 1);
       __pyx_t_12 = -1;
@@ -3846,7 +3860,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_61 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 53, __pyx_L1_error)
+        __PYX_ERR(0, 62, __pyx_L1_error)
       }
       __pyx_t_62 = ((2 * __pyx_v_I) + __pyx_v_i);
       __pyx_t_12 = -1;
@@ -3856,7 +3870,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_62 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 53, __pyx_L1_error)
+        __PYX_ERR(0, 62, __pyx_L1_error)
       }
       __pyx_t_20 = ((((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_DC.rcbuffer->pybuffer.buf, __pyx_t_60, __pyx_pybuffernd_DC.diminfo[0].strides)) * __pyx_v_chi1) * 2.0) * fmax(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_61, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_62, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0));
       __pyx_t_63 = (__pyx_v_i + 2);
@@ -3867,7 +3881,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_63 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 53, __pyx_L1_error)
+        __PYX_ERR(0, 62, __pyx_L1_error)
       }
       __pyx_t_64 = __pyx_v_i;
       __pyx_t_12 = -1;
@@ -3877,16 +3891,16 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_64 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 53, __pyx_L1_error)
+        __PYX_ERR(0, 62, __pyx_L1_error)
       }
       __pyx_t_65 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_63, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_64, __pyx_pybuffernd_x_.diminfo[0].strides)));
       if (unlikely(__pyx_t_65 == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-        __PYX_ERR(0, 53, __pyx_L1_error)
+        __PYX_ERR(0, 62, __pyx_L1_error)
       }
 
-      /* "functions/jacobian.pyx":54
- *             M[i,i] = ( 1 + Dt * ( 2*DC[i+1]/(x_[i+2] - x_[i]) + 2*DC[i]/(x_[i+1] - x_[i-1])
+      /* "functions/jacobian.pyx":63
+ *             Jac[i,i] = ( 1 + M * Dt * ( 2*DC[i+1]/(x_[i+2] - x_[i]) + 2*DC[i]/(x_[i+1] - x_[i-1])
  *                                - DC[i+1]*chi1*2* fmax(sol[2*I+i+1]- sol[2*I+i],0.0) / (x_[i+2] - x_[i])
  *                                + DC[i]*chi1*2* fmin(sol[2*I+i] - sol[2*I+i-1],0.0) / (x_[i+1] - x_[i-1]) ) / (x_[i+1] - x_[i]) )             # <<<<<<<<<<<<<<
  * 
@@ -3900,7 +3914,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_66 >= __pyx_pybuffernd_DC.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 54, __pyx_L1_error)
+        __PYX_ERR(0, 63, __pyx_L1_error)
       }
       __pyx_t_67 = ((2 * __pyx_v_I) + __pyx_v_i);
       __pyx_t_12 = -1;
@@ -3910,7 +3924,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_67 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 54, __pyx_L1_error)
+        __PYX_ERR(0, 63, __pyx_L1_error)
       }
       __pyx_t_68 = (((2 * __pyx_v_I) + __pyx_v_i) - 1);
       __pyx_t_12 = -1;
@@ -3920,7 +3934,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_68 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 54, __pyx_L1_error)
+        __PYX_ERR(0, 63, __pyx_L1_error)
       }
       __pyx_t_69 = ((((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_DC.rcbuffer->pybuffer.buf, __pyx_t_66, __pyx_pybuffernd_DC.diminfo[0].strides)) * __pyx_v_chi1) * 2.0) * fmin(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_67, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_68, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0));
       __pyx_t_70 = (__pyx_v_i + 1);
@@ -3931,7 +3945,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_70 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 54, __pyx_L1_error)
+        __PYX_ERR(0, 63, __pyx_L1_error)
       }
       __pyx_t_71 = (__pyx_v_i - 1);
       __pyx_t_12 = -1;
@@ -3941,25 +3955,25 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_71 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 54, __pyx_L1_error)
+        __PYX_ERR(0, 63, __pyx_L1_error)
       }
       __pyx_t_72 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_70, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_71, __pyx_pybuffernd_x_.diminfo[0].strides)));
       if (unlikely(__pyx_t_72 == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-        __PYX_ERR(0, 54, __pyx_L1_error)
+        __PYX_ERR(0, 63, __pyx_L1_error)
       }
 
-      /* "functions/jacobian.pyx":52
+      /* "functions/jacobian.pyx":61
  * 
  *             # fill diag
- *             M[i,i] = ( 1 + Dt * ( 2*DC[i+1]/(x_[i+2] - x_[i]) + 2*DC[i]/(x_[i+1] - x_[i-1])             # <<<<<<<<<<<<<<
+ *             Jac[i,i] = ( 1 + M * Dt * ( 2*DC[i+1]/(x_[i+2] - x_[i]) + 2*DC[i]/(x_[i+1] - x_[i-1])             # <<<<<<<<<<<<<<
  *                                - DC[i+1]*chi1*2* fmax(sol[2*I+i+1]- sol[2*I+i],0.0) / (x_[i+2] - x_[i])
  *                                + DC[i]*chi1*2* fmin(sol[2*I+i] - sol[2*I+i-1],0.0) / (x_[i+1] - x_[i-1]) ) / (x_[i+1] - x_[i]) )
  */
-      __pyx_t_73 = (__pyx_v_Dt * ((((__pyx_t_48 / __pyx_t_49) + (__pyx_t_19 / __pyx_t_29)) - (__pyx_t_20 / __pyx_t_65)) + (__pyx_t_69 / __pyx_t_72)));
+      __pyx_t_73 = ((__pyx_v_M * __pyx_v_Dt) * ((((__pyx_t_48 / __pyx_t_49) + (__pyx_t_19 / __pyx_t_29)) - (__pyx_t_20 / __pyx_t_65)) + (__pyx_t_69 / __pyx_t_72)));
 
-      /* "functions/jacobian.pyx":54
- *             M[i,i] = ( 1 + Dt * ( 2*DC[i+1]/(x_[i+2] - x_[i]) + 2*DC[i]/(x_[i+1] - x_[i-1])
+      /* "functions/jacobian.pyx":63
+ *             Jac[i,i] = ( 1 + M * Dt * ( 2*DC[i+1]/(x_[i+2] - x_[i]) + 2*DC[i]/(x_[i+1] - x_[i-1])
  *                                - DC[i+1]*chi1*2* fmax(sol[2*I+i+1]- sol[2*I+i],0.0) / (x_[i+2] - x_[i])
  *                                + DC[i]*chi1*2* fmin(sol[2*I+i] - sol[2*I+i-1],0.0) / (x_[i+1] - x_[i-1]) ) / (x_[i+1] - x_[i]) )             # <<<<<<<<<<<<<<
  * 
@@ -3973,7 +3987,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_74 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 54, __pyx_L1_error)
+        __PYX_ERR(0, 63, __pyx_L1_error)
       }
       __pyx_t_75 = __pyx_v_i;
       __pyx_t_12 = -1;
@@ -3983,18 +3997,18 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_75 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 54, __pyx_L1_error)
+        __PYX_ERR(0, 63, __pyx_L1_error)
       }
       __pyx_t_72 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_74, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_75, __pyx_pybuffernd_x_.diminfo[0].strides)));
       if (unlikely(__pyx_t_72 == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-        __PYX_ERR(0, 54, __pyx_L1_error)
+        __PYX_ERR(0, 63, __pyx_L1_error)
       }
 
-      /* "functions/jacobian.pyx":52
+      /* "functions/jacobian.pyx":61
  * 
  *             # fill diag
- *             M[i,i] = ( 1 + Dt * ( 2*DC[i+1]/(x_[i+2] - x_[i]) + 2*DC[i]/(x_[i+1] - x_[i-1])             # <<<<<<<<<<<<<<
+ *             Jac[i,i] = ( 1 + M * Dt * ( 2*DC[i+1]/(x_[i+2] - x_[i]) + 2*DC[i]/(x_[i+1] - x_[i-1])             # <<<<<<<<<<<<<<
  *                                - DC[i+1]*chi1*2* fmax(sol[2*I+i+1]- sol[2*I+i],0.0) / (x_[i+2] - x_[i])
  *                                + DC[i]*chi1*2* fmin(sol[2*I+i] - sol[2*I+i-1],0.0) / (x_[i+1] - x_[i-1]) ) / (x_[i+1] - x_[i]) )
  */
@@ -4002,23 +4016,23 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       __pyx_t_77 = __pyx_v_i;
       __pyx_t_12 = -1;
       if (__pyx_t_76 < 0) {
-        __pyx_t_76 += __pyx_pybuffernd_M.diminfo[0].shape;
+        __pyx_t_76 += __pyx_pybuffernd_Jac.diminfo[0].shape;
         if (unlikely(__pyx_t_76 < 0)) __pyx_t_12 = 0;
-      } else if (unlikely(__pyx_t_76 >= __pyx_pybuffernd_M.diminfo[0].shape)) __pyx_t_12 = 0;
+      } else if (unlikely(__pyx_t_76 >= __pyx_pybuffernd_Jac.diminfo[0].shape)) __pyx_t_12 = 0;
       if (__pyx_t_77 < 0) {
-        __pyx_t_77 += __pyx_pybuffernd_M.diminfo[1].shape;
+        __pyx_t_77 += __pyx_pybuffernd_Jac.diminfo[1].shape;
         if (unlikely(__pyx_t_77 < 0)) __pyx_t_12 = 1;
-      } else if (unlikely(__pyx_t_77 >= __pyx_pybuffernd_M.diminfo[1].shape)) __pyx_t_12 = 1;
+      } else if (unlikely(__pyx_t_77 >= __pyx_pybuffernd_Jac.diminfo[1].shape)) __pyx_t_12 = 1;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 52, __pyx_L1_error)
+        __PYX_ERR(0, 61, __pyx_L1_error)
       }
-      *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_M.rcbuffer->pybuffer.buf, __pyx_t_76, __pyx_pybuffernd_M.diminfo[0].strides, __pyx_t_77, __pyx_pybuffernd_M.diminfo[1].strides) = (1.0 + (__pyx_t_73 / __pyx_t_72));
+      *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_Jac.rcbuffer->pybuffer.buf, __pyx_t_76, __pyx_pybuffernd_Jac.diminfo[0].strides, __pyx_t_77, __pyx_pybuffernd_Jac.diminfo[1].strides) = (1.0 + (__pyx_t_73 / __pyx_t_72));
 
-      /* "functions/jacobian.pyx":57
+      /* "functions/jacobian.pyx":66
  * 
  *             # fill upper diag
- *             M[i,i+1] = Dt * ( -2*DC[i+1]/(x_[i+2] - x_[i]) - DC[i+1]*chi1*2 * fmin(sol[2*I+i+1] - sol[2*I+i], 0.0) / (x_[i+2] - x_[i]) ) / (x_[i+1] - x_[i])             # <<<<<<<<<<<<<<
+ *             Jac[i,i+1] = M * Dt * ( -2*DC[i+1]/(x_[i+2] - x_[i]) - DC[i+1]*chi1*2 * fmin(sol[2*I+i+1] - sol[2*I+i], 0.0) / (x_[i+2] - x_[i]) ) / (x_[i+1] - x_[i])             # <<<<<<<<<<<<<<
  * 
  *             #--- dNP- / dc--------------------------------------------------------------------------------
  */
@@ -4030,7 +4044,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_78 >= __pyx_pybuffernd_DC.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 57, __pyx_L1_error)
+        __PYX_ERR(0, 66, __pyx_L1_error)
       }
       __pyx_t_72 = (-2.0 * (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_DC.rcbuffer->pybuffer.buf, __pyx_t_78, __pyx_pybuffernd_DC.diminfo[0].strides)));
       __pyx_t_79 = (__pyx_v_i + 2);
@@ -4041,7 +4055,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_79 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 57, __pyx_L1_error)
+        __PYX_ERR(0, 66, __pyx_L1_error)
       }
       __pyx_t_80 = __pyx_v_i;
       __pyx_t_12 = -1;
@@ -4051,12 +4065,12 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_80 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 57, __pyx_L1_error)
+        __PYX_ERR(0, 66, __pyx_L1_error)
       }
       __pyx_t_73 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_79, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_80, __pyx_pybuffernd_x_.diminfo[0].strides)));
       if (unlikely(__pyx_t_73 == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-        __PYX_ERR(0, 57, __pyx_L1_error)
+        __PYX_ERR(0, 66, __pyx_L1_error)
       }
       __pyx_t_81 = (__pyx_v_i + 1);
       __pyx_t_12 = -1;
@@ -4066,7 +4080,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_81 >= __pyx_pybuffernd_DC.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 57, __pyx_L1_error)
+        __PYX_ERR(0, 66, __pyx_L1_error)
       }
       __pyx_t_82 = (((2 * __pyx_v_I) + __pyx_v_i) + 1);
       __pyx_t_12 = -1;
@@ -4076,7 +4090,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_82 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 57, __pyx_L1_error)
+        __PYX_ERR(0, 66, __pyx_L1_error)
       }
       __pyx_t_83 = ((2 * __pyx_v_I) + __pyx_v_i);
       __pyx_t_12 = -1;
@@ -4086,7 +4100,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_83 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 57, __pyx_L1_error)
+        __PYX_ERR(0, 66, __pyx_L1_error)
       }
       __pyx_t_69 = ((((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_DC.rcbuffer->pybuffer.buf, __pyx_t_81, __pyx_pybuffernd_DC.diminfo[0].strides)) * __pyx_v_chi1) * 2.0) * fmin(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_82, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_83, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0));
       __pyx_t_84 = (__pyx_v_i + 2);
@@ -4097,7 +4111,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_84 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 57, __pyx_L1_error)
+        __PYX_ERR(0, 66, __pyx_L1_error)
       }
       __pyx_t_85 = __pyx_v_i;
       __pyx_t_12 = -1;
@@ -4107,14 +4121,14 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_85 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 57, __pyx_L1_error)
+        __PYX_ERR(0, 66, __pyx_L1_error)
       }
       __pyx_t_65 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_84, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_85, __pyx_pybuffernd_x_.diminfo[0].strides)));
       if (unlikely(__pyx_t_65 == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-        __PYX_ERR(0, 57, __pyx_L1_error)
+        __PYX_ERR(0, 66, __pyx_L1_error)
       }
-      __pyx_t_20 = (__pyx_v_Dt * ((__pyx_t_72 / __pyx_t_73) - (__pyx_t_69 / __pyx_t_65)));
+      __pyx_t_20 = ((__pyx_v_M * __pyx_v_Dt) * ((__pyx_t_72 / __pyx_t_73) - (__pyx_t_69 / __pyx_t_65)));
       __pyx_t_86 = (__pyx_v_i + 1);
       __pyx_t_12 = -1;
       if (__pyx_t_86 < 0) {
@@ -4123,7 +4137,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_86 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 57, __pyx_L1_error)
+        __PYX_ERR(0, 66, __pyx_L1_error)
       }
       __pyx_t_87 = __pyx_v_i;
       __pyx_t_12 = -1;
@@ -4133,34 +4147,34 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_87 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 57, __pyx_L1_error)
+        __PYX_ERR(0, 66, __pyx_L1_error)
       }
       __pyx_t_65 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_86, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_87, __pyx_pybuffernd_x_.diminfo[0].strides)));
       if (unlikely(__pyx_t_65 == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-        __PYX_ERR(0, 57, __pyx_L1_error)
+        __PYX_ERR(0, 66, __pyx_L1_error)
       }
       __pyx_t_88 = __pyx_v_i;
       __pyx_t_89 = (__pyx_v_i + 1);
       __pyx_t_12 = -1;
       if (__pyx_t_88 < 0) {
-        __pyx_t_88 += __pyx_pybuffernd_M.diminfo[0].shape;
+        __pyx_t_88 += __pyx_pybuffernd_Jac.diminfo[0].shape;
         if (unlikely(__pyx_t_88 < 0)) __pyx_t_12 = 0;
-      } else if (unlikely(__pyx_t_88 >= __pyx_pybuffernd_M.diminfo[0].shape)) __pyx_t_12 = 0;
+      } else if (unlikely(__pyx_t_88 >= __pyx_pybuffernd_Jac.diminfo[0].shape)) __pyx_t_12 = 0;
       if (__pyx_t_89 < 0) {
-        __pyx_t_89 += __pyx_pybuffernd_M.diminfo[1].shape;
+        __pyx_t_89 += __pyx_pybuffernd_Jac.diminfo[1].shape;
         if (unlikely(__pyx_t_89 < 0)) __pyx_t_12 = 1;
-      } else if (unlikely(__pyx_t_89 >= __pyx_pybuffernd_M.diminfo[1].shape)) __pyx_t_12 = 1;
+      } else if (unlikely(__pyx_t_89 >= __pyx_pybuffernd_Jac.diminfo[1].shape)) __pyx_t_12 = 1;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 57, __pyx_L1_error)
+        __PYX_ERR(0, 66, __pyx_L1_error)
       }
-      *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_M.rcbuffer->pybuffer.buf, __pyx_t_88, __pyx_pybuffernd_M.diminfo[0].strides, __pyx_t_89, __pyx_pybuffernd_M.diminfo[1].strides) = (__pyx_t_20 / __pyx_t_65);
+      *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_Jac.rcbuffer->pybuffer.buf, __pyx_t_88, __pyx_pybuffernd_Jac.diminfo[0].strides, __pyx_t_89, __pyx_pybuffernd_Jac.diminfo[1].strides) = (__pyx_t_20 / __pyx_t_65);
 
-      /* "functions/jacobian.pyx":61
+      /* "functions/jacobian.pyx":70
  *             #--- dNP- / dc--------------------------------------------------------------------------------
  *             # fill lower diag
- *             M[I+i,I+i-1] = Dt * ( -2*DA[i]/(x_[i+1] - x_[i-1]) - DA[i]*chi1*2* fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)/(x_[i+1] - x_[i-1]) ) / (x_[i+1] - x_[i])             # <<<<<<<<<<<<<<
+ *             Jac[I+i,I+i-1] = M * Dt * ( -2*DA[i]/(x_[i+1] - x_[i-1]) - DA[i]*chi1*2* fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)/(x_[i+1] - x_[i-1]) ) / (x_[i+1] - x_[i])             # <<<<<<<<<<<<<<
  * 
  *             # fill diag
  */
@@ -4172,7 +4186,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_90 >= __pyx_pybuffernd_DA.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 61, __pyx_L1_error)
+        __PYX_ERR(0, 70, __pyx_L1_error)
       }
       __pyx_t_65 = (-2.0 * (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_DA.rcbuffer->pybuffer.buf, __pyx_t_90, __pyx_pybuffernd_DA.diminfo[0].strides)));
       __pyx_t_91 = (__pyx_v_i + 1);
@@ -4183,7 +4197,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_91 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 61, __pyx_L1_error)
+        __PYX_ERR(0, 70, __pyx_L1_error)
       }
       __pyx_t_92 = (__pyx_v_i - 1);
       __pyx_t_12 = -1;
@@ -4193,12 +4207,12 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_92 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 61, __pyx_L1_error)
+        __PYX_ERR(0, 70, __pyx_L1_error)
       }
       __pyx_t_20 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_91, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_92, __pyx_pybuffernd_x_.diminfo[0].strides)));
       if (unlikely(__pyx_t_20 == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-        __PYX_ERR(0, 61, __pyx_L1_error)
+        __PYX_ERR(0, 70, __pyx_L1_error)
       }
       __pyx_t_93 = __pyx_v_i;
       __pyx_t_12 = -1;
@@ -4208,7 +4222,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_93 >= __pyx_pybuffernd_DA.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 61, __pyx_L1_error)
+        __PYX_ERR(0, 70, __pyx_L1_error)
       }
       __pyx_t_94 = ((2 * __pyx_v_I) + __pyx_v_i);
       __pyx_t_12 = -1;
@@ -4218,7 +4232,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_94 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 61, __pyx_L1_error)
+        __PYX_ERR(0, 70, __pyx_L1_error)
       }
       __pyx_t_95 = (((2 * __pyx_v_I) + __pyx_v_i) - 1);
       __pyx_t_12 = -1;
@@ -4228,7 +4242,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_95 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 61, __pyx_L1_error)
+        __PYX_ERR(0, 70, __pyx_L1_error)
       }
       __pyx_t_69 = ((((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_DA.rcbuffer->pybuffer.buf, __pyx_t_93, __pyx_pybuffernd_DA.diminfo[0].strides)) * __pyx_v_chi1) * 2.0) * fmax(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_94, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_95, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0));
       __pyx_t_96 = (__pyx_v_i + 1);
@@ -4239,7 +4253,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_96 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 61, __pyx_L1_error)
+        __PYX_ERR(0, 70, __pyx_L1_error)
       }
       __pyx_t_97 = (__pyx_v_i - 1);
       __pyx_t_12 = -1;
@@ -4249,14 +4263,14 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_97 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 61, __pyx_L1_error)
+        __PYX_ERR(0, 70, __pyx_L1_error)
       }
       __pyx_t_73 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_96, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_97, __pyx_pybuffernd_x_.diminfo[0].strides)));
       if (unlikely(__pyx_t_73 == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-        __PYX_ERR(0, 61, __pyx_L1_error)
+        __PYX_ERR(0, 70, __pyx_L1_error)
       }
-      __pyx_t_72 = (__pyx_v_Dt * ((__pyx_t_65 / __pyx_t_20) - (__pyx_t_69 / __pyx_t_73)));
+      __pyx_t_72 = ((__pyx_v_M * __pyx_v_Dt) * ((__pyx_t_65 / __pyx_t_20) - (__pyx_t_69 / __pyx_t_73)));
       __pyx_t_98 = (__pyx_v_i + 1);
       __pyx_t_12 = -1;
       if (__pyx_t_98 < 0) {
@@ -4265,7 +4279,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_98 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 61, __pyx_L1_error)
+        __PYX_ERR(0, 70, __pyx_L1_error)
       }
       __pyx_t_99 = __pyx_v_i;
       __pyx_t_12 = -1;
@@ -4275,34 +4289,34 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_99 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 61, __pyx_L1_error)
+        __PYX_ERR(0, 70, __pyx_L1_error)
       }
       __pyx_t_73 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_98, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_99, __pyx_pybuffernd_x_.diminfo[0].strides)));
       if (unlikely(__pyx_t_73 == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-        __PYX_ERR(0, 61, __pyx_L1_error)
+        __PYX_ERR(0, 70, __pyx_L1_error)
       }
       __pyx_t_100 = (__pyx_v_I + __pyx_v_i);
       __pyx_t_101 = ((__pyx_v_I + __pyx_v_i) - 1);
       __pyx_t_12 = -1;
       if (__pyx_t_100 < 0) {
-        __pyx_t_100 += __pyx_pybuffernd_M.diminfo[0].shape;
+        __pyx_t_100 += __pyx_pybuffernd_Jac.diminfo[0].shape;
         if (unlikely(__pyx_t_100 < 0)) __pyx_t_12 = 0;
-      } else if (unlikely(__pyx_t_100 >= __pyx_pybuffernd_M.diminfo[0].shape)) __pyx_t_12 = 0;
+      } else if (unlikely(__pyx_t_100 >= __pyx_pybuffernd_Jac.diminfo[0].shape)) __pyx_t_12 = 0;
       if (__pyx_t_101 < 0) {
-        __pyx_t_101 += __pyx_pybuffernd_M.diminfo[1].shape;
+        __pyx_t_101 += __pyx_pybuffernd_Jac.diminfo[1].shape;
         if (unlikely(__pyx_t_101 < 0)) __pyx_t_12 = 1;
-      } else if (unlikely(__pyx_t_101 >= __pyx_pybuffernd_M.diminfo[1].shape)) __pyx_t_12 = 1;
+      } else if (unlikely(__pyx_t_101 >= __pyx_pybuffernd_Jac.diminfo[1].shape)) __pyx_t_12 = 1;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 61, __pyx_L1_error)
+        __PYX_ERR(0, 70, __pyx_L1_error)
       }
-      *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_M.rcbuffer->pybuffer.buf, __pyx_t_100, __pyx_pybuffernd_M.diminfo[0].strides, __pyx_t_101, __pyx_pybuffernd_M.diminfo[1].strides) = (__pyx_t_72 / __pyx_t_73);
+      *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_Jac.rcbuffer->pybuffer.buf, __pyx_t_100, __pyx_pybuffernd_Jac.diminfo[0].strides, __pyx_t_101, __pyx_pybuffernd_Jac.diminfo[1].strides) = (__pyx_t_72 / __pyx_t_73);
 
-      /* "functions/jacobian.pyx":64
+      /* "functions/jacobian.pyx":73
  * 
  *             # fill diag
- *             M[I+i,I+i] = ( 1 + Dt * ( 2*DA[i+1]/(x_[i+2] - x_[i]) + 2*DA[i]/(x_[i+1] - x_[i-1])             # <<<<<<<<<<<<<<
+ *             Jac[I+i,I+i] = ( 1 + M * Dt * ( 2*DA[i+1]/(x_[i+2] - x_[i]) + 2*DA[i]/(x_[i+1] - x_[i-1])             # <<<<<<<<<<<<<<
  *                                + DA[i+1]*chi1*2* fmax(sol[2*I+i+1]- sol[2*I+i], 0.0) / (x_[i+2] - x_[i])
  *                                - DA[i]*chi1*2* fmin(sol[2*I+i] - sol[2*I+i-1], 0.0) / (x_[i+1] - x_[i-1]) ) / (x_[i+1] - x_[i]) )
  */
@@ -4314,7 +4328,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_102 >= __pyx_pybuffernd_DA.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 64, __pyx_L1_error)
+        __PYX_ERR(0, 73, __pyx_L1_error)
       }
       __pyx_t_73 = (2.0 * (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_DA.rcbuffer->pybuffer.buf, __pyx_t_102, __pyx_pybuffernd_DA.diminfo[0].strides)));
       __pyx_t_103 = (__pyx_v_i + 2);
@@ -4325,7 +4339,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_103 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 64, __pyx_L1_error)
+        __PYX_ERR(0, 73, __pyx_L1_error)
       }
       __pyx_t_104 = __pyx_v_i;
       __pyx_t_12 = -1;
@@ -4335,12 +4349,12 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_104 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 64, __pyx_L1_error)
+        __PYX_ERR(0, 73, __pyx_L1_error)
       }
       __pyx_t_72 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_103, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_104, __pyx_pybuffernd_x_.diminfo[0].strides)));
       if (unlikely(__pyx_t_72 == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-        __PYX_ERR(0, 64, __pyx_L1_error)
+        __PYX_ERR(0, 73, __pyx_L1_error)
       }
       __pyx_t_105 = __pyx_v_i;
       __pyx_t_12 = -1;
@@ -4350,7 +4364,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_105 >= __pyx_pybuffernd_DA.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 64, __pyx_L1_error)
+        __PYX_ERR(0, 73, __pyx_L1_error)
       }
       __pyx_t_69 = (2.0 * (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_DA.rcbuffer->pybuffer.buf, __pyx_t_105, __pyx_pybuffernd_DA.diminfo[0].strides)));
       __pyx_t_106 = (__pyx_v_i + 1);
@@ -4361,7 +4375,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_106 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 64, __pyx_L1_error)
+        __PYX_ERR(0, 73, __pyx_L1_error)
       }
       __pyx_t_107 = (__pyx_v_i - 1);
       __pyx_t_12 = -1;
@@ -4371,17 +4385,17 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_107 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 64, __pyx_L1_error)
+        __PYX_ERR(0, 73, __pyx_L1_error)
       }
       __pyx_t_20 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_106, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_107, __pyx_pybuffernd_x_.diminfo[0].strides)));
       if (unlikely(__pyx_t_20 == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-        __PYX_ERR(0, 64, __pyx_L1_error)
+        __PYX_ERR(0, 73, __pyx_L1_error)
       }
 
-      /* "functions/jacobian.pyx":65
+      /* "functions/jacobian.pyx":74
  *             # fill diag
- *             M[I+i,I+i] = ( 1 + Dt * ( 2*DA[i+1]/(x_[i+2] - x_[i]) + 2*DA[i]/(x_[i+1] - x_[i-1])
+ *             Jac[I+i,I+i] = ( 1 + M * Dt * ( 2*DA[i+1]/(x_[i+2] - x_[i]) + 2*DA[i]/(x_[i+1] - x_[i-1])
  *                                + DA[i+1]*chi1*2* fmax(sol[2*I+i+1]- sol[2*I+i], 0.0) / (x_[i+2] - x_[i])             # <<<<<<<<<<<<<<
  *                                - DA[i]*chi1*2* fmin(sol[2*I+i] - sol[2*I+i-1], 0.0) / (x_[i+1] - x_[i-1]) ) / (x_[i+1] - x_[i]) )
  * 
@@ -4394,7 +4408,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_108 >= __pyx_pybuffernd_DA.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 65, __pyx_L1_error)
+        __PYX_ERR(0, 74, __pyx_L1_error)
       }
       __pyx_t_109 = (((2 * __pyx_v_I) + __pyx_v_i) + 1);
       __pyx_t_12 = -1;
@@ -4404,7 +4418,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_109 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 65, __pyx_L1_error)
+        __PYX_ERR(0, 74, __pyx_L1_error)
       }
       __pyx_t_110 = ((2 * __pyx_v_I) + __pyx_v_i);
       __pyx_t_12 = -1;
@@ -4414,7 +4428,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_110 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 65, __pyx_L1_error)
+        __PYX_ERR(0, 74, __pyx_L1_error)
       }
       __pyx_t_65 = ((((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_DA.rcbuffer->pybuffer.buf, __pyx_t_108, __pyx_pybuffernd_DA.diminfo[0].strides)) * __pyx_v_chi1) * 2.0) * fmax(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_109, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_110, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0));
       __pyx_t_111 = (__pyx_v_i + 2);
@@ -4425,7 +4439,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_111 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 65, __pyx_L1_error)
+        __PYX_ERR(0, 74, __pyx_L1_error)
       }
       __pyx_t_112 = __pyx_v_i;
       __pyx_t_12 = -1;
@@ -4435,16 +4449,16 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_112 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 65, __pyx_L1_error)
+        __PYX_ERR(0, 74, __pyx_L1_error)
       }
       __pyx_t_29 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_111, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_112, __pyx_pybuffernd_x_.diminfo[0].strides)));
       if (unlikely(__pyx_t_29 == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-        __PYX_ERR(0, 65, __pyx_L1_error)
+        __PYX_ERR(0, 74, __pyx_L1_error)
       }
 
-      /* "functions/jacobian.pyx":66
- *             M[I+i,I+i] = ( 1 + Dt * ( 2*DA[i+1]/(x_[i+2] - x_[i]) + 2*DA[i]/(x_[i+1] - x_[i-1])
+      /* "functions/jacobian.pyx":75
+ *             Jac[I+i,I+i] = ( 1 + M * Dt * ( 2*DA[i+1]/(x_[i+2] - x_[i]) + 2*DA[i]/(x_[i+1] - x_[i-1])
  *                                + DA[i+1]*chi1*2* fmax(sol[2*I+i+1]- sol[2*I+i], 0.0) / (x_[i+2] - x_[i])
  *                                - DA[i]*chi1*2* fmin(sol[2*I+i] - sol[2*I+i-1], 0.0) / (x_[i+1] - x_[i-1]) ) / (x_[i+1] - x_[i]) )             # <<<<<<<<<<<<<<
  * 
@@ -4458,7 +4472,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_113 >= __pyx_pybuffernd_DA.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 66, __pyx_L1_error)
+        __PYX_ERR(0, 75, __pyx_L1_error)
       }
       __pyx_t_114 = ((2 * __pyx_v_I) + __pyx_v_i);
       __pyx_t_12 = -1;
@@ -4468,7 +4482,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_114 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 66, __pyx_L1_error)
+        __PYX_ERR(0, 75, __pyx_L1_error)
       }
       __pyx_t_115 = (((2 * __pyx_v_I) + __pyx_v_i) - 1);
       __pyx_t_12 = -1;
@@ -4478,7 +4492,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_115 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 66, __pyx_L1_error)
+        __PYX_ERR(0, 75, __pyx_L1_error)
       }
       __pyx_t_19 = ((((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_DA.rcbuffer->pybuffer.buf, __pyx_t_113, __pyx_pybuffernd_DA.diminfo[0].strides)) * __pyx_v_chi1) * 2.0) * fmin(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_114, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_115, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0));
       __pyx_t_116 = (__pyx_v_i + 1);
@@ -4489,7 +4503,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_116 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 66, __pyx_L1_error)
+        __PYX_ERR(0, 75, __pyx_L1_error)
       }
       __pyx_t_117 = (__pyx_v_i - 1);
       __pyx_t_12 = -1;
@@ -4499,25 +4513,25 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_117 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 66, __pyx_L1_error)
+        __PYX_ERR(0, 75, __pyx_L1_error)
       }
       __pyx_t_49 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_116, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_117, __pyx_pybuffernd_x_.diminfo[0].strides)));
       if (unlikely(__pyx_t_49 == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-        __PYX_ERR(0, 66, __pyx_L1_error)
+        __PYX_ERR(0, 75, __pyx_L1_error)
       }
 
-      /* "functions/jacobian.pyx":64
+      /* "functions/jacobian.pyx":73
  * 
  *             # fill diag
- *             M[I+i,I+i] = ( 1 + Dt * ( 2*DA[i+1]/(x_[i+2] - x_[i]) + 2*DA[i]/(x_[i+1] - x_[i-1])             # <<<<<<<<<<<<<<
+ *             Jac[I+i,I+i] = ( 1 + M * Dt * ( 2*DA[i+1]/(x_[i+2] - x_[i]) + 2*DA[i]/(x_[i+1] - x_[i-1])             # <<<<<<<<<<<<<<
  *                                + DA[i+1]*chi1*2* fmax(sol[2*I+i+1]- sol[2*I+i], 0.0) / (x_[i+2] - x_[i])
  *                                - DA[i]*chi1*2* fmin(sol[2*I+i] - sol[2*I+i-1], 0.0) / (x_[i+1] - x_[i-1]) ) / (x_[i+1] - x_[i]) )
  */
-      __pyx_t_48 = (__pyx_v_Dt * ((((__pyx_t_73 / __pyx_t_72) + (__pyx_t_69 / __pyx_t_20)) + (__pyx_t_65 / __pyx_t_29)) - (__pyx_t_19 / __pyx_t_49)));
+      __pyx_t_48 = ((__pyx_v_M * __pyx_v_Dt) * ((((__pyx_t_73 / __pyx_t_72) + (__pyx_t_69 / __pyx_t_20)) + (__pyx_t_65 / __pyx_t_29)) - (__pyx_t_19 / __pyx_t_49)));
 
-      /* "functions/jacobian.pyx":66
- *             M[I+i,I+i] = ( 1 + Dt * ( 2*DA[i+1]/(x_[i+2] - x_[i]) + 2*DA[i]/(x_[i+1] - x_[i-1])
+      /* "functions/jacobian.pyx":75
+ *             Jac[I+i,I+i] = ( 1 + M * Dt * ( 2*DA[i+1]/(x_[i+2] - x_[i]) + 2*DA[i]/(x_[i+1] - x_[i-1])
  *                                + DA[i+1]*chi1*2* fmax(sol[2*I+i+1]- sol[2*I+i], 0.0) / (x_[i+2] - x_[i])
  *                                - DA[i]*chi1*2* fmin(sol[2*I+i] - sol[2*I+i-1], 0.0) / (x_[i+1] - x_[i-1]) ) / (x_[i+1] - x_[i]) )             # <<<<<<<<<<<<<<
  * 
@@ -4531,7 +4545,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_118 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 66, __pyx_L1_error)
+        __PYX_ERR(0, 75, __pyx_L1_error)
       }
       __pyx_t_119 = __pyx_v_i;
       __pyx_t_12 = -1;
@@ -4541,18 +4555,18 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_119 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 66, __pyx_L1_error)
+        __PYX_ERR(0, 75, __pyx_L1_error)
       }
       __pyx_t_49 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_118, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_119, __pyx_pybuffernd_x_.diminfo[0].strides)));
       if (unlikely(__pyx_t_49 == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-        __PYX_ERR(0, 66, __pyx_L1_error)
+        __PYX_ERR(0, 75, __pyx_L1_error)
       }
 
-      /* "functions/jacobian.pyx":64
+      /* "functions/jacobian.pyx":73
  * 
  *             # fill diag
- *             M[I+i,I+i] = ( 1 + Dt * ( 2*DA[i+1]/(x_[i+2] - x_[i]) + 2*DA[i]/(x_[i+1] - x_[i-1])             # <<<<<<<<<<<<<<
+ *             Jac[I+i,I+i] = ( 1 + M * Dt * ( 2*DA[i+1]/(x_[i+2] - x_[i]) + 2*DA[i]/(x_[i+1] - x_[i-1])             # <<<<<<<<<<<<<<
  *                                + DA[i+1]*chi1*2* fmax(sol[2*I+i+1]- sol[2*I+i], 0.0) / (x_[i+2] - x_[i])
  *                                - DA[i]*chi1*2* fmin(sol[2*I+i] - sol[2*I+i-1], 0.0) / (x_[i+1] - x_[i-1]) ) / (x_[i+1] - x_[i]) )
  */
@@ -4560,23 +4574,23 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       __pyx_t_121 = (__pyx_v_I + __pyx_v_i);
       __pyx_t_12 = -1;
       if (__pyx_t_120 < 0) {
-        __pyx_t_120 += __pyx_pybuffernd_M.diminfo[0].shape;
+        __pyx_t_120 += __pyx_pybuffernd_Jac.diminfo[0].shape;
         if (unlikely(__pyx_t_120 < 0)) __pyx_t_12 = 0;
-      } else if (unlikely(__pyx_t_120 >= __pyx_pybuffernd_M.diminfo[0].shape)) __pyx_t_12 = 0;
+      } else if (unlikely(__pyx_t_120 >= __pyx_pybuffernd_Jac.diminfo[0].shape)) __pyx_t_12 = 0;
       if (__pyx_t_121 < 0) {
-        __pyx_t_121 += __pyx_pybuffernd_M.diminfo[1].shape;
+        __pyx_t_121 += __pyx_pybuffernd_Jac.diminfo[1].shape;
         if (unlikely(__pyx_t_121 < 0)) __pyx_t_12 = 1;
-      } else if (unlikely(__pyx_t_121 >= __pyx_pybuffernd_M.diminfo[1].shape)) __pyx_t_12 = 1;
+      } else if (unlikely(__pyx_t_121 >= __pyx_pybuffernd_Jac.diminfo[1].shape)) __pyx_t_12 = 1;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 64, __pyx_L1_error)
+        __PYX_ERR(0, 73, __pyx_L1_error)
       }
-      *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_M.rcbuffer->pybuffer.buf, __pyx_t_120, __pyx_pybuffernd_M.diminfo[0].strides, __pyx_t_121, __pyx_pybuffernd_M.diminfo[1].strides) = (1.0 + (__pyx_t_48 / __pyx_t_49));
+      *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_Jac.rcbuffer->pybuffer.buf, __pyx_t_120, __pyx_pybuffernd_Jac.diminfo[0].strides, __pyx_t_121, __pyx_pybuffernd_Jac.diminfo[1].strides) = (1.0 + (__pyx_t_48 / __pyx_t_49));
 
-      /* "functions/jacobian.pyx":69
+      /* "functions/jacobian.pyx":78
  * 
  *             # fill upper diag
- *             M[I+i,I+i+1] = Dt * ( -2*DA[i+1]/(x_[i+2] - x_[i]) + DA[i+1]*chi1*2 * fmin(sol[2*I+i+1] - sol[2*I+i], 0.0) / (x_[i+2] - x_[i]) ) / (x_[i+1] - x_[i])             # <<<<<<<<<<<<<<
+ *             Jac[I+i,I+i+1] = M * Dt * ( -2*DA[i+1]/(x_[i+2] - x_[i]) + DA[i+1]*chi1*2 * fmin(sol[2*I+i+1] - sol[2*I+i], 0.0) / (x_[i+2] - x_[i]) ) / (x_[i+1] - x_[i])             # <<<<<<<<<<<<<<
  * 
  *             #--- dNP+- / dp--------------------------------------------------------------------------------
  */
@@ -4588,7 +4602,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_122 >= __pyx_pybuffernd_DA.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 69, __pyx_L1_error)
+        __PYX_ERR(0, 78, __pyx_L1_error)
       }
       __pyx_t_49 = (-2.0 * (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_DA.rcbuffer->pybuffer.buf, __pyx_t_122, __pyx_pybuffernd_DA.diminfo[0].strides)));
       __pyx_t_123 = (__pyx_v_i + 2);
@@ -4599,7 +4613,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_123 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 69, __pyx_L1_error)
+        __PYX_ERR(0, 78, __pyx_L1_error)
       }
       __pyx_t_124 = __pyx_v_i;
       __pyx_t_12 = -1;
@@ -4609,12 +4623,12 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_124 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 69, __pyx_L1_error)
+        __PYX_ERR(0, 78, __pyx_L1_error)
       }
       __pyx_t_48 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_123, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_124, __pyx_pybuffernd_x_.diminfo[0].strides)));
       if (unlikely(__pyx_t_48 == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-        __PYX_ERR(0, 69, __pyx_L1_error)
+        __PYX_ERR(0, 78, __pyx_L1_error)
       }
       __pyx_t_125 = (__pyx_v_i + 1);
       __pyx_t_12 = -1;
@@ -4624,7 +4638,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_125 >= __pyx_pybuffernd_DA.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 69, __pyx_L1_error)
+        __PYX_ERR(0, 78, __pyx_L1_error)
       }
       __pyx_t_126 = (((2 * __pyx_v_I) + __pyx_v_i) + 1);
       __pyx_t_12 = -1;
@@ -4634,7 +4648,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_126 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 69, __pyx_L1_error)
+        __PYX_ERR(0, 78, __pyx_L1_error)
       }
       __pyx_t_127 = ((2 * __pyx_v_I) + __pyx_v_i);
       __pyx_t_12 = -1;
@@ -4644,7 +4658,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_127 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 69, __pyx_L1_error)
+        __PYX_ERR(0, 78, __pyx_L1_error)
       }
       __pyx_t_19 = ((((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_DA.rcbuffer->pybuffer.buf, __pyx_t_125, __pyx_pybuffernd_DA.diminfo[0].strides)) * __pyx_v_chi1) * 2.0) * fmin(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_126, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_127, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0));
       __pyx_t_128 = (__pyx_v_i + 2);
@@ -4655,7 +4669,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_128 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 69, __pyx_L1_error)
+        __PYX_ERR(0, 78, __pyx_L1_error)
       }
       __pyx_t_129 = __pyx_v_i;
       __pyx_t_12 = -1;
@@ -4665,14 +4679,14 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_129 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 69, __pyx_L1_error)
+        __PYX_ERR(0, 78, __pyx_L1_error)
       }
       __pyx_t_29 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_128, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_129, __pyx_pybuffernd_x_.diminfo[0].strides)));
       if (unlikely(__pyx_t_29 == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-        __PYX_ERR(0, 69, __pyx_L1_error)
+        __PYX_ERR(0, 78, __pyx_L1_error)
       }
-      __pyx_t_65 = (__pyx_v_Dt * ((__pyx_t_49 / __pyx_t_48) + (__pyx_t_19 / __pyx_t_29)));
+      __pyx_t_65 = ((__pyx_v_M * __pyx_v_Dt) * ((__pyx_t_49 / __pyx_t_48) + (__pyx_t_19 / __pyx_t_29)));
       __pyx_t_130 = (__pyx_v_i + 1);
       __pyx_t_12 = -1;
       if (__pyx_t_130 < 0) {
@@ -4681,7 +4695,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_130 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 69, __pyx_L1_error)
+        __PYX_ERR(0, 78, __pyx_L1_error)
       }
       __pyx_t_131 = __pyx_v_i;
       __pyx_t_12 = -1;
@@ -4691,31 +4705,31 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_131 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 69, __pyx_L1_error)
+        __PYX_ERR(0, 78, __pyx_L1_error)
       }
       __pyx_t_29 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_130, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_131, __pyx_pybuffernd_x_.diminfo[0].strides)));
       if (unlikely(__pyx_t_29 == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-        __PYX_ERR(0, 69, __pyx_L1_error)
+        __PYX_ERR(0, 78, __pyx_L1_error)
       }
       __pyx_t_132 = (__pyx_v_I + __pyx_v_i);
       __pyx_t_133 = ((__pyx_v_I + __pyx_v_i) + 1);
       __pyx_t_12 = -1;
       if (__pyx_t_132 < 0) {
-        __pyx_t_132 += __pyx_pybuffernd_M.diminfo[0].shape;
+        __pyx_t_132 += __pyx_pybuffernd_Jac.diminfo[0].shape;
         if (unlikely(__pyx_t_132 < 0)) __pyx_t_12 = 0;
-      } else if (unlikely(__pyx_t_132 >= __pyx_pybuffernd_M.diminfo[0].shape)) __pyx_t_12 = 0;
+      } else if (unlikely(__pyx_t_132 >= __pyx_pybuffernd_Jac.diminfo[0].shape)) __pyx_t_12 = 0;
       if (__pyx_t_133 < 0) {
-        __pyx_t_133 += __pyx_pybuffernd_M.diminfo[1].shape;
+        __pyx_t_133 += __pyx_pybuffernd_Jac.diminfo[1].shape;
         if (unlikely(__pyx_t_133 < 0)) __pyx_t_12 = 1;
-      } else if (unlikely(__pyx_t_133 >= __pyx_pybuffernd_M.diminfo[1].shape)) __pyx_t_12 = 1;
+      } else if (unlikely(__pyx_t_133 >= __pyx_pybuffernd_Jac.diminfo[1].shape)) __pyx_t_12 = 1;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 69, __pyx_L1_error)
+        __PYX_ERR(0, 78, __pyx_L1_error)
       }
-      *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_M.rcbuffer->pybuffer.buf, __pyx_t_132, __pyx_pybuffernd_M.diminfo[0].strides, __pyx_t_133, __pyx_pybuffernd_M.diminfo[1].strides) = (__pyx_t_65 / __pyx_t_29);
+      *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_Jac.rcbuffer->pybuffer.buf, __pyx_t_132, __pyx_pybuffernd_Jac.diminfo[0].strides, __pyx_t_133, __pyx_pybuffernd_Jac.diminfo[1].strides) = (__pyx_t_65 / __pyx_t_29);
 
-      /* "functions/jacobian.pyx":73
+      /* "functions/jacobian.pyx":82
  *             #--- dNP+- / dp--------------------------------------------------------------------------------
  *             # fill lower diag
  *             if not (sol[2*I+i] - sol[2*I+i-1]) == 0:             # <<<<<<<<<<<<<<
@@ -4730,7 +4744,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_134 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 73, __pyx_L1_error)
+        __PYX_ERR(0, 82, __pyx_L1_error)
       }
       __pyx_t_135 = (((2 * __pyx_v_I) + __pyx_v_i) - 1);
       __pyx_t_12 = -1;
@@ -4740,15 +4754,15 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_135 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 73, __pyx_L1_error)
+        __PYX_ERR(0, 82, __pyx_L1_error)
       }
       __pyx_t_15 = ((!((((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_134, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_135, __pyx_pybuffernd_sol.diminfo[0].strides))) == 0.0) != 0)) != 0);
       if (__pyx_t_15) {
 
-        /* "functions/jacobian.pyx":76
+        /* "functions/jacobian.pyx":85
  * 
  *                  #--- dNP+ / dp--------------------------------------------------------------------------------
- *                 M[i,2*I+i-1] =( Dt*(-DC[i]*chi1*( sol[i-1]*fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[i,2*I+i-1] =( M * Dt*(-DC[i]*chi1*( sol[i-1]*fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)             # <<<<<<<<<<<<<<
  *                             + sol[i]*fmin(sol[2*I+i] - sol[2*I+i-1], 0.0))*2/((x_[i+1] - x_[i-1]) * (sol[2*I+i] - sol[2*I+i-1])) ) / (x_[i+1] - x_[i]) )
  * 
  */
@@ -4760,7 +4774,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_136 >= __pyx_pybuffernd_DC.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 76, __pyx_L1_error)
+          __PYX_ERR(0, 85, __pyx_L1_error)
         }
         __pyx_t_137 = (__pyx_v_i - 1);
         __pyx_t_12 = -1;
@@ -4770,7 +4784,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_137 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 76, __pyx_L1_error)
+          __PYX_ERR(0, 85, __pyx_L1_error)
         }
         __pyx_t_138 = ((2 * __pyx_v_I) + __pyx_v_i);
         __pyx_t_12 = -1;
@@ -4780,7 +4794,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_138 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 76, __pyx_L1_error)
+          __PYX_ERR(0, 85, __pyx_L1_error)
         }
         __pyx_t_139 = (((2 * __pyx_v_I) + __pyx_v_i) - 1);
         __pyx_t_12 = -1;
@@ -4790,12 +4804,12 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_139 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 76, __pyx_L1_error)
+          __PYX_ERR(0, 85, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":77
+        /* "functions/jacobian.pyx":86
  *                  #--- dNP+ / dp--------------------------------------------------------------------------------
- *                 M[i,2*I+i-1] =( Dt*(-DC[i]*chi1*( sol[i-1]*fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)
+ *                 Jac[i,2*I+i-1] =( M * Dt*(-DC[i]*chi1*( sol[i-1]*fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)
  *                             + sol[i]*fmin(sol[2*I+i] - sol[2*I+i-1], 0.0))*2/((x_[i+1] - x_[i-1]) * (sol[2*I+i] - sol[2*I+i-1])) ) / (x_[i+1] - x_[i]) )             # <<<<<<<<<<<<<<
  * 
  *                 #--- dNP- / dp--------------------------------------------------------------------------------
@@ -4808,7 +4822,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_140 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 77, __pyx_L1_error)
+          __PYX_ERR(0, 86, __pyx_L1_error)
         }
         __pyx_t_141 = ((2 * __pyx_v_I) + __pyx_v_i);
         __pyx_t_12 = -1;
@@ -4818,7 +4832,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_141 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 77, __pyx_L1_error)
+          __PYX_ERR(0, 86, __pyx_L1_error)
         }
         __pyx_t_142 = (((2 * __pyx_v_I) + __pyx_v_i) - 1);
         __pyx_t_12 = -1;
@@ -4828,21 +4842,21 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_142 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 77, __pyx_L1_error)
+          __PYX_ERR(0, 86, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":76
+        /* "functions/jacobian.pyx":85
  * 
  *                  #--- dNP+ / dp--------------------------------------------------------------------------------
- *                 M[i,2*I+i-1] =( Dt*(-DC[i]*chi1*( sol[i-1]*fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[i,2*I+i-1] =( M * Dt*(-DC[i]*chi1*( sol[i-1]*fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)             # <<<<<<<<<<<<<<
  *                             + sol[i]*fmin(sol[2*I+i] - sol[2*I+i-1], 0.0))*2/((x_[i+1] - x_[i-1]) * (sol[2*I+i] - sol[2*I+i-1])) ) / (x_[i+1] - x_[i]) )
  * 
  */
         __pyx_t_29 = ((((-(*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_DC.rcbuffer->pybuffer.buf, __pyx_t_136, __pyx_pybuffernd_DC.diminfo[0].strides))) * __pyx_v_chi1) * (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_137, __pyx_pybuffernd_sol.diminfo[0].strides)) * fmax(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_138, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_139, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0)) + ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_140, __pyx_pybuffernd_sol.diminfo[0].strides)) * fmin(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_141, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_142, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0)))) * 2.0);
 
-        /* "functions/jacobian.pyx":77
+        /* "functions/jacobian.pyx":86
  *                  #--- dNP+ / dp--------------------------------------------------------------------------------
- *                 M[i,2*I+i-1] =( Dt*(-DC[i]*chi1*( sol[i-1]*fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)
+ *                 Jac[i,2*I+i-1] =( M * Dt*(-DC[i]*chi1*( sol[i-1]*fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)
  *                             + sol[i]*fmin(sol[2*I+i] - sol[2*I+i-1], 0.0))*2/((x_[i+1] - x_[i-1]) * (sol[2*I+i] - sol[2*I+i-1])) ) / (x_[i+1] - x_[i]) )             # <<<<<<<<<<<<<<
  * 
  *                 #--- dNP- / dp--------------------------------------------------------------------------------
@@ -4855,7 +4869,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_143 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 77, __pyx_L1_error)
+          __PYX_ERR(0, 86, __pyx_L1_error)
         }
         __pyx_t_144 = (__pyx_v_i - 1);
         __pyx_t_12 = -1;
@@ -4865,7 +4879,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_144 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 77, __pyx_L1_error)
+          __PYX_ERR(0, 86, __pyx_L1_error)
         }
         __pyx_t_145 = ((2 * __pyx_v_I) + __pyx_v_i);
         __pyx_t_12 = -1;
@@ -4875,7 +4889,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_145 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 77, __pyx_L1_error)
+          __PYX_ERR(0, 86, __pyx_L1_error)
         }
         __pyx_t_146 = (((2 * __pyx_v_I) + __pyx_v_i) - 1);
         __pyx_t_12 = -1;
@@ -4885,26 +4899,26 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_146 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 77, __pyx_L1_error)
+          __PYX_ERR(0, 86, __pyx_L1_error)
         }
         __pyx_t_65 = (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_143, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_144, __pyx_pybuffernd_x_.diminfo[0].strides))) * ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_145, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_146, __pyx_pybuffernd_sol.diminfo[0].strides))));
         if (unlikely(__pyx_t_65 == 0)) {
           PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-          __PYX_ERR(0, 77, __pyx_L1_error)
+          __PYX_ERR(0, 86, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":76
+        /* "functions/jacobian.pyx":85
  * 
  *                  #--- dNP+ / dp--------------------------------------------------------------------------------
- *                 M[i,2*I+i-1] =( Dt*(-DC[i]*chi1*( sol[i-1]*fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[i,2*I+i-1] =( M * Dt*(-DC[i]*chi1*( sol[i-1]*fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)             # <<<<<<<<<<<<<<
  *                             + sol[i]*fmin(sol[2*I+i] - sol[2*I+i-1], 0.0))*2/((x_[i+1] - x_[i-1]) * (sol[2*I+i] - sol[2*I+i-1])) ) / (x_[i+1] - x_[i]) )
  * 
  */
-        __pyx_t_19 = (__pyx_v_Dt * (__pyx_t_29 / __pyx_t_65));
+        __pyx_t_19 = ((__pyx_v_M * __pyx_v_Dt) * (__pyx_t_29 / __pyx_t_65));
 
-        /* "functions/jacobian.pyx":77
+        /* "functions/jacobian.pyx":86
  *                  #--- dNP+ / dp--------------------------------------------------------------------------------
- *                 M[i,2*I+i-1] =( Dt*(-DC[i]*chi1*( sol[i-1]*fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)
+ *                 Jac[i,2*I+i-1] =( M * Dt*(-DC[i]*chi1*( sol[i-1]*fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)
  *                             + sol[i]*fmin(sol[2*I+i] - sol[2*I+i-1], 0.0))*2/((x_[i+1] - x_[i-1]) * (sol[2*I+i] - sol[2*I+i-1])) ) / (x_[i+1] - x_[i]) )             # <<<<<<<<<<<<<<
  * 
  *                 #--- dNP- / dp--------------------------------------------------------------------------------
@@ -4917,7 +4931,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_147 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 77, __pyx_L1_error)
+          __PYX_ERR(0, 86, __pyx_L1_error)
         }
         __pyx_t_148 = __pyx_v_i;
         __pyx_t_12 = -1;
@@ -4927,18 +4941,18 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_148 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 77, __pyx_L1_error)
+          __PYX_ERR(0, 86, __pyx_L1_error)
         }
         __pyx_t_65 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_147, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_148, __pyx_pybuffernd_x_.diminfo[0].strides)));
         if (unlikely(__pyx_t_65 == 0)) {
           PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-          __PYX_ERR(0, 77, __pyx_L1_error)
+          __PYX_ERR(0, 86, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":76
+        /* "functions/jacobian.pyx":85
  * 
  *                  #--- dNP+ / dp--------------------------------------------------------------------------------
- *                 M[i,2*I+i-1] =( Dt*(-DC[i]*chi1*( sol[i-1]*fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[i,2*I+i-1] =( M * Dt*(-DC[i]*chi1*( sol[i-1]*fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)             # <<<<<<<<<<<<<<
  *                             + sol[i]*fmin(sol[2*I+i] - sol[2*I+i-1], 0.0))*2/((x_[i+1] - x_[i-1]) * (sol[2*I+i] - sol[2*I+i-1])) ) / (x_[i+1] - x_[i]) )
  * 
  */
@@ -4946,23 +4960,23 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         __pyx_t_150 = (((2 * __pyx_v_I) + __pyx_v_i) - 1);
         __pyx_t_12 = -1;
         if (__pyx_t_149 < 0) {
-          __pyx_t_149 += __pyx_pybuffernd_M.diminfo[0].shape;
+          __pyx_t_149 += __pyx_pybuffernd_Jac.diminfo[0].shape;
           if (unlikely(__pyx_t_149 < 0)) __pyx_t_12 = 0;
-        } else if (unlikely(__pyx_t_149 >= __pyx_pybuffernd_M.diminfo[0].shape)) __pyx_t_12 = 0;
+        } else if (unlikely(__pyx_t_149 >= __pyx_pybuffernd_Jac.diminfo[0].shape)) __pyx_t_12 = 0;
         if (__pyx_t_150 < 0) {
-          __pyx_t_150 += __pyx_pybuffernd_M.diminfo[1].shape;
+          __pyx_t_150 += __pyx_pybuffernd_Jac.diminfo[1].shape;
           if (unlikely(__pyx_t_150 < 0)) __pyx_t_12 = 1;
-        } else if (unlikely(__pyx_t_150 >= __pyx_pybuffernd_M.diminfo[1].shape)) __pyx_t_12 = 1;
+        } else if (unlikely(__pyx_t_150 >= __pyx_pybuffernd_Jac.diminfo[1].shape)) __pyx_t_12 = 1;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 76, __pyx_L1_error)
+          __PYX_ERR(0, 85, __pyx_L1_error)
         }
-        *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_M.rcbuffer->pybuffer.buf, __pyx_t_149, __pyx_pybuffernd_M.diminfo[0].strides, __pyx_t_150, __pyx_pybuffernd_M.diminfo[1].strides) = (__pyx_t_19 / __pyx_t_65);
+        *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_Jac.rcbuffer->pybuffer.buf, __pyx_t_149, __pyx_pybuffernd_Jac.diminfo[0].strides, __pyx_t_150, __pyx_pybuffernd_Jac.diminfo[1].strides) = (__pyx_t_19 / __pyx_t_65);
 
-        /* "functions/jacobian.pyx":80
+        /* "functions/jacobian.pyx":89
  * 
  *                 #--- dNP- / dp--------------------------------------------------------------------------------
- *                 M[I+i,2*I+i-1] = ( Dt*(DA[i]*chi1*( sol[I+i-1] * fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[I+i,2*I+i-1] = ( M * Dt*(DA[i]*chi1*( sol[I+i-1] * fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)             # <<<<<<<<<<<<<<
  *                             + sol[I+i] * fmin(sol[2*I+i] - sol[2*I+i-1], 0.0))*2/((x_[i+1] - x_[i-1]) * (sol[2*I+i] - sol[2*I+i-1])) ) / (x_[i+1] - x_[i]) )
  * 
  */
@@ -4974,7 +4988,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_151 >= __pyx_pybuffernd_DA.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 80, __pyx_L1_error)
+          __PYX_ERR(0, 89, __pyx_L1_error)
         }
         __pyx_t_152 = ((__pyx_v_I + __pyx_v_i) - 1);
         __pyx_t_12 = -1;
@@ -4984,7 +4998,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_152 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 80, __pyx_L1_error)
+          __PYX_ERR(0, 89, __pyx_L1_error)
         }
         __pyx_t_153 = ((2 * __pyx_v_I) + __pyx_v_i);
         __pyx_t_12 = -1;
@@ -4994,7 +5008,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_153 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 80, __pyx_L1_error)
+          __PYX_ERR(0, 89, __pyx_L1_error)
         }
         __pyx_t_154 = (((2 * __pyx_v_I) + __pyx_v_i) - 1);
         __pyx_t_12 = -1;
@@ -5004,12 +5018,12 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_154 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 80, __pyx_L1_error)
+          __PYX_ERR(0, 89, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":81
+        /* "functions/jacobian.pyx":90
  *                 #--- dNP- / dp--------------------------------------------------------------------------------
- *                 M[I+i,2*I+i-1] = ( Dt*(DA[i]*chi1*( sol[I+i-1] * fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)
+ *                 Jac[I+i,2*I+i-1] = ( M * Dt*(DA[i]*chi1*( sol[I+i-1] * fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)
  *                             + sol[I+i] * fmin(sol[2*I+i] - sol[2*I+i-1], 0.0))*2/((x_[i+1] - x_[i-1]) * (sol[2*I+i] - sol[2*I+i-1])) ) / (x_[i+1] - x_[i]) )             # <<<<<<<<<<<<<<
  * 
  *             # fill diag
@@ -5022,7 +5036,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_155 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 81, __pyx_L1_error)
+          __PYX_ERR(0, 90, __pyx_L1_error)
         }
         __pyx_t_156 = ((2 * __pyx_v_I) + __pyx_v_i);
         __pyx_t_12 = -1;
@@ -5032,7 +5046,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_156 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 81, __pyx_L1_error)
+          __PYX_ERR(0, 90, __pyx_L1_error)
         }
         __pyx_t_157 = (((2 * __pyx_v_I) + __pyx_v_i) - 1);
         __pyx_t_12 = -1;
@@ -5042,21 +5056,21 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_157 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 81, __pyx_L1_error)
+          __PYX_ERR(0, 90, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":80
+        /* "functions/jacobian.pyx":89
  * 
  *                 #--- dNP- / dp--------------------------------------------------------------------------------
- *                 M[I+i,2*I+i-1] = ( Dt*(DA[i]*chi1*( sol[I+i-1] * fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[I+i,2*I+i-1] = ( M * Dt*(DA[i]*chi1*( sol[I+i-1] * fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)             # <<<<<<<<<<<<<<
  *                             + sol[I+i] * fmin(sol[2*I+i] - sol[2*I+i-1], 0.0))*2/((x_[i+1] - x_[i-1]) * (sol[2*I+i] - sol[2*I+i-1])) ) / (x_[i+1] - x_[i]) )
  * 
  */
         __pyx_t_65 = ((((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_DA.rcbuffer->pybuffer.buf, __pyx_t_151, __pyx_pybuffernd_DA.diminfo[0].strides)) * __pyx_v_chi1) * (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_152, __pyx_pybuffernd_sol.diminfo[0].strides)) * fmax(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_153, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_154, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0)) + ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_155, __pyx_pybuffernd_sol.diminfo[0].strides)) * fmin(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_156, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_157, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0)))) * 2.0);
 
-        /* "functions/jacobian.pyx":81
+        /* "functions/jacobian.pyx":90
  *                 #--- dNP- / dp--------------------------------------------------------------------------------
- *                 M[I+i,2*I+i-1] = ( Dt*(DA[i]*chi1*( sol[I+i-1] * fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)
+ *                 Jac[I+i,2*I+i-1] = ( M * Dt*(DA[i]*chi1*( sol[I+i-1] * fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)
  *                             + sol[I+i] * fmin(sol[2*I+i] - sol[2*I+i-1], 0.0))*2/((x_[i+1] - x_[i-1]) * (sol[2*I+i] - sol[2*I+i-1])) ) / (x_[i+1] - x_[i]) )             # <<<<<<<<<<<<<<
  * 
  *             # fill diag
@@ -5069,7 +5083,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_158 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 81, __pyx_L1_error)
+          __PYX_ERR(0, 90, __pyx_L1_error)
         }
         __pyx_t_159 = (__pyx_v_i - 1);
         __pyx_t_12 = -1;
@@ -5079,7 +5093,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_159 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 81, __pyx_L1_error)
+          __PYX_ERR(0, 90, __pyx_L1_error)
         }
         __pyx_t_160 = ((2 * __pyx_v_I) + __pyx_v_i);
         __pyx_t_12 = -1;
@@ -5089,7 +5103,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_160 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 81, __pyx_L1_error)
+          __PYX_ERR(0, 90, __pyx_L1_error)
         }
         __pyx_t_161 = (((2 * __pyx_v_I) + __pyx_v_i) - 1);
         __pyx_t_12 = -1;
@@ -5099,26 +5113,26 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_161 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 81, __pyx_L1_error)
+          __PYX_ERR(0, 90, __pyx_L1_error)
         }
         __pyx_t_19 = (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_158, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_159, __pyx_pybuffernd_x_.diminfo[0].strides))) * ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_160, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_161, __pyx_pybuffernd_sol.diminfo[0].strides))));
         if (unlikely(__pyx_t_19 == 0)) {
           PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-          __PYX_ERR(0, 81, __pyx_L1_error)
+          __PYX_ERR(0, 90, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":80
+        /* "functions/jacobian.pyx":89
  * 
  *                 #--- dNP- / dp--------------------------------------------------------------------------------
- *                 M[I+i,2*I+i-1] = ( Dt*(DA[i]*chi1*( sol[I+i-1] * fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[I+i,2*I+i-1] = ( M * Dt*(DA[i]*chi1*( sol[I+i-1] * fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)             # <<<<<<<<<<<<<<
  *                             + sol[I+i] * fmin(sol[2*I+i] - sol[2*I+i-1], 0.0))*2/((x_[i+1] - x_[i-1]) * (sol[2*I+i] - sol[2*I+i-1])) ) / (x_[i+1] - x_[i]) )
  * 
  */
-        __pyx_t_29 = (__pyx_v_Dt * (__pyx_t_65 / __pyx_t_19));
+        __pyx_t_29 = ((__pyx_v_M * __pyx_v_Dt) * (__pyx_t_65 / __pyx_t_19));
 
-        /* "functions/jacobian.pyx":81
+        /* "functions/jacobian.pyx":90
  *                 #--- dNP- / dp--------------------------------------------------------------------------------
- *                 M[I+i,2*I+i-1] = ( Dt*(DA[i]*chi1*( sol[I+i-1] * fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)
+ *                 Jac[I+i,2*I+i-1] = ( M * Dt*(DA[i]*chi1*( sol[I+i-1] * fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)
  *                             + sol[I+i] * fmin(sol[2*I+i] - sol[2*I+i-1], 0.0))*2/((x_[i+1] - x_[i-1]) * (sol[2*I+i] - sol[2*I+i-1])) ) / (x_[i+1] - x_[i]) )             # <<<<<<<<<<<<<<
  * 
  *             # fill diag
@@ -5131,7 +5145,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_162 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 81, __pyx_L1_error)
+          __PYX_ERR(0, 90, __pyx_L1_error)
         }
         __pyx_t_163 = __pyx_v_i;
         __pyx_t_12 = -1;
@@ -5141,18 +5155,18 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_163 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 81, __pyx_L1_error)
+          __PYX_ERR(0, 90, __pyx_L1_error)
         }
         __pyx_t_19 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_162, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_163, __pyx_pybuffernd_x_.diminfo[0].strides)));
         if (unlikely(__pyx_t_19 == 0)) {
           PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-          __PYX_ERR(0, 81, __pyx_L1_error)
+          __PYX_ERR(0, 90, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":80
+        /* "functions/jacobian.pyx":89
  * 
  *                 #--- dNP- / dp--------------------------------------------------------------------------------
- *                 M[I+i,2*I+i-1] = ( Dt*(DA[i]*chi1*( sol[I+i-1] * fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[I+i,2*I+i-1] = ( M * Dt*(DA[i]*chi1*( sol[I+i-1] * fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)             # <<<<<<<<<<<<<<
  *                             + sol[I+i] * fmin(sol[2*I+i] - sol[2*I+i-1], 0.0))*2/((x_[i+1] - x_[i-1]) * (sol[2*I+i] - sol[2*I+i-1])) ) / (x_[i+1] - x_[i]) )
  * 
  */
@@ -5160,20 +5174,20 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         __pyx_t_165 = (((2 * __pyx_v_I) + __pyx_v_i) - 1);
         __pyx_t_12 = -1;
         if (__pyx_t_164 < 0) {
-          __pyx_t_164 += __pyx_pybuffernd_M.diminfo[0].shape;
+          __pyx_t_164 += __pyx_pybuffernd_Jac.diminfo[0].shape;
           if (unlikely(__pyx_t_164 < 0)) __pyx_t_12 = 0;
-        } else if (unlikely(__pyx_t_164 >= __pyx_pybuffernd_M.diminfo[0].shape)) __pyx_t_12 = 0;
+        } else if (unlikely(__pyx_t_164 >= __pyx_pybuffernd_Jac.diminfo[0].shape)) __pyx_t_12 = 0;
         if (__pyx_t_165 < 0) {
-          __pyx_t_165 += __pyx_pybuffernd_M.diminfo[1].shape;
+          __pyx_t_165 += __pyx_pybuffernd_Jac.diminfo[1].shape;
           if (unlikely(__pyx_t_165 < 0)) __pyx_t_12 = 1;
-        } else if (unlikely(__pyx_t_165 >= __pyx_pybuffernd_M.diminfo[1].shape)) __pyx_t_12 = 1;
+        } else if (unlikely(__pyx_t_165 >= __pyx_pybuffernd_Jac.diminfo[1].shape)) __pyx_t_12 = 1;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 80, __pyx_L1_error)
+          __PYX_ERR(0, 89, __pyx_L1_error)
         }
-        *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_M.rcbuffer->pybuffer.buf, __pyx_t_164, __pyx_pybuffernd_M.diminfo[0].strides, __pyx_t_165, __pyx_pybuffernd_M.diminfo[1].strides) = (__pyx_t_29 / __pyx_t_19);
+        *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_Jac.rcbuffer->pybuffer.buf, __pyx_t_164, __pyx_pybuffernd_Jac.diminfo[0].strides, __pyx_t_165, __pyx_pybuffernd_Jac.diminfo[1].strides) = (__pyx_t_29 / __pyx_t_19);
 
-        /* "functions/jacobian.pyx":73
+        /* "functions/jacobian.pyx":82
  *             #--- dNP+- / dp--------------------------------------------------------------------------------
  *             # fill lower diag
  *             if not (sol[2*I+i] - sol[2*I+i-1]) == 0:             # <<<<<<<<<<<<<<
@@ -5182,7 +5196,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
  */
       }
 
-      /* "functions/jacobian.pyx":85
+      /* "functions/jacobian.pyx":94
  *             # fill diag
  *             #--- dNP- / dp--------------------------------------------------------------------------------
  *             if not (sol[2*I+i+1] - sol[2*I+i]) == 0 and (sol[2*I+i] - sol[2*I+i-1]) == 0:             # <<<<<<<<<<<<<<
@@ -5197,7 +5211,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_166 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 85, __pyx_L1_error)
+        __PYX_ERR(0, 94, __pyx_L1_error)
       }
       __pyx_t_167 = ((2 * __pyx_v_I) + __pyx_v_i);
       __pyx_t_12 = -1;
@@ -5207,7 +5221,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_167 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 85, __pyx_L1_error)
+        __PYX_ERR(0, 94, __pyx_L1_error)
       }
       __pyx_t_16 = ((!((((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_166, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_167, __pyx_pybuffernd_sol.diminfo[0].strides))) == 0.0) != 0)) != 0);
       if (__pyx_t_16) {
@@ -5223,7 +5237,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_168 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 85, __pyx_L1_error)
+        __PYX_ERR(0, 94, __pyx_L1_error)
       }
       __pyx_t_169 = (((2 * __pyx_v_I) + __pyx_v_i) - 1);
       __pyx_t_12 = -1;
@@ -5233,17 +5247,17 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_169 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 85, __pyx_L1_error)
+        __PYX_ERR(0, 94, __pyx_L1_error)
       }
       __pyx_t_16 = ((((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_168, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_169, __pyx_pybuffernd_sol.diminfo[0].strides))) == 0.0) != 0);
       __pyx_t_15 = __pyx_t_16;
       __pyx_L10_bool_binop_done:;
       if (__pyx_t_15) {
 
-        /* "functions/jacobian.pyx":88
+        /* "functions/jacobian.pyx":97
  * 
  *                 #--- dNP+ / dp--------------------------------------------------------------------------------
- *                 M[i,2*I+i] = ( Dt*(DC[i+1]*chi1*( sol[i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[i,2*I+i] = ( M * Dt*(DC[i+1]*chi1*( sol[i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)             # <<<<<<<<<<<<<<
  *                         + sol[i+1] * fmin(sol[2*I+i+1] - sol[2*I+i], 0.0) )*2*( (x_[i+2] - x_[i])*(sol[2*I+i+1] - sol[2*I+i])) )/ (x_[i+1] - x_[i]) )
  * 
  */
@@ -5255,7 +5269,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_170 >= __pyx_pybuffernd_DC.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 88, __pyx_L1_error)
+          __PYX_ERR(0, 97, __pyx_L1_error)
         }
         __pyx_t_171 = __pyx_v_i;
         __pyx_t_12 = -1;
@@ -5265,7 +5279,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_171 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 88, __pyx_L1_error)
+          __PYX_ERR(0, 97, __pyx_L1_error)
         }
         __pyx_t_172 = (((2 * __pyx_v_I) + __pyx_v_i) + 1);
         __pyx_t_12 = -1;
@@ -5275,7 +5289,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_172 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 88, __pyx_L1_error)
+          __PYX_ERR(0, 97, __pyx_L1_error)
         }
         __pyx_t_173 = ((2 * __pyx_v_I) + __pyx_v_i);
         __pyx_t_12 = -1;
@@ -5285,12 +5299,12 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_173 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 88, __pyx_L1_error)
+          __PYX_ERR(0, 97, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":89
+        /* "functions/jacobian.pyx":98
  *                 #--- dNP+ / dp--------------------------------------------------------------------------------
- *                 M[i,2*I+i] = ( Dt*(DC[i+1]*chi1*( sol[i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)
+ *                 Jac[i,2*I+i] = ( M * Dt*(DC[i+1]*chi1*( sol[i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)
  *                         + sol[i+1] * fmin(sol[2*I+i+1] - sol[2*I+i], 0.0) )*2*( (x_[i+2] - x_[i])*(sol[2*I+i+1] - sol[2*I+i])) )/ (x_[i+1] - x_[i]) )             # <<<<<<<<<<<<<<
  * 
  *                 #--- dNP- / dp--------------------------------------------------------------------------------
@@ -5303,7 +5317,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_174 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 89, __pyx_L1_error)
+          __PYX_ERR(0, 98, __pyx_L1_error)
         }
         __pyx_t_175 = (((2 * __pyx_v_I) + __pyx_v_i) + 1);
         __pyx_t_12 = -1;
@@ -5313,7 +5327,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_175 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 89, __pyx_L1_error)
+          __PYX_ERR(0, 98, __pyx_L1_error)
         }
         __pyx_t_176 = ((2 * __pyx_v_I) + __pyx_v_i);
         __pyx_t_12 = -1;
@@ -5323,13 +5337,13 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_176 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 89, __pyx_L1_error)
+          __PYX_ERR(0, 98, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":88
+        /* "functions/jacobian.pyx":97
  * 
  *                 #--- dNP+ / dp--------------------------------------------------------------------------------
- *                 M[i,2*I+i] = ( Dt*(DC[i+1]*chi1*( sol[i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[i,2*I+i] = ( M * Dt*(DC[i+1]*chi1*( sol[i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)             # <<<<<<<<<<<<<<
  *                         + sol[i+1] * fmin(sol[2*I+i+1] - sol[2*I+i], 0.0) )*2*( (x_[i+2] - x_[i])*(sol[2*I+i+1] - sol[2*I+i])) )/ (x_[i+1] - x_[i]) )
  * 
  */
@@ -5341,12 +5355,12 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_177 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 89, __pyx_L1_error)
+          __PYX_ERR(0, 98, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":89
+        /* "functions/jacobian.pyx":98
  *                 #--- dNP+ / dp--------------------------------------------------------------------------------
- *                 M[i,2*I+i] = ( Dt*(DC[i+1]*chi1*( sol[i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)
+ *                 Jac[i,2*I+i] = ( M * Dt*(DC[i+1]*chi1*( sol[i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)
  *                         + sol[i+1] * fmin(sol[2*I+i+1] - sol[2*I+i], 0.0) )*2*( (x_[i+2] - x_[i])*(sol[2*I+i+1] - sol[2*I+i])) )/ (x_[i+1] - x_[i]) )             # <<<<<<<<<<<<<<
  * 
  *                 #--- dNP- / dp--------------------------------------------------------------------------------
@@ -5359,7 +5373,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_178 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 89, __pyx_L1_error)
+          __PYX_ERR(0, 98, __pyx_L1_error)
         }
         __pyx_t_179 = (((2 * __pyx_v_I) + __pyx_v_i) + 1);
         __pyx_t_12 = -1;
@@ -5369,7 +5383,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_179 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 89, __pyx_L1_error)
+          __PYX_ERR(0, 98, __pyx_L1_error)
         }
         __pyx_t_180 = ((2 * __pyx_v_I) + __pyx_v_i);
         __pyx_t_12 = -1;
@@ -5379,21 +5393,21 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_180 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 89, __pyx_L1_error)
+          __PYX_ERR(0, 98, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":88
+        /* "functions/jacobian.pyx":97
  * 
  *                 #--- dNP+ / dp--------------------------------------------------------------------------------
- *                 M[i,2*I+i] = ( Dt*(DC[i+1]*chi1*( sol[i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[i,2*I+i] = ( M * Dt*(DC[i+1]*chi1*( sol[i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)             # <<<<<<<<<<<<<<
  *                         + sol[i+1] * fmin(sol[2*I+i+1] - sol[2*I+i], 0.0) )*2*( (x_[i+2] - x_[i])*(sol[2*I+i+1] - sol[2*I+i])) )/ (x_[i+1] - x_[i]) )
  * 
  */
-        __pyx_t_19 = (__pyx_v_Dt * (((((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_DC.rcbuffer->pybuffer.buf, __pyx_t_170, __pyx_pybuffernd_DC.diminfo[0].strides)) * __pyx_v_chi1) * (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_171, __pyx_pybuffernd_sol.diminfo[0].strides)) * fmax(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_172, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_173, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0)) + ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_174, __pyx_pybuffernd_sol.diminfo[0].strides)) * fmin(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_175, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_176, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0)))) * 2.0) * (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_177, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_178, __pyx_pybuffernd_x_.diminfo[0].strides))) * ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_179, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_180, __pyx_pybuffernd_sol.diminfo[0].strides))))));
+        __pyx_t_19 = ((__pyx_v_M * __pyx_v_Dt) * (((((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_DC.rcbuffer->pybuffer.buf, __pyx_t_170, __pyx_pybuffernd_DC.diminfo[0].strides)) * __pyx_v_chi1) * (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_171, __pyx_pybuffernd_sol.diminfo[0].strides)) * fmax(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_172, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_173, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0)) + ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_174, __pyx_pybuffernd_sol.diminfo[0].strides)) * fmin(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_175, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_176, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0)))) * 2.0) * (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_177, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_178, __pyx_pybuffernd_x_.diminfo[0].strides))) * ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_179, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_180, __pyx_pybuffernd_sol.diminfo[0].strides))))));
 
-        /* "functions/jacobian.pyx":89
+        /* "functions/jacobian.pyx":98
  *                 #--- dNP+ / dp--------------------------------------------------------------------------------
- *                 M[i,2*I+i] = ( Dt*(DC[i+1]*chi1*( sol[i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)
+ *                 Jac[i,2*I+i] = ( M * Dt*(DC[i+1]*chi1*( sol[i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)
  *                         + sol[i+1] * fmin(sol[2*I+i+1] - sol[2*I+i], 0.0) )*2*( (x_[i+2] - x_[i])*(sol[2*I+i+1] - sol[2*I+i])) )/ (x_[i+1] - x_[i]) )             # <<<<<<<<<<<<<<
  * 
  *                 #--- dNP- / dp--------------------------------------------------------------------------------
@@ -5406,7 +5420,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_181 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 89, __pyx_L1_error)
+          __PYX_ERR(0, 98, __pyx_L1_error)
         }
         __pyx_t_182 = __pyx_v_i;
         __pyx_t_12 = -1;
@@ -5416,18 +5430,18 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_182 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 89, __pyx_L1_error)
+          __PYX_ERR(0, 98, __pyx_L1_error)
         }
         __pyx_t_29 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_181, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_182, __pyx_pybuffernd_x_.diminfo[0].strides)));
         if (unlikely(__pyx_t_29 == 0)) {
           PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-          __PYX_ERR(0, 89, __pyx_L1_error)
+          __PYX_ERR(0, 98, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":88
+        /* "functions/jacobian.pyx":97
  * 
  *                 #--- dNP+ / dp--------------------------------------------------------------------------------
- *                 M[i,2*I+i] = ( Dt*(DC[i+1]*chi1*( sol[i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[i,2*I+i] = ( M * Dt*(DC[i+1]*chi1*( sol[i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)             # <<<<<<<<<<<<<<
  *                         + sol[i+1] * fmin(sol[2*I+i+1] - sol[2*I+i], 0.0) )*2*( (x_[i+2] - x_[i])*(sol[2*I+i+1] - sol[2*I+i])) )/ (x_[i+1] - x_[i]) )
  * 
  */
@@ -5435,23 +5449,23 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         __pyx_t_184 = ((2 * __pyx_v_I) + __pyx_v_i);
         __pyx_t_12 = -1;
         if (__pyx_t_183 < 0) {
-          __pyx_t_183 += __pyx_pybuffernd_M.diminfo[0].shape;
+          __pyx_t_183 += __pyx_pybuffernd_Jac.diminfo[0].shape;
           if (unlikely(__pyx_t_183 < 0)) __pyx_t_12 = 0;
-        } else if (unlikely(__pyx_t_183 >= __pyx_pybuffernd_M.diminfo[0].shape)) __pyx_t_12 = 0;
+        } else if (unlikely(__pyx_t_183 >= __pyx_pybuffernd_Jac.diminfo[0].shape)) __pyx_t_12 = 0;
         if (__pyx_t_184 < 0) {
-          __pyx_t_184 += __pyx_pybuffernd_M.diminfo[1].shape;
+          __pyx_t_184 += __pyx_pybuffernd_Jac.diminfo[1].shape;
           if (unlikely(__pyx_t_184 < 0)) __pyx_t_12 = 1;
-        } else if (unlikely(__pyx_t_184 >= __pyx_pybuffernd_M.diminfo[1].shape)) __pyx_t_12 = 1;
+        } else if (unlikely(__pyx_t_184 >= __pyx_pybuffernd_Jac.diminfo[1].shape)) __pyx_t_12 = 1;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 88, __pyx_L1_error)
+          __PYX_ERR(0, 97, __pyx_L1_error)
         }
-        *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_M.rcbuffer->pybuffer.buf, __pyx_t_183, __pyx_pybuffernd_M.diminfo[0].strides, __pyx_t_184, __pyx_pybuffernd_M.diminfo[1].strides) = (__pyx_t_19 / __pyx_t_29);
+        *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_Jac.rcbuffer->pybuffer.buf, __pyx_t_183, __pyx_pybuffernd_Jac.diminfo[0].strides, __pyx_t_184, __pyx_pybuffernd_Jac.diminfo[1].strides) = (__pyx_t_19 / __pyx_t_29);
 
-        /* "functions/jacobian.pyx":92
+        /* "functions/jacobian.pyx":101
  * 
  *                 #--- dNP- / dp--------------------------------------------------------------------------------
- *                 M[I+i,2*I+i] = ( Dt*(-DA[i+1]*chi1*( sol[I+i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[I+i,2*I+i] = ( M * Dt*(-DA[i+1]*chi1*( sol[I+i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)             # <<<<<<<<<<<<<<
  *                         + sol[I+i+1] * fmin(sol[2*I+i+1] - sol[2*I+i], 0.0) )*2*( (x_[i+2] - x_[i])*(sol[2*I+i+1] - sol[2*I+i])) )/ (x_[i+1] - x_[i]) )
  * 
  */
@@ -5463,7 +5477,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_185 >= __pyx_pybuffernd_DA.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 92, __pyx_L1_error)
+          __PYX_ERR(0, 101, __pyx_L1_error)
         }
         __pyx_t_186 = (__pyx_v_I + __pyx_v_i);
         __pyx_t_12 = -1;
@@ -5473,7 +5487,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_186 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 92, __pyx_L1_error)
+          __PYX_ERR(0, 101, __pyx_L1_error)
         }
         __pyx_t_187 = (((2 * __pyx_v_I) + __pyx_v_i) + 1);
         __pyx_t_12 = -1;
@@ -5483,7 +5497,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_187 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 92, __pyx_L1_error)
+          __PYX_ERR(0, 101, __pyx_L1_error)
         }
         __pyx_t_188 = ((2 * __pyx_v_I) + __pyx_v_i);
         __pyx_t_12 = -1;
@@ -5493,12 +5507,12 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_188 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 92, __pyx_L1_error)
+          __PYX_ERR(0, 101, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":93
+        /* "functions/jacobian.pyx":102
  *                 #--- dNP- / dp--------------------------------------------------------------------------------
- *                 M[I+i,2*I+i] = ( Dt*(-DA[i+1]*chi1*( sol[I+i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)
+ *                 Jac[I+i,2*I+i] = ( M * Dt*(-DA[i+1]*chi1*( sol[I+i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)
  *                         + sol[I+i+1] * fmin(sol[2*I+i+1] - sol[2*I+i], 0.0) )*2*( (x_[i+2] - x_[i])*(sol[2*I+i+1] - sol[2*I+i])) )/ (x_[i+1] - x_[i]) )             # <<<<<<<<<<<<<<
  * 
  *             elif not (sol[2*I+i] - sol[2*I+i-1]) == 0 and (sol[2*I+i+1] - sol[2*I+i]) == 0:
@@ -5511,7 +5525,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_189 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 93, __pyx_L1_error)
+          __PYX_ERR(0, 102, __pyx_L1_error)
         }
         __pyx_t_190 = (((2 * __pyx_v_I) + __pyx_v_i) + 1);
         __pyx_t_12 = -1;
@@ -5521,7 +5535,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_190 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 93, __pyx_L1_error)
+          __PYX_ERR(0, 102, __pyx_L1_error)
         }
         __pyx_t_191 = ((2 * __pyx_v_I) + __pyx_v_i);
         __pyx_t_12 = -1;
@@ -5531,13 +5545,13 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_191 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 93, __pyx_L1_error)
+          __PYX_ERR(0, 102, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":92
+        /* "functions/jacobian.pyx":101
  * 
  *                 #--- dNP- / dp--------------------------------------------------------------------------------
- *                 M[I+i,2*I+i] = ( Dt*(-DA[i+1]*chi1*( sol[I+i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[I+i,2*I+i] = ( M * Dt*(-DA[i+1]*chi1*( sol[I+i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)             # <<<<<<<<<<<<<<
  *                         + sol[I+i+1] * fmin(sol[2*I+i+1] - sol[2*I+i], 0.0) )*2*( (x_[i+2] - x_[i])*(sol[2*I+i+1] - sol[2*I+i])) )/ (x_[i+1] - x_[i]) )
  * 
  */
@@ -5549,12 +5563,12 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_192 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 93, __pyx_L1_error)
+          __PYX_ERR(0, 102, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":93
+        /* "functions/jacobian.pyx":102
  *                 #--- dNP- / dp--------------------------------------------------------------------------------
- *                 M[I+i,2*I+i] = ( Dt*(-DA[i+1]*chi1*( sol[I+i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)
+ *                 Jac[I+i,2*I+i] = ( M * Dt*(-DA[i+1]*chi1*( sol[I+i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)
  *                         + sol[I+i+1] * fmin(sol[2*I+i+1] - sol[2*I+i], 0.0) )*2*( (x_[i+2] - x_[i])*(sol[2*I+i+1] - sol[2*I+i])) )/ (x_[i+1] - x_[i]) )             # <<<<<<<<<<<<<<
  * 
  *             elif not (sol[2*I+i] - sol[2*I+i-1]) == 0 and (sol[2*I+i+1] - sol[2*I+i]) == 0:
@@ -5567,7 +5581,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_193 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 93, __pyx_L1_error)
+          __PYX_ERR(0, 102, __pyx_L1_error)
         }
         __pyx_t_194 = (((2 * __pyx_v_I) + __pyx_v_i) + 1);
         __pyx_t_12 = -1;
@@ -5577,7 +5591,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_194 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 93, __pyx_L1_error)
+          __PYX_ERR(0, 102, __pyx_L1_error)
         }
         __pyx_t_195 = ((2 * __pyx_v_I) + __pyx_v_i);
         __pyx_t_12 = -1;
@@ -5587,21 +5601,21 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_195 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 93, __pyx_L1_error)
+          __PYX_ERR(0, 102, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":92
+        /* "functions/jacobian.pyx":101
  * 
  *                 #--- dNP- / dp--------------------------------------------------------------------------------
- *                 M[I+i,2*I+i] = ( Dt*(-DA[i+1]*chi1*( sol[I+i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[I+i,2*I+i] = ( M * Dt*(-DA[i+1]*chi1*( sol[I+i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)             # <<<<<<<<<<<<<<
  *                         + sol[I+i+1] * fmin(sol[2*I+i+1] - sol[2*I+i], 0.0) )*2*( (x_[i+2] - x_[i])*(sol[2*I+i+1] - sol[2*I+i])) )/ (x_[i+1] - x_[i]) )
  * 
  */
-        __pyx_t_29 = (__pyx_v_Dt * (((((-(*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_DA.rcbuffer->pybuffer.buf, __pyx_t_185, __pyx_pybuffernd_DA.diminfo[0].strides))) * __pyx_v_chi1) * (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_186, __pyx_pybuffernd_sol.diminfo[0].strides)) * fmax(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_187, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_188, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0)) + ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_189, __pyx_pybuffernd_sol.diminfo[0].strides)) * fmin(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_190, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_191, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0)))) * 2.0) * (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_192, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_193, __pyx_pybuffernd_x_.diminfo[0].strides))) * ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_194, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_195, __pyx_pybuffernd_sol.diminfo[0].strides))))));
+        __pyx_t_29 = ((__pyx_v_M * __pyx_v_Dt) * (((((-(*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_DA.rcbuffer->pybuffer.buf, __pyx_t_185, __pyx_pybuffernd_DA.diminfo[0].strides))) * __pyx_v_chi1) * (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_186, __pyx_pybuffernd_sol.diminfo[0].strides)) * fmax(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_187, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_188, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0)) + ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_189, __pyx_pybuffernd_sol.diminfo[0].strides)) * fmin(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_190, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_191, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0)))) * 2.0) * (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_192, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_193, __pyx_pybuffernd_x_.diminfo[0].strides))) * ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_194, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_195, __pyx_pybuffernd_sol.diminfo[0].strides))))));
 
-        /* "functions/jacobian.pyx":93
+        /* "functions/jacobian.pyx":102
  *                 #--- dNP- / dp--------------------------------------------------------------------------------
- *                 M[I+i,2*I+i] = ( Dt*(-DA[i+1]*chi1*( sol[I+i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)
+ *                 Jac[I+i,2*I+i] = ( M * Dt*(-DA[i+1]*chi1*( sol[I+i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)
  *                         + sol[I+i+1] * fmin(sol[2*I+i+1] - sol[2*I+i], 0.0) )*2*( (x_[i+2] - x_[i])*(sol[2*I+i+1] - sol[2*I+i])) )/ (x_[i+1] - x_[i]) )             # <<<<<<<<<<<<<<
  * 
  *             elif not (sol[2*I+i] - sol[2*I+i-1]) == 0 and (sol[2*I+i+1] - sol[2*I+i]) == 0:
@@ -5614,7 +5628,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_196 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 93, __pyx_L1_error)
+          __PYX_ERR(0, 102, __pyx_L1_error)
         }
         __pyx_t_197 = __pyx_v_i;
         __pyx_t_12 = -1;
@@ -5624,18 +5638,18 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_197 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 93, __pyx_L1_error)
+          __PYX_ERR(0, 102, __pyx_L1_error)
         }
         __pyx_t_19 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_196, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_197, __pyx_pybuffernd_x_.diminfo[0].strides)));
         if (unlikely(__pyx_t_19 == 0)) {
           PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-          __PYX_ERR(0, 93, __pyx_L1_error)
+          __PYX_ERR(0, 102, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":92
+        /* "functions/jacobian.pyx":101
  * 
  *                 #--- dNP- / dp--------------------------------------------------------------------------------
- *                 M[I+i,2*I+i] = ( Dt*(-DA[i+1]*chi1*( sol[I+i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[I+i,2*I+i] = ( M * Dt*(-DA[i+1]*chi1*( sol[I+i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)             # <<<<<<<<<<<<<<
  *                         + sol[I+i+1] * fmin(sol[2*I+i+1] - sol[2*I+i], 0.0) )*2*( (x_[i+2] - x_[i])*(sol[2*I+i+1] - sol[2*I+i])) )/ (x_[i+1] - x_[i]) )
  * 
  */
@@ -5643,20 +5657,20 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         __pyx_t_199 = ((2 * __pyx_v_I) + __pyx_v_i);
         __pyx_t_12 = -1;
         if (__pyx_t_198 < 0) {
-          __pyx_t_198 += __pyx_pybuffernd_M.diminfo[0].shape;
+          __pyx_t_198 += __pyx_pybuffernd_Jac.diminfo[0].shape;
           if (unlikely(__pyx_t_198 < 0)) __pyx_t_12 = 0;
-        } else if (unlikely(__pyx_t_198 >= __pyx_pybuffernd_M.diminfo[0].shape)) __pyx_t_12 = 0;
+        } else if (unlikely(__pyx_t_198 >= __pyx_pybuffernd_Jac.diminfo[0].shape)) __pyx_t_12 = 0;
         if (__pyx_t_199 < 0) {
-          __pyx_t_199 += __pyx_pybuffernd_M.diminfo[1].shape;
+          __pyx_t_199 += __pyx_pybuffernd_Jac.diminfo[1].shape;
           if (unlikely(__pyx_t_199 < 0)) __pyx_t_12 = 1;
-        } else if (unlikely(__pyx_t_199 >= __pyx_pybuffernd_M.diminfo[1].shape)) __pyx_t_12 = 1;
+        } else if (unlikely(__pyx_t_199 >= __pyx_pybuffernd_Jac.diminfo[1].shape)) __pyx_t_12 = 1;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 92, __pyx_L1_error)
+          __PYX_ERR(0, 101, __pyx_L1_error)
         }
-        *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_M.rcbuffer->pybuffer.buf, __pyx_t_198, __pyx_pybuffernd_M.diminfo[0].strides, __pyx_t_199, __pyx_pybuffernd_M.diminfo[1].strides) = (__pyx_t_29 / __pyx_t_19);
+        *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_Jac.rcbuffer->pybuffer.buf, __pyx_t_198, __pyx_pybuffernd_Jac.diminfo[0].strides, __pyx_t_199, __pyx_pybuffernd_Jac.diminfo[1].strides) = (__pyx_t_29 / __pyx_t_19);
 
-        /* "functions/jacobian.pyx":85
+        /* "functions/jacobian.pyx":94
  *             # fill diag
  *             #--- dNP- / dp--------------------------------------------------------------------------------
  *             if not (sol[2*I+i+1] - sol[2*I+i]) == 0 and (sol[2*I+i] - sol[2*I+i-1]) == 0:             # <<<<<<<<<<<<<<
@@ -5666,7 +5680,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         goto __pyx_L9;
       }
 
-      /* "functions/jacobian.pyx":95
+      /* "functions/jacobian.pyx":104
  *                         + sol[I+i+1] * fmin(sol[2*I+i+1] - sol[2*I+i], 0.0) )*2*( (x_[i+2] - x_[i])*(sol[2*I+i+1] - sol[2*I+i])) )/ (x_[i+1] - x_[i]) )
  * 
  *             elif not (sol[2*I+i] - sol[2*I+i-1]) == 0 and (sol[2*I+i+1] - sol[2*I+i]) == 0:             # <<<<<<<<<<<<<<
@@ -5681,7 +5695,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_200 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 95, __pyx_L1_error)
+        __PYX_ERR(0, 104, __pyx_L1_error)
       }
       __pyx_t_201 = (((2 * __pyx_v_I) + __pyx_v_i) - 1);
       __pyx_t_12 = -1;
@@ -5691,7 +5705,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_201 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 95, __pyx_L1_error)
+        __PYX_ERR(0, 104, __pyx_L1_error)
       }
       __pyx_t_16 = ((!((((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_200, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_201, __pyx_pybuffernd_sol.diminfo[0].strides))) == 0.0) != 0)) != 0);
       if (__pyx_t_16) {
@@ -5707,7 +5721,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_202 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 95, __pyx_L1_error)
+        __PYX_ERR(0, 104, __pyx_L1_error)
       }
       __pyx_t_203 = ((2 * __pyx_v_I) + __pyx_v_i);
       __pyx_t_12 = -1;
@@ -5717,17 +5731,17 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_203 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 95, __pyx_L1_error)
+        __PYX_ERR(0, 104, __pyx_L1_error)
       }
       __pyx_t_16 = ((((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_202, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_203, __pyx_pybuffernd_sol.diminfo[0].strides))) == 0.0) != 0);
       __pyx_t_15 = __pyx_t_16;
       __pyx_L12_bool_binop_done:;
       if (__pyx_t_15) {
 
-        /* "functions/jacobian.pyx":98
+        /* "functions/jacobian.pyx":107
  * 
  *                 #--- dNP+ / dp--------------------------------------------------------------------------------
- *                 M[i,2*I+i] = ( Dt*(DC[i]*chi1*( sol[i-1] * fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[i,2*I+i] = ( M * Dt*(DC[i]*chi1*( sol[i-1] * fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)             # <<<<<<<<<<<<<<
  *                         + sol[i] * fmin(sol[2*I+i] - sol[2*I+i-1], 0.0))*2*( (x_[i+1] - x_[i-1])*(sol[2*I+i] - sol[2*I+i-1])) )/ (x_[i+1] - x_[i]) )
  * 
  */
@@ -5739,7 +5753,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_204 >= __pyx_pybuffernd_DC.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 98, __pyx_L1_error)
+          __PYX_ERR(0, 107, __pyx_L1_error)
         }
         __pyx_t_205 = (__pyx_v_i - 1);
         __pyx_t_12 = -1;
@@ -5749,7 +5763,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_205 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 98, __pyx_L1_error)
+          __PYX_ERR(0, 107, __pyx_L1_error)
         }
         __pyx_t_206 = ((2 * __pyx_v_I) + __pyx_v_i);
         __pyx_t_12 = -1;
@@ -5759,7 +5773,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_206 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 98, __pyx_L1_error)
+          __PYX_ERR(0, 107, __pyx_L1_error)
         }
         __pyx_t_207 = (((2 * __pyx_v_I) + __pyx_v_i) - 1);
         __pyx_t_12 = -1;
@@ -5769,12 +5783,12 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_207 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 98, __pyx_L1_error)
+          __PYX_ERR(0, 107, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":99
+        /* "functions/jacobian.pyx":108
  *                 #--- dNP+ / dp--------------------------------------------------------------------------------
- *                 M[i,2*I+i] = ( Dt*(DC[i]*chi1*( sol[i-1] * fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)
+ *                 Jac[i,2*I+i] = ( M * Dt*(DC[i]*chi1*( sol[i-1] * fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)
  *                         + sol[i] * fmin(sol[2*I+i] - sol[2*I+i-1], 0.0))*2*( (x_[i+1] - x_[i-1])*(sol[2*I+i] - sol[2*I+i-1])) )/ (x_[i+1] - x_[i]) )             # <<<<<<<<<<<<<<
  * 
  *                 #--- dNP- / dp--------------------------------------------------------------------------------
@@ -5787,7 +5801,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_208 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 99, __pyx_L1_error)
+          __PYX_ERR(0, 108, __pyx_L1_error)
         }
         __pyx_t_209 = ((2 * __pyx_v_I) + __pyx_v_i);
         __pyx_t_12 = -1;
@@ -5797,7 +5811,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_209 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 99, __pyx_L1_error)
+          __PYX_ERR(0, 108, __pyx_L1_error)
         }
         __pyx_t_210 = (((2 * __pyx_v_I) + __pyx_v_i) - 1);
         __pyx_t_12 = -1;
@@ -5807,13 +5821,13 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_210 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 99, __pyx_L1_error)
+          __PYX_ERR(0, 108, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":98
+        /* "functions/jacobian.pyx":107
  * 
  *                 #--- dNP+ / dp--------------------------------------------------------------------------------
- *                 M[i,2*I+i] = ( Dt*(DC[i]*chi1*( sol[i-1] * fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[i,2*I+i] = ( M * Dt*(DC[i]*chi1*( sol[i-1] * fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)             # <<<<<<<<<<<<<<
  *                         + sol[i] * fmin(sol[2*I+i] - sol[2*I+i-1], 0.0))*2*( (x_[i+1] - x_[i-1])*(sol[2*I+i] - sol[2*I+i-1])) )/ (x_[i+1] - x_[i]) )
  * 
  */
@@ -5825,12 +5839,12 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_211 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 99, __pyx_L1_error)
+          __PYX_ERR(0, 108, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":99
+        /* "functions/jacobian.pyx":108
  *                 #--- dNP+ / dp--------------------------------------------------------------------------------
- *                 M[i,2*I+i] = ( Dt*(DC[i]*chi1*( sol[i-1] * fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)
+ *                 Jac[i,2*I+i] = ( M * Dt*(DC[i]*chi1*( sol[i-1] * fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)
  *                         + sol[i] * fmin(sol[2*I+i] - sol[2*I+i-1], 0.0))*2*( (x_[i+1] - x_[i-1])*(sol[2*I+i] - sol[2*I+i-1])) )/ (x_[i+1] - x_[i]) )             # <<<<<<<<<<<<<<
  * 
  *                 #--- dNP- / dp--------------------------------------------------------------------------------
@@ -5843,7 +5857,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_212 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 99, __pyx_L1_error)
+          __PYX_ERR(0, 108, __pyx_L1_error)
         }
         __pyx_t_213 = ((2 * __pyx_v_I) + __pyx_v_i);
         __pyx_t_12 = -1;
@@ -5853,7 +5867,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_213 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 99, __pyx_L1_error)
+          __PYX_ERR(0, 108, __pyx_L1_error)
         }
         __pyx_t_214 = (((2 * __pyx_v_I) + __pyx_v_i) - 1);
         __pyx_t_12 = -1;
@@ -5863,21 +5877,21 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_214 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 99, __pyx_L1_error)
+          __PYX_ERR(0, 108, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":98
+        /* "functions/jacobian.pyx":107
  * 
  *                 #--- dNP+ / dp--------------------------------------------------------------------------------
- *                 M[i,2*I+i] = ( Dt*(DC[i]*chi1*( sol[i-1] * fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[i,2*I+i] = ( M * Dt*(DC[i]*chi1*( sol[i-1] * fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)             # <<<<<<<<<<<<<<
  *                         + sol[i] * fmin(sol[2*I+i] - sol[2*I+i-1], 0.0))*2*( (x_[i+1] - x_[i-1])*(sol[2*I+i] - sol[2*I+i-1])) )/ (x_[i+1] - x_[i]) )
  * 
  */
-        __pyx_t_19 = (__pyx_v_Dt * (((((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_DC.rcbuffer->pybuffer.buf, __pyx_t_204, __pyx_pybuffernd_DC.diminfo[0].strides)) * __pyx_v_chi1) * (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_205, __pyx_pybuffernd_sol.diminfo[0].strides)) * fmax(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_206, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_207, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0)) + ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_208, __pyx_pybuffernd_sol.diminfo[0].strides)) * fmin(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_209, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_210, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0)))) * 2.0) * (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_211, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_212, __pyx_pybuffernd_x_.diminfo[0].strides))) * ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_213, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_214, __pyx_pybuffernd_sol.diminfo[0].strides))))));
+        __pyx_t_19 = ((__pyx_v_M * __pyx_v_Dt) * (((((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_DC.rcbuffer->pybuffer.buf, __pyx_t_204, __pyx_pybuffernd_DC.diminfo[0].strides)) * __pyx_v_chi1) * (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_205, __pyx_pybuffernd_sol.diminfo[0].strides)) * fmax(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_206, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_207, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0)) + ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_208, __pyx_pybuffernd_sol.diminfo[0].strides)) * fmin(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_209, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_210, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0)))) * 2.0) * (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_211, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_212, __pyx_pybuffernd_x_.diminfo[0].strides))) * ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_213, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_214, __pyx_pybuffernd_sol.diminfo[0].strides))))));
 
-        /* "functions/jacobian.pyx":99
+        /* "functions/jacobian.pyx":108
  *                 #--- dNP+ / dp--------------------------------------------------------------------------------
- *                 M[i,2*I+i] = ( Dt*(DC[i]*chi1*( sol[i-1] * fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)
+ *                 Jac[i,2*I+i] = ( M * Dt*(DC[i]*chi1*( sol[i-1] * fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)
  *                         + sol[i] * fmin(sol[2*I+i] - sol[2*I+i-1], 0.0))*2*( (x_[i+1] - x_[i-1])*(sol[2*I+i] - sol[2*I+i-1])) )/ (x_[i+1] - x_[i]) )             # <<<<<<<<<<<<<<
  * 
  *                 #--- dNP- / dp--------------------------------------------------------------------------------
@@ -5890,7 +5904,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_215 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 99, __pyx_L1_error)
+          __PYX_ERR(0, 108, __pyx_L1_error)
         }
         __pyx_t_216 = __pyx_v_i;
         __pyx_t_12 = -1;
@@ -5900,18 +5914,18 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_216 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 99, __pyx_L1_error)
+          __PYX_ERR(0, 108, __pyx_L1_error)
         }
         __pyx_t_29 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_215, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_216, __pyx_pybuffernd_x_.diminfo[0].strides)));
         if (unlikely(__pyx_t_29 == 0)) {
           PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-          __PYX_ERR(0, 99, __pyx_L1_error)
+          __PYX_ERR(0, 108, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":98
+        /* "functions/jacobian.pyx":107
  * 
  *                 #--- dNP+ / dp--------------------------------------------------------------------------------
- *                 M[i,2*I+i] = ( Dt*(DC[i]*chi1*( sol[i-1] * fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[i,2*I+i] = ( M * Dt*(DC[i]*chi1*( sol[i-1] * fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)             # <<<<<<<<<<<<<<
  *                         + sol[i] * fmin(sol[2*I+i] - sol[2*I+i-1], 0.0))*2*( (x_[i+1] - x_[i-1])*(sol[2*I+i] - sol[2*I+i-1])) )/ (x_[i+1] - x_[i]) )
  * 
  */
@@ -5919,23 +5933,23 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         __pyx_t_218 = ((2 * __pyx_v_I) + __pyx_v_i);
         __pyx_t_12 = -1;
         if (__pyx_t_217 < 0) {
-          __pyx_t_217 += __pyx_pybuffernd_M.diminfo[0].shape;
+          __pyx_t_217 += __pyx_pybuffernd_Jac.diminfo[0].shape;
           if (unlikely(__pyx_t_217 < 0)) __pyx_t_12 = 0;
-        } else if (unlikely(__pyx_t_217 >= __pyx_pybuffernd_M.diminfo[0].shape)) __pyx_t_12 = 0;
+        } else if (unlikely(__pyx_t_217 >= __pyx_pybuffernd_Jac.diminfo[0].shape)) __pyx_t_12 = 0;
         if (__pyx_t_218 < 0) {
-          __pyx_t_218 += __pyx_pybuffernd_M.diminfo[1].shape;
+          __pyx_t_218 += __pyx_pybuffernd_Jac.diminfo[1].shape;
           if (unlikely(__pyx_t_218 < 0)) __pyx_t_12 = 1;
-        } else if (unlikely(__pyx_t_218 >= __pyx_pybuffernd_M.diminfo[1].shape)) __pyx_t_12 = 1;
+        } else if (unlikely(__pyx_t_218 >= __pyx_pybuffernd_Jac.diminfo[1].shape)) __pyx_t_12 = 1;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 98, __pyx_L1_error)
+          __PYX_ERR(0, 107, __pyx_L1_error)
         }
-        *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_M.rcbuffer->pybuffer.buf, __pyx_t_217, __pyx_pybuffernd_M.diminfo[0].strides, __pyx_t_218, __pyx_pybuffernd_M.diminfo[1].strides) = (__pyx_t_19 / __pyx_t_29);
+        *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_Jac.rcbuffer->pybuffer.buf, __pyx_t_217, __pyx_pybuffernd_Jac.diminfo[0].strides, __pyx_t_218, __pyx_pybuffernd_Jac.diminfo[1].strides) = (__pyx_t_19 / __pyx_t_29);
 
-        /* "functions/jacobian.pyx":102
+        /* "functions/jacobian.pyx":111
  * 
  *                 #--- dNP- / dp--------------------------------------------------------------------------------
- *                 M[I+i,2*I+i] = ( Dt*(-DA[i]*chi1*( sol[I+i-1] * fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[I+i,2*I+i] = ( M * Dt*(-DA[i]*chi1*( sol[I+i-1] * fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)             # <<<<<<<<<<<<<<
  *                         + sol[I+i] * fmin(sol[2*I+i] - sol[2*I+i-1], 0.0))*2*( (x_[i+1] - x_[i-1])*(sol[2*I+i] - sol[2*I+i-1])) )/ (x_[i+1] - x_[i]) )
  * 
  */
@@ -5947,7 +5961,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_219 >= __pyx_pybuffernd_DA.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 102, __pyx_L1_error)
+          __PYX_ERR(0, 111, __pyx_L1_error)
         }
         __pyx_t_220 = ((__pyx_v_I + __pyx_v_i) - 1);
         __pyx_t_12 = -1;
@@ -5957,7 +5971,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_220 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 102, __pyx_L1_error)
+          __PYX_ERR(0, 111, __pyx_L1_error)
         }
         __pyx_t_221 = ((2 * __pyx_v_I) + __pyx_v_i);
         __pyx_t_12 = -1;
@@ -5967,7 +5981,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_221 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 102, __pyx_L1_error)
+          __PYX_ERR(0, 111, __pyx_L1_error)
         }
         __pyx_t_222 = (((2 * __pyx_v_I) + __pyx_v_i) - 1);
         __pyx_t_12 = -1;
@@ -5977,12 +5991,12 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_222 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 102, __pyx_L1_error)
+          __PYX_ERR(0, 111, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":103
+        /* "functions/jacobian.pyx":112
  *                 #--- dNP- / dp--------------------------------------------------------------------------------
- *                 M[I+i,2*I+i] = ( Dt*(-DA[i]*chi1*( sol[I+i-1] * fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)
+ *                 Jac[I+i,2*I+i] = ( M * Dt*(-DA[i]*chi1*( sol[I+i-1] * fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)
  *                         + sol[I+i] * fmin(sol[2*I+i] - sol[2*I+i-1], 0.0))*2*( (x_[i+1] - x_[i-1])*(sol[2*I+i] - sol[2*I+i-1])) )/ (x_[i+1] - x_[i]) )             # <<<<<<<<<<<<<<
  * 
  *             elif not (sol[2*I+i+1] - sol[2*I+i]) == 0 and not (sol[2*I+i] - sol[2*I+i-1]) == 0:
@@ -5995,7 +6009,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_223 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 103, __pyx_L1_error)
+          __PYX_ERR(0, 112, __pyx_L1_error)
         }
         __pyx_t_224 = ((2 * __pyx_v_I) + __pyx_v_i);
         __pyx_t_12 = -1;
@@ -6005,7 +6019,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_224 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 103, __pyx_L1_error)
+          __PYX_ERR(0, 112, __pyx_L1_error)
         }
         __pyx_t_225 = (((2 * __pyx_v_I) + __pyx_v_i) - 1);
         __pyx_t_12 = -1;
@@ -6015,13 +6029,13 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_225 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 103, __pyx_L1_error)
+          __PYX_ERR(0, 112, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":102
+        /* "functions/jacobian.pyx":111
  * 
  *                 #--- dNP- / dp--------------------------------------------------------------------------------
- *                 M[I+i,2*I+i] = ( Dt*(-DA[i]*chi1*( sol[I+i-1] * fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[I+i,2*I+i] = ( M * Dt*(-DA[i]*chi1*( sol[I+i-1] * fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)             # <<<<<<<<<<<<<<
  *                         + sol[I+i] * fmin(sol[2*I+i] - sol[2*I+i-1], 0.0))*2*( (x_[i+1] - x_[i-1])*(sol[2*I+i] - sol[2*I+i-1])) )/ (x_[i+1] - x_[i]) )
  * 
  */
@@ -6033,12 +6047,12 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_226 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 103, __pyx_L1_error)
+          __PYX_ERR(0, 112, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":103
+        /* "functions/jacobian.pyx":112
  *                 #--- dNP- / dp--------------------------------------------------------------------------------
- *                 M[I+i,2*I+i] = ( Dt*(-DA[i]*chi1*( sol[I+i-1] * fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)
+ *                 Jac[I+i,2*I+i] = ( M * Dt*(-DA[i]*chi1*( sol[I+i-1] * fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)
  *                         + sol[I+i] * fmin(sol[2*I+i] - sol[2*I+i-1], 0.0))*2*( (x_[i+1] - x_[i-1])*(sol[2*I+i] - sol[2*I+i-1])) )/ (x_[i+1] - x_[i]) )             # <<<<<<<<<<<<<<
  * 
  *             elif not (sol[2*I+i+1] - sol[2*I+i]) == 0 and not (sol[2*I+i] - sol[2*I+i-1]) == 0:
@@ -6051,7 +6065,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_227 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 103, __pyx_L1_error)
+          __PYX_ERR(0, 112, __pyx_L1_error)
         }
         __pyx_t_228 = ((2 * __pyx_v_I) + __pyx_v_i);
         __pyx_t_12 = -1;
@@ -6061,7 +6075,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_228 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 103, __pyx_L1_error)
+          __PYX_ERR(0, 112, __pyx_L1_error)
         }
         __pyx_t_229 = (((2 * __pyx_v_I) + __pyx_v_i) - 1);
         __pyx_t_12 = -1;
@@ -6071,21 +6085,21 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_229 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 103, __pyx_L1_error)
+          __PYX_ERR(0, 112, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":102
+        /* "functions/jacobian.pyx":111
  * 
  *                 #--- dNP- / dp--------------------------------------------------------------------------------
- *                 M[I+i,2*I+i] = ( Dt*(-DA[i]*chi1*( sol[I+i-1] * fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[I+i,2*I+i] = ( M * Dt*(-DA[i]*chi1*( sol[I+i-1] * fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)             # <<<<<<<<<<<<<<
  *                         + sol[I+i] * fmin(sol[2*I+i] - sol[2*I+i-1], 0.0))*2*( (x_[i+1] - x_[i-1])*(sol[2*I+i] - sol[2*I+i-1])) )/ (x_[i+1] - x_[i]) )
  * 
  */
-        __pyx_t_29 = (__pyx_v_Dt * (((((-(*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_DA.rcbuffer->pybuffer.buf, __pyx_t_219, __pyx_pybuffernd_DA.diminfo[0].strides))) * __pyx_v_chi1) * (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_220, __pyx_pybuffernd_sol.diminfo[0].strides)) * fmax(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_221, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_222, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0)) + ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_223, __pyx_pybuffernd_sol.diminfo[0].strides)) * fmin(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_224, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_225, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0)))) * 2.0) * (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_226, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_227, __pyx_pybuffernd_x_.diminfo[0].strides))) * ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_228, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_229, __pyx_pybuffernd_sol.diminfo[0].strides))))));
+        __pyx_t_29 = ((__pyx_v_M * __pyx_v_Dt) * (((((-(*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_DA.rcbuffer->pybuffer.buf, __pyx_t_219, __pyx_pybuffernd_DA.diminfo[0].strides))) * __pyx_v_chi1) * (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_220, __pyx_pybuffernd_sol.diminfo[0].strides)) * fmax(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_221, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_222, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0)) + ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_223, __pyx_pybuffernd_sol.diminfo[0].strides)) * fmin(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_224, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_225, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0)))) * 2.0) * (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_226, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_227, __pyx_pybuffernd_x_.diminfo[0].strides))) * ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_228, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_229, __pyx_pybuffernd_sol.diminfo[0].strides))))));
 
-        /* "functions/jacobian.pyx":103
+        /* "functions/jacobian.pyx":112
  *                 #--- dNP- / dp--------------------------------------------------------------------------------
- *                 M[I+i,2*I+i] = ( Dt*(-DA[i]*chi1*( sol[I+i-1] * fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)
+ *                 Jac[I+i,2*I+i] = ( M * Dt*(-DA[i]*chi1*( sol[I+i-1] * fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)
  *                         + sol[I+i] * fmin(sol[2*I+i] - sol[2*I+i-1], 0.0))*2*( (x_[i+1] - x_[i-1])*(sol[2*I+i] - sol[2*I+i-1])) )/ (x_[i+1] - x_[i]) )             # <<<<<<<<<<<<<<
  * 
  *             elif not (sol[2*I+i+1] - sol[2*I+i]) == 0 and not (sol[2*I+i] - sol[2*I+i-1]) == 0:
@@ -6098,7 +6112,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_230 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 103, __pyx_L1_error)
+          __PYX_ERR(0, 112, __pyx_L1_error)
         }
         __pyx_t_231 = __pyx_v_i;
         __pyx_t_12 = -1;
@@ -6108,18 +6122,18 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_231 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 103, __pyx_L1_error)
+          __PYX_ERR(0, 112, __pyx_L1_error)
         }
         __pyx_t_19 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_230, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_231, __pyx_pybuffernd_x_.diminfo[0].strides)));
         if (unlikely(__pyx_t_19 == 0)) {
           PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-          __PYX_ERR(0, 103, __pyx_L1_error)
+          __PYX_ERR(0, 112, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":102
+        /* "functions/jacobian.pyx":111
  * 
  *                 #--- dNP- / dp--------------------------------------------------------------------------------
- *                 M[I+i,2*I+i] = ( Dt*(-DA[i]*chi1*( sol[I+i-1] * fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[I+i,2*I+i] = ( M * Dt*(-DA[i]*chi1*( sol[I+i-1] * fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)             # <<<<<<<<<<<<<<
  *                         + sol[I+i] * fmin(sol[2*I+i] - sol[2*I+i-1], 0.0))*2*( (x_[i+1] - x_[i-1])*(sol[2*I+i] - sol[2*I+i-1])) )/ (x_[i+1] - x_[i]) )
  * 
  */
@@ -6127,20 +6141,20 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         __pyx_t_233 = ((2 * __pyx_v_I) + __pyx_v_i);
         __pyx_t_12 = -1;
         if (__pyx_t_232 < 0) {
-          __pyx_t_232 += __pyx_pybuffernd_M.diminfo[0].shape;
+          __pyx_t_232 += __pyx_pybuffernd_Jac.diminfo[0].shape;
           if (unlikely(__pyx_t_232 < 0)) __pyx_t_12 = 0;
-        } else if (unlikely(__pyx_t_232 >= __pyx_pybuffernd_M.diminfo[0].shape)) __pyx_t_12 = 0;
+        } else if (unlikely(__pyx_t_232 >= __pyx_pybuffernd_Jac.diminfo[0].shape)) __pyx_t_12 = 0;
         if (__pyx_t_233 < 0) {
-          __pyx_t_233 += __pyx_pybuffernd_M.diminfo[1].shape;
+          __pyx_t_233 += __pyx_pybuffernd_Jac.diminfo[1].shape;
           if (unlikely(__pyx_t_233 < 0)) __pyx_t_12 = 1;
-        } else if (unlikely(__pyx_t_233 >= __pyx_pybuffernd_M.diminfo[1].shape)) __pyx_t_12 = 1;
+        } else if (unlikely(__pyx_t_233 >= __pyx_pybuffernd_Jac.diminfo[1].shape)) __pyx_t_12 = 1;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 102, __pyx_L1_error)
+          __PYX_ERR(0, 111, __pyx_L1_error)
         }
-        *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_M.rcbuffer->pybuffer.buf, __pyx_t_232, __pyx_pybuffernd_M.diminfo[0].strides, __pyx_t_233, __pyx_pybuffernd_M.diminfo[1].strides) = (__pyx_t_29 / __pyx_t_19);
+        *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_Jac.rcbuffer->pybuffer.buf, __pyx_t_232, __pyx_pybuffernd_Jac.diminfo[0].strides, __pyx_t_233, __pyx_pybuffernd_Jac.diminfo[1].strides) = (__pyx_t_29 / __pyx_t_19);
 
-        /* "functions/jacobian.pyx":95
+        /* "functions/jacobian.pyx":104
  *                         + sol[I+i+1] * fmin(sol[2*I+i+1] - sol[2*I+i], 0.0) )*2*( (x_[i+2] - x_[i])*(sol[2*I+i+1] - sol[2*I+i])) )/ (x_[i+1] - x_[i]) )
  * 
  *             elif not (sol[2*I+i] - sol[2*I+i-1]) == 0 and (sol[2*I+i+1] - sol[2*I+i]) == 0:             # <<<<<<<<<<<<<<
@@ -6150,7 +6164,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         goto __pyx_L9;
       }
 
-      /* "functions/jacobian.pyx":105
+      /* "functions/jacobian.pyx":114
  *                         + sol[I+i] * fmin(sol[2*I+i] - sol[2*I+i-1], 0.0))*2*( (x_[i+1] - x_[i-1])*(sol[2*I+i] - sol[2*I+i-1])) )/ (x_[i+1] - x_[i]) )
  * 
  *             elif not (sol[2*I+i+1] - sol[2*I+i]) == 0 and not (sol[2*I+i] - sol[2*I+i-1]) == 0:             # <<<<<<<<<<<<<<
@@ -6165,7 +6179,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_234 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 105, __pyx_L1_error)
+        __PYX_ERR(0, 114, __pyx_L1_error)
       }
       __pyx_t_235 = ((2 * __pyx_v_I) + __pyx_v_i);
       __pyx_t_12 = -1;
@@ -6175,7 +6189,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_235 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 105, __pyx_L1_error)
+        __PYX_ERR(0, 114, __pyx_L1_error)
       }
       __pyx_t_16 = ((!((((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_234, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_235, __pyx_pybuffernd_sol.diminfo[0].strides))) == 0.0) != 0)) != 0);
       if (__pyx_t_16) {
@@ -6191,7 +6205,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_236 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 105, __pyx_L1_error)
+        __PYX_ERR(0, 114, __pyx_L1_error)
       }
       __pyx_t_237 = (((2 * __pyx_v_I) + __pyx_v_i) - 1);
       __pyx_t_12 = -1;
@@ -6201,17 +6215,17 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_237 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 105, __pyx_L1_error)
+        __PYX_ERR(0, 114, __pyx_L1_error)
       }
       __pyx_t_16 = ((!((((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_236, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_237, __pyx_pybuffernd_sol.diminfo[0].strides))) == 0.0) != 0)) != 0);
       __pyx_t_15 = __pyx_t_16;
       __pyx_L14_bool_binop_done:;
       if (__pyx_t_15) {
 
-        /* "functions/jacobian.pyx":108
+        /* "functions/jacobian.pyx":117
  * 
  *                 #--- dNP+ / dp--------------------------------------------------------------------------------
- *                 M[i,2*I+i] = ( Dt*(DC[i+1]*chi1*( sol[i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[i,2*I+i] = ( M * Dt*(DC[i+1]*chi1*( sol[i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)             # <<<<<<<<<<<<<<
  *                         + sol[i+1] * fmin(sol[2*I+i+1] - sol[2*I+i], 0.0) )*2*( (x_[i+2] - x_[i])*(sol[2*I+i+1] - sol[2*I+i]))
  *                         + DC[i]*chi1*( sol[i-1] * fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)
  */
@@ -6223,7 +6237,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_238 >= __pyx_pybuffernd_DC.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 108, __pyx_L1_error)
+          __PYX_ERR(0, 117, __pyx_L1_error)
         }
         __pyx_t_239 = __pyx_v_i;
         __pyx_t_12 = -1;
@@ -6233,7 +6247,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_239 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 108, __pyx_L1_error)
+          __PYX_ERR(0, 117, __pyx_L1_error)
         }
         __pyx_t_240 = (((2 * __pyx_v_I) + __pyx_v_i) + 1);
         __pyx_t_12 = -1;
@@ -6243,7 +6257,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_240 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 108, __pyx_L1_error)
+          __PYX_ERR(0, 117, __pyx_L1_error)
         }
         __pyx_t_241 = ((2 * __pyx_v_I) + __pyx_v_i);
         __pyx_t_12 = -1;
@@ -6253,12 +6267,12 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_241 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 108, __pyx_L1_error)
+          __PYX_ERR(0, 117, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":109
+        /* "functions/jacobian.pyx":118
  *                 #--- dNP+ / dp--------------------------------------------------------------------------------
- *                 M[i,2*I+i] = ( Dt*(DC[i+1]*chi1*( sol[i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)
+ *                 Jac[i,2*I+i] = ( M * Dt*(DC[i+1]*chi1*( sol[i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)
  *                         + sol[i+1] * fmin(sol[2*I+i+1] - sol[2*I+i], 0.0) )*2*( (x_[i+2] - x_[i])*(sol[2*I+i+1] - sol[2*I+i]))             # <<<<<<<<<<<<<<
  *                         + DC[i]*chi1*( sol[i-1] * fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)
  *                         + sol[i] * fmin(sol[2*I+i] - sol[2*I+i-1], 0.0))*2*( (x_[i+1] - x_[i-1])*(sol[2*I+i] - sol[2*I+i-1])) )/ (x_[i+1] - x_[i]) )
@@ -6271,7 +6285,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_242 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 109, __pyx_L1_error)
+          __PYX_ERR(0, 118, __pyx_L1_error)
         }
         __pyx_t_243 = (((2 * __pyx_v_I) + __pyx_v_i) + 1);
         __pyx_t_12 = -1;
@@ -6281,7 +6295,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_243 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 109, __pyx_L1_error)
+          __PYX_ERR(0, 118, __pyx_L1_error)
         }
         __pyx_t_244 = ((2 * __pyx_v_I) + __pyx_v_i);
         __pyx_t_12 = -1;
@@ -6291,13 +6305,13 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_244 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 109, __pyx_L1_error)
+          __PYX_ERR(0, 118, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":108
+        /* "functions/jacobian.pyx":117
  * 
  *                 #--- dNP+ / dp--------------------------------------------------------------------------------
- *                 M[i,2*I+i] = ( Dt*(DC[i+1]*chi1*( sol[i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[i,2*I+i] = ( M * Dt*(DC[i+1]*chi1*( sol[i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)             # <<<<<<<<<<<<<<
  *                         + sol[i+1] * fmin(sol[2*I+i+1] - sol[2*I+i], 0.0) )*2*( (x_[i+2] - x_[i])*(sol[2*I+i+1] - sol[2*I+i]))
  *                         + DC[i]*chi1*( sol[i-1] * fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)
  */
@@ -6309,12 +6323,12 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_245 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 109, __pyx_L1_error)
+          __PYX_ERR(0, 118, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":109
+        /* "functions/jacobian.pyx":118
  *                 #--- dNP+ / dp--------------------------------------------------------------------------------
- *                 M[i,2*I+i] = ( Dt*(DC[i+1]*chi1*( sol[i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)
+ *                 Jac[i,2*I+i] = ( M * Dt*(DC[i+1]*chi1*( sol[i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)
  *                         + sol[i+1] * fmin(sol[2*I+i+1] - sol[2*I+i], 0.0) )*2*( (x_[i+2] - x_[i])*(sol[2*I+i+1] - sol[2*I+i]))             # <<<<<<<<<<<<<<
  *                         + DC[i]*chi1*( sol[i-1] * fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)
  *                         + sol[i] * fmin(sol[2*I+i] - sol[2*I+i-1], 0.0))*2*( (x_[i+1] - x_[i-1])*(sol[2*I+i] - sol[2*I+i-1])) )/ (x_[i+1] - x_[i]) )
@@ -6327,7 +6341,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_246 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 109, __pyx_L1_error)
+          __PYX_ERR(0, 118, __pyx_L1_error)
         }
         __pyx_t_247 = (((2 * __pyx_v_I) + __pyx_v_i) + 1);
         __pyx_t_12 = -1;
@@ -6337,7 +6351,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_247 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 109, __pyx_L1_error)
+          __PYX_ERR(0, 118, __pyx_L1_error)
         }
         __pyx_t_248 = ((2 * __pyx_v_I) + __pyx_v_i);
         __pyx_t_12 = -1;
@@ -6347,11 +6361,11 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_248 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 109, __pyx_L1_error)
+          __PYX_ERR(0, 118, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":110
- *                 M[i,2*I+i] = ( Dt*(DC[i+1]*chi1*( sol[i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)
+        /* "functions/jacobian.pyx":119
+ *                 Jac[i,2*I+i] = ( M * Dt*(DC[i+1]*chi1*( sol[i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)
  *                         + sol[i+1] * fmin(sol[2*I+i+1] - sol[2*I+i], 0.0) )*2*( (x_[i+2] - x_[i])*(sol[2*I+i+1] - sol[2*I+i]))
  *                         + DC[i]*chi1*( sol[i-1] * fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)             # <<<<<<<<<<<<<<
  *                         + sol[i] * fmin(sol[2*I+i] - sol[2*I+i-1], 0.0))*2*( (x_[i+1] - x_[i-1])*(sol[2*I+i] - sol[2*I+i-1])) )/ (x_[i+1] - x_[i]) )
@@ -6365,7 +6379,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_249 >= __pyx_pybuffernd_DC.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 110, __pyx_L1_error)
+          __PYX_ERR(0, 119, __pyx_L1_error)
         }
         __pyx_t_250 = (__pyx_v_i - 1);
         __pyx_t_12 = -1;
@@ -6375,7 +6389,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_250 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 110, __pyx_L1_error)
+          __PYX_ERR(0, 119, __pyx_L1_error)
         }
         __pyx_t_251 = ((2 * __pyx_v_I) + __pyx_v_i);
         __pyx_t_12 = -1;
@@ -6385,7 +6399,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_251 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 110, __pyx_L1_error)
+          __PYX_ERR(0, 119, __pyx_L1_error)
         }
         __pyx_t_252 = (((2 * __pyx_v_I) + __pyx_v_i) - 1);
         __pyx_t_12 = -1;
@@ -6395,10 +6409,10 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_252 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 110, __pyx_L1_error)
+          __PYX_ERR(0, 119, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":111
+        /* "functions/jacobian.pyx":120
  *                         + sol[i+1] * fmin(sol[2*I+i+1] - sol[2*I+i], 0.0) )*2*( (x_[i+2] - x_[i])*(sol[2*I+i+1] - sol[2*I+i]))
  *                         + DC[i]*chi1*( sol[i-1] * fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)
  *                         + sol[i] * fmin(sol[2*I+i] - sol[2*I+i-1], 0.0))*2*( (x_[i+1] - x_[i-1])*(sol[2*I+i] - sol[2*I+i-1])) )/ (x_[i+1] - x_[i]) )             # <<<<<<<<<<<<<<
@@ -6413,7 +6427,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_253 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 111, __pyx_L1_error)
+          __PYX_ERR(0, 120, __pyx_L1_error)
         }
         __pyx_t_254 = ((2 * __pyx_v_I) + __pyx_v_i);
         __pyx_t_12 = -1;
@@ -6423,7 +6437,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_254 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 111, __pyx_L1_error)
+          __PYX_ERR(0, 120, __pyx_L1_error)
         }
         __pyx_t_255 = (((2 * __pyx_v_I) + __pyx_v_i) - 1);
         __pyx_t_12 = -1;
@@ -6433,11 +6447,11 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_255 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 111, __pyx_L1_error)
+          __PYX_ERR(0, 120, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":110
- *                 M[i,2*I+i] = ( Dt*(DC[i+1]*chi1*( sol[i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)
+        /* "functions/jacobian.pyx":119
+ *                 Jac[i,2*I+i] = ( M * Dt*(DC[i+1]*chi1*( sol[i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)
  *                         + sol[i+1] * fmin(sol[2*I+i+1] - sol[2*I+i], 0.0) )*2*( (x_[i+2] - x_[i])*(sol[2*I+i+1] - sol[2*I+i]))
  *                         + DC[i]*chi1*( sol[i-1] * fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)             # <<<<<<<<<<<<<<
  *                         + sol[i] * fmin(sol[2*I+i] - sol[2*I+i-1], 0.0))*2*( (x_[i+1] - x_[i-1])*(sol[2*I+i] - sol[2*I+i-1])) )/ (x_[i+1] - x_[i]) )
@@ -6451,10 +6465,10 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_256 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 111, __pyx_L1_error)
+          __PYX_ERR(0, 120, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":111
+        /* "functions/jacobian.pyx":120
  *                         + sol[i+1] * fmin(sol[2*I+i+1] - sol[2*I+i], 0.0) )*2*( (x_[i+2] - x_[i])*(sol[2*I+i+1] - sol[2*I+i]))
  *                         + DC[i]*chi1*( sol[i-1] * fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)
  *                         + sol[i] * fmin(sol[2*I+i] - sol[2*I+i-1], 0.0))*2*( (x_[i+1] - x_[i-1])*(sol[2*I+i] - sol[2*I+i-1])) )/ (x_[i+1] - x_[i]) )             # <<<<<<<<<<<<<<
@@ -6469,7 +6483,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_257 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 111, __pyx_L1_error)
+          __PYX_ERR(0, 120, __pyx_L1_error)
         }
         __pyx_t_258 = ((2 * __pyx_v_I) + __pyx_v_i);
         __pyx_t_12 = -1;
@@ -6479,7 +6493,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_258 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 111, __pyx_L1_error)
+          __PYX_ERR(0, 120, __pyx_L1_error)
         }
         __pyx_t_259 = (((2 * __pyx_v_I) + __pyx_v_i) - 1);
         __pyx_t_12 = -1;
@@ -6489,19 +6503,19 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_259 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 111, __pyx_L1_error)
+          __PYX_ERR(0, 120, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":108
+        /* "functions/jacobian.pyx":117
  * 
  *                 #--- dNP+ / dp--------------------------------------------------------------------------------
- *                 M[i,2*I+i] = ( Dt*(DC[i+1]*chi1*( sol[i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[i,2*I+i] = ( M * Dt*(DC[i+1]*chi1*( sol[i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)             # <<<<<<<<<<<<<<
  *                         + sol[i+1] * fmin(sol[2*I+i+1] - sol[2*I+i], 0.0) )*2*( (x_[i+2] - x_[i])*(sol[2*I+i+1] - sol[2*I+i]))
  *                         + DC[i]*chi1*( sol[i-1] * fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)
  */
-        __pyx_t_19 = (__pyx_v_Dt * ((((((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_DC.rcbuffer->pybuffer.buf, __pyx_t_238, __pyx_pybuffernd_DC.diminfo[0].strides)) * __pyx_v_chi1) * (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_239, __pyx_pybuffernd_sol.diminfo[0].strides)) * fmax(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_240, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_241, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0)) + ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_242, __pyx_pybuffernd_sol.diminfo[0].strides)) * fmin(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_243, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_244, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0)))) * 2.0) * (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_245, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_246, __pyx_pybuffernd_x_.diminfo[0].strides))) * ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_247, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_248, __pyx_pybuffernd_sol.diminfo[0].strides))))) + (((((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_DC.rcbuffer->pybuffer.buf, __pyx_t_249, __pyx_pybuffernd_DC.diminfo[0].strides)) * __pyx_v_chi1) * (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_250, __pyx_pybuffernd_sol.diminfo[0].strides)) * fmax(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_251, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_252, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0)) + ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_253, __pyx_pybuffernd_sol.diminfo[0].strides)) * fmin(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_254, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_255, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0)))) * 2.0) * (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_256, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_257, __pyx_pybuffernd_x_.diminfo[0].strides))) * ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_258, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_259, __pyx_pybuffernd_sol.diminfo[0].strides)))))));
+        __pyx_t_19 = ((__pyx_v_M * __pyx_v_Dt) * ((((((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_DC.rcbuffer->pybuffer.buf, __pyx_t_238, __pyx_pybuffernd_DC.diminfo[0].strides)) * __pyx_v_chi1) * (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_239, __pyx_pybuffernd_sol.diminfo[0].strides)) * fmax(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_240, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_241, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0)) + ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_242, __pyx_pybuffernd_sol.diminfo[0].strides)) * fmin(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_243, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_244, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0)))) * 2.0) * (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_245, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_246, __pyx_pybuffernd_x_.diminfo[0].strides))) * ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_247, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_248, __pyx_pybuffernd_sol.diminfo[0].strides))))) + (((((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_DC.rcbuffer->pybuffer.buf, __pyx_t_249, __pyx_pybuffernd_DC.diminfo[0].strides)) * __pyx_v_chi1) * (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_250, __pyx_pybuffernd_sol.diminfo[0].strides)) * fmax(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_251, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_252, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0)) + ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_253, __pyx_pybuffernd_sol.diminfo[0].strides)) * fmin(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_254, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_255, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0)))) * 2.0) * (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_256, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_257, __pyx_pybuffernd_x_.diminfo[0].strides))) * ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_258, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_259, __pyx_pybuffernd_sol.diminfo[0].strides)))))));
 
-        /* "functions/jacobian.pyx":111
+        /* "functions/jacobian.pyx":120
  *                         + sol[i+1] * fmin(sol[2*I+i+1] - sol[2*I+i], 0.0) )*2*( (x_[i+2] - x_[i])*(sol[2*I+i+1] - sol[2*I+i]))
  *                         + DC[i]*chi1*( sol[i-1] * fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)
  *                         + sol[i] * fmin(sol[2*I+i] - sol[2*I+i-1], 0.0))*2*( (x_[i+1] - x_[i-1])*(sol[2*I+i] - sol[2*I+i-1])) )/ (x_[i+1] - x_[i]) )             # <<<<<<<<<<<<<<
@@ -6516,7 +6530,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_260 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 111, __pyx_L1_error)
+          __PYX_ERR(0, 120, __pyx_L1_error)
         }
         __pyx_t_261 = __pyx_v_i;
         __pyx_t_12 = -1;
@@ -6526,18 +6540,18 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_261 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 111, __pyx_L1_error)
+          __PYX_ERR(0, 120, __pyx_L1_error)
         }
         __pyx_t_29 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_260, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_261, __pyx_pybuffernd_x_.diminfo[0].strides)));
         if (unlikely(__pyx_t_29 == 0)) {
           PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-          __PYX_ERR(0, 111, __pyx_L1_error)
+          __PYX_ERR(0, 120, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":108
+        /* "functions/jacobian.pyx":117
  * 
  *                 #--- dNP+ / dp--------------------------------------------------------------------------------
- *                 M[i,2*I+i] = ( Dt*(DC[i+1]*chi1*( sol[i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[i,2*I+i] = ( M * Dt*(DC[i+1]*chi1*( sol[i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)             # <<<<<<<<<<<<<<
  *                         + sol[i+1] * fmin(sol[2*I+i+1] - sol[2*I+i], 0.0) )*2*( (x_[i+2] - x_[i])*(sol[2*I+i+1] - sol[2*I+i]))
  *                         + DC[i]*chi1*( sol[i-1] * fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)
  */
@@ -6545,23 +6559,23 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         __pyx_t_263 = ((2 * __pyx_v_I) + __pyx_v_i);
         __pyx_t_12 = -1;
         if (__pyx_t_262 < 0) {
-          __pyx_t_262 += __pyx_pybuffernd_M.diminfo[0].shape;
+          __pyx_t_262 += __pyx_pybuffernd_Jac.diminfo[0].shape;
           if (unlikely(__pyx_t_262 < 0)) __pyx_t_12 = 0;
-        } else if (unlikely(__pyx_t_262 >= __pyx_pybuffernd_M.diminfo[0].shape)) __pyx_t_12 = 0;
+        } else if (unlikely(__pyx_t_262 >= __pyx_pybuffernd_Jac.diminfo[0].shape)) __pyx_t_12 = 0;
         if (__pyx_t_263 < 0) {
-          __pyx_t_263 += __pyx_pybuffernd_M.diminfo[1].shape;
+          __pyx_t_263 += __pyx_pybuffernd_Jac.diminfo[1].shape;
           if (unlikely(__pyx_t_263 < 0)) __pyx_t_12 = 1;
-        } else if (unlikely(__pyx_t_263 >= __pyx_pybuffernd_M.diminfo[1].shape)) __pyx_t_12 = 1;
+        } else if (unlikely(__pyx_t_263 >= __pyx_pybuffernd_Jac.diminfo[1].shape)) __pyx_t_12 = 1;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 108, __pyx_L1_error)
+          __PYX_ERR(0, 117, __pyx_L1_error)
         }
-        *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_M.rcbuffer->pybuffer.buf, __pyx_t_262, __pyx_pybuffernd_M.diminfo[0].strides, __pyx_t_263, __pyx_pybuffernd_M.diminfo[1].strides) = (__pyx_t_19 / __pyx_t_29);
+        *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_Jac.rcbuffer->pybuffer.buf, __pyx_t_262, __pyx_pybuffernd_Jac.diminfo[0].strides, __pyx_t_263, __pyx_pybuffernd_Jac.diminfo[1].strides) = (__pyx_t_19 / __pyx_t_29);
 
-        /* "functions/jacobian.pyx":114
+        /* "functions/jacobian.pyx":123
  * 
  *                 #--- dNP- / dp--------------------------------------------------------------------------------
- *                 M[I+i,2*I+i] = ( Dt*(-DA[i+1]*chi1*( sol[I+i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[I+i,2*I+i] = ( M * Dt*(-DA[i+1]*chi1*( sol[I+i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)             # <<<<<<<<<<<<<<
  *                         + sol[I+i+1] * fmin(sol[2*I+i+1] - sol[2*I+i], 0.0) )*2*( (x_[i+2] - x_[i])*(sol[2*I+i+1] - sol[2*I+i]))
  *                         - DA[i]*chi1*( sol[I+i-1] * fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)
  */
@@ -6573,7 +6587,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_264 >= __pyx_pybuffernd_DA.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 114, __pyx_L1_error)
+          __PYX_ERR(0, 123, __pyx_L1_error)
         }
         __pyx_t_265 = (__pyx_v_I + __pyx_v_i);
         __pyx_t_12 = -1;
@@ -6583,7 +6597,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_265 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 114, __pyx_L1_error)
+          __PYX_ERR(0, 123, __pyx_L1_error)
         }
         __pyx_t_266 = (((2 * __pyx_v_I) + __pyx_v_i) + 1);
         __pyx_t_12 = -1;
@@ -6593,7 +6607,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_266 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 114, __pyx_L1_error)
+          __PYX_ERR(0, 123, __pyx_L1_error)
         }
         __pyx_t_267 = ((2 * __pyx_v_I) + __pyx_v_i);
         __pyx_t_12 = -1;
@@ -6603,12 +6617,12 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_267 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 114, __pyx_L1_error)
+          __PYX_ERR(0, 123, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":115
+        /* "functions/jacobian.pyx":124
  *                 #--- dNP- / dp--------------------------------------------------------------------------------
- *                 M[I+i,2*I+i] = ( Dt*(-DA[i+1]*chi1*( sol[I+i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)
+ *                 Jac[I+i,2*I+i] = ( M * Dt*(-DA[i+1]*chi1*( sol[I+i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)
  *                         + sol[I+i+1] * fmin(sol[2*I+i+1] - sol[2*I+i], 0.0) )*2*( (x_[i+2] - x_[i])*(sol[2*I+i+1] - sol[2*I+i]))             # <<<<<<<<<<<<<<
  *                         - DA[i]*chi1*( sol[I+i-1] * fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)
  *                         + sol[I+i] * fmin(sol[2*I+i] - sol[2*I+i-1], 0.0))*2*( (x_[i+1] - x_[i-1])*(sol[2*I+i] - sol[2*I+i-1])) )/ (x_[i+1] - x_[i]) )
@@ -6621,7 +6635,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_268 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 115, __pyx_L1_error)
+          __PYX_ERR(0, 124, __pyx_L1_error)
         }
         __pyx_t_269 = (((2 * __pyx_v_I) + __pyx_v_i) + 1);
         __pyx_t_12 = -1;
@@ -6631,7 +6645,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_269 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 115, __pyx_L1_error)
+          __PYX_ERR(0, 124, __pyx_L1_error)
         }
         __pyx_t_270 = ((2 * __pyx_v_I) + __pyx_v_i);
         __pyx_t_12 = -1;
@@ -6641,13 +6655,13 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_270 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 115, __pyx_L1_error)
+          __PYX_ERR(0, 124, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":114
+        /* "functions/jacobian.pyx":123
  * 
  *                 #--- dNP- / dp--------------------------------------------------------------------------------
- *                 M[I+i,2*I+i] = ( Dt*(-DA[i+1]*chi1*( sol[I+i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[I+i,2*I+i] = ( M * Dt*(-DA[i+1]*chi1*( sol[I+i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)             # <<<<<<<<<<<<<<
  *                         + sol[I+i+1] * fmin(sol[2*I+i+1] - sol[2*I+i], 0.0) )*2*( (x_[i+2] - x_[i])*(sol[2*I+i+1] - sol[2*I+i]))
  *                         - DA[i]*chi1*( sol[I+i-1] * fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)
  */
@@ -6659,12 +6673,12 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_271 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 115, __pyx_L1_error)
+          __PYX_ERR(0, 124, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":115
+        /* "functions/jacobian.pyx":124
  *                 #--- dNP- / dp--------------------------------------------------------------------------------
- *                 M[I+i,2*I+i] = ( Dt*(-DA[i+1]*chi1*( sol[I+i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)
+ *                 Jac[I+i,2*I+i] = ( M * Dt*(-DA[i+1]*chi1*( sol[I+i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)
  *                         + sol[I+i+1] * fmin(sol[2*I+i+1] - sol[2*I+i], 0.0) )*2*( (x_[i+2] - x_[i])*(sol[2*I+i+1] - sol[2*I+i]))             # <<<<<<<<<<<<<<
  *                         - DA[i]*chi1*( sol[I+i-1] * fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)
  *                         + sol[I+i] * fmin(sol[2*I+i] - sol[2*I+i-1], 0.0))*2*( (x_[i+1] - x_[i-1])*(sol[2*I+i] - sol[2*I+i-1])) )/ (x_[i+1] - x_[i]) )
@@ -6677,7 +6691,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_272 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 115, __pyx_L1_error)
+          __PYX_ERR(0, 124, __pyx_L1_error)
         }
         __pyx_t_273 = (((2 * __pyx_v_I) + __pyx_v_i) + 1);
         __pyx_t_12 = -1;
@@ -6687,7 +6701,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_273 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 115, __pyx_L1_error)
+          __PYX_ERR(0, 124, __pyx_L1_error)
         }
         __pyx_t_274 = ((2 * __pyx_v_I) + __pyx_v_i);
         __pyx_t_12 = -1;
@@ -6697,11 +6711,11 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_274 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 115, __pyx_L1_error)
+          __PYX_ERR(0, 124, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":116
- *                 M[I+i,2*I+i] = ( Dt*(-DA[i+1]*chi1*( sol[I+i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)
+        /* "functions/jacobian.pyx":125
+ *                 Jac[I+i,2*I+i] = ( M * Dt*(-DA[i+1]*chi1*( sol[I+i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)
  *                         + sol[I+i+1] * fmin(sol[2*I+i+1] - sol[2*I+i], 0.0) )*2*( (x_[i+2] - x_[i])*(sol[2*I+i+1] - sol[2*I+i]))
  *                         - DA[i]*chi1*( sol[I+i-1] * fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)             # <<<<<<<<<<<<<<
  *                         + sol[I+i] * fmin(sol[2*I+i] - sol[2*I+i-1], 0.0))*2*( (x_[i+1] - x_[i-1])*(sol[2*I+i] - sol[2*I+i-1])) )/ (x_[i+1] - x_[i]) )
@@ -6715,7 +6729,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_275 >= __pyx_pybuffernd_DA.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 116, __pyx_L1_error)
+          __PYX_ERR(0, 125, __pyx_L1_error)
         }
         __pyx_t_276 = ((__pyx_v_I + __pyx_v_i) - 1);
         __pyx_t_12 = -1;
@@ -6725,7 +6739,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_276 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 116, __pyx_L1_error)
+          __PYX_ERR(0, 125, __pyx_L1_error)
         }
         __pyx_t_277 = ((2 * __pyx_v_I) + __pyx_v_i);
         __pyx_t_12 = -1;
@@ -6735,7 +6749,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_277 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 116, __pyx_L1_error)
+          __PYX_ERR(0, 125, __pyx_L1_error)
         }
         __pyx_t_278 = (((2 * __pyx_v_I) + __pyx_v_i) - 1);
         __pyx_t_12 = -1;
@@ -6745,10 +6759,10 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_278 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 116, __pyx_L1_error)
+          __PYX_ERR(0, 125, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":117
+        /* "functions/jacobian.pyx":126
  *                         + sol[I+i+1] * fmin(sol[2*I+i+1] - sol[2*I+i], 0.0) )*2*( (x_[i+2] - x_[i])*(sol[2*I+i+1] - sol[2*I+i]))
  *                         - DA[i]*chi1*( sol[I+i-1] * fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)
  *                         + sol[I+i] * fmin(sol[2*I+i] - sol[2*I+i-1], 0.0))*2*( (x_[i+1] - x_[i-1])*(sol[2*I+i] - sol[2*I+i-1])) )/ (x_[i+1] - x_[i]) )             # <<<<<<<<<<<<<<
@@ -6763,7 +6777,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_279 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 117, __pyx_L1_error)
+          __PYX_ERR(0, 126, __pyx_L1_error)
         }
         __pyx_t_280 = ((2 * __pyx_v_I) + __pyx_v_i);
         __pyx_t_12 = -1;
@@ -6773,7 +6787,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_280 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 117, __pyx_L1_error)
+          __PYX_ERR(0, 126, __pyx_L1_error)
         }
         __pyx_t_281 = (((2 * __pyx_v_I) + __pyx_v_i) - 1);
         __pyx_t_12 = -1;
@@ -6783,11 +6797,11 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_281 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 117, __pyx_L1_error)
+          __PYX_ERR(0, 126, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":116
- *                 M[I+i,2*I+i] = ( Dt*(-DA[i+1]*chi1*( sol[I+i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)
+        /* "functions/jacobian.pyx":125
+ *                 Jac[I+i,2*I+i] = ( M * Dt*(-DA[i+1]*chi1*( sol[I+i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)
  *                         + sol[I+i+1] * fmin(sol[2*I+i+1] - sol[2*I+i], 0.0) )*2*( (x_[i+2] - x_[i])*(sol[2*I+i+1] - sol[2*I+i]))
  *                         - DA[i]*chi1*( sol[I+i-1] * fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)             # <<<<<<<<<<<<<<
  *                         + sol[I+i] * fmin(sol[2*I+i] - sol[2*I+i-1], 0.0))*2*( (x_[i+1] - x_[i-1])*(sol[2*I+i] - sol[2*I+i-1])) )/ (x_[i+1] - x_[i]) )
@@ -6801,10 +6815,10 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_282 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 117, __pyx_L1_error)
+          __PYX_ERR(0, 126, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":117
+        /* "functions/jacobian.pyx":126
  *                         + sol[I+i+1] * fmin(sol[2*I+i+1] - sol[2*I+i], 0.0) )*2*( (x_[i+2] - x_[i])*(sol[2*I+i+1] - sol[2*I+i]))
  *                         - DA[i]*chi1*( sol[I+i-1] * fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)
  *                         + sol[I+i] * fmin(sol[2*I+i] - sol[2*I+i-1], 0.0))*2*( (x_[i+1] - x_[i-1])*(sol[2*I+i] - sol[2*I+i-1])) )/ (x_[i+1] - x_[i]) )             # <<<<<<<<<<<<<<
@@ -6819,7 +6833,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_283 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 117, __pyx_L1_error)
+          __PYX_ERR(0, 126, __pyx_L1_error)
         }
         __pyx_t_284 = ((2 * __pyx_v_I) + __pyx_v_i);
         __pyx_t_12 = -1;
@@ -6829,7 +6843,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_284 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 117, __pyx_L1_error)
+          __PYX_ERR(0, 126, __pyx_L1_error)
         }
         __pyx_t_285 = (((2 * __pyx_v_I) + __pyx_v_i) - 1);
         __pyx_t_12 = -1;
@@ -6839,19 +6853,19 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_285 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 117, __pyx_L1_error)
+          __PYX_ERR(0, 126, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":114
+        /* "functions/jacobian.pyx":123
  * 
  *                 #--- dNP- / dp--------------------------------------------------------------------------------
- *                 M[I+i,2*I+i] = ( Dt*(-DA[i+1]*chi1*( sol[I+i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[I+i,2*I+i] = ( M * Dt*(-DA[i+1]*chi1*( sol[I+i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)             # <<<<<<<<<<<<<<
  *                         + sol[I+i+1] * fmin(sol[2*I+i+1] - sol[2*I+i], 0.0) )*2*( (x_[i+2] - x_[i])*(sol[2*I+i+1] - sol[2*I+i]))
  *                         - DA[i]*chi1*( sol[I+i-1] * fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)
  */
-        __pyx_t_29 = (__pyx_v_Dt * ((((((-(*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_DA.rcbuffer->pybuffer.buf, __pyx_t_264, __pyx_pybuffernd_DA.diminfo[0].strides))) * __pyx_v_chi1) * (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_265, __pyx_pybuffernd_sol.diminfo[0].strides)) * fmax(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_266, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_267, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0)) + ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_268, __pyx_pybuffernd_sol.diminfo[0].strides)) * fmin(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_269, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_270, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0)))) * 2.0) * (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_271, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_272, __pyx_pybuffernd_x_.diminfo[0].strides))) * ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_273, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_274, __pyx_pybuffernd_sol.diminfo[0].strides))))) - (((((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_DA.rcbuffer->pybuffer.buf, __pyx_t_275, __pyx_pybuffernd_DA.diminfo[0].strides)) * __pyx_v_chi1) * (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_276, __pyx_pybuffernd_sol.diminfo[0].strides)) * fmax(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_277, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_278, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0)) + ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_279, __pyx_pybuffernd_sol.diminfo[0].strides)) * fmin(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_280, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_281, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0)))) * 2.0) * (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_282, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_283, __pyx_pybuffernd_x_.diminfo[0].strides))) * ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_284, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_285, __pyx_pybuffernd_sol.diminfo[0].strides)))))));
+        __pyx_t_29 = ((__pyx_v_M * __pyx_v_Dt) * ((((((-(*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_DA.rcbuffer->pybuffer.buf, __pyx_t_264, __pyx_pybuffernd_DA.diminfo[0].strides))) * __pyx_v_chi1) * (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_265, __pyx_pybuffernd_sol.diminfo[0].strides)) * fmax(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_266, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_267, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0)) + ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_268, __pyx_pybuffernd_sol.diminfo[0].strides)) * fmin(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_269, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_270, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0)))) * 2.0) * (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_271, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_272, __pyx_pybuffernd_x_.diminfo[0].strides))) * ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_273, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_274, __pyx_pybuffernd_sol.diminfo[0].strides))))) - (((((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_DA.rcbuffer->pybuffer.buf, __pyx_t_275, __pyx_pybuffernd_DA.diminfo[0].strides)) * __pyx_v_chi1) * (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_276, __pyx_pybuffernd_sol.diminfo[0].strides)) * fmax(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_277, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_278, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0)) + ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_279, __pyx_pybuffernd_sol.diminfo[0].strides)) * fmin(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_280, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_281, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0)))) * 2.0) * (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_282, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_283, __pyx_pybuffernd_x_.diminfo[0].strides))) * ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_284, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_285, __pyx_pybuffernd_sol.diminfo[0].strides)))))));
 
-        /* "functions/jacobian.pyx":117
+        /* "functions/jacobian.pyx":126
  *                         + sol[I+i+1] * fmin(sol[2*I+i+1] - sol[2*I+i], 0.0) )*2*( (x_[i+2] - x_[i])*(sol[2*I+i+1] - sol[2*I+i]))
  *                         - DA[i]*chi1*( sol[I+i-1] * fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)
  *                         + sol[I+i] * fmin(sol[2*I+i] - sol[2*I+i-1], 0.0))*2*( (x_[i+1] - x_[i-1])*(sol[2*I+i] - sol[2*I+i-1])) )/ (x_[i+1] - x_[i]) )             # <<<<<<<<<<<<<<
@@ -6866,7 +6880,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_286 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 117, __pyx_L1_error)
+          __PYX_ERR(0, 126, __pyx_L1_error)
         }
         __pyx_t_287 = __pyx_v_i;
         __pyx_t_12 = -1;
@@ -6876,18 +6890,18 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_287 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 117, __pyx_L1_error)
+          __PYX_ERR(0, 126, __pyx_L1_error)
         }
         __pyx_t_19 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_286, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_287, __pyx_pybuffernd_x_.diminfo[0].strides)));
         if (unlikely(__pyx_t_19 == 0)) {
           PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-          __PYX_ERR(0, 117, __pyx_L1_error)
+          __PYX_ERR(0, 126, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":114
+        /* "functions/jacobian.pyx":123
  * 
  *                 #--- dNP- / dp--------------------------------------------------------------------------------
- *                 M[I+i,2*I+i] = ( Dt*(-DA[i+1]*chi1*( sol[I+i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[I+i,2*I+i] = ( M * Dt*(-DA[i+1]*chi1*( sol[I+i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)             # <<<<<<<<<<<<<<
  *                         + sol[I+i+1] * fmin(sol[2*I+i+1] - sol[2*I+i], 0.0) )*2*( (x_[i+2] - x_[i])*(sol[2*I+i+1] - sol[2*I+i]))
  *                         - DA[i]*chi1*( sol[I+i-1] * fmax(sol[2*I+i] - sol[2*I+i-1], 0.0)
  */
@@ -6895,20 +6909,20 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         __pyx_t_289 = ((2 * __pyx_v_I) + __pyx_v_i);
         __pyx_t_12 = -1;
         if (__pyx_t_288 < 0) {
-          __pyx_t_288 += __pyx_pybuffernd_M.diminfo[0].shape;
+          __pyx_t_288 += __pyx_pybuffernd_Jac.diminfo[0].shape;
           if (unlikely(__pyx_t_288 < 0)) __pyx_t_12 = 0;
-        } else if (unlikely(__pyx_t_288 >= __pyx_pybuffernd_M.diminfo[0].shape)) __pyx_t_12 = 0;
+        } else if (unlikely(__pyx_t_288 >= __pyx_pybuffernd_Jac.diminfo[0].shape)) __pyx_t_12 = 0;
         if (__pyx_t_289 < 0) {
-          __pyx_t_289 += __pyx_pybuffernd_M.diminfo[1].shape;
+          __pyx_t_289 += __pyx_pybuffernd_Jac.diminfo[1].shape;
           if (unlikely(__pyx_t_289 < 0)) __pyx_t_12 = 1;
-        } else if (unlikely(__pyx_t_289 >= __pyx_pybuffernd_M.diminfo[1].shape)) __pyx_t_12 = 1;
+        } else if (unlikely(__pyx_t_289 >= __pyx_pybuffernd_Jac.diminfo[1].shape)) __pyx_t_12 = 1;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 114, __pyx_L1_error)
+          __PYX_ERR(0, 123, __pyx_L1_error)
         }
-        *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_M.rcbuffer->pybuffer.buf, __pyx_t_288, __pyx_pybuffernd_M.diminfo[0].strides, __pyx_t_289, __pyx_pybuffernd_M.diminfo[1].strides) = (__pyx_t_29 / __pyx_t_19);
+        *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_Jac.rcbuffer->pybuffer.buf, __pyx_t_288, __pyx_pybuffernd_Jac.diminfo[0].strides, __pyx_t_289, __pyx_pybuffernd_Jac.diminfo[1].strides) = (__pyx_t_29 / __pyx_t_19);
 
-        /* "functions/jacobian.pyx":105
+        /* "functions/jacobian.pyx":114
  *                         + sol[I+i] * fmin(sol[2*I+i] - sol[2*I+i-1], 0.0))*2*( (x_[i+1] - x_[i-1])*(sol[2*I+i] - sol[2*I+i-1])) )/ (x_[i+1] - x_[i]) )
  * 
  *             elif not (sol[2*I+i+1] - sol[2*I+i]) == 0 and not (sol[2*I+i] - sol[2*I+i-1]) == 0:             # <<<<<<<<<<<<<<
@@ -6918,7 +6932,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       }
       __pyx_L9:;
 
-      /* "functions/jacobian.pyx":120
+      /* "functions/jacobian.pyx":129
  * 
  *             # fill upper diag
  *             if not (sol[2*I+i+1] - sol[2*I+i]) == 0:             # <<<<<<<<<<<<<<
@@ -6933,7 +6947,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_290 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 120, __pyx_L1_error)
+        __PYX_ERR(0, 129, __pyx_L1_error)
       }
       __pyx_t_291 = ((2 * __pyx_v_I) + __pyx_v_i);
       __pyx_t_12 = -1;
@@ -6943,15 +6957,15 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_291 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 120, __pyx_L1_error)
+        __PYX_ERR(0, 129, __pyx_L1_error)
       }
       __pyx_t_15 = ((!((((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_290, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_291, __pyx_pybuffernd_sol.diminfo[0].strides))) == 0.0) != 0)) != 0);
       if (__pyx_t_15) {
 
-        /* "functions/jacobian.pyx":123
+        /* "functions/jacobian.pyx":132
  * 
  *                 #--- dNP+ / dp--------------------------------------------------------------------------------
- *                 M[i,2*I+i+1] = ( Dt*(-DC[i+1]*chi1*(sol[i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[i,2*I+i+1] = ( M * Dt*(-DC[i+1]*chi1*(sol[i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)             # <<<<<<<<<<<<<<
  *                         + sol[i+1] * fmin(sol[2*I+i+1] - sol[2*I+i], 0.0))*2/((x_[i+2] - x_[i])*(sol[2*I+i+1] - sol[2*I+i])) ) / (x_[i+1] - x_[i]) )
  * 
  */
@@ -6963,7 +6977,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_292 >= __pyx_pybuffernd_DC.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 123, __pyx_L1_error)
+          __PYX_ERR(0, 132, __pyx_L1_error)
         }
         __pyx_t_293 = __pyx_v_i;
         __pyx_t_12 = -1;
@@ -6973,7 +6987,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_293 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 123, __pyx_L1_error)
+          __PYX_ERR(0, 132, __pyx_L1_error)
         }
         __pyx_t_294 = (((2 * __pyx_v_I) + __pyx_v_i) + 1);
         __pyx_t_12 = -1;
@@ -6983,7 +6997,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_294 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 123, __pyx_L1_error)
+          __PYX_ERR(0, 132, __pyx_L1_error)
         }
         __pyx_t_295 = ((2 * __pyx_v_I) + __pyx_v_i);
         __pyx_t_12 = -1;
@@ -6993,12 +7007,12 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_295 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 123, __pyx_L1_error)
+          __PYX_ERR(0, 132, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":124
+        /* "functions/jacobian.pyx":133
  *                 #--- dNP+ / dp--------------------------------------------------------------------------------
- *                 M[i,2*I+i+1] = ( Dt*(-DC[i+1]*chi1*(sol[i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)
+ *                 Jac[i,2*I+i+1] = ( M * Dt*(-DC[i+1]*chi1*(sol[i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)
  *                         + sol[i+1] * fmin(sol[2*I+i+1] - sol[2*I+i], 0.0))*2/((x_[i+2] - x_[i])*(sol[2*I+i+1] - sol[2*I+i])) ) / (x_[i+1] - x_[i]) )             # <<<<<<<<<<<<<<
  * 
  *                 #--- dNP- / dp--------------------------------------------------------------------------------
@@ -7011,7 +7025,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_296 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 124, __pyx_L1_error)
+          __PYX_ERR(0, 133, __pyx_L1_error)
         }
         __pyx_t_297 = (((2 * __pyx_v_I) + __pyx_v_i) + 1);
         __pyx_t_12 = -1;
@@ -7021,7 +7035,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_297 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 124, __pyx_L1_error)
+          __PYX_ERR(0, 133, __pyx_L1_error)
         }
         __pyx_t_298 = ((2 * __pyx_v_I) + __pyx_v_i);
         __pyx_t_12 = -1;
@@ -7031,21 +7045,21 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_298 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 124, __pyx_L1_error)
+          __PYX_ERR(0, 133, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":123
+        /* "functions/jacobian.pyx":132
  * 
  *                 #--- dNP+ / dp--------------------------------------------------------------------------------
- *                 M[i,2*I+i+1] = ( Dt*(-DC[i+1]*chi1*(sol[i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[i,2*I+i+1] = ( M * Dt*(-DC[i+1]*chi1*(sol[i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)             # <<<<<<<<<<<<<<
  *                         + sol[i+1] * fmin(sol[2*I+i+1] - sol[2*I+i], 0.0))*2/((x_[i+2] - x_[i])*(sol[2*I+i+1] - sol[2*I+i])) ) / (x_[i+1] - x_[i]) )
  * 
  */
         __pyx_t_19 = ((((-(*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_DC.rcbuffer->pybuffer.buf, __pyx_t_292, __pyx_pybuffernd_DC.diminfo[0].strides))) * __pyx_v_chi1) * (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_293, __pyx_pybuffernd_sol.diminfo[0].strides)) * fmax(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_294, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_295, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0)) + ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_296, __pyx_pybuffernd_sol.diminfo[0].strides)) * fmin(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_297, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_298, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0)))) * 2.0);
 
-        /* "functions/jacobian.pyx":124
+        /* "functions/jacobian.pyx":133
  *                 #--- dNP+ / dp--------------------------------------------------------------------------------
- *                 M[i,2*I+i+1] = ( Dt*(-DC[i+1]*chi1*(sol[i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)
+ *                 Jac[i,2*I+i+1] = ( M * Dt*(-DC[i+1]*chi1*(sol[i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)
  *                         + sol[i+1] * fmin(sol[2*I+i+1] - sol[2*I+i], 0.0))*2/((x_[i+2] - x_[i])*(sol[2*I+i+1] - sol[2*I+i])) ) / (x_[i+1] - x_[i]) )             # <<<<<<<<<<<<<<
  * 
  *                 #--- dNP- / dp--------------------------------------------------------------------------------
@@ -7058,7 +7072,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_299 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 124, __pyx_L1_error)
+          __PYX_ERR(0, 133, __pyx_L1_error)
         }
         __pyx_t_300 = __pyx_v_i;
         __pyx_t_12 = -1;
@@ -7068,7 +7082,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_300 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 124, __pyx_L1_error)
+          __PYX_ERR(0, 133, __pyx_L1_error)
         }
         __pyx_t_301 = (((2 * __pyx_v_I) + __pyx_v_i) + 1);
         __pyx_t_12 = -1;
@@ -7078,7 +7092,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_301 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 124, __pyx_L1_error)
+          __PYX_ERR(0, 133, __pyx_L1_error)
         }
         __pyx_t_302 = ((2 * __pyx_v_I) + __pyx_v_i);
         __pyx_t_12 = -1;
@@ -7088,26 +7102,26 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_302 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 124, __pyx_L1_error)
+          __PYX_ERR(0, 133, __pyx_L1_error)
         }
         __pyx_t_29 = (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_299, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_300, __pyx_pybuffernd_x_.diminfo[0].strides))) * ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_301, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_302, __pyx_pybuffernd_sol.diminfo[0].strides))));
         if (unlikely(__pyx_t_29 == 0)) {
           PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-          __PYX_ERR(0, 124, __pyx_L1_error)
+          __PYX_ERR(0, 133, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":123
+        /* "functions/jacobian.pyx":132
  * 
  *                 #--- dNP+ / dp--------------------------------------------------------------------------------
- *                 M[i,2*I+i+1] = ( Dt*(-DC[i+1]*chi1*(sol[i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[i,2*I+i+1] = ( M * Dt*(-DC[i+1]*chi1*(sol[i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)             # <<<<<<<<<<<<<<
  *                         + sol[i+1] * fmin(sol[2*I+i+1] - sol[2*I+i], 0.0))*2/((x_[i+2] - x_[i])*(sol[2*I+i+1] - sol[2*I+i])) ) / (x_[i+1] - x_[i]) )
  * 
  */
-        __pyx_t_65 = (__pyx_v_Dt * (__pyx_t_19 / __pyx_t_29));
+        __pyx_t_65 = ((__pyx_v_M * __pyx_v_Dt) * (__pyx_t_19 / __pyx_t_29));
 
-        /* "functions/jacobian.pyx":124
+        /* "functions/jacobian.pyx":133
  *                 #--- dNP+ / dp--------------------------------------------------------------------------------
- *                 M[i,2*I+i+1] = ( Dt*(-DC[i+1]*chi1*(sol[i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)
+ *                 Jac[i,2*I+i+1] = ( M * Dt*(-DC[i+1]*chi1*(sol[i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)
  *                         + sol[i+1] * fmin(sol[2*I+i+1] - sol[2*I+i], 0.0))*2/((x_[i+2] - x_[i])*(sol[2*I+i+1] - sol[2*I+i])) ) / (x_[i+1] - x_[i]) )             # <<<<<<<<<<<<<<
  * 
  *                 #--- dNP- / dp--------------------------------------------------------------------------------
@@ -7120,7 +7134,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_303 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 124, __pyx_L1_error)
+          __PYX_ERR(0, 133, __pyx_L1_error)
         }
         __pyx_t_304 = __pyx_v_i;
         __pyx_t_12 = -1;
@@ -7130,18 +7144,18 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_304 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 124, __pyx_L1_error)
+          __PYX_ERR(0, 133, __pyx_L1_error)
         }
         __pyx_t_29 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_303, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_304, __pyx_pybuffernd_x_.diminfo[0].strides)));
         if (unlikely(__pyx_t_29 == 0)) {
           PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-          __PYX_ERR(0, 124, __pyx_L1_error)
+          __PYX_ERR(0, 133, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":123
+        /* "functions/jacobian.pyx":132
  * 
  *                 #--- dNP+ / dp--------------------------------------------------------------------------------
- *                 M[i,2*I+i+1] = ( Dt*(-DC[i+1]*chi1*(sol[i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[i,2*I+i+1] = ( M * Dt*(-DC[i+1]*chi1*(sol[i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)             # <<<<<<<<<<<<<<
  *                         + sol[i+1] * fmin(sol[2*I+i+1] - sol[2*I+i], 0.0))*2/((x_[i+2] - x_[i])*(sol[2*I+i+1] - sol[2*I+i])) ) / (x_[i+1] - x_[i]) )
  * 
  */
@@ -7149,23 +7163,23 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         __pyx_t_306 = (((2 * __pyx_v_I) + __pyx_v_i) + 1);
         __pyx_t_12 = -1;
         if (__pyx_t_305 < 0) {
-          __pyx_t_305 += __pyx_pybuffernd_M.diminfo[0].shape;
+          __pyx_t_305 += __pyx_pybuffernd_Jac.diminfo[0].shape;
           if (unlikely(__pyx_t_305 < 0)) __pyx_t_12 = 0;
-        } else if (unlikely(__pyx_t_305 >= __pyx_pybuffernd_M.diminfo[0].shape)) __pyx_t_12 = 0;
+        } else if (unlikely(__pyx_t_305 >= __pyx_pybuffernd_Jac.diminfo[0].shape)) __pyx_t_12 = 0;
         if (__pyx_t_306 < 0) {
-          __pyx_t_306 += __pyx_pybuffernd_M.diminfo[1].shape;
+          __pyx_t_306 += __pyx_pybuffernd_Jac.diminfo[1].shape;
           if (unlikely(__pyx_t_306 < 0)) __pyx_t_12 = 1;
-        } else if (unlikely(__pyx_t_306 >= __pyx_pybuffernd_M.diminfo[1].shape)) __pyx_t_12 = 1;
+        } else if (unlikely(__pyx_t_306 >= __pyx_pybuffernd_Jac.diminfo[1].shape)) __pyx_t_12 = 1;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 123, __pyx_L1_error)
+          __PYX_ERR(0, 132, __pyx_L1_error)
         }
-        *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_M.rcbuffer->pybuffer.buf, __pyx_t_305, __pyx_pybuffernd_M.diminfo[0].strides, __pyx_t_306, __pyx_pybuffernd_M.diminfo[1].strides) = (__pyx_t_65 / __pyx_t_29);
+        *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_Jac.rcbuffer->pybuffer.buf, __pyx_t_305, __pyx_pybuffernd_Jac.diminfo[0].strides, __pyx_t_306, __pyx_pybuffernd_Jac.diminfo[1].strides) = (__pyx_t_65 / __pyx_t_29);
 
-        /* "functions/jacobian.pyx":127
+        /* "functions/jacobian.pyx":136
  * 
  *                 #--- dNP- / dp--------------------------------------------------------------------------------
- *                 M[I+i,2*I+i+1] = ( Dt*(DA[i+1]*chi1*(sol[I+i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[I+i,2*I+i+1] = ( M * Dt*(DA[i+1]*chi1*(sol[I+i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)             # <<<<<<<<<<<<<<
  *                         + sol[I+i+1] * fmin(sol[2*I+i+1] - sol[2*I+i], 0.0) )*2/((x_[i+2] - x_[i])*(sol[2*I+i+1] - sol[2*I+i])) ) / (x_[i+1] - x_[i]) )
  * 
  */
@@ -7177,7 +7191,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_307 >= __pyx_pybuffernd_DA.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 127, __pyx_L1_error)
+          __PYX_ERR(0, 136, __pyx_L1_error)
         }
         __pyx_t_308 = (__pyx_v_I + __pyx_v_i);
         __pyx_t_12 = -1;
@@ -7187,7 +7201,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_308 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 127, __pyx_L1_error)
+          __PYX_ERR(0, 136, __pyx_L1_error)
         }
         __pyx_t_309 = (((2 * __pyx_v_I) + __pyx_v_i) + 1);
         __pyx_t_12 = -1;
@@ -7197,7 +7211,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_309 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 127, __pyx_L1_error)
+          __PYX_ERR(0, 136, __pyx_L1_error)
         }
         __pyx_t_310 = ((2 * __pyx_v_I) + __pyx_v_i);
         __pyx_t_12 = -1;
@@ -7207,12 +7221,12 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_310 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 127, __pyx_L1_error)
+          __PYX_ERR(0, 136, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":128
+        /* "functions/jacobian.pyx":137
  *                 #--- dNP- / dp--------------------------------------------------------------------------------
- *                 M[I+i,2*I+i+1] = ( Dt*(DA[i+1]*chi1*(sol[I+i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)
+ *                 Jac[I+i,2*I+i+1] = ( M * Dt*(DA[i+1]*chi1*(sol[I+i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)
  *                         + sol[I+i+1] * fmin(sol[2*I+i+1] - sol[2*I+i], 0.0) )*2/((x_[i+2] - x_[i])*(sol[2*I+i+1] - sol[2*I+i])) ) / (x_[i+1] - x_[i]) )             # <<<<<<<<<<<<<<
  * 
  *         if i == 0:
@@ -7225,7 +7239,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_311 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 128, __pyx_L1_error)
+          __PYX_ERR(0, 137, __pyx_L1_error)
         }
         __pyx_t_312 = (((2 * __pyx_v_I) + __pyx_v_i) + 1);
         __pyx_t_12 = -1;
@@ -7235,7 +7249,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_312 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 128, __pyx_L1_error)
+          __PYX_ERR(0, 137, __pyx_L1_error)
         }
         __pyx_t_313 = ((2 * __pyx_v_I) + __pyx_v_i);
         __pyx_t_12 = -1;
@@ -7245,21 +7259,21 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_313 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 128, __pyx_L1_error)
+          __PYX_ERR(0, 137, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":127
+        /* "functions/jacobian.pyx":136
  * 
  *                 #--- dNP- / dp--------------------------------------------------------------------------------
- *                 M[I+i,2*I+i+1] = ( Dt*(DA[i+1]*chi1*(sol[I+i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[I+i,2*I+i+1] = ( M * Dt*(DA[i+1]*chi1*(sol[I+i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)             # <<<<<<<<<<<<<<
  *                         + sol[I+i+1] * fmin(sol[2*I+i+1] - sol[2*I+i], 0.0) )*2/((x_[i+2] - x_[i])*(sol[2*I+i+1] - sol[2*I+i])) ) / (x_[i+1] - x_[i]) )
  * 
  */
         __pyx_t_29 = ((((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_DA.rcbuffer->pybuffer.buf, __pyx_t_307, __pyx_pybuffernd_DA.diminfo[0].strides)) * __pyx_v_chi1) * (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_308, __pyx_pybuffernd_sol.diminfo[0].strides)) * fmax(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_309, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_310, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0)) + ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_311, __pyx_pybuffernd_sol.diminfo[0].strides)) * fmin(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_312, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_313, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0)))) * 2.0);
 
-        /* "functions/jacobian.pyx":128
+        /* "functions/jacobian.pyx":137
  *                 #--- dNP- / dp--------------------------------------------------------------------------------
- *                 M[I+i,2*I+i+1] = ( Dt*(DA[i+1]*chi1*(sol[I+i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)
+ *                 Jac[I+i,2*I+i+1] = ( M * Dt*(DA[i+1]*chi1*(sol[I+i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)
  *                         + sol[I+i+1] * fmin(sol[2*I+i+1] - sol[2*I+i], 0.0) )*2/((x_[i+2] - x_[i])*(sol[2*I+i+1] - sol[2*I+i])) ) / (x_[i+1] - x_[i]) )             # <<<<<<<<<<<<<<
  * 
  *         if i == 0:
@@ -7272,7 +7286,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_314 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 128, __pyx_L1_error)
+          __PYX_ERR(0, 137, __pyx_L1_error)
         }
         __pyx_t_315 = __pyx_v_i;
         __pyx_t_12 = -1;
@@ -7282,7 +7296,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_315 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 128, __pyx_L1_error)
+          __PYX_ERR(0, 137, __pyx_L1_error)
         }
         __pyx_t_316 = (((2 * __pyx_v_I) + __pyx_v_i) + 1);
         __pyx_t_12 = -1;
@@ -7292,7 +7306,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_316 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 128, __pyx_L1_error)
+          __PYX_ERR(0, 137, __pyx_L1_error)
         }
         __pyx_t_317 = ((2 * __pyx_v_I) + __pyx_v_i);
         __pyx_t_12 = -1;
@@ -7302,26 +7316,26 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_317 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 128, __pyx_L1_error)
+          __PYX_ERR(0, 137, __pyx_L1_error)
         }
         __pyx_t_65 = (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_314, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_315, __pyx_pybuffernd_x_.diminfo[0].strides))) * ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_316, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_317, __pyx_pybuffernd_sol.diminfo[0].strides))));
         if (unlikely(__pyx_t_65 == 0)) {
           PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-          __PYX_ERR(0, 128, __pyx_L1_error)
+          __PYX_ERR(0, 137, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":127
+        /* "functions/jacobian.pyx":136
  * 
  *                 #--- dNP- / dp--------------------------------------------------------------------------------
- *                 M[I+i,2*I+i+1] = ( Dt*(DA[i+1]*chi1*(sol[I+i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[I+i,2*I+i+1] = ( M * Dt*(DA[i+1]*chi1*(sol[I+i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)             # <<<<<<<<<<<<<<
  *                         + sol[I+i+1] * fmin(sol[2*I+i+1] - sol[2*I+i], 0.0) )*2/((x_[i+2] - x_[i])*(sol[2*I+i+1] - sol[2*I+i])) ) / (x_[i+1] - x_[i]) )
  * 
  */
-        __pyx_t_19 = (__pyx_v_Dt * (__pyx_t_29 / __pyx_t_65));
+        __pyx_t_19 = ((__pyx_v_M * __pyx_v_Dt) * (__pyx_t_29 / __pyx_t_65));
 
-        /* "functions/jacobian.pyx":128
+        /* "functions/jacobian.pyx":137
  *                 #--- dNP- / dp--------------------------------------------------------------------------------
- *                 M[I+i,2*I+i+1] = ( Dt*(DA[i+1]*chi1*(sol[I+i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)
+ *                 Jac[I+i,2*I+i+1] = ( M * Dt*(DA[i+1]*chi1*(sol[I+i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)
  *                         + sol[I+i+1] * fmin(sol[2*I+i+1] - sol[2*I+i], 0.0) )*2/((x_[i+2] - x_[i])*(sol[2*I+i+1] - sol[2*I+i])) ) / (x_[i+1] - x_[i]) )             # <<<<<<<<<<<<<<
  * 
  *         if i == 0:
@@ -7334,7 +7348,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_318 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 128, __pyx_L1_error)
+          __PYX_ERR(0, 137, __pyx_L1_error)
         }
         __pyx_t_319 = __pyx_v_i;
         __pyx_t_12 = -1;
@@ -7344,18 +7358,18 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_319 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 128, __pyx_L1_error)
+          __PYX_ERR(0, 137, __pyx_L1_error)
         }
         __pyx_t_65 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_318, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_319, __pyx_pybuffernd_x_.diminfo[0].strides)));
         if (unlikely(__pyx_t_65 == 0)) {
           PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-          __PYX_ERR(0, 128, __pyx_L1_error)
+          __PYX_ERR(0, 137, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":127
+        /* "functions/jacobian.pyx":136
  * 
  *                 #--- dNP- / dp--------------------------------------------------------------------------------
- *                 M[I+i,2*I+i+1] = ( Dt*(DA[i+1]*chi1*(sol[I+i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[I+i,2*I+i+1] = ( M * Dt*(DA[i+1]*chi1*(sol[I+i] * fmax(sol[2*I+i+1] - sol[2*I+i], 0.0)             # <<<<<<<<<<<<<<
  *                         + sol[I+i+1] * fmin(sol[2*I+i+1] - sol[2*I+i], 0.0) )*2/((x_[i+2] - x_[i])*(sol[2*I+i+1] - sol[2*I+i])) ) / (x_[i+1] - x_[i]) )
  * 
  */
@@ -7363,20 +7377,20 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         __pyx_t_321 = (((2 * __pyx_v_I) + __pyx_v_i) + 1);
         __pyx_t_12 = -1;
         if (__pyx_t_320 < 0) {
-          __pyx_t_320 += __pyx_pybuffernd_M.diminfo[0].shape;
+          __pyx_t_320 += __pyx_pybuffernd_Jac.diminfo[0].shape;
           if (unlikely(__pyx_t_320 < 0)) __pyx_t_12 = 0;
-        } else if (unlikely(__pyx_t_320 >= __pyx_pybuffernd_M.diminfo[0].shape)) __pyx_t_12 = 0;
+        } else if (unlikely(__pyx_t_320 >= __pyx_pybuffernd_Jac.diminfo[0].shape)) __pyx_t_12 = 0;
         if (__pyx_t_321 < 0) {
-          __pyx_t_321 += __pyx_pybuffernd_M.diminfo[1].shape;
+          __pyx_t_321 += __pyx_pybuffernd_Jac.diminfo[1].shape;
           if (unlikely(__pyx_t_321 < 0)) __pyx_t_12 = 1;
-        } else if (unlikely(__pyx_t_321 >= __pyx_pybuffernd_M.diminfo[1].shape)) __pyx_t_12 = 1;
+        } else if (unlikely(__pyx_t_321 >= __pyx_pybuffernd_Jac.diminfo[1].shape)) __pyx_t_12 = 1;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 127, __pyx_L1_error)
+          __PYX_ERR(0, 136, __pyx_L1_error)
         }
-        *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_M.rcbuffer->pybuffer.buf, __pyx_t_320, __pyx_pybuffernd_M.diminfo[0].strides, __pyx_t_321, __pyx_pybuffernd_M.diminfo[1].strides) = (__pyx_t_19 / __pyx_t_65);
+        *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_Jac.rcbuffer->pybuffer.buf, __pyx_t_320, __pyx_pybuffernd_Jac.diminfo[0].strides, __pyx_t_321, __pyx_pybuffernd_Jac.diminfo[1].strides) = (__pyx_t_19 / __pyx_t_65);
 
-        /* "functions/jacobian.pyx":120
+        /* "functions/jacobian.pyx":129
  * 
  *             # fill upper diag
  *             if not (sol[2*I+i+1] - sol[2*I+i]) == 0:             # <<<<<<<<<<<<<<
@@ -7385,7 +7399,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
  */
       }
 
-      /* "functions/jacobian.pyx":35
+      /* "functions/jacobian.pyx":44
  * 
  *         # fill tridiagonal for inner points
  *         if i > 0 and i < I-1:             # <<<<<<<<<<<<<<
@@ -7394,7 +7408,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
  */
     }
 
-    /* "functions/jacobian.pyx":130
+    /* "functions/jacobian.pyx":139
  *                         + sol[I+i+1] * fmin(sol[2*I+i+1] - sol[2*I+i], 0.0) )*2/((x_[i+2] - x_[i])*(sol[2*I+i+1] - sol[2*I+i])) ) / (x_[i+1] - x_[i]) )
  * 
  *         if i == 0:             # <<<<<<<<<<<<<<
@@ -7404,10 +7418,10 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
     __pyx_t_15 = ((__pyx_v_i == 0) != 0);
     if (__pyx_t_15) {
 
-      /* "functions/jacobian.pyx":134
+      /* "functions/jacobian.pyx":143
  *             #--- dP / dc & dP / dp------------------------------------------------------------------------
  *             # dphi0
- *             M[2*I,2*I] = (-2.0/(x_[2] - x_[0]) - 1.0/(x_[1] - x_[0])) * 1.0/(x_[1] - x_[0])             # <<<<<<<<<<<<<<
+ *             Jac[2*I,2*I] = (-2.0/(x_[2] - x_[0]) - 1.0/(x_[1] - x_[0])) * 1.0/(x_[1] - x_[0])             # <<<<<<<<<<<<<<
  * 
  *             # dphi1
  */
@@ -7419,7 +7433,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_322 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 134, __pyx_L1_error)
+        __PYX_ERR(0, 143, __pyx_L1_error)
       }
       __pyx_t_323 = 0;
       __pyx_t_12 = -1;
@@ -7429,12 +7443,12 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_323 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 134, __pyx_L1_error)
+        __PYX_ERR(0, 143, __pyx_L1_error)
       }
       __pyx_t_65 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_322, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_323, __pyx_pybuffernd_x_.diminfo[0].strides)));
       if (unlikely(__pyx_t_65 == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-        __PYX_ERR(0, 134, __pyx_L1_error)
+        __PYX_ERR(0, 143, __pyx_L1_error)
       }
       __pyx_t_324 = 1;
       __pyx_t_12 = -1;
@@ -7444,7 +7458,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_324 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 134, __pyx_L1_error)
+        __PYX_ERR(0, 143, __pyx_L1_error)
       }
       __pyx_t_325 = 0;
       __pyx_t_12 = -1;
@@ -7454,12 +7468,12 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_325 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 134, __pyx_L1_error)
+        __PYX_ERR(0, 143, __pyx_L1_error)
       }
       __pyx_t_19 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_324, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_325, __pyx_pybuffernd_x_.diminfo[0].strides)));
       if (unlikely(__pyx_t_19 == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-        __PYX_ERR(0, 134, __pyx_L1_error)
+        __PYX_ERR(0, 143, __pyx_L1_error)
       }
       __pyx_t_29 = (((-2.0 / __pyx_t_65) - (1.0 / __pyx_t_19)) * 1.0);
       __pyx_t_326 = 1;
@@ -7470,7 +7484,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_326 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 134, __pyx_L1_error)
+        __PYX_ERR(0, 143, __pyx_L1_error)
       }
       __pyx_t_327 = 0;
       __pyx_t_12 = -1;
@@ -7480,34 +7494,34 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_327 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 134, __pyx_L1_error)
+        __PYX_ERR(0, 143, __pyx_L1_error)
       }
       __pyx_t_19 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_326, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_327, __pyx_pybuffernd_x_.diminfo[0].strides)));
       if (unlikely(__pyx_t_19 == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-        __PYX_ERR(0, 134, __pyx_L1_error)
+        __PYX_ERR(0, 143, __pyx_L1_error)
       }
       __pyx_t_328 = (2 * __pyx_v_I);
       __pyx_t_329 = (2 * __pyx_v_I);
       __pyx_t_12 = -1;
       if (__pyx_t_328 < 0) {
-        __pyx_t_328 += __pyx_pybuffernd_M.diminfo[0].shape;
+        __pyx_t_328 += __pyx_pybuffernd_Jac.diminfo[0].shape;
         if (unlikely(__pyx_t_328 < 0)) __pyx_t_12 = 0;
-      } else if (unlikely(__pyx_t_328 >= __pyx_pybuffernd_M.diminfo[0].shape)) __pyx_t_12 = 0;
+      } else if (unlikely(__pyx_t_328 >= __pyx_pybuffernd_Jac.diminfo[0].shape)) __pyx_t_12 = 0;
       if (__pyx_t_329 < 0) {
-        __pyx_t_329 += __pyx_pybuffernd_M.diminfo[1].shape;
+        __pyx_t_329 += __pyx_pybuffernd_Jac.diminfo[1].shape;
         if (unlikely(__pyx_t_329 < 0)) __pyx_t_12 = 1;
-      } else if (unlikely(__pyx_t_329 >= __pyx_pybuffernd_M.diminfo[1].shape)) __pyx_t_12 = 1;
+      } else if (unlikely(__pyx_t_329 >= __pyx_pybuffernd_Jac.diminfo[1].shape)) __pyx_t_12 = 1;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 134, __pyx_L1_error)
+        __PYX_ERR(0, 143, __pyx_L1_error)
       }
-      *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_M.rcbuffer->pybuffer.buf, __pyx_t_328, __pyx_pybuffernd_M.diminfo[0].strides, __pyx_t_329, __pyx_pybuffernd_M.diminfo[1].strides) = (__pyx_t_29 / __pyx_t_19);
+      *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_Jac.rcbuffer->pybuffer.buf, __pyx_t_328, __pyx_pybuffernd_Jac.diminfo[0].strides, __pyx_t_329, __pyx_pybuffernd_Jac.diminfo[1].strides) = (__pyx_t_29 / __pyx_t_19);
 
-      /* "functions/jacobian.pyx":137
+      /* "functions/jacobian.pyx":146
  * 
  *             # dphi1
- *             M[2*I,2*I+1] =  2.0/(x_[2] - x_[0]) * 1.0/(x_[1] - x_[0])             # <<<<<<<<<<<<<<
+ *             Jac[2*I,2*I+1] =  2.0/(x_[2] - x_[0]) * 1.0/(x_[1] - x_[0])             # <<<<<<<<<<<<<<
  * 
  *             #--- dNP+ / dc--------------------------------------------------------------------------------
  */
@@ -7519,7 +7533,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_330 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 137, __pyx_L1_error)
+        __PYX_ERR(0, 146, __pyx_L1_error)
       }
       __pyx_t_331 = 0;
       __pyx_t_12 = -1;
@@ -7529,12 +7543,12 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_331 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 137, __pyx_L1_error)
+        __PYX_ERR(0, 146, __pyx_L1_error)
       }
       __pyx_t_19 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_330, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_331, __pyx_pybuffernd_x_.diminfo[0].strides)));
       if (unlikely(__pyx_t_19 == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-        __PYX_ERR(0, 137, __pyx_L1_error)
+        __PYX_ERR(0, 146, __pyx_L1_error)
       }
       __pyx_t_29 = ((2.0 / __pyx_t_19) * 1.0);
       __pyx_t_332 = 1;
@@ -7545,7 +7559,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_332 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 137, __pyx_L1_error)
+        __PYX_ERR(0, 146, __pyx_L1_error)
       }
       __pyx_t_333 = 0;
       __pyx_t_12 = -1;
@@ -7555,34 +7569,34 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_333 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 137, __pyx_L1_error)
+        __PYX_ERR(0, 146, __pyx_L1_error)
       }
       __pyx_t_19 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_332, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_333, __pyx_pybuffernd_x_.diminfo[0].strides)));
       if (unlikely(__pyx_t_19 == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-        __PYX_ERR(0, 137, __pyx_L1_error)
+        __PYX_ERR(0, 146, __pyx_L1_error)
       }
       __pyx_t_334 = (2 * __pyx_v_I);
       __pyx_t_335 = ((2 * __pyx_v_I) + 1);
       __pyx_t_12 = -1;
       if (__pyx_t_334 < 0) {
-        __pyx_t_334 += __pyx_pybuffernd_M.diminfo[0].shape;
+        __pyx_t_334 += __pyx_pybuffernd_Jac.diminfo[0].shape;
         if (unlikely(__pyx_t_334 < 0)) __pyx_t_12 = 0;
-      } else if (unlikely(__pyx_t_334 >= __pyx_pybuffernd_M.diminfo[0].shape)) __pyx_t_12 = 0;
+      } else if (unlikely(__pyx_t_334 >= __pyx_pybuffernd_Jac.diminfo[0].shape)) __pyx_t_12 = 0;
       if (__pyx_t_335 < 0) {
-        __pyx_t_335 += __pyx_pybuffernd_M.diminfo[1].shape;
+        __pyx_t_335 += __pyx_pybuffernd_Jac.diminfo[1].shape;
         if (unlikely(__pyx_t_335 < 0)) __pyx_t_12 = 1;
-      } else if (unlikely(__pyx_t_335 >= __pyx_pybuffernd_M.diminfo[1].shape)) __pyx_t_12 = 1;
+      } else if (unlikely(__pyx_t_335 >= __pyx_pybuffernd_Jac.diminfo[1].shape)) __pyx_t_12 = 1;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 137, __pyx_L1_error)
+        __PYX_ERR(0, 146, __pyx_L1_error)
       }
-      *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_M.rcbuffer->pybuffer.buf, __pyx_t_334, __pyx_pybuffernd_M.diminfo[0].strides, __pyx_t_335, __pyx_pybuffernd_M.diminfo[1].strides) = (__pyx_t_29 / __pyx_t_19);
+      *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_Jac.rcbuffer->pybuffer.buf, __pyx_t_334, __pyx_pybuffernd_Jac.diminfo[0].strides, __pyx_t_335, __pyx_pybuffernd_Jac.diminfo[1].strides) = (__pyx_t_29 / __pyx_t_19);
 
-      /* "functions/jacobian.pyx":141
+      /* "functions/jacobian.pyx":150
  *             #--- dNP+ / dc--------------------------------------------------------------------------------
  *             # dc0
- *             M[0,0] = (1 + Dt * ( 2*DC[1]/(x_[2] - x_[0]) -DC[1]*chi1*2* fmax(sol[2*I+1] - sol[2*I], 0.0)/(x_[2] - x_[0])             # <<<<<<<<<<<<<<
+ *             Jac[0,0] = (1 + M * Dt * ( 2*DC[1]/(x_[2] - x_[0]) -DC[1]*chi1*2* fmax(sol[2*I+1] - sol[2*I], 0.0)/(x_[2] - x_[0])             # <<<<<<<<<<<<<<
  *                                 - dfAdc ) / (x_[1] - x_[0]) )
  * 
  */
@@ -7594,7 +7608,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_336 >= __pyx_pybuffernd_DC.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 141, __pyx_L1_error)
+        __PYX_ERR(0, 150, __pyx_L1_error)
       }
       __pyx_t_19 = (2.0 * (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_DC.rcbuffer->pybuffer.buf, __pyx_t_336, __pyx_pybuffernd_DC.diminfo[0].strides)));
       __pyx_t_337 = 2;
@@ -7605,7 +7619,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_337 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 141, __pyx_L1_error)
+        __PYX_ERR(0, 150, __pyx_L1_error)
       }
       __pyx_t_338 = 0;
       __pyx_t_12 = -1;
@@ -7615,12 +7629,12 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_338 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 141, __pyx_L1_error)
+        __PYX_ERR(0, 150, __pyx_L1_error)
       }
       __pyx_t_29 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_337, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_338, __pyx_pybuffernd_x_.diminfo[0].strides)));
       if (unlikely(__pyx_t_29 == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-        __PYX_ERR(0, 141, __pyx_L1_error)
+        __PYX_ERR(0, 150, __pyx_L1_error)
       }
       __pyx_t_339 = 1;
       __pyx_t_12 = -1;
@@ -7630,7 +7644,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_339 >= __pyx_pybuffernd_DC.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 141, __pyx_L1_error)
+        __PYX_ERR(0, 150, __pyx_L1_error)
       }
       __pyx_t_340 = ((2 * __pyx_v_I) + 1);
       __pyx_t_12 = -1;
@@ -7640,7 +7654,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_340 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 141, __pyx_L1_error)
+        __PYX_ERR(0, 150, __pyx_L1_error)
       }
       __pyx_t_341 = (2 * __pyx_v_I);
       __pyx_t_12 = -1;
@@ -7650,7 +7664,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_341 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 141, __pyx_L1_error)
+        __PYX_ERR(0, 150, __pyx_L1_error)
       }
       __pyx_t_65 = ((((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_DC.rcbuffer->pybuffer.buf, __pyx_t_339, __pyx_pybuffernd_DC.diminfo[0].strides)) * __pyx_v_chi1) * 2.0) * fmax(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_340, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_341, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0));
       __pyx_t_342 = 2;
@@ -7661,7 +7675,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_342 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 141, __pyx_L1_error)
+        __PYX_ERR(0, 150, __pyx_L1_error)
       }
       __pyx_t_343 = 0;
       __pyx_t_12 = -1;
@@ -7671,22 +7685,22 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_343 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 141, __pyx_L1_error)
+        __PYX_ERR(0, 150, __pyx_L1_error)
       }
       __pyx_t_48 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_342, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_343, __pyx_pybuffernd_x_.diminfo[0].strides)));
       if (unlikely(__pyx_t_48 == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-        __PYX_ERR(0, 141, __pyx_L1_error)
+        __PYX_ERR(0, 150, __pyx_L1_error)
       }
 
-      /* "functions/jacobian.pyx":142
+      /* "functions/jacobian.pyx":151
  *             # dc0
- *             M[0,0] = (1 + Dt * ( 2*DC[1]/(x_[2] - x_[0]) -DC[1]*chi1*2* fmax(sol[2*I+1] - sol[2*I], 0.0)/(x_[2] - x_[0])
+ *             Jac[0,0] = (1 + M * Dt * ( 2*DC[1]/(x_[2] - x_[0]) -DC[1]*chi1*2* fmax(sol[2*I+1] - sol[2*I], 0.0)/(x_[2] - x_[0])
  *                                 - dfAdc ) / (x_[1] - x_[0]) )             # <<<<<<<<<<<<<<
  * 
  *             # dc1
  */
-      __pyx_t_49 = (__pyx_v_Dt * (((__pyx_t_19 / __pyx_t_29) - (__pyx_t_65 / __pyx_t_48)) - __pyx_v_dfAdc));
+      __pyx_t_49 = ((__pyx_v_M * __pyx_v_Dt) * (((__pyx_t_19 / __pyx_t_29) - (__pyx_t_65 / __pyx_t_48)) - __pyx_v_dfAdc));
       __pyx_t_344 = 1;
       __pyx_t_12 = -1;
       if (__pyx_t_344 < 0) {
@@ -7695,7 +7709,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_344 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 142, __pyx_L1_error)
+        __PYX_ERR(0, 151, __pyx_L1_error)
       }
       __pyx_t_345 = 0;
       __pyx_t_12 = -1;
@@ -7705,18 +7719,18 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_345 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 142, __pyx_L1_error)
+        __PYX_ERR(0, 151, __pyx_L1_error)
       }
       __pyx_t_48 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_344, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_345, __pyx_pybuffernd_x_.diminfo[0].strides)));
       if (unlikely(__pyx_t_48 == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-        __PYX_ERR(0, 142, __pyx_L1_error)
+        __PYX_ERR(0, 151, __pyx_L1_error)
       }
 
-      /* "functions/jacobian.pyx":141
+      /* "functions/jacobian.pyx":150
  *             #--- dNP+ / dc--------------------------------------------------------------------------------
  *             # dc0
- *             M[0,0] = (1 + Dt * ( 2*DC[1]/(x_[2] - x_[0]) -DC[1]*chi1*2* fmax(sol[2*I+1] - sol[2*I], 0.0)/(x_[2] - x_[0])             # <<<<<<<<<<<<<<
+ *             Jac[0,0] = (1 + M * Dt * ( 2*DC[1]/(x_[2] - x_[0]) -DC[1]*chi1*2* fmax(sol[2*I+1] - sol[2*I], 0.0)/(x_[2] - x_[0])             # <<<<<<<<<<<<<<
  *                                 - dfAdc ) / (x_[1] - x_[0]) )
  * 
  */
@@ -7724,23 +7738,23 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       __pyx_t_347 = 0;
       __pyx_t_12 = -1;
       if (__pyx_t_346 < 0) {
-        __pyx_t_346 += __pyx_pybuffernd_M.diminfo[0].shape;
+        __pyx_t_346 += __pyx_pybuffernd_Jac.diminfo[0].shape;
         if (unlikely(__pyx_t_346 < 0)) __pyx_t_12 = 0;
-      } else if (unlikely(__pyx_t_346 >= __pyx_pybuffernd_M.diminfo[0].shape)) __pyx_t_12 = 0;
+      } else if (unlikely(__pyx_t_346 >= __pyx_pybuffernd_Jac.diminfo[0].shape)) __pyx_t_12 = 0;
       if (__pyx_t_347 < 0) {
-        __pyx_t_347 += __pyx_pybuffernd_M.diminfo[1].shape;
+        __pyx_t_347 += __pyx_pybuffernd_Jac.diminfo[1].shape;
         if (unlikely(__pyx_t_347 < 0)) __pyx_t_12 = 1;
-      } else if (unlikely(__pyx_t_347 >= __pyx_pybuffernd_M.diminfo[1].shape)) __pyx_t_12 = 1;
+      } else if (unlikely(__pyx_t_347 >= __pyx_pybuffernd_Jac.diminfo[1].shape)) __pyx_t_12 = 1;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 141, __pyx_L1_error)
+        __PYX_ERR(0, 150, __pyx_L1_error)
       }
-      *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_M.rcbuffer->pybuffer.buf, __pyx_t_346, __pyx_pybuffernd_M.diminfo[0].strides, __pyx_t_347, __pyx_pybuffernd_M.diminfo[1].strides) = (1.0 + (__pyx_t_49 / __pyx_t_48));
+      *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_Jac.rcbuffer->pybuffer.buf, __pyx_t_346, __pyx_pybuffernd_Jac.diminfo[0].strides, __pyx_t_347, __pyx_pybuffernd_Jac.diminfo[1].strides) = (1.0 + (__pyx_t_49 / __pyx_t_48));
 
-      /* "functions/jacobian.pyx":145
+      /* "functions/jacobian.pyx":154
  * 
  *             # dc1
- *             M[0,1] = Dt * (-2*DC[1]/(x_[2] - x_[0]) -DC[1]*chi1*2* fmin(sol[2*I+1] - sol[2*I], 0.0)/(x_[2] - x_[0]) ) / (x_[1] - x_[0])             # <<<<<<<<<<<<<<
+ *             Jac[0,1] = M * Dt * (-2*DC[1]/(x_[2] - x_[0]) -DC[1]*chi1*2* fmin(sol[2*I+1] - sol[2*I], 0.0)/(x_[2] - x_[0]) ) / (x_[1] - x_[0])             # <<<<<<<<<<<<<<
  * 
  *             #--- dNP- / dc--------------------------------------------------------------------------------
  */
@@ -7752,7 +7766,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_348 >= __pyx_pybuffernd_DC.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 145, __pyx_L1_error)
+        __PYX_ERR(0, 154, __pyx_L1_error)
       }
       __pyx_t_48 = (-2.0 * (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_DC.rcbuffer->pybuffer.buf, __pyx_t_348, __pyx_pybuffernd_DC.diminfo[0].strides)));
       __pyx_t_349 = 2;
@@ -7763,7 +7777,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_349 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 145, __pyx_L1_error)
+        __PYX_ERR(0, 154, __pyx_L1_error)
       }
       __pyx_t_350 = 0;
       __pyx_t_12 = -1;
@@ -7773,12 +7787,12 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_350 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 145, __pyx_L1_error)
+        __PYX_ERR(0, 154, __pyx_L1_error)
       }
       __pyx_t_49 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_349, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_350, __pyx_pybuffernd_x_.diminfo[0].strides)));
       if (unlikely(__pyx_t_49 == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-        __PYX_ERR(0, 145, __pyx_L1_error)
+        __PYX_ERR(0, 154, __pyx_L1_error)
       }
       __pyx_t_351 = 1;
       __pyx_t_12 = -1;
@@ -7788,7 +7802,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_351 >= __pyx_pybuffernd_DC.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 145, __pyx_L1_error)
+        __PYX_ERR(0, 154, __pyx_L1_error)
       }
       __pyx_t_352 = ((2 * __pyx_v_I) + 1);
       __pyx_t_12 = -1;
@@ -7798,7 +7812,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_352 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 145, __pyx_L1_error)
+        __PYX_ERR(0, 154, __pyx_L1_error)
       }
       __pyx_t_353 = (2 * __pyx_v_I);
       __pyx_t_12 = -1;
@@ -7808,7 +7822,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_353 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 145, __pyx_L1_error)
+        __PYX_ERR(0, 154, __pyx_L1_error)
       }
       __pyx_t_65 = ((((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_DC.rcbuffer->pybuffer.buf, __pyx_t_351, __pyx_pybuffernd_DC.diminfo[0].strides)) * __pyx_v_chi1) * 2.0) * fmin(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_352, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_353, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0));
       __pyx_t_354 = 2;
@@ -7819,7 +7833,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_354 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 145, __pyx_L1_error)
+        __PYX_ERR(0, 154, __pyx_L1_error)
       }
       __pyx_t_355 = 0;
       __pyx_t_12 = -1;
@@ -7829,14 +7843,14 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_355 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 145, __pyx_L1_error)
+        __PYX_ERR(0, 154, __pyx_L1_error)
       }
       __pyx_t_29 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_354, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_355, __pyx_pybuffernd_x_.diminfo[0].strides)));
       if (unlikely(__pyx_t_29 == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-        __PYX_ERR(0, 145, __pyx_L1_error)
+        __PYX_ERR(0, 154, __pyx_L1_error)
       }
-      __pyx_t_19 = (__pyx_v_Dt * ((__pyx_t_48 / __pyx_t_49) - (__pyx_t_65 / __pyx_t_29)));
+      __pyx_t_19 = ((__pyx_v_M * __pyx_v_Dt) * ((__pyx_t_48 / __pyx_t_49) - (__pyx_t_65 / __pyx_t_29)));
       __pyx_t_356 = 1;
       __pyx_t_12 = -1;
       if (__pyx_t_356 < 0) {
@@ -7845,7 +7859,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_356 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 145, __pyx_L1_error)
+        __PYX_ERR(0, 154, __pyx_L1_error)
       }
       __pyx_t_357 = 0;
       __pyx_t_12 = -1;
@@ -7855,34 +7869,34 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_357 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 145, __pyx_L1_error)
+        __PYX_ERR(0, 154, __pyx_L1_error)
       }
       __pyx_t_29 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_356, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_357, __pyx_pybuffernd_x_.diminfo[0].strides)));
       if (unlikely(__pyx_t_29 == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-        __PYX_ERR(0, 145, __pyx_L1_error)
+        __PYX_ERR(0, 154, __pyx_L1_error)
       }
       __pyx_t_358 = 0;
       __pyx_t_359 = 1;
       __pyx_t_12 = -1;
       if (__pyx_t_358 < 0) {
-        __pyx_t_358 += __pyx_pybuffernd_M.diminfo[0].shape;
+        __pyx_t_358 += __pyx_pybuffernd_Jac.diminfo[0].shape;
         if (unlikely(__pyx_t_358 < 0)) __pyx_t_12 = 0;
-      } else if (unlikely(__pyx_t_358 >= __pyx_pybuffernd_M.diminfo[0].shape)) __pyx_t_12 = 0;
+      } else if (unlikely(__pyx_t_358 >= __pyx_pybuffernd_Jac.diminfo[0].shape)) __pyx_t_12 = 0;
       if (__pyx_t_359 < 0) {
-        __pyx_t_359 += __pyx_pybuffernd_M.diminfo[1].shape;
+        __pyx_t_359 += __pyx_pybuffernd_Jac.diminfo[1].shape;
         if (unlikely(__pyx_t_359 < 0)) __pyx_t_12 = 1;
-      } else if (unlikely(__pyx_t_359 >= __pyx_pybuffernd_M.diminfo[1].shape)) __pyx_t_12 = 1;
+      } else if (unlikely(__pyx_t_359 >= __pyx_pybuffernd_Jac.diminfo[1].shape)) __pyx_t_12 = 1;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 145, __pyx_L1_error)
+        __PYX_ERR(0, 154, __pyx_L1_error)
       }
-      *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_M.rcbuffer->pybuffer.buf, __pyx_t_358, __pyx_pybuffernd_M.diminfo[0].strides, __pyx_t_359, __pyx_pybuffernd_M.diminfo[1].strides) = (__pyx_t_19 / __pyx_t_29);
+      *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_Jac.rcbuffer->pybuffer.buf, __pyx_t_358, __pyx_pybuffernd_Jac.diminfo[0].strides, __pyx_t_359, __pyx_pybuffernd_Jac.diminfo[1].strides) = (__pyx_t_19 / __pyx_t_29);
 
-      /* "functions/jacobian.pyx":149
+      /* "functions/jacobian.pyx":158
  *             #--- dNP- / dc--------------------------------------------------------------------------------
  *             # dc0
- *             M[I,I] = (1 + Dt * ( 2*DA[1]/(x_[2] - x_[0]) + DA[1]*chi1*2* fmax(sol[2*I+1] - sol[2*I], 0.0)/(x_[2] - x_[0]) ) / (x_[1] - x_[0]) )             # <<<<<<<<<<<<<<
+ *             Jac[I,I] = (1 + M * Dt * ( 2*DA[1]/(x_[2] - x_[0]) + DA[1]*chi1*2* fmax(sol[2*I+1] - sol[2*I], 0.0)/(x_[2] - x_[0]) ) / (x_[1] - x_[0]) )             # <<<<<<<<<<<<<<
  * 
  *             # dc1
  */
@@ -7894,7 +7908,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_360 >= __pyx_pybuffernd_DA.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 149, __pyx_L1_error)
+        __PYX_ERR(0, 158, __pyx_L1_error)
       }
       __pyx_t_29 = (2.0 * (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_DA.rcbuffer->pybuffer.buf, __pyx_t_360, __pyx_pybuffernd_DA.diminfo[0].strides)));
       __pyx_t_361 = 2;
@@ -7905,7 +7919,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_361 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 149, __pyx_L1_error)
+        __PYX_ERR(0, 158, __pyx_L1_error)
       }
       __pyx_t_362 = 0;
       __pyx_t_12 = -1;
@@ -7915,12 +7929,12 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_362 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 149, __pyx_L1_error)
+        __PYX_ERR(0, 158, __pyx_L1_error)
       }
       __pyx_t_19 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_361, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_362, __pyx_pybuffernd_x_.diminfo[0].strides)));
       if (unlikely(__pyx_t_19 == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-        __PYX_ERR(0, 149, __pyx_L1_error)
+        __PYX_ERR(0, 158, __pyx_L1_error)
       }
       __pyx_t_363 = 1;
       __pyx_t_12 = -1;
@@ -7930,7 +7944,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_363 >= __pyx_pybuffernd_DA.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 149, __pyx_L1_error)
+        __PYX_ERR(0, 158, __pyx_L1_error)
       }
       __pyx_t_364 = ((2 * __pyx_v_I) + 1);
       __pyx_t_12 = -1;
@@ -7940,7 +7954,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_364 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 149, __pyx_L1_error)
+        __PYX_ERR(0, 158, __pyx_L1_error)
       }
       __pyx_t_365 = (2 * __pyx_v_I);
       __pyx_t_12 = -1;
@@ -7950,7 +7964,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_365 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 149, __pyx_L1_error)
+        __PYX_ERR(0, 158, __pyx_L1_error)
       }
       __pyx_t_65 = ((((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_DA.rcbuffer->pybuffer.buf, __pyx_t_363, __pyx_pybuffernd_DA.diminfo[0].strides)) * __pyx_v_chi1) * 2.0) * fmax(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_364, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_365, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0));
       __pyx_t_366 = 2;
@@ -7961,7 +7975,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_366 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 149, __pyx_L1_error)
+        __PYX_ERR(0, 158, __pyx_L1_error)
       }
       __pyx_t_367 = 0;
       __pyx_t_12 = -1;
@@ -7971,14 +7985,14 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_367 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 149, __pyx_L1_error)
+        __PYX_ERR(0, 158, __pyx_L1_error)
       }
       __pyx_t_49 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_366, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_367, __pyx_pybuffernd_x_.diminfo[0].strides)));
       if (unlikely(__pyx_t_49 == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-        __PYX_ERR(0, 149, __pyx_L1_error)
+        __PYX_ERR(0, 158, __pyx_L1_error)
       }
-      __pyx_t_48 = (__pyx_v_Dt * ((__pyx_t_29 / __pyx_t_19) + (__pyx_t_65 / __pyx_t_49)));
+      __pyx_t_48 = ((__pyx_v_M * __pyx_v_Dt) * ((__pyx_t_29 / __pyx_t_19) + (__pyx_t_65 / __pyx_t_49)));
       __pyx_t_368 = 1;
       __pyx_t_12 = -1;
       if (__pyx_t_368 < 0) {
@@ -7987,7 +8001,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_368 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 149, __pyx_L1_error)
+        __PYX_ERR(0, 158, __pyx_L1_error)
       }
       __pyx_t_369 = 0;
       __pyx_t_12 = -1;
@@ -7997,34 +8011,34 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_369 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 149, __pyx_L1_error)
+        __PYX_ERR(0, 158, __pyx_L1_error)
       }
       __pyx_t_49 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_368, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_369, __pyx_pybuffernd_x_.diminfo[0].strides)));
       if (unlikely(__pyx_t_49 == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-        __PYX_ERR(0, 149, __pyx_L1_error)
+        __PYX_ERR(0, 158, __pyx_L1_error)
       }
       __pyx_t_370 = __pyx_v_I;
       __pyx_t_371 = __pyx_v_I;
       __pyx_t_12 = -1;
       if (__pyx_t_370 < 0) {
-        __pyx_t_370 += __pyx_pybuffernd_M.diminfo[0].shape;
+        __pyx_t_370 += __pyx_pybuffernd_Jac.diminfo[0].shape;
         if (unlikely(__pyx_t_370 < 0)) __pyx_t_12 = 0;
-      } else if (unlikely(__pyx_t_370 >= __pyx_pybuffernd_M.diminfo[0].shape)) __pyx_t_12 = 0;
+      } else if (unlikely(__pyx_t_370 >= __pyx_pybuffernd_Jac.diminfo[0].shape)) __pyx_t_12 = 0;
       if (__pyx_t_371 < 0) {
-        __pyx_t_371 += __pyx_pybuffernd_M.diminfo[1].shape;
+        __pyx_t_371 += __pyx_pybuffernd_Jac.diminfo[1].shape;
         if (unlikely(__pyx_t_371 < 0)) __pyx_t_12 = 1;
-      } else if (unlikely(__pyx_t_371 >= __pyx_pybuffernd_M.diminfo[1].shape)) __pyx_t_12 = 1;
+      } else if (unlikely(__pyx_t_371 >= __pyx_pybuffernd_Jac.diminfo[1].shape)) __pyx_t_12 = 1;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 149, __pyx_L1_error)
+        __PYX_ERR(0, 158, __pyx_L1_error)
       }
-      *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_M.rcbuffer->pybuffer.buf, __pyx_t_370, __pyx_pybuffernd_M.diminfo[0].strides, __pyx_t_371, __pyx_pybuffernd_M.diminfo[1].strides) = (1.0 + (__pyx_t_48 / __pyx_t_49));
+      *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_Jac.rcbuffer->pybuffer.buf, __pyx_t_370, __pyx_pybuffernd_Jac.diminfo[0].strides, __pyx_t_371, __pyx_pybuffernd_Jac.diminfo[1].strides) = (1.0 + (__pyx_t_48 / __pyx_t_49));
 
-      /* "functions/jacobian.pyx":152
+      /* "functions/jacobian.pyx":161
  * 
  *             # dc1
- *             M[I,I+1] = Dt * (-2*DA[1]/(x_[2] - x_[0]) + DA[1]*chi1*2* fmin(sol[2*I+1] - sol[2*I], 0.0)/(x_[2] - x_[0]) ) / (x_[1] - x_[0])             # <<<<<<<<<<<<<<
+ *             Jac[I,I+1] = M * Dt * (-2*DA[1]/(x_[2] - x_[0]) + DA[1]*chi1*2* fmin(sol[2*I+1] - sol[2*I], 0.0)/(x_[2] - x_[0]) ) / (x_[1] - x_[0])             # <<<<<<<<<<<<<<
  * 
  *             if not (sol[2*I+1] - sol[2*I]) == 0:
  */
@@ -8036,7 +8050,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_372 >= __pyx_pybuffernd_DA.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 152, __pyx_L1_error)
+        __PYX_ERR(0, 161, __pyx_L1_error)
       }
       __pyx_t_49 = (-2.0 * (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_DA.rcbuffer->pybuffer.buf, __pyx_t_372, __pyx_pybuffernd_DA.diminfo[0].strides)));
       __pyx_t_373 = 2;
@@ -8047,7 +8061,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_373 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 152, __pyx_L1_error)
+        __PYX_ERR(0, 161, __pyx_L1_error)
       }
       __pyx_t_374 = 0;
       __pyx_t_12 = -1;
@@ -8057,12 +8071,12 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_374 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 152, __pyx_L1_error)
+        __PYX_ERR(0, 161, __pyx_L1_error)
       }
       __pyx_t_48 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_373, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_374, __pyx_pybuffernd_x_.diminfo[0].strides)));
       if (unlikely(__pyx_t_48 == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-        __PYX_ERR(0, 152, __pyx_L1_error)
+        __PYX_ERR(0, 161, __pyx_L1_error)
       }
       __pyx_t_375 = 1;
       __pyx_t_12 = -1;
@@ -8072,7 +8086,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_375 >= __pyx_pybuffernd_DA.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 152, __pyx_L1_error)
+        __PYX_ERR(0, 161, __pyx_L1_error)
       }
       __pyx_t_376 = ((2 * __pyx_v_I) + 1);
       __pyx_t_12 = -1;
@@ -8082,7 +8096,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_376 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 152, __pyx_L1_error)
+        __PYX_ERR(0, 161, __pyx_L1_error)
       }
       __pyx_t_377 = (2 * __pyx_v_I);
       __pyx_t_12 = -1;
@@ -8092,7 +8106,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_377 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 152, __pyx_L1_error)
+        __PYX_ERR(0, 161, __pyx_L1_error)
       }
       __pyx_t_65 = ((((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_DA.rcbuffer->pybuffer.buf, __pyx_t_375, __pyx_pybuffernd_DA.diminfo[0].strides)) * __pyx_v_chi1) * 2.0) * fmin(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_376, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_377, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0));
       __pyx_t_378 = 2;
@@ -8103,7 +8117,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_378 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 152, __pyx_L1_error)
+        __PYX_ERR(0, 161, __pyx_L1_error)
       }
       __pyx_t_379 = 0;
       __pyx_t_12 = -1;
@@ -8113,14 +8127,14 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_379 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 152, __pyx_L1_error)
+        __PYX_ERR(0, 161, __pyx_L1_error)
       }
       __pyx_t_19 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_378, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_379, __pyx_pybuffernd_x_.diminfo[0].strides)));
       if (unlikely(__pyx_t_19 == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-        __PYX_ERR(0, 152, __pyx_L1_error)
+        __PYX_ERR(0, 161, __pyx_L1_error)
       }
-      __pyx_t_29 = (__pyx_v_Dt * ((__pyx_t_49 / __pyx_t_48) + (__pyx_t_65 / __pyx_t_19)));
+      __pyx_t_29 = ((__pyx_v_M * __pyx_v_Dt) * ((__pyx_t_49 / __pyx_t_48) + (__pyx_t_65 / __pyx_t_19)));
       __pyx_t_380 = 1;
       __pyx_t_12 = -1;
       if (__pyx_t_380 < 0) {
@@ -8129,7 +8143,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_380 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 152, __pyx_L1_error)
+        __PYX_ERR(0, 161, __pyx_L1_error)
       }
       __pyx_t_381 = 0;
       __pyx_t_12 = -1;
@@ -8139,32 +8153,32 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_381 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 152, __pyx_L1_error)
+        __PYX_ERR(0, 161, __pyx_L1_error)
       }
       __pyx_t_19 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_380, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_381, __pyx_pybuffernd_x_.diminfo[0].strides)));
       if (unlikely(__pyx_t_19 == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-        __PYX_ERR(0, 152, __pyx_L1_error)
+        __PYX_ERR(0, 161, __pyx_L1_error)
       }
       __pyx_t_382 = __pyx_v_I;
       __pyx_t_383 = (__pyx_v_I + 1);
       __pyx_t_12 = -1;
       if (__pyx_t_382 < 0) {
-        __pyx_t_382 += __pyx_pybuffernd_M.diminfo[0].shape;
+        __pyx_t_382 += __pyx_pybuffernd_Jac.diminfo[0].shape;
         if (unlikely(__pyx_t_382 < 0)) __pyx_t_12 = 0;
-      } else if (unlikely(__pyx_t_382 >= __pyx_pybuffernd_M.diminfo[0].shape)) __pyx_t_12 = 0;
+      } else if (unlikely(__pyx_t_382 >= __pyx_pybuffernd_Jac.diminfo[0].shape)) __pyx_t_12 = 0;
       if (__pyx_t_383 < 0) {
-        __pyx_t_383 += __pyx_pybuffernd_M.diminfo[1].shape;
+        __pyx_t_383 += __pyx_pybuffernd_Jac.diminfo[1].shape;
         if (unlikely(__pyx_t_383 < 0)) __pyx_t_12 = 1;
-      } else if (unlikely(__pyx_t_383 >= __pyx_pybuffernd_M.diminfo[1].shape)) __pyx_t_12 = 1;
+      } else if (unlikely(__pyx_t_383 >= __pyx_pybuffernd_Jac.diminfo[1].shape)) __pyx_t_12 = 1;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 152, __pyx_L1_error)
+        __PYX_ERR(0, 161, __pyx_L1_error)
       }
-      *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_M.rcbuffer->pybuffer.buf, __pyx_t_382, __pyx_pybuffernd_M.diminfo[0].strides, __pyx_t_383, __pyx_pybuffernd_M.diminfo[1].strides) = (__pyx_t_29 / __pyx_t_19);
+      *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_Jac.rcbuffer->pybuffer.buf, __pyx_t_382, __pyx_pybuffernd_Jac.diminfo[0].strides, __pyx_t_383, __pyx_pybuffernd_Jac.diminfo[1].strides) = (__pyx_t_29 / __pyx_t_19);
 
-      /* "functions/jacobian.pyx":154
- *             M[I,I+1] = Dt * (-2*DA[1]/(x_[2] - x_[0]) + DA[1]*chi1*2* fmin(sol[2*I+1] - sol[2*I], 0.0)/(x_[2] - x_[0]) ) / (x_[1] - x_[0])
+      /* "functions/jacobian.pyx":163
+ *             Jac[I,I+1] = M * Dt * (-2*DA[1]/(x_[2] - x_[0]) + DA[1]*chi1*2* fmin(sol[2*I+1] - sol[2*I], 0.0)/(x_[2] - x_[0]) ) / (x_[1] - x_[0])
  * 
  *             if not (sol[2*I+1] - sol[2*I]) == 0:             # <<<<<<<<<<<<<<
  *                 #--- dNP+ / dp--------------------------------------------------------------------------------
@@ -8178,7 +8192,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_384 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 154, __pyx_L1_error)
+        __PYX_ERR(0, 163, __pyx_L1_error)
       }
       __pyx_t_385 = (2 * __pyx_v_I);
       __pyx_t_12 = -1;
@@ -8188,15 +8202,15 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_385 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 154, __pyx_L1_error)
+        __PYX_ERR(0, 163, __pyx_L1_error)
       }
       __pyx_t_15 = ((!((((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_384, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_385, __pyx_pybuffernd_sol.diminfo[0].strides))) == 0.0) != 0)) != 0);
       if (__pyx_t_15) {
 
-        /* "functions/jacobian.pyx":157
+        /* "functions/jacobian.pyx":166
  *                 #--- dNP+ / dp--------------------------------------------------------------------------------
  *                 # dp0
- *                 M[0,2*I] = (Dt*( DC[1]*chi1*( sol[0] * fmax(sol[2*I+1] - sol[2*I], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[0,2*I] = (M * Dt*( DC[1]*chi1*( sol[0] * fmax(sol[2*I+1] - sol[2*I], 0.0)             # <<<<<<<<<<<<<<
  *                     + sol[1] * fmin(sol[2*I+1] - sol[2*I], 0.0) )*2/((x_[2] - x_[0])*(sol[2*I+1] - sol[2*I]))- dfAdp)/(x_[1] - x_[0]) )
  * 
  */
@@ -8208,7 +8222,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_386 >= __pyx_pybuffernd_DC.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 157, __pyx_L1_error)
+          __PYX_ERR(0, 166, __pyx_L1_error)
         }
         __pyx_t_387 = 0;
         __pyx_t_12 = -1;
@@ -8218,7 +8232,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_387 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 157, __pyx_L1_error)
+          __PYX_ERR(0, 166, __pyx_L1_error)
         }
         __pyx_t_388 = ((2 * __pyx_v_I) + 1);
         __pyx_t_12 = -1;
@@ -8228,7 +8242,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_388 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 157, __pyx_L1_error)
+          __PYX_ERR(0, 166, __pyx_L1_error)
         }
         __pyx_t_389 = (2 * __pyx_v_I);
         __pyx_t_12 = -1;
@@ -8238,12 +8252,12 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_389 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 157, __pyx_L1_error)
+          __PYX_ERR(0, 166, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":158
+        /* "functions/jacobian.pyx":167
  *                 # dp0
- *                 M[0,2*I] = (Dt*( DC[1]*chi1*( sol[0] * fmax(sol[2*I+1] - sol[2*I], 0.0)
+ *                 Jac[0,2*I] = (M * Dt*( DC[1]*chi1*( sol[0] * fmax(sol[2*I+1] - sol[2*I], 0.0)
  *                     + sol[1] * fmin(sol[2*I+1] - sol[2*I], 0.0) )*2/((x_[2] - x_[0])*(sol[2*I+1] - sol[2*I]))- dfAdp)/(x_[1] - x_[0]) )             # <<<<<<<<<<<<<<
  * 
  *                 # dp1
@@ -8256,7 +8270,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_390 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 158, __pyx_L1_error)
+          __PYX_ERR(0, 167, __pyx_L1_error)
         }
         __pyx_t_391 = ((2 * __pyx_v_I) + 1);
         __pyx_t_12 = -1;
@@ -8266,7 +8280,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_391 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 158, __pyx_L1_error)
+          __PYX_ERR(0, 167, __pyx_L1_error)
         }
         __pyx_t_392 = (2 * __pyx_v_I);
         __pyx_t_12 = -1;
@@ -8276,21 +8290,21 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_392 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 158, __pyx_L1_error)
+          __PYX_ERR(0, 167, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":157
+        /* "functions/jacobian.pyx":166
  *                 #--- dNP+ / dp--------------------------------------------------------------------------------
  *                 # dp0
- *                 M[0,2*I] = (Dt*( DC[1]*chi1*( sol[0] * fmax(sol[2*I+1] - sol[2*I], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[0,2*I] = (M * Dt*( DC[1]*chi1*( sol[0] * fmax(sol[2*I+1] - sol[2*I], 0.0)             # <<<<<<<<<<<<<<
  *                     + sol[1] * fmin(sol[2*I+1] - sol[2*I], 0.0) )*2/((x_[2] - x_[0])*(sol[2*I+1] - sol[2*I]))- dfAdp)/(x_[1] - x_[0]) )
  * 
  */
         __pyx_t_19 = ((((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_DC.rcbuffer->pybuffer.buf, __pyx_t_386, __pyx_pybuffernd_DC.diminfo[0].strides)) * __pyx_v_chi1) * (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_387, __pyx_pybuffernd_sol.diminfo[0].strides)) * fmax(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_388, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_389, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0)) + ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_390, __pyx_pybuffernd_sol.diminfo[0].strides)) * fmin(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_391, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_392, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0)))) * 2.0);
 
-        /* "functions/jacobian.pyx":158
+        /* "functions/jacobian.pyx":167
  *                 # dp0
- *                 M[0,2*I] = (Dt*( DC[1]*chi1*( sol[0] * fmax(sol[2*I+1] - sol[2*I], 0.0)
+ *                 Jac[0,2*I] = (M * Dt*( DC[1]*chi1*( sol[0] * fmax(sol[2*I+1] - sol[2*I], 0.0)
  *                     + sol[1] * fmin(sol[2*I+1] - sol[2*I], 0.0) )*2/((x_[2] - x_[0])*(sol[2*I+1] - sol[2*I]))- dfAdp)/(x_[1] - x_[0]) )             # <<<<<<<<<<<<<<
  * 
  *                 # dp1
@@ -8303,7 +8317,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_393 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 158, __pyx_L1_error)
+          __PYX_ERR(0, 167, __pyx_L1_error)
         }
         __pyx_t_394 = 0;
         __pyx_t_12 = -1;
@@ -8313,7 +8327,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_394 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 158, __pyx_L1_error)
+          __PYX_ERR(0, 167, __pyx_L1_error)
         }
         __pyx_t_395 = ((2 * __pyx_v_I) + 1);
         __pyx_t_12 = -1;
@@ -8323,7 +8337,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_395 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 158, __pyx_L1_error)
+          __PYX_ERR(0, 167, __pyx_L1_error)
         }
         __pyx_t_396 = (2 * __pyx_v_I);
         __pyx_t_12 = -1;
@@ -8333,26 +8347,26 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_396 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 158, __pyx_L1_error)
+          __PYX_ERR(0, 167, __pyx_L1_error)
         }
         __pyx_t_29 = (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_393, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_394, __pyx_pybuffernd_x_.diminfo[0].strides))) * ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_395, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_396, __pyx_pybuffernd_sol.diminfo[0].strides))));
         if (unlikely(__pyx_t_29 == 0)) {
           PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-          __PYX_ERR(0, 158, __pyx_L1_error)
+          __PYX_ERR(0, 167, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":157
+        /* "functions/jacobian.pyx":166
  *                 #--- dNP+ / dp--------------------------------------------------------------------------------
  *                 # dp0
- *                 M[0,2*I] = (Dt*( DC[1]*chi1*( sol[0] * fmax(sol[2*I+1] - sol[2*I], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[0,2*I] = (M * Dt*( DC[1]*chi1*( sol[0] * fmax(sol[2*I+1] - sol[2*I], 0.0)             # <<<<<<<<<<<<<<
  *                     + sol[1] * fmin(sol[2*I+1] - sol[2*I], 0.0) )*2/((x_[2] - x_[0])*(sol[2*I+1] - sol[2*I]))- dfAdp)/(x_[1] - x_[0]) )
  * 
  */
-        __pyx_t_65 = (__pyx_v_Dt * ((__pyx_t_19 / __pyx_t_29) - __pyx_v_dfAdp));
+        __pyx_t_65 = ((__pyx_v_M * __pyx_v_Dt) * ((__pyx_t_19 / __pyx_t_29) - __pyx_v_dfAdp));
 
-        /* "functions/jacobian.pyx":158
+        /* "functions/jacobian.pyx":167
  *                 # dp0
- *                 M[0,2*I] = (Dt*( DC[1]*chi1*( sol[0] * fmax(sol[2*I+1] - sol[2*I], 0.0)
+ *                 Jac[0,2*I] = (M * Dt*( DC[1]*chi1*( sol[0] * fmax(sol[2*I+1] - sol[2*I], 0.0)
  *                     + sol[1] * fmin(sol[2*I+1] - sol[2*I], 0.0) )*2/((x_[2] - x_[0])*(sol[2*I+1] - sol[2*I]))- dfAdp)/(x_[1] - x_[0]) )             # <<<<<<<<<<<<<<
  * 
  *                 # dp1
@@ -8365,7 +8379,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_397 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 158, __pyx_L1_error)
+          __PYX_ERR(0, 167, __pyx_L1_error)
         }
         __pyx_t_398 = 0;
         __pyx_t_12 = -1;
@@ -8375,18 +8389,18 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_398 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 158, __pyx_L1_error)
+          __PYX_ERR(0, 167, __pyx_L1_error)
         }
         __pyx_t_29 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_397, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_398, __pyx_pybuffernd_x_.diminfo[0].strides)));
         if (unlikely(__pyx_t_29 == 0)) {
           PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-          __PYX_ERR(0, 158, __pyx_L1_error)
+          __PYX_ERR(0, 167, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":157
+        /* "functions/jacobian.pyx":166
  *                 #--- dNP+ / dp--------------------------------------------------------------------------------
  *                 # dp0
- *                 M[0,2*I] = (Dt*( DC[1]*chi1*( sol[0] * fmax(sol[2*I+1] - sol[2*I], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[0,2*I] = (M * Dt*( DC[1]*chi1*( sol[0] * fmax(sol[2*I+1] - sol[2*I], 0.0)             # <<<<<<<<<<<<<<
  *                     + sol[1] * fmin(sol[2*I+1] - sol[2*I], 0.0) )*2/((x_[2] - x_[0])*(sol[2*I+1] - sol[2*I]))- dfAdp)/(x_[1] - x_[0]) )
  * 
  */
@@ -8394,23 +8408,23 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         __pyx_t_400 = (2 * __pyx_v_I);
         __pyx_t_12 = -1;
         if (__pyx_t_399 < 0) {
-          __pyx_t_399 += __pyx_pybuffernd_M.diminfo[0].shape;
+          __pyx_t_399 += __pyx_pybuffernd_Jac.diminfo[0].shape;
           if (unlikely(__pyx_t_399 < 0)) __pyx_t_12 = 0;
-        } else if (unlikely(__pyx_t_399 >= __pyx_pybuffernd_M.diminfo[0].shape)) __pyx_t_12 = 0;
+        } else if (unlikely(__pyx_t_399 >= __pyx_pybuffernd_Jac.diminfo[0].shape)) __pyx_t_12 = 0;
         if (__pyx_t_400 < 0) {
-          __pyx_t_400 += __pyx_pybuffernd_M.diminfo[1].shape;
+          __pyx_t_400 += __pyx_pybuffernd_Jac.diminfo[1].shape;
           if (unlikely(__pyx_t_400 < 0)) __pyx_t_12 = 1;
-        } else if (unlikely(__pyx_t_400 >= __pyx_pybuffernd_M.diminfo[1].shape)) __pyx_t_12 = 1;
+        } else if (unlikely(__pyx_t_400 >= __pyx_pybuffernd_Jac.diminfo[1].shape)) __pyx_t_12 = 1;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 157, __pyx_L1_error)
+          __PYX_ERR(0, 166, __pyx_L1_error)
         }
-        *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_M.rcbuffer->pybuffer.buf, __pyx_t_399, __pyx_pybuffernd_M.diminfo[0].strides, __pyx_t_400, __pyx_pybuffernd_M.diminfo[1].strides) = (__pyx_t_65 / __pyx_t_29);
+        *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_Jac.rcbuffer->pybuffer.buf, __pyx_t_399, __pyx_pybuffernd_Jac.diminfo[0].strides, __pyx_t_400, __pyx_pybuffernd_Jac.diminfo[1].strides) = (__pyx_t_65 / __pyx_t_29);
 
-        /* "functions/jacobian.pyx":161
+        /* "functions/jacobian.pyx":170
  * 
  *                 # dp1
- *                 M[0,2*I+1] = (Dt*(-DC[1]*chi1*(sol[0] * fmax(sol[2*I+1] - sol[2*I], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[0,2*I+1] = (M * Dt*(-DC[1]*chi1*(sol[0] * fmax(sol[2*I+1] - sol[2*I], 0.0)             # <<<<<<<<<<<<<<
  *                     + sol[1] * fmin(sol[2*I+1] - sol[2*I], 0.0) )*2/((x_[2] - x_[0])*(sol[2*I+1] - sol[2*I])) )/(x_[1] - x_[0]) )
  * 
  */
@@ -8422,7 +8436,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_401 >= __pyx_pybuffernd_DC.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 161, __pyx_L1_error)
+          __PYX_ERR(0, 170, __pyx_L1_error)
         }
         __pyx_t_402 = 0;
         __pyx_t_12 = -1;
@@ -8432,7 +8446,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_402 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 161, __pyx_L1_error)
+          __PYX_ERR(0, 170, __pyx_L1_error)
         }
         __pyx_t_403 = ((2 * __pyx_v_I) + 1);
         __pyx_t_12 = -1;
@@ -8442,7 +8456,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_403 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 161, __pyx_L1_error)
+          __PYX_ERR(0, 170, __pyx_L1_error)
         }
         __pyx_t_404 = (2 * __pyx_v_I);
         __pyx_t_12 = -1;
@@ -8452,12 +8466,12 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_404 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 161, __pyx_L1_error)
+          __PYX_ERR(0, 170, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":162
+        /* "functions/jacobian.pyx":171
  *                 # dp1
- *                 M[0,2*I+1] = (Dt*(-DC[1]*chi1*(sol[0] * fmax(sol[2*I+1] - sol[2*I], 0.0)
+ *                 Jac[0,2*I+1] = (M * Dt*(-DC[1]*chi1*(sol[0] * fmax(sol[2*I+1] - sol[2*I], 0.0)
  *                     + sol[1] * fmin(sol[2*I+1] - sol[2*I], 0.0) )*2/((x_[2] - x_[0])*(sol[2*I+1] - sol[2*I])) )/(x_[1] - x_[0]) )             # <<<<<<<<<<<<<<
  * 
  *                 #--- dNP- / dp--------------------------------------------------------------------------------
@@ -8470,7 +8484,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_405 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 162, __pyx_L1_error)
+          __PYX_ERR(0, 171, __pyx_L1_error)
         }
         __pyx_t_406 = ((2 * __pyx_v_I) + 1);
         __pyx_t_12 = -1;
@@ -8480,7 +8494,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_406 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 162, __pyx_L1_error)
+          __PYX_ERR(0, 171, __pyx_L1_error)
         }
         __pyx_t_407 = (2 * __pyx_v_I);
         __pyx_t_12 = -1;
@@ -8490,21 +8504,21 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_407 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 162, __pyx_L1_error)
+          __PYX_ERR(0, 171, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":161
+        /* "functions/jacobian.pyx":170
  * 
  *                 # dp1
- *                 M[0,2*I+1] = (Dt*(-DC[1]*chi1*(sol[0] * fmax(sol[2*I+1] - sol[2*I], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[0,2*I+1] = (M * Dt*(-DC[1]*chi1*(sol[0] * fmax(sol[2*I+1] - sol[2*I], 0.0)             # <<<<<<<<<<<<<<
  *                     + sol[1] * fmin(sol[2*I+1] - sol[2*I], 0.0) )*2/((x_[2] - x_[0])*(sol[2*I+1] - sol[2*I])) )/(x_[1] - x_[0]) )
  * 
  */
         __pyx_t_29 = ((((-(*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_DC.rcbuffer->pybuffer.buf, __pyx_t_401, __pyx_pybuffernd_DC.diminfo[0].strides))) * __pyx_v_chi1) * (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_402, __pyx_pybuffernd_sol.diminfo[0].strides)) * fmax(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_403, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_404, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0)) + ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_405, __pyx_pybuffernd_sol.diminfo[0].strides)) * fmin(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_406, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_407, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0)))) * 2.0);
 
-        /* "functions/jacobian.pyx":162
+        /* "functions/jacobian.pyx":171
  *                 # dp1
- *                 M[0,2*I+1] = (Dt*(-DC[1]*chi1*(sol[0] * fmax(sol[2*I+1] - sol[2*I], 0.0)
+ *                 Jac[0,2*I+1] = (M * Dt*(-DC[1]*chi1*(sol[0] * fmax(sol[2*I+1] - sol[2*I], 0.0)
  *                     + sol[1] * fmin(sol[2*I+1] - sol[2*I], 0.0) )*2/((x_[2] - x_[0])*(sol[2*I+1] - sol[2*I])) )/(x_[1] - x_[0]) )             # <<<<<<<<<<<<<<
  * 
  *                 #--- dNP- / dp--------------------------------------------------------------------------------
@@ -8517,7 +8531,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_408 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 162, __pyx_L1_error)
+          __PYX_ERR(0, 171, __pyx_L1_error)
         }
         __pyx_t_409 = 0;
         __pyx_t_12 = -1;
@@ -8527,7 +8541,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_409 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 162, __pyx_L1_error)
+          __PYX_ERR(0, 171, __pyx_L1_error)
         }
         __pyx_t_410 = ((2 * __pyx_v_I) + 1);
         __pyx_t_12 = -1;
@@ -8537,7 +8551,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_410 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 162, __pyx_L1_error)
+          __PYX_ERR(0, 171, __pyx_L1_error)
         }
         __pyx_t_411 = (2 * __pyx_v_I);
         __pyx_t_12 = -1;
@@ -8547,26 +8561,26 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_411 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 162, __pyx_L1_error)
+          __PYX_ERR(0, 171, __pyx_L1_error)
         }
         __pyx_t_65 = (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_408, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_409, __pyx_pybuffernd_x_.diminfo[0].strides))) * ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_410, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_411, __pyx_pybuffernd_sol.diminfo[0].strides))));
         if (unlikely(__pyx_t_65 == 0)) {
           PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-          __PYX_ERR(0, 162, __pyx_L1_error)
+          __PYX_ERR(0, 171, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":161
+        /* "functions/jacobian.pyx":170
  * 
  *                 # dp1
- *                 M[0,2*I+1] = (Dt*(-DC[1]*chi1*(sol[0] * fmax(sol[2*I+1] - sol[2*I], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[0,2*I+1] = (M * Dt*(-DC[1]*chi1*(sol[0] * fmax(sol[2*I+1] - sol[2*I], 0.0)             # <<<<<<<<<<<<<<
  *                     + sol[1] * fmin(sol[2*I+1] - sol[2*I], 0.0) )*2/((x_[2] - x_[0])*(sol[2*I+1] - sol[2*I])) )/(x_[1] - x_[0]) )
  * 
  */
-        __pyx_t_19 = (__pyx_v_Dt * (__pyx_t_29 / __pyx_t_65));
+        __pyx_t_19 = ((__pyx_v_M * __pyx_v_Dt) * (__pyx_t_29 / __pyx_t_65));
 
-        /* "functions/jacobian.pyx":162
+        /* "functions/jacobian.pyx":171
  *                 # dp1
- *                 M[0,2*I+1] = (Dt*(-DC[1]*chi1*(sol[0] * fmax(sol[2*I+1] - sol[2*I], 0.0)
+ *                 Jac[0,2*I+1] = (M * Dt*(-DC[1]*chi1*(sol[0] * fmax(sol[2*I+1] - sol[2*I], 0.0)
  *                     + sol[1] * fmin(sol[2*I+1] - sol[2*I], 0.0) )*2/((x_[2] - x_[0])*(sol[2*I+1] - sol[2*I])) )/(x_[1] - x_[0]) )             # <<<<<<<<<<<<<<
  * 
  *                 #--- dNP- / dp--------------------------------------------------------------------------------
@@ -8579,7 +8593,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_412 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 162, __pyx_L1_error)
+          __PYX_ERR(0, 171, __pyx_L1_error)
         }
         __pyx_t_413 = 0;
         __pyx_t_12 = -1;
@@ -8589,18 +8603,18 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_413 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 162, __pyx_L1_error)
+          __PYX_ERR(0, 171, __pyx_L1_error)
         }
         __pyx_t_65 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_412, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_413, __pyx_pybuffernd_x_.diminfo[0].strides)));
         if (unlikely(__pyx_t_65 == 0)) {
           PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-          __PYX_ERR(0, 162, __pyx_L1_error)
+          __PYX_ERR(0, 171, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":161
+        /* "functions/jacobian.pyx":170
  * 
  *                 # dp1
- *                 M[0,2*I+1] = (Dt*(-DC[1]*chi1*(sol[0] * fmax(sol[2*I+1] - sol[2*I], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[0,2*I+1] = (M * Dt*(-DC[1]*chi1*(sol[0] * fmax(sol[2*I+1] - sol[2*I], 0.0)             # <<<<<<<<<<<<<<
  *                     + sol[1] * fmin(sol[2*I+1] - sol[2*I], 0.0) )*2/((x_[2] - x_[0])*(sol[2*I+1] - sol[2*I])) )/(x_[1] - x_[0]) )
  * 
  */
@@ -8608,23 +8622,23 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         __pyx_t_415 = ((2 * __pyx_v_I) + 1);
         __pyx_t_12 = -1;
         if (__pyx_t_414 < 0) {
-          __pyx_t_414 += __pyx_pybuffernd_M.diminfo[0].shape;
+          __pyx_t_414 += __pyx_pybuffernd_Jac.diminfo[0].shape;
           if (unlikely(__pyx_t_414 < 0)) __pyx_t_12 = 0;
-        } else if (unlikely(__pyx_t_414 >= __pyx_pybuffernd_M.diminfo[0].shape)) __pyx_t_12 = 0;
+        } else if (unlikely(__pyx_t_414 >= __pyx_pybuffernd_Jac.diminfo[0].shape)) __pyx_t_12 = 0;
         if (__pyx_t_415 < 0) {
-          __pyx_t_415 += __pyx_pybuffernd_M.diminfo[1].shape;
+          __pyx_t_415 += __pyx_pybuffernd_Jac.diminfo[1].shape;
           if (unlikely(__pyx_t_415 < 0)) __pyx_t_12 = 1;
-        } else if (unlikely(__pyx_t_415 >= __pyx_pybuffernd_M.diminfo[1].shape)) __pyx_t_12 = 1;
+        } else if (unlikely(__pyx_t_415 >= __pyx_pybuffernd_Jac.diminfo[1].shape)) __pyx_t_12 = 1;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 161, __pyx_L1_error)
+          __PYX_ERR(0, 170, __pyx_L1_error)
         }
-        *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_M.rcbuffer->pybuffer.buf, __pyx_t_414, __pyx_pybuffernd_M.diminfo[0].strides, __pyx_t_415, __pyx_pybuffernd_M.diminfo[1].strides) = (__pyx_t_19 / __pyx_t_65);
+        *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_Jac.rcbuffer->pybuffer.buf, __pyx_t_414, __pyx_pybuffernd_Jac.diminfo[0].strides, __pyx_t_415, __pyx_pybuffernd_Jac.diminfo[1].strides) = (__pyx_t_19 / __pyx_t_65);
 
-        /* "functions/jacobian.pyx":166
+        /* "functions/jacobian.pyx":175
  *                 #--- dNP- / dp--------------------------------------------------------------------------------
  *                 # dp0
- *                 M[I,2*I] = (Dt*(-DA[1]*chi1*(sol[I] * fmax(sol[2*I+1] - sol[2*I], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[I,2*I] = (M * Dt*(-DA[1]*chi1*(sol[I] * fmax(sol[2*I+1] - sol[2*I], 0.0)             # <<<<<<<<<<<<<<
  *                     + sol[I+1] * fmin(sol[2*I+1] - sol[2*I], 0.0) )*2/((x_[2] - x_[0])*(sol[2*I+1] - sol[2*I])))/(x_[1] - x_[0]) )
  * 
  */
@@ -8636,7 +8650,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_416 >= __pyx_pybuffernd_DA.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 166, __pyx_L1_error)
+          __PYX_ERR(0, 175, __pyx_L1_error)
         }
         __pyx_t_417 = __pyx_v_I;
         __pyx_t_12 = -1;
@@ -8646,7 +8660,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_417 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 166, __pyx_L1_error)
+          __PYX_ERR(0, 175, __pyx_L1_error)
         }
         __pyx_t_418 = ((2 * __pyx_v_I) + 1);
         __pyx_t_12 = -1;
@@ -8656,7 +8670,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_418 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 166, __pyx_L1_error)
+          __PYX_ERR(0, 175, __pyx_L1_error)
         }
         __pyx_t_419 = (2 * __pyx_v_I);
         __pyx_t_12 = -1;
@@ -8666,12 +8680,12 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_419 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 166, __pyx_L1_error)
+          __PYX_ERR(0, 175, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":167
+        /* "functions/jacobian.pyx":176
  *                 # dp0
- *                 M[I,2*I] = (Dt*(-DA[1]*chi1*(sol[I] * fmax(sol[2*I+1] - sol[2*I], 0.0)
+ *                 Jac[I,2*I] = (M * Dt*(-DA[1]*chi1*(sol[I] * fmax(sol[2*I+1] - sol[2*I], 0.0)
  *                     + sol[I+1] * fmin(sol[2*I+1] - sol[2*I], 0.0) )*2/((x_[2] - x_[0])*(sol[2*I+1] - sol[2*I])))/(x_[1] - x_[0]) )             # <<<<<<<<<<<<<<
  * 
  *                 # dp1
@@ -8684,7 +8698,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_420 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 167, __pyx_L1_error)
+          __PYX_ERR(0, 176, __pyx_L1_error)
         }
         __pyx_t_421 = ((2 * __pyx_v_I) + 1);
         __pyx_t_12 = -1;
@@ -8694,7 +8708,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_421 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 167, __pyx_L1_error)
+          __PYX_ERR(0, 176, __pyx_L1_error)
         }
         __pyx_t_422 = (2 * __pyx_v_I);
         __pyx_t_12 = -1;
@@ -8704,21 +8718,21 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_422 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 167, __pyx_L1_error)
+          __PYX_ERR(0, 176, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":166
+        /* "functions/jacobian.pyx":175
  *                 #--- dNP- / dp--------------------------------------------------------------------------------
  *                 # dp0
- *                 M[I,2*I] = (Dt*(-DA[1]*chi1*(sol[I] * fmax(sol[2*I+1] - sol[2*I], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[I,2*I] = (M * Dt*(-DA[1]*chi1*(sol[I] * fmax(sol[2*I+1] - sol[2*I], 0.0)             # <<<<<<<<<<<<<<
  *                     + sol[I+1] * fmin(sol[2*I+1] - sol[2*I], 0.0) )*2/((x_[2] - x_[0])*(sol[2*I+1] - sol[2*I])))/(x_[1] - x_[0]) )
  * 
  */
         __pyx_t_65 = ((((-(*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_DA.rcbuffer->pybuffer.buf, __pyx_t_416, __pyx_pybuffernd_DA.diminfo[0].strides))) * __pyx_v_chi1) * (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_417, __pyx_pybuffernd_sol.diminfo[0].strides)) * fmax(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_418, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_419, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0)) + ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_420, __pyx_pybuffernd_sol.diminfo[0].strides)) * fmin(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_421, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_422, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0)))) * 2.0);
 
-        /* "functions/jacobian.pyx":167
+        /* "functions/jacobian.pyx":176
  *                 # dp0
- *                 M[I,2*I] = (Dt*(-DA[1]*chi1*(sol[I] * fmax(sol[2*I+1] - sol[2*I], 0.0)
+ *                 Jac[I,2*I] = (M * Dt*(-DA[1]*chi1*(sol[I] * fmax(sol[2*I+1] - sol[2*I], 0.0)
  *                     + sol[I+1] * fmin(sol[2*I+1] - sol[2*I], 0.0) )*2/((x_[2] - x_[0])*(sol[2*I+1] - sol[2*I])))/(x_[1] - x_[0]) )             # <<<<<<<<<<<<<<
  * 
  *                 # dp1
@@ -8731,7 +8745,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_423 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 167, __pyx_L1_error)
+          __PYX_ERR(0, 176, __pyx_L1_error)
         }
         __pyx_t_424 = 0;
         __pyx_t_12 = -1;
@@ -8741,7 +8755,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_424 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 167, __pyx_L1_error)
+          __PYX_ERR(0, 176, __pyx_L1_error)
         }
         __pyx_t_425 = ((2 * __pyx_v_I) + 1);
         __pyx_t_12 = -1;
@@ -8751,7 +8765,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_425 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 167, __pyx_L1_error)
+          __PYX_ERR(0, 176, __pyx_L1_error)
         }
         __pyx_t_426 = (2 * __pyx_v_I);
         __pyx_t_12 = -1;
@@ -8761,26 +8775,26 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_426 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 167, __pyx_L1_error)
+          __PYX_ERR(0, 176, __pyx_L1_error)
         }
         __pyx_t_19 = (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_423, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_424, __pyx_pybuffernd_x_.diminfo[0].strides))) * ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_425, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_426, __pyx_pybuffernd_sol.diminfo[0].strides))));
         if (unlikely(__pyx_t_19 == 0)) {
           PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-          __PYX_ERR(0, 167, __pyx_L1_error)
+          __PYX_ERR(0, 176, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":166
+        /* "functions/jacobian.pyx":175
  *                 #--- dNP- / dp--------------------------------------------------------------------------------
  *                 # dp0
- *                 M[I,2*I] = (Dt*(-DA[1]*chi1*(sol[I] * fmax(sol[2*I+1] - sol[2*I], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[I,2*I] = (M * Dt*(-DA[1]*chi1*(sol[I] * fmax(sol[2*I+1] - sol[2*I], 0.0)             # <<<<<<<<<<<<<<
  *                     + sol[I+1] * fmin(sol[2*I+1] - sol[2*I], 0.0) )*2/((x_[2] - x_[0])*(sol[2*I+1] - sol[2*I])))/(x_[1] - x_[0]) )
  * 
  */
-        __pyx_t_29 = (__pyx_v_Dt * (__pyx_t_65 / __pyx_t_19));
+        __pyx_t_29 = ((__pyx_v_M * __pyx_v_Dt) * (__pyx_t_65 / __pyx_t_19));
 
-        /* "functions/jacobian.pyx":167
+        /* "functions/jacobian.pyx":176
  *                 # dp0
- *                 M[I,2*I] = (Dt*(-DA[1]*chi1*(sol[I] * fmax(sol[2*I+1] - sol[2*I], 0.0)
+ *                 Jac[I,2*I] = (M * Dt*(-DA[1]*chi1*(sol[I] * fmax(sol[2*I+1] - sol[2*I], 0.0)
  *                     + sol[I+1] * fmin(sol[2*I+1] - sol[2*I], 0.0) )*2/((x_[2] - x_[0])*(sol[2*I+1] - sol[2*I])))/(x_[1] - x_[0]) )             # <<<<<<<<<<<<<<
  * 
  *                 # dp1
@@ -8793,7 +8807,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_427 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 167, __pyx_L1_error)
+          __PYX_ERR(0, 176, __pyx_L1_error)
         }
         __pyx_t_428 = 0;
         __pyx_t_12 = -1;
@@ -8803,18 +8817,18 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_428 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 167, __pyx_L1_error)
+          __PYX_ERR(0, 176, __pyx_L1_error)
         }
         __pyx_t_19 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_427, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_428, __pyx_pybuffernd_x_.diminfo[0].strides)));
         if (unlikely(__pyx_t_19 == 0)) {
           PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-          __PYX_ERR(0, 167, __pyx_L1_error)
+          __PYX_ERR(0, 176, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":166
+        /* "functions/jacobian.pyx":175
  *                 #--- dNP- / dp--------------------------------------------------------------------------------
  *                 # dp0
- *                 M[I,2*I] = (Dt*(-DA[1]*chi1*(sol[I] * fmax(sol[2*I+1] - sol[2*I], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[I,2*I] = (M * Dt*(-DA[1]*chi1*(sol[I] * fmax(sol[2*I+1] - sol[2*I], 0.0)             # <<<<<<<<<<<<<<
  *                     + sol[I+1] * fmin(sol[2*I+1] - sol[2*I], 0.0) )*2/((x_[2] - x_[0])*(sol[2*I+1] - sol[2*I])))/(x_[1] - x_[0]) )
  * 
  */
@@ -8822,23 +8836,23 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         __pyx_t_430 = (2 * __pyx_v_I);
         __pyx_t_12 = -1;
         if (__pyx_t_429 < 0) {
-          __pyx_t_429 += __pyx_pybuffernd_M.diminfo[0].shape;
+          __pyx_t_429 += __pyx_pybuffernd_Jac.diminfo[0].shape;
           if (unlikely(__pyx_t_429 < 0)) __pyx_t_12 = 0;
-        } else if (unlikely(__pyx_t_429 >= __pyx_pybuffernd_M.diminfo[0].shape)) __pyx_t_12 = 0;
+        } else if (unlikely(__pyx_t_429 >= __pyx_pybuffernd_Jac.diminfo[0].shape)) __pyx_t_12 = 0;
         if (__pyx_t_430 < 0) {
-          __pyx_t_430 += __pyx_pybuffernd_M.diminfo[1].shape;
+          __pyx_t_430 += __pyx_pybuffernd_Jac.diminfo[1].shape;
           if (unlikely(__pyx_t_430 < 0)) __pyx_t_12 = 1;
-        } else if (unlikely(__pyx_t_430 >= __pyx_pybuffernd_M.diminfo[1].shape)) __pyx_t_12 = 1;
+        } else if (unlikely(__pyx_t_430 >= __pyx_pybuffernd_Jac.diminfo[1].shape)) __pyx_t_12 = 1;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 166, __pyx_L1_error)
+          __PYX_ERR(0, 175, __pyx_L1_error)
         }
-        *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_M.rcbuffer->pybuffer.buf, __pyx_t_429, __pyx_pybuffernd_M.diminfo[0].strides, __pyx_t_430, __pyx_pybuffernd_M.diminfo[1].strides) = (__pyx_t_29 / __pyx_t_19);
+        *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_Jac.rcbuffer->pybuffer.buf, __pyx_t_429, __pyx_pybuffernd_Jac.diminfo[0].strides, __pyx_t_430, __pyx_pybuffernd_Jac.diminfo[1].strides) = (__pyx_t_29 / __pyx_t_19);
 
-        /* "functions/jacobian.pyx":170
+        /* "functions/jacobian.pyx":179
  * 
  *                 # dp1
- *                 M[I,2*I+1] = (Dt*(DA[1]*chi1*(sol[I] * fmax(sol[2*I+1] - sol[2*I], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[I,2*I+1] = (M * Dt*(DA[1]*chi1*(sol[I] * fmax(sol[2*I+1] - sol[2*I], 0.0)             # <<<<<<<<<<<<<<
  *                     + sol[I+1] * fmin(sol[2*I+1] - sol[2*I], 0.0) )*2/((x_[2] - x_[0])*(sol[2*I+1] - sol[2*I])) )/(x_[1] - x_[0]) )
  * 
  */
@@ -8850,7 +8864,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_431 >= __pyx_pybuffernd_DA.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 170, __pyx_L1_error)
+          __PYX_ERR(0, 179, __pyx_L1_error)
         }
         __pyx_t_432 = __pyx_v_I;
         __pyx_t_12 = -1;
@@ -8860,7 +8874,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_432 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 170, __pyx_L1_error)
+          __PYX_ERR(0, 179, __pyx_L1_error)
         }
         __pyx_t_433 = ((2 * __pyx_v_I) + 1);
         __pyx_t_12 = -1;
@@ -8870,7 +8884,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_433 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 170, __pyx_L1_error)
+          __PYX_ERR(0, 179, __pyx_L1_error)
         }
         __pyx_t_434 = (2 * __pyx_v_I);
         __pyx_t_12 = -1;
@@ -8880,12 +8894,12 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_434 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 170, __pyx_L1_error)
+          __PYX_ERR(0, 179, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":171
+        /* "functions/jacobian.pyx":180
  *                 # dp1
- *                 M[I,2*I+1] = (Dt*(DA[1]*chi1*(sol[I] * fmax(sol[2*I+1] - sol[2*I], 0.0)
+ *                 Jac[I,2*I+1] = (M * Dt*(DA[1]*chi1*(sol[I] * fmax(sol[2*I+1] - sol[2*I], 0.0)
  *                     + sol[I+1] * fmin(sol[2*I+1] - sol[2*I], 0.0) )*2/((x_[2] - x_[0])*(sol[2*I+1] - sol[2*I])) )/(x_[1] - x_[0]) )             # <<<<<<<<<<<<<<
  * 
  *         if i == I-1:
@@ -8898,7 +8912,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_435 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 171, __pyx_L1_error)
+          __PYX_ERR(0, 180, __pyx_L1_error)
         }
         __pyx_t_436 = ((2 * __pyx_v_I) + 1);
         __pyx_t_12 = -1;
@@ -8908,7 +8922,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_436 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 171, __pyx_L1_error)
+          __PYX_ERR(0, 180, __pyx_L1_error)
         }
         __pyx_t_437 = (2 * __pyx_v_I);
         __pyx_t_12 = -1;
@@ -8918,21 +8932,21 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_437 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 171, __pyx_L1_error)
+          __PYX_ERR(0, 180, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":170
+        /* "functions/jacobian.pyx":179
  * 
  *                 # dp1
- *                 M[I,2*I+1] = (Dt*(DA[1]*chi1*(sol[I] * fmax(sol[2*I+1] - sol[2*I], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[I,2*I+1] = (M * Dt*(DA[1]*chi1*(sol[I] * fmax(sol[2*I+1] - sol[2*I], 0.0)             # <<<<<<<<<<<<<<
  *                     + sol[I+1] * fmin(sol[2*I+1] - sol[2*I], 0.0) )*2/((x_[2] - x_[0])*(sol[2*I+1] - sol[2*I])) )/(x_[1] - x_[0]) )
  * 
  */
         __pyx_t_19 = ((((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_DA.rcbuffer->pybuffer.buf, __pyx_t_431, __pyx_pybuffernd_DA.diminfo[0].strides)) * __pyx_v_chi1) * (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_432, __pyx_pybuffernd_sol.diminfo[0].strides)) * fmax(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_433, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_434, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0)) + ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_435, __pyx_pybuffernd_sol.diminfo[0].strides)) * fmin(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_436, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_437, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0)))) * 2.0);
 
-        /* "functions/jacobian.pyx":171
+        /* "functions/jacobian.pyx":180
  *                 # dp1
- *                 M[I,2*I+1] = (Dt*(DA[1]*chi1*(sol[I] * fmax(sol[2*I+1] - sol[2*I], 0.0)
+ *                 Jac[I,2*I+1] = (M * Dt*(DA[1]*chi1*(sol[I] * fmax(sol[2*I+1] - sol[2*I], 0.0)
  *                     + sol[I+1] * fmin(sol[2*I+1] - sol[2*I], 0.0) )*2/((x_[2] - x_[0])*(sol[2*I+1] - sol[2*I])) )/(x_[1] - x_[0]) )             # <<<<<<<<<<<<<<
  * 
  *         if i == I-1:
@@ -8945,7 +8959,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_438 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 171, __pyx_L1_error)
+          __PYX_ERR(0, 180, __pyx_L1_error)
         }
         __pyx_t_439 = 0;
         __pyx_t_12 = -1;
@@ -8955,7 +8969,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_439 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 171, __pyx_L1_error)
+          __PYX_ERR(0, 180, __pyx_L1_error)
         }
         __pyx_t_440 = ((2 * __pyx_v_I) + 1);
         __pyx_t_12 = -1;
@@ -8965,7 +8979,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_440 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 171, __pyx_L1_error)
+          __PYX_ERR(0, 180, __pyx_L1_error)
         }
         __pyx_t_441 = (2 * __pyx_v_I);
         __pyx_t_12 = -1;
@@ -8975,26 +8989,26 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_441 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 171, __pyx_L1_error)
+          __PYX_ERR(0, 180, __pyx_L1_error)
         }
         __pyx_t_29 = (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_438, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_439, __pyx_pybuffernd_x_.diminfo[0].strides))) * ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_440, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_441, __pyx_pybuffernd_sol.diminfo[0].strides))));
         if (unlikely(__pyx_t_29 == 0)) {
           PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-          __PYX_ERR(0, 171, __pyx_L1_error)
+          __PYX_ERR(0, 180, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":170
+        /* "functions/jacobian.pyx":179
  * 
  *                 # dp1
- *                 M[I,2*I+1] = (Dt*(DA[1]*chi1*(sol[I] * fmax(sol[2*I+1] - sol[2*I], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[I,2*I+1] = (M * Dt*(DA[1]*chi1*(sol[I] * fmax(sol[2*I+1] - sol[2*I], 0.0)             # <<<<<<<<<<<<<<
  *                     + sol[I+1] * fmin(sol[2*I+1] - sol[2*I], 0.0) )*2/((x_[2] - x_[0])*(sol[2*I+1] - sol[2*I])) )/(x_[1] - x_[0]) )
  * 
  */
-        __pyx_t_65 = (__pyx_v_Dt * (__pyx_t_19 / __pyx_t_29));
+        __pyx_t_65 = ((__pyx_v_M * __pyx_v_Dt) * (__pyx_t_19 / __pyx_t_29));
 
-        /* "functions/jacobian.pyx":171
+        /* "functions/jacobian.pyx":180
  *                 # dp1
- *                 M[I,2*I+1] = (Dt*(DA[1]*chi1*(sol[I] * fmax(sol[2*I+1] - sol[2*I], 0.0)
+ *                 Jac[I,2*I+1] = (M * Dt*(DA[1]*chi1*(sol[I] * fmax(sol[2*I+1] - sol[2*I], 0.0)
  *                     + sol[I+1] * fmin(sol[2*I+1] - sol[2*I], 0.0) )*2/((x_[2] - x_[0])*(sol[2*I+1] - sol[2*I])) )/(x_[1] - x_[0]) )             # <<<<<<<<<<<<<<
  * 
  *         if i == I-1:
@@ -9007,7 +9021,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_442 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 171, __pyx_L1_error)
+          __PYX_ERR(0, 180, __pyx_L1_error)
         }
         __pyx_t_443 = 0;
         __pyx_t_12 = -1;
@@ -9017,18 +9031,18 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_443 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 171, __pyx_L1_error)
+          __PYX_ERR(0, 180, __pyx_L1_error)
         }
         __pyx_t_29 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_442, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_443, __pyx_pybuffernd_x_.diminfo[0].strides)));
         if (unlikely(__pyx_t_29 == 0)) {
           PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-          __PYX_ERR(0, 171, __pyx_L1_error)
+          __PYX_ERR(0, 180, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":170
+        /* "functions/jacobian.pyx":179
  * 
  *                 # dp1
- *                 M[I,2*I+1] = (Dt*(DA[1]*chi1*(sol[I] * fmax(sol[2*I+1] - sol[2*I], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[I,2*I+1] = (M * Dt*(DA[1]*chi1*(sol[I] * fmax(sol[2*I+1] - sol[2*I], 0.0)             # <<<<<<<<<<<<<<
  *                     + sol[I+1] * fmin(sol[2*I+1] - sol[2*I], 0.0) )*2/((x_[2] - x_[0])*(sol[2*I+1] - sol[2*I])) )/(x_[1] - x_[0]) )
  * 
  */
@@ -9036,21 +9050,21 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         __pyx_t_445 = ((2 * __pyx_v_I) + 1);
         __pyx_t_12 = -1;
         if (__pyx_t_444 < 0) {
-          __pyx_t_444 += __pyx_pybuffernd_M.diminfo[0].shape;
+          __pyx_t_444 += __pyx_pybuffernd_Jac.diminfo[0].shape;
           if (unlikely(__pyx_t_444 < 0)) __pyx_t_12 = 0;
-        } else if (unlikely(__pyx_t_444 >= __pyx_pybuffernd_M.diminfo[0].shape)) __pyx_t_12 = 0;
+        } else if (unlikely(__pyx_t_444 >= __pyx_pybuffernd_Jac.diminfo[0].shape)) __pyx_t_12 = 0;
         if (__pyx_t_445 < 0) {
-          __pyx_t_445 += __pyx_pybuffernd_M.diminfo[1].shape;
+          __pyx_t_445 += __pyx_pybuffernd_Jac.diminfo[1].shape;
           if (unlikely(__pyx_t_445 < 0)) __pyx_t_12 = 1;
-        } else if (unlikely(__pyx_t_445 >= __pyx_pybuffernd_M.diminfo[1].shape)) __pyx_t_12 = 1;
+        } else if (unlikely(__pyx_t_445 >= __pyx_pybuffernd_Jac.diminfo[1].shape)) __pyx_t_12 = 1;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 170, __pyx_L1_error)
+          __PYX_ERR(0, 179, __pyx_L1_error)
         }
-        *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_M.rcbuffer->pybuffer.buf, __pyx_t_444, __pyx_pybuffernd_M.diminfo[0].strides, __pyx_t_445, __pyx_pybuffernd_M.diminfo[1].strides) = (__pyx_t_65 / __pyx_t_29);
+        *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_Jac.rcbuffer->pybuffer.buf, __pyx_t_444, __pyx_pybuffernd_Jac.diminfo[0].strides, __pyx_t_445, __pyx_pybuffernd_Jac.diminfo[1].strides) = (__pyx_t_65 / __pyx_t_29);
 
-        /* "functions/jacobian.pyx":154
- *             M[I,I+1] = Dt * (-2*DA[1]/(x_[2] - x_[0]) + DA[1]*chi1*2* fmin(sol[2*I+1] - sol[2*I], 0.0)/(x_[2] - x_[0]) ) / (x_[1] - x_[0])
+        /* "functions/jacobian.pyx":163
+ *             Jac[I,I+1] = M * Dt * (-2*DA[1]/(x_[2] - x_[0]) + DA[1]*chi1*2* fmin(sol[2*I+1] - sol[2*I], 0.0)/(x_[2] - x_[0]) ) / (x_[1] - x_[0])
  * 
  *             if not (sol[2*I+1] - sol[2*I]) == 0:             # <<<<<<<<<<<<<<
  *                 #--- dNP+ / dp--------------------------------------------------------------------------------
@@ -9058,7 +9072,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
  */
       }
 
-      /* "functions/jacobian.pyx":130
+      /* "functions/jacobian.pyx":139
  *                         + sol[I+i+1] * fmin(sol[2*I+i+1] - sol[2*I+i], 0.0) )*2/((x_[i+2] - x_[i])*(sol[2*I+i+1] - sol[2*I+i])) ) / (x_[i+1] - x_[i]) )
  * 
  *         if i == 0:             # <<<<<<<<<<<<<<
@@ -9067,7 +9081,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
  */
     }
 
-    /* "functions/jacobian.pyx":173
+    /* "functions/jacobian.pyx":182
  *                     + sol[I+1] * fmin(sol[2*I+1] - sol[2*I], 0.0) )*2/((x_[2] - x_[0])*(sol[2*I+1] - sol[2*I])) )/(x_[1] - x_[0]) )
  * 
  *         if i == I-1:             # <<<<<<<<<<<<<<
@@ -9077,10 +9091,10 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
     __pyx_t_15 = ((__pyx_v_i == (__pyx_v_I - 1)) != 0);
     if (__pyx_t_15) {
 
-      /* "functions/jacobian.pyx":177
+      /* "functions/jacobian.pyx":186
  *             #--- dP / dc & dP / dp------------------------------------------------------------------------
  *             # dphiI-2
- *             M[3*I-1,3*I-2] = 2.0/(x_[I] - x_[I-2]) * 1.0/(x_[I] - x_[I-1])             # <<<<<<<<<<<<<<
+ *             Jac[3*I-1,3*I-2] = 2.0/(x_[I] - x_[I-2]) * 1.0/(x_[I] - x_[I-1])             # <<<<<<<<<<<<<<
  * 
  *             # dphiI-1
  */
@@ -9092,7 +9106,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_446 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 177, __pyx_L1_error)
+        __PYX_ERR(0, 186, __pyx_L1_error)
       }
       __pyx_t_447 = (__pyx_v_I - 2);
       __pyx_t_12 = -1;
@@ -9102,12 +9116,12 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_447 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 177, __pyx_L1_error)
+        __PYX_ERR(0, 186, __pyx_L1_error)
       }
       __pyx_t_29 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_446, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_447, __pyx_pybuffernd_x_.diminfo[0].strides)));
       if (unlikely(__pyx_t_29 == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-        __PYX_ERR(0, 177, __pyx_L1_error)
+        __PYX_ERR(0, 186, __pyx_L1_error)
       }
       __pyx_t_65 = ((2.0 / __pyx_t_29) * 1.0);
       __pyx_t_448 = __pyx_v_I;
@@ -9118,7 +9132,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_448 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 177, __pyx_L1_error)
+        __PYX_ERR(0, 186, __pyx_L1_error)
       }
       __pyx_t_449 = (__pyx_v_I - 1);
       __pyx_t_12 = -1;
@@ -9128,34 +9142,34 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_449 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 177, __pyx_L1_error)
+        __PYX_ERR(0, 186, __pyx_L1_error)
       }
       __pyx_t_29 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_448, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_449, __pyx_pybuffernd_x_.diminfo[0].strides)));
       if (unlikely(__pyx_t_29 == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-        __PYX_ERR(0, 177, __pyx_L1_error)
+        __PYX_ERR(0, 186, __pyx_L1_error)
       }
       __pyx_t_450 = ((3 * __pyx_v_I) - 1);
       __pyx_t_451 = ((3 * __pyx_v_I) - 2);
       __pyx_t_12 = -1;
       if (__pyx_t_450 < 0) {
-        __pyx_t_450 += __pyx_pybuffernd_M.diminfo[0].shape;
+        __pyx_t_450 += __pyx_pybuffernd_Jac.diminfo[0].shape;
         if (unlikely(__pyx_t_450 < 0)) __pyx_t_12 = 0;
-      } else if (unlikely(__pyx_t_450 >= __pyx_pybuffernd_M.diminfo[0].shape)) __pyx_t_12 = 0;
+      } else if (unlikely(__pyx_t_450 >= __pyx_pybuffernd_Jac.diminfo[0].shape)) __pyx_t_12 = 0;
       if (__pyx_t_451 < 0) {
-        __pyx_t_451 += __pyx_pybuffernd_M.diminfo[1].shape;
+        __pyx_t_451 += __pyx_pybuffernd_Jac.diminfo[1].shape;
         if (unlikely(__pyx_t_451 < 0)) __pyx_t_12 = 1;
-      } else if (unlikely(__pyx_t_451 >= __pyx_pybuffernd_M.diminfo[1].shape)) __pyx_t_12 = 1;
+      } else if (unlikely(__pyx_t_451 >= __pyx_pybuffernd_Jac.diminfo[1].shape)) __pyx_t_12 = 1;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 177, __pyx_L1_error)
+        __PYX_ERR(0, 186, __pyx_L1_error)
       }
-      *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_M.rcbuffer->pybuffer.buf, __pyx_t_450, __pyx_pybuffernd_M.diminfo[0].strides, __pyx_t_451, __pyx_pybuffernd_M.diminfo[1].strides) = (__pyx_t_65 / __pyx_t_29);
+      *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_Jac.rcbuffer->pybuffer.buf, __pyx_t_450, __pyx_pybuffernd_Jac.diminfo[0].strides, __pyx_t_451, __pyx_pybuffernd_Jac.diminfo[1].strides) = (__pyx_t_65 / __pyx_t_29);
 
-      /* "functions/jacobian.pyx":180
+      /* "functions/jacobian.pyx":189
  * 
  *             # dphiI-1
- *             M[3*I-1,3*I-1] = (-1.0/(x_[I] - x_[I-1]) - 2.0/(x_[I] - x_[I-2])) * 1.0/(x_[I] - x_[I-1])             # <<<<<<<<<<<<<<
+ *             Jac[3*I-1,3*I-1] = (-1.0/(x_[I] - x_[I-1]) - 2.0/(x_[I] - x_[I-2])) * 1.0/(x_[I] - x_[I-1])             # <<<<<<<<<<<<<<
  * 
  *             #--- dNP+ / dc--------------------------------------------------------------------------------
  */
@@ -9167,7 +9181,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_452 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 180, __pyx_L1_error)
+        __PYX_ERR(0, 189, __pyx_L1_error)
       }
       __pyx_t_453 = (__pyx_v_I - 1);
       __pyx_t_12 = -1;
@@ -9177,12 +9191,12 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_453 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 180, __pyx_L1_error)
+        __PYX_ERR(0, 189, __pyx_L1_error)
       }
       __pyx_t_29 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_452, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_453, __pyx_pybuffernd_x_.diminfo[0].strides)));
       if (unlikely(__pyx_t_29 == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-        __PYX_ERR(0, 180, __pyx_L1_error)
+        __PYX_ERR(0, 189, __pyx_L1_error)
       }
       __pyx_t_454 = __pyx_v_I;
       __pyx_t_12 = -1;
@@ -9192,7 +9206,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_454 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 180, __pyx_L1_error)
+        __PYX_ERR(0, 189, __pyx_L1_error)
       }
       __pyx_t_455 = (__pyx_v_I - 2);
       __pyx_t_12 = -1;
@@ -9202,12 +9216,12 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_455 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 180, __pyx_L1_error)
+        __PYX_ERR(0, 189, __pyx_L1_error)
       }
       __pyx_t_65 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_454, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_455, __pyx_pybuffernd_x_.diminfo[0].strides)));
       if (unlikely(__pyx_t_65 == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-        __PYX_ERR(0, 180, __pyx_L1_error)
+        __PYX_ERR(0, 189, __pyx_L1_error)
       }
       __pyx_t_19 = (((-1.0 / __pyx_t_29) - (2.0 / __pyx_t_65)) * 1.0);
       __pyx_t_456 = __pyx_v_I;
@@ -9218,7 +9232,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_456 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 180, __pyx_L1_error)
+        __PYX_ERR(0, 189, __pyx_L1_error)
       }
       __pyx_t_457 = (__pyx_v_I - 1);
       __pyx_t_12 = -1;
@@ -9228,34 +9242,34 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_457 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 180, __pyx_L1_error)
+        __PYX_ERR(0, 189, __pyx_L1_error)
       }
       __pyx_t_65 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_456, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_457, __pyx_pybuffernd_x_.diminfo[0].strides)));
       if (unlikely(__pyx_t_65 == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-        __PYX_ERR(0, 180, __pyx_L1_error)
+        __PYX_ERR(0, 189, __pyx_L1_error)
       }
       __pyx_t_458 = ((3 * __pyx_v_I) - 1);
       __pyx_t_459 = ((3 * __pyx_v_I) - 1);
       __pyx_t_12 = -1;
       if (__pyx_t_458 < 0) {
-        __pyx_t_458 += __pyx_pybuffernd_M.diminfo[0].shape;
+        __pyx_t_458 += __pyx_pybuffernd_Jac.diminfo[0].shape;
         if (unlikely(__pyx_t_458 < 0)) __pyx_t_12 = 0;
-      } else if (unlikely(__pyx_t_458 >= __pyx_pybuffernd_M.diminfo[0].shape)) __pyx_t_12 = 0;
+      } else if (unlikely(__pyx_t_458 >= __pyx_pybuffernd_Jac.diminfo[0].shape)) __pyx_t_12 = 0;
       if (__pyx_t_459 < 0) {
-        __pyx_t_459 += __pyx_pybuffernd_M.diminfo[1].shape;
+        __pyx_t_459 += __pyx_pybuffernd_Jac.diminfo[1].shape;
         if (unlikely(__pyx_t_459 < 0)) __pyx_t_12 = 1;
-      } else if (unlikely(__pyx_t_459 >= __pyx_pybuffernd_M.diminfo[1].shape)) __pyx_t_12 = 1;
+      } else if (unlikely(__pyx_t_459 >= __pyx_pybuffernd_Jac.diminfo[1].shape)) __pyx_t_12 = 1;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 180, __pyx_L1_error)
+        __PYX_ERR(0, 189, __pyx_L1_error)
       }
-      *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_M.rcbuffer->pybuffer.buf, __pyx_t_458, __pyx_pybuffernd_M.diminfo[0].strides, __pyx_t_459, __pyx_pybuffernd_M.diminfo[1].strides) = (__pyx_t_19 / __pyx_t_65);
+      *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_Jac.rcbuffer->pybuffer.buf, __pyx_t_458, __pyx_pybuffernd_Jac.diminfo[0].strides, __pyx_t_459, __pyx_pybuffernd_Jac.diminfo[1].strides) = (__pyx_t_19 / __pyx_t_65);
 
-      /* "functions/jacobian.pyx":184
+      /* "functions/jacobian.pyx":193
  *             #--- dNP+ / dc--------------------------------------------------------------------------------
  *             # dcI-2
- *             M[I-1,I-2] = Dt * ( -2*DC[I-1]/(x_[I] - x_[I-2]) + DC[I-1]*chi1*2* fmax(sol[3*I-1] - sol[3*I-2], 0.0)/(x_[I] - x_[I-2]) ) / (x_[I] - x_[I-1])             # <<<<<<<<<<<<<<
+ *             Jac[I-1,I-2] = M * Dt * ( -2*DC[I-1]/(x_[I] - x_[I-2]) + DC[I-1]*chi1*2* fmax(sol[3*I-1] - sol[3*I-2], 0.0)/(x_[I] - x_[I-2]) ) / (x_[I] - x_[I-1])             # <<<<<<<<<<<<<<
  * 
  *             # dcI-1
  */
@@ -9267,7 +9281,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_460 >= __pyx_pybuffernd_DC.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 184, __pyx_L1_error)
+        __PYX_ERR(0, 193, __pyx_L1_error)
       }
       __pyx_t_65 = (-2.0 * (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_DC.rcbuffer->pybuffer.buf, __pyx_t_460, __pyx_pybuffernd_DC.diminfo[0].strides)));
       __pyx_t_461 = __pyx_v_I;
@@ -9278,7 +9292,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_461 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 184, __pyx_L1_error)
+        __PYX_ERR(0, 193, __pyx_L1_error)
       }
       __pyx_t_462 = (__pyx_v_I - 2);
       __pyx_t_12 = -1;
@@ -9288,12 +9302,12 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_462 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 184, __pyx_L1_error)
+        __PYX_ERR(0, 193, __pyx_L1_error)
       }
       __pyx_t_19 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_461, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_462, __pyx_pybuffernd_x_.diminfo[0].strides)));
       if (unlikely(__pyx_t_19 == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-        __PYX_ERR(0, 184, __pyx_L1_error)
+        __PYX_ERR(0, 193, __pyx_L1_error)
       }
       __pyx_t_463 = (__pyx_v_I - 1);
       __pyx_t_12 = -1;
@@ -9303,7 +9317,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_463 >= __pyx_pybuffernd_DC.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 184, __pyx_L1_error)
+        __PYX_ERR(0, 193, __pyx_L1_error)
       }
       __pyx_t_464 = ((3 * __pyx_v_I) - 1);
       __pyx_t_12 = -1;
@@ -9313,7 +9327,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_464 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 184, __pyx_L1_error)
+        __PYX_ERR(0, 193, __pyx_L1_error)
       }
       __pyx_t_465 = ((3 * __pyx_v_I) - 2);
       __pyx_t_12 = -1;
@@ -9323,7 +9337,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_465 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 184, __pyx_L1_error)
+        __PYX_ERR(0, 193, __pyx_L1_error)
       }
       __pyx_t_29 = ((((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_DC.rcbuffer->pybuffer.buf, __pyx_t_463, __pyx_pybuffernd_DC.diminfo[0].strides)) * __pyx_v_chi1) * 2.0) * fmax(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_464, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_465, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0));
       __pyx_t_466 = __pyx_v_I;
@@ -9334,7 +9348,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_466 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 184, __pyx_L1_error)
+        __PYX_ERR(0, 193, __pyx_L1_error)
       }
       __pyx_t_467 = (__pyx_v_I - 2);
       __pyx_t_12 = -1;
@@ -9344,14 +9358,14 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_467 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 184, __pyx_L1_error)
+        __PYX_ERR(0, 193, __pyx_L1_error)
       }
       __pyx_t_48 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_466, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_467, __pyx_pybuffernd_x_.diminfo[0].strides)));
       if (unlikely(__pyx_t_48 == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-        __PYX_ERR(0, 184, __pyx_L1_error)
+        __PYX_ERR(0, 193, __pyx_L1_error)
       }
-      __pyx_t_49 = (__pyx_v_Dt * ((__pyx_t_65 / __pyx_t_19) + (__pyx_t_29 / __pyx_t_48)));
+      __pyx_t_49 = ((__pyx_v_M * __pyx_v_Dt) * ((__pyx_t_65 / __pyx_t_19) + (__pyx_t_29 / __pyx_t_48)));
       __pyx_t_468 = __pyx_v_I;
       __pyx_t_12 = -1;
       if (__pyx_t_468 < 0) {
@@ -9360,7 +9374,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_468 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 184, __pyx_L1_error)
+        __PYX_ERR(0, 193, __pyx_L1_error)
       }
       __pyx_t_469 = (__pyx_v_I - 1);
       __pyx_t_12 = -1;
@@ -9370,34 +9384,34 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_469 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 184, __pyx_L1_error)
+        __PYX_ERR(0, 193, __pyx_L1_error)
       }
       __pyx_t_48 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_468, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_469, __pyx_pybuffernd_x_.diminfo[0].strides)));
       if (unlikely(__pyx_t_48 == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-        __PYX_ERR(0, 184, __pyx_L1_error)
+        __PYX_ERR(0, 193, __pyx_L1_error)
       }
       __pyx_t_470 = (__pyx_v_I - 1);
       __pyx_t_471 = (__pyx_v_I - 2);
       __pyx_t_12 = -1;
       if (__pyx_t_470 < 0) {
-        __pyx_t_470 += __pyx_pybuffernd_M.diminfo[0].shape;
+        __pyx_t_470 += __pyx_pybuffernd_Jac.diminfo[0].shape;
         if (unlikely(__pyx_t_470 < 0)) __pyx_t_12 = 0;
-      } else if (unlikely(__pyx_t_470 >= __pyx_pybuffernd_M.diminfo[0].shape)) __pyx_t_12 = 0;
+      } else if (unlikely(__pyx_t_470 >= __pyx_pybuffernd_Jac.diminfo[0].shape)) __pyx_t_12 = 0;
       if (__pyx_t_471 < 0) {
-        __pyx_t_471 += __pyx_pybuffernd_M.diminfo[1].shape;
+        __pyx_t_471 += __pyx_pybuffernd_Jac.diminfo[1].shape;
         if (unlikely(__pyx_t_471 < 0)) __pyx_t_12 = 1;
-      } else if (unlikely(__pyx_t_471 >= __pyx_pybuffernd_M.diminfo[1].shape)) __pyx_t_12 = 1;
+      } else if (unlikely(__pyx_t_471 >= __pyx_pybuffernd_Jac.diminfo[1].shape)) __pyx_t_12 = 1;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 184, __pyx_L1_error)
+        __PYX_ERR(0, 193, __pyx_L1_error)
       }
-      *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_M.rcbuffer->pybuffer.buf, __pyx_t_470, __pyx_pybuffernd_M.diminfo[0].strides, __pyx_t_471, __pyx_pybuffernd_M.diminfo[1].strides) = (__pyx_t_49 / __pyx_t_48);
+      *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_Jac.rcbuffer->pybuffer.buf, __pyx_t_470, __pyx_pybuffernd_Jac.diminfo[0].strides, __pyx_t_471, __pyx_pybuffernd_Jac.diminfo[1].strides) = (__pyx_t_49 / __pyx_t_48);
 
-      /* "functions/jacobian.pyx":187
+      /* "functions/jacobian.pyx":196
  * 
  *             # dcI-1
- *             M[I-1,I-1] = (1+ Dt*( dfCdc + 2*DC[I-1]/(x_[I] - x_[I-2])             # <<<<<<<<<<<<<<
+ *             Jac[I-1,I-1] = (1+ M * Dt*( dfCdc + 2*DC[I-1]/(x_[I] - x_[I-2])             # <<<<<<<<<<<<<<
  *                           + DC[I-1]*chi1*2* fmin(sol[3*I-1] - sol[3*I-2], 0.0)/(x_[I] - x_[I-2]) )/(x_[I] - x_[I-1]) )
  * 
  */
@@ -9409,7 +9423,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_472 >= __pyx_pybuffernd_DC.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 187, __pyx_L1_error)
+        __PYX_ERR(0, 196, __pyx_L1_error)
       }
       __pyx_t_48 = (2.0 * (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_DC.rcbuffer->pybuffer.buf, __pyx_t_472, __pyx_pybuffernd_DC.diminfo[0].strides)));
       __pyx_t_473 = __pyx_v_I;
@@ -9420,7 +9434,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_473 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 187, __pyx_L1_error)
+        __PYX_ERR(0, 196, __pyx_L1_error)
       }
       __pyx_t_474 = (__pyx_v_I - 2);
       __pyx_t_12 = -1;
@@ -9430,17 +9444,17 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_474 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 187, __pyx_L1_error)
+        __PYX_ERR(0, 196, __pyx_L1_error)
       }
       __pyx_t_49 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_473, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_474, __pyx_pybuffernd_x_.diminfo[0].strides)));
       if (unlikely(__pyx_t_49 == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-        __PYX_ERR(0, 187, __pyx_L1_error)
+        __PYX_ERR(0, 196, __pyx_L1_error)
       }
 
-      /* "functions/jacobian.pyx":188
+      /* "functions/jacobian.pyx":197
  *             # dcI-1
- *             M[I-1,I-1] = (1+ Dt*( dfCdc + 2*DC[I-1]/(x_[I] - x_[I-2])
+ *             Jac[I-1,I-1] = (1+ M * Dt*( dfCdc + 2*DC[I-1]/(x_[I] - x_[I-2])
  *                           + DC[I-1]*chi1*2* fmin(sol[3*I-1] - sol[3*I-2], 0.0)/(x_[I] - x_[I-2]) )/(x_[I] - x_[I-1]) )             # <<<<<<<<<<<<<<
  * 
  *             #--- dNP- / dc--------------------------------------------------------------------------------
@@ -9453,7 +9467,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_475 >= __pyx_pybuffernd_DC.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 188, __pyx_L1_error)
+        __PYX_ERR(0, 197, __pyx_L1_error)
       }
       __pyx_t_476 = ((3 * __pyx_v_I) - 1);
       __pyx_t_12 = -1;
@@ -9463,7 +9477,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_476 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 188, __pyx_L1_error)
+        __PYX_ERR(0, 197, __pyx_L1_error)
       }
       __pyx_t_477 = ((3 * __pyx_v_I) - 2);
       __pyx_t_12 = -1;
@@ -9473,7 +9487,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_477 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 188, __pyx_L1_error)
+        __PYX_ERR(0, 197, __pyx_L1_error)
       }
       __pyx_t_29 = ((((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_DC.rcbuffer->pybuffer.buf, __pyx_t_475, __pyx_pybuffernd_DC.diminfo[0].strides)) * __pyx_v_chi1) * 2.0) * fmin(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_476, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_477, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0));
       __pyx_t_478 = __pyx_v_I;
@@ -9484,7 +9498,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_478 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 188, __pyx_L1_error)
+        __PYX_ERR(0, 197, __pyx_L1_error)
       }
       __pyx_t_479 = (__pyx_v_I - 2);
       __pyx_t_12 = -1;
@@ -9494,26 +9508,26 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_479 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 188, __pyx_L1_error)
+        __PYX_ERR(0, 197, __pyx_L1_error)
       }
       __pyx_t_19 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_478, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_479, __pyx_pybuffernd_x_.diminfo[0].strides)));
       if (unlikely(__pyx_t_19 == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-        __PYX_ERR(0, 188, __pyx_L1_error)
+        __PYX_ERR(0, 197, __pyx_L1_error)
       }
 
-      /* "functions/jacobian.pyx":187
+      /* "functions/jacobian.pyx":196
  * 
  *             # dcI-1
- *             M[I-1,I-1] = (1+ Dt*( dfCdc + 2*DC[I-1]/(x_[I] - x_[I-2])             # <<<<<<<<<<<<<<
+ *             Jac[I-1,I-1] = (1+ M * Dt*( dfCdc + 2*DC[I-1]/(x_[I] - x_[I-2])             # <<<<<<<<<<<<<<
  *                           + DC[I-1]*chi1*2* fmin(sol[3*I-1] - sol[3*I-2], 0.0)/(x_[I] - x_[I-2]) )/(x_[I] - x_[I-1]) )
  * 
  */
-      __pyx_t_65 = (__pyx_v_Dt * ((__pyx_v_dfCdc + (__pyx_t_48 / __pyx_t_49)) + (__pyx_t_29 / __pyx_t_19)));
+      __pyx_t_65 = ((__pyx_v_M * __pyx_v_Dt) * ((__pyx_v_dfCdc + (__pyx_t_48 / __pyx_t_49)) + (__pyx_t_29 / __pyx_t_19)));
 
-      /* "functions/jacobian.pyx":188
+      /* "functions/jacobian.pyx":197
  *             # dcI-1
- *             M[I-1,I-1] = (1+ Dt*( dfCdc + 2*DC[I-1]/(x_[I] - x_[I-2])
+ *             Jac[I-1,I-1] = (1+ M * Dt*( dfCdc + 2*DC[I-1]/(x_[I] - x_[I-2])
  *                           + DC[I-1]*chi1*2* fmin(sol[3*I-1] - sol[3*I-2], 0.0)/(x_[I] - x_[I-2]) )/(x_[I] - x_[I-1]) )             # <<<<<<<<<<<<<<
  * 
  *             #--- dNP- / dc--------------------------------------------------------------------------------
@@ -9526,7 +9540,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_480 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 188, __pyx_L1_error)
+        __PYX_ERR(0, 197, __pyx_L1_error)
       }
       __pyx_t_481 = (__pyx_v_I - 1);
       __pyx_t_12 = -1;
@@ -9536,18 +9550,18 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_481 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 188, __pyx_L1_error)
+        __PYX_ERR(0, 197, __pyx_L1_error)
       }
       __pyx_t_19 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_480, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_481, __pyx_pybuffernd_x_.diminfo[0].strides)));
       if (unlikely(__pyx_t_19 == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-        __PYX_ERR(0, 188, __pyx_L1_error)
+        __PYX_ERR(0, 197, __pyx_L1_error)
       }
 
-      /* "functions/jacobian.pyx":187
+      /* "functions/jacobian.pyx":196
  * 
  *             # dcI-1
- *             M[I-1,I-1] = (1+ Dt*( dfCdc + 2*DC[I-1]/(x_[I] - x_[I-2])             # <<<<<<<<<<<<<<
+ *             Jac[I-1,I-1] = (1+ M * Dt*( dfCdc + 2*DC[I-1]/(x_[I] - x_[I-2])             # <<<<<<<<<<<<<<
  *                           + DC[I-1]*chi1*2* fmin(sol[3*I-1] - sol[3*I-2], 0.0)/(x_[I] - x_[I-2]) )/(x_[I] - x_[I-1]) )
  * 
  */
@@ -9555,23 +9569,23 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       __pyx_t_483 = (__pyx_v_I - 1);
       __pyx_t_12 = -1;
       if (__pyx_t_482 < 0) {
-        __pyx_t_482 += __pyx_pybuffernd_M.diminfo[0].shape;
+        __pyx_t_482 += __pyx_pybuffernd_Jac.diminfo[0].shape;
         if (unlikely(__pyx_t_482 < 0)) __pyx_t_12 = 0;
-      } else if (unlikely(__pyx_t_482 >= __pyx_pybuffernd_M.diminfo[0].shape)) __pyx_t_12 = 0;
+      } else if (unlikely(__pyx_t_482 >= __pyx_pybuffernd_Jac.diminfo[0].shape)) __pyx_t_12 = 0;
       if (__pyx_t_483 < 0) {
-        __pyx_t_483 += __pyx_pybuffernd_M.diminfo[1].shape;
+        __pyx_t_483 += __pyx_pybuffernd_Jac.diminfo[1].shape;
         if (unlikely(__pyx_t_483 < 0)) __pyx_t_12 = 1;
-      } else if (unlikely(__pyx_t_483 >= __pyx_pybuffernd_M.diminfo[1].shape)) __pyx_t_12 = 1;
+      } else if (unlikely(__pyx_t_483 >= __pyx_pybuffernd_Jac.diminfo[1].shape)) __pyx_t_12 = 1;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 187, __pyx_L1_error)
+        __PYX_ERR(0, 196, __pyx_L1_error)
       }
-      *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_M.rcbuffer->pybuffer.buf, __pyx_t_482, __pyx_pybuffernd_M.diminfo[0].strides, __pyx_t_483, __pyx_pybuffernd_M.diminfo[1].strides) = (1.0 + (__pyx_t_65 / __pyx_t_19));
+      *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_Jac.rcbuffer->pybuffer.buf, __pyx_t_482, __pyx_pybuffernd_Jac.diminfo[0].strides, __pyx_t_483, __pyx_pybuffernd_Jac.diminfo[1].strides) = (1.0 + (__pyx_t_65 / __pyx_t_19));
 
-      /* "functions/jacobian.pyx":192
+      /* "functions/jacobian.pyx":201
  *             #--- dNP- / dc--------------------------------------------------------------------------------
  *             # dcI-2
- *             M[2*I-1,2*I-2] = Dt * ( -2*DA[I-1]/(x_[I] - x_[I-2]) - DA[I-1]*chi1*2* fmax(sol[3*I-1] - sol[3*I-2], 0.0)/(x_[I] - x_[I-2]) ) / (x_[I] - x_[I-1])             # <<<<<<<<<<<<<<
+ *             Jac[2*I-1,2*I-2] = M * Dt * ( -2*DA[I-1]/(x_[I] - x_[I-2]) - DA[I-1]*chi1*2* fmax(sol[3*I-1] - sol[3*I-2], 0.0)/(x_[I] - x_[I-2]) ) / (x_[I] - x_[I-1])             # <<<<<<<<<<<<<<
  * 
  *             # dcI-1
  */
@@ -9583,7 +9597,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_484 >= __pyx_pybuffernd_DA.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 192, __pyx_L1_error)
+        __PYX_ERR(0, 201, __pyx_L1_error)
       }
       __pyx_t_19 = (-2.0 * (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_DA.rcbuffer->pybuffer.buf, __pyx_t_484, __pyx_pybuffernd_DA.diminfo[0].strides)));
       __pyx_t_485 = __pyx_v_I;
@@ -9594,7 +9608,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_485 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 192, __pyx_L1_error)
+        __PYX_ERR(0, 201, __pyx_L1_error)
       }
       __pyx_t_486 = (__pyx_v_I - 2);
       __pyx_t_12 = -1;
@@ -9604,12 +9618,12 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_486 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 192, __pyx_L1_error)
+        __PYX_ERR(0, 201, __pyx_L1_error)
       }
       __pyx_t_65 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_485, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_486, __pyx_pybuffernd_x_.diminfo[0].strides)));
       if (unlikely(__pyx_t_65 == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-        __PYX_ERR(0, 192, __pyx_L1_error)
+        __PYX_ERR(0, 201, __pyx_L1_error)
       }
       __pyx_t_487 = (__pyx_v_I - 1);
       __pyx_t_12 = -1;
@@ -9619,7 +9633,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_487 >= __pyx_pybuffernd_DA.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 192, __pyx_L1_error)
+        __PYX_ERR(0, 201, __pyx_L1_error)
       }
       __pyx_t_488 = ((3 * __pyx_v_I) - 1);
       __pyx_t_12 = -1;
@@ -9629,7 +9643,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_488 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 192, __pyx_L1_error)
+        __PYX_ERR(0, 201, __pyx_L1_error)
       }
       __pyx_t_489 = ((3 * __pyx_v_I) - 2);
       __pyx_t_12 = -1;
@@ -9639,7 +9653,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_489 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 192, __pyx_L1_error)
+        __PYX_ERR(0, 201, __pyx_L1_error)
       }
       __pyx_t_29 = ((((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_DA.rcbuffer->pybuffer.buf, __pyx_t_487, __pyx_pybuffernd_DA.diminfo[0].strides)) * __pyx_v_chi1) * 2.0) * fmax(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_488, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_489, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0));
       __pyx_t_490 = __pyx_v_I;
@@ -9650,7 +9664,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_490 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 192, __pyx_L1_error)
+        __PYX_ERR(0, 201, __pyx_L1_error)
       }
       __pyx_t_491 = (__pyx_v_I - 2);
       __pyx_t_12 = -1;
@@ -9660,14 +9674,14 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_491 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 192, __pyx_L1_error)
+        __PYX_ERR(0, 201, __pyx_L1_error)
       }
       __pyx_t_49 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_490, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_491, __pyx_pybuffernd_x_.diminfo[0].strides)));
       if (unlikely(__pyx_t_49 == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-        __PYX_ERR(0, 192, __pyx_L1_error)
+        __PYX_ERR(0, 201, __pyx_L1_error)
       }
-      __pyx_t_48 = (__pyx_v_Dt * ((__pyx_t_19 / __pyx_t_65) - (__pyx_t_29 / __pyx_t_49)));
+      __pyx_t_48 = ((__pyx_v_M * __pyx_v_Dt) * ((__pyx_t_19 / __pyx_t_65) - (__pyx_t_29 / __pyx_t_49)));
       __pyx_t_492 = __pyx_v_I;
       __pyx_t_12 = -1;
       if (__pyx_t_492 < 0) {
@@ -9676,7 +9690,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_492 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 192, __pyx_L1_error)
+        __PYX_ERR(0, 201, __pyx_L1_error)
       }
       __pyx_t_493 = (__pyx_v_I - 1);
       __pyx_t_12 = -1;
@@ -9686,34 +9700,34 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_493 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 192, __pyx_L1_error)
+        __PYX_ERR(0, 201, __pyx_L1_error)
       }
       __pyx_t_49 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_492, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_493, __pyx_pybuffernd_x_.diminfo[0].strides)));
       if (unlikely(__pyx_t_49 == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-        __PYX_ERR(0, 192, __pyx_L1_error)
+        __PYX_ERR(0, 201, __pyx_L1_error)
       }
       __pyx_t_494 = ((2 * __pyx_v_I) - 1);
       __pyx_t_495 = ((2 * __pyx_v_I) - 2);
       __pyx_t_12 = -1;
       if (__pyx_t_494 < 0) {
-        __pyx_t_494 += __pyx_pybuffernd_M.diminfo[0].shape;
+        __pyx_t_494 += __pyx_pybuffernd_Jac.diminfo[0].shape;
         if (unlikely(__pyx_t_494 < 0)) __pyx_t_12 = 0;
-      } else if (unlikely(__pyx_t_494 >= __pyx_pybuffernd_M.diminfo[0].shape)) __pyx_t_12 = 0;
+      } else if (unlikely(__pyx_t_494 >= __pyx_pybuffernd_Jac.diminfo[0].shape)) __pyx_t_12 = 0;
       if (__pyx_t_495 < 0) {
-        __pyx_t_495 += __pyx_pybuffernd_M.diminfo[1].shape;
+        __pyx_t_495 += __pyx_pybuffernd_Jac.diminfo[1].shape;
         if (unlikely(__pyx_t_495 < 0)) __pyx_t_12 = 1;
-      } else if (unlikely(__pyx_t_495 >= __pyx_pybuffernd_M.diminfo[1].shape)) __pyx_t_12 = 1;
+      } else if (unlikely(__pyx_t_495 >= __pyx_pybuffernd_Jac.diminfo[1].shape)) __pyx_t_12 = 1;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 192, __pyx_L1_error)
+        __PYX_ERR(0, 201, __pyx_L1_error)
       }
-      *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_M.rcbuffer->pybuffer.buf, __pyx_t_494, __pyx_pybuffernd_M.diminfo[0].strides, __pyx_t_495, __pyx_pybuffernd_M.diminfo[1].strides) = (__pyx_t_48 / __pyx_t_49);
+      *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_Jac.rcbuffer->pybuffer.buf, __pyx_t_494, __pyx_pybuffernd_Jac.diminfo[0].strides, __pyx_t_495, __pyx_pybuffernd_Jac.diminfo[1].strides) = (__pyx_t_48 / __pyx_t_49);
 
-      /* "functions/jacobian.pyx":195
+      /* "functions/jacobian.pyx":204
  * 
  *             # dcI-1
- *             M[2*I-1,2*I-1] = (1+ Dt*( 2*DA[I-1]/(x_[I] - x_[I-2])             # <<<<<<<<<<<<<<
+ *             Jac[2*I-1,2*I-1] = (1+ M * Dt*( 2*DA[I-1]/(x_[I] - x_[I-2])             # <<<<<<<<<<<<<<
  *                           - DA[I-1]*chi1*2* fmin(sol[3*I-1] - sol[3*I-2], 0.0)/(x_[I] - x_[I-2]) )/(x_[I] - x_[I-1]) )
  * 
  */
@@ -9725,7 +9739,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_496 >= __pyx_pybuffernd_DA.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 195, __pyx_L1_error)
+        __PYX_ERR(0, 204, __pyx_L1_error)
       }
       __pyx_t_49 = (2.0 * (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_DA.rcbuffer->pybuffer.buf, __pyx_t_496, __pyx_pybuffernd_DA.diminfo[0].strides)));
       __pyx_t_497 = __pyx_v_I;
@@ -9736,7 +9750,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_497 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 195, __pyx_L1_error)
+        __PYX_ERR(0, 204, __pyx_L1_error)
       }
       __pyx_t_498 = (__pyx_v_I - 2);
       __pyx_t_12 = -1;
@@ -9746,17 +9760,17 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_498 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 195, __pyx_L1_error)
+        __PYX_ERR(0, 204, __pyx_L1_error)
       }
       __pyx_t_48 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_497, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_498, __pyx_pybuffernd_x_.diminfo[0].strides)));
       if (unlikely(__pyx_t_48 == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-        __PYX_ERR(0, 195, __pyx_L1_error)
+        __PYX_ERR(0, 204, __pyx_L1_error)
       }
 
-      /* "functions/jacobian.pyx":196
+      /* "functions/jacobian.pyx":205
  *             # dcI-1
- *             M[2*I-1,2*I-1] = (1+ Dt*( 2*DA[I-1]/(x_[I] - x_[I-2])
+ *             Jac[2*I-1,2*I-1] = (1+ M * Dt*( 2*DA[I-1]/(x_[I] - x_[I-2])
  *                           - DA[I-1]*chi1*2* fmin(sol[3*I-1] - sol[3*I-2], 0.0)/(x_[I] - x_[I-2]) )/(x_[I] - x_[I-1]) )             # <<<<<<<<<<<<<<
  * 
  * 
@@ -9769,7 +9783,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_499 >= __pyx_pybuffernd_DA.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 196, __pyx_L1_error)
+        __PYX_ERR(0, 205, __pyx_L1_error)
       }
       __pyx_t_500 = ((3 * __pyx_v_I) - 1);
       __pyx_t_12 = -1;
@@ -9779,7 +9793,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_500 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 196, __pyx_L1_error)
+        __PYX_ERR(0, 205, __pyx_L1_error)
       }
       __pyx_t_501 = ((3 * __pyx_v_I) - 2);
       __pyx_t_12 = -1;
@@ -9789,7 +9803,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_501 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 196, __pyx_L1_error)
+        __PYX_ERR(0, 205, __pyx_L1_error)
       }
       __pyx_t_29 = ((((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_DA.rcbuffer->pybuffer.buf, __pyx_t_499, __pyx_pybuffernd_DA.diminfo[0].strides)) * __pyx_v_chi1) * 2.0) * fmin(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_500, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_501, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0));
       __pyx_t_502 = __pyx_v_I;
@@ -9800,7 +9814,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_502 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 196, __pyx_L1_error)
+        __PYX_ERR(0, 205, __pyx_L1_error)
       }
       __pyx_t_503 = (__pyx_v_I - 2);
       __pyx_t_12 = -1;
@@ -9810,26 +9824,26 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_503 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 196, __pyx_L1_error)
+        __PYX_ERR(0, 205, __pyx_L1_error)
       }
       __pyx_t_65 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_502, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_503, __pyx_pybuffernd_x_.diminfo[0].strides)));
       if (unlikely(__pyx_t_65 == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-        __PYX_ERR(0, 196, __pyx_L1_error)
+        __PYX_ERR(0, 205, __pyx_L1_error)
       }
 
-      /* "functions/jacobian.pyx":195
+      /* "functions/jacobian.pyx":204
  * 
  *             # dcI-1
- *             M[2*I-1,2*I-1] = (1+ Dt*( 2*DA[I-1]/(x_[I] - x_[I-2])             # <<<<<<<<<<<<<<
+ *             Jac[2*I-1,2*I-1] = (1+ M * Dt*( 2*DA[I-1]/(x_[I] - x_[I-2])             # <<<<<<<<<<<<<<
  *                           - DA[I-1]*chi1*2* fmin(sol[3*I-1] - sol[3*I-2], 0.0)/(x_[I] - x_[I-2]) )/(x_[I] - x_[I-1]) )
  * 
  */
-      __pyx_t_19 = (__pyx_v_Dt * ((__pyx_t_49 / __pyx_t_48) - (__pyx_t_29 / __pyx_t_65)));
+      __pyx_t_19 = ((__pyx_v_M * __pyx_v_Dt) * ((__pyx_t_49 / __pyx_t_48) - (__pyx_t_29 / __pyx_t_65)));
 
-      /* "functions/jacobian.pyx":196
+      /* "functions/jacobian.pyx":205
  *             # dcI-1
- *             M[2*I-1,2*I-1] = (1+ Dt*( 2*DA[I-1]/(x_[I] - x_[I-2])
+ *             Jac[2*I-1,2*I-1] = (1+ M * Dt*( 2*DA[I-1]/(x_[I] - x_[I-2])
  *                           - DA[I-1]*chi1*2* fmin(sol[3*I-1] - sol[3*I-2], 0.0)/(x_[I] - x_[I-2]) )/(x_[I] - x_[I-1]) )             # <<<<<<<<<<<<<<
  * 
  * 
@@ -9842,7 +9856,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_504 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 196, __pyx_L1_error)
+        __PYX_ERR(0, 205, __pyx_L1_error)
       }
       __pyx_t_505 = (__pyx_v_I - 1);
       __pyx_t_12 = -1;
@@ -9852,18 +9866,18 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_505 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 196, __pyx_L1_error)
+        __PYX_ERR(0, 205, __pyx_L1_error)
       }
       __pyx_t_65 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_504, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_505, __pyx_pybuffernd_x_.diminfo[0].strides)));
       if (unlikely(__pyx_t_65 == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-        __PYX_ERR(0, 196, __pyx_L1_error)
+        __PYX_ERR(0, 205, __pyx_L1_error)
       }
 
-      /* "functions/jacobian.pyx":195
+      /* "functions/jacobian.pyx":204
  * 
  *             # dcI-1
- *             M[2*I-1,2*I-1] = (1+ Dt*( 2*DA[I-1]/(x_[I] - x_[I-2])             # <<<<<<<<<<<<<<
+ *             Jac[2*I-1,2*I-1] = (1+ M * Dt*( 2*DA[I-1]/(x_[I] - x_[I-2])             # <<<<<<<<<<<<<<
  *                           - DA[I-1]*chi1*2* fmin(sol[3*I-1] - sol[3*I-2], 0.0)/(x_[I] - x_[I-2]) )/(x_[I] - x_[I-1]) )
  * 
  */
@@ -9871,20 +9885,20 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       __pyx_t_507 = ((2 * __pyx_v_I) - 1);
       __pyx_t_12 = -1;
       if (__pyx_t_506 < 0) {
-        __pyx_t_506 += __pyx_pybuffernd_M.diminfo[0].shape;
+        __pyx_t_506 += __pyx_pybuffernd_Jac.diminfo[0].shape;
         if (unlikely(__pyx_t_506 < 0)) __pyx_t_12 = 0;
-      } else if (unlikely(__pyx_t_506 >= __pyx_pybuffernd_M.diminfo[0].shape)) __pyx_t_12 = 0;
+      } else if (unlikely(__pyx_t_506 >= __pyx_pybuffernd_Jac.diminfo[0].shape)) __pyx_t_12 = 0;
       if (__pyx_t_507 < 0) {
-        __pyx_t_507 += __pyx_pybuffernd_M.diminfo[1].shape;
+        __pyx_t_507 += __pyx_pybuffernd_Jac.diminfo[1].shape;
         if (unlikely(__pyx_t_507 < 0)) __pyx_t_12 = 1;
-      } else if (unlikely(__pyx_t_507 >= __pyx_pybuffernd_M.diminfo[1].shape)) __pyx_t_12 = 1;
+      } else if (unlikely(__pyx_t_507 >= __pyx_pybuffernd_Jac.diminfo[1].shape)) __pyx_t_12 = 1;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 195, __pyx_L1_error)
+        __PYX_ERR(0, 204, __pyx_L1_error)
       }
-      *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_M.rcbuffer->pybuffer.buf, __pyx_t_506, __pyx_pybuffernd_M.diminfo[0].strides, __pyx_t_507, __pyx_pybuffernd_M.diminfo[1].strides) = (1.0 + (__pyx_t_19 / __pyx_t_65));
+      *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_Jac.rcbuffer->pybuffer.buf, __pyx_t_506, __pyx_pybuffernd_Jac.diminfo[0].strides, __pyx_t_507, __pyx_pybuffernd_Jac.diminfo[1].strides) = (1.0 + (__pyx_t_19 / __pyx_t_65));
 
-      /* "functions/jacobian.pyx":199
+      /* "functions/jacobian.pyx":208
  * 
  * 
  *             if not (sol[3*I-1] - sol[3*I-2]) == 0:             # <<<<<<<<<<<<<<
@@ -9899,7 +9913,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_508 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 199, __pyx_L1_error)
+        __PYX_ERR(0, 208, __pyx_L1_error)
       }
       __pyx_t_509 = ((3 * __pyx_v_I) - 2);
       __pyx_t_12 = -1;
@@ -9909,15 +9923,15 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
       } else if (unlikely(__pyx_t_509 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
       if (unlikely(__pyx_t_12 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_12);
-        __PYX_ERR(0, 199, __pyx_L1_error)
+        __PYX_ERR(0, 208, __pyx_L1_error)
       }
       __pyx_t_15 = ((!((((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_508, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_509, __pyx_pybuffernd_sol.diminfo[0].strides))) == 0.0) != 0)) != 0);
       if (__pyx_t_15) {
 
-        /* "functions/jacobian.pyx":202
+        /* "functions/jacobian.pyx":211
  *                 #--- dNP+ / dp--------------------------------------------------------------------------------
  *                 # dpI-2
- *                 M[I-1,2*I+I-2] = (Dt*(-DC[I-1]*chi1*( sol[I-2]* fmax(sol[3*I-1] - sol[3*I-2], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[I-1,2*I+I-2] = (M * Dt*(-DC[I-1]*chi1*( sol[I-2]* fmax(sol[3*I-1] - sol[3*I-2], 0.0)             # <<<<<<<<<<<<<<
  *                     + sol[I-1] * fmin(sol[3*I-1] - sol[3*I-2], 0.0) )*2/((x_[I] - x_[I-2])*(sol[3*I-1] - sol[3*I-2])))/(x_[I] - x_[I-1]) )
  * 
  */
@@ -9929,7 +9943,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_510 >= __pyx_pybuffernd_DC.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 202, __pyx_L1_error)
+          __PYX_ERR(0, 211, __pyx_L1_error)
         }
         __pyx_t_511 = (__pyx_v_I - 2);
         __pyx_t_12 = -1;
@@ -9939,7 +9953,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_511 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 202, __pyx_L1_error)
+          __PYX_ERR(0, 211, __pyx_L1_error)
         }
         __pyx_t_512 = ((3 * __pyx_v_I) - 1);
         __pyx_t_12 = -1;
@@ -9949,7 +9963,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_512 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 202, __pyx_L1_error)
+          __PYX_ERR(0, 211, __pyx_L1_error)
         }
         __pyx_t_513 = ((3 * __pyx_v_I) - 2);
         __pyx_t_12 = -1;
@@ -9959,12 +9973,12 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_513 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 202, __pyx_L1_error)
+          __PYX_ERR(0, 211, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":203
+        /* "functions/jacobian.pyx":212
  *                 # dpI-2
- *                 M[I-1,2*I+I-2] = (Dt*(-DC[I-1]*chi1*( sol[I-2]* fmax(sol[3*I-1] - sol[3*I-2], 0.0)
+ *                 Jac[I-1,2*I+I-2] = (M * Dt*(-DC[I-1]*chi1*( sol[I-2]* fmax(sol[3*I-1] - sol[3*I-2], 0.0)
  *                     + sol[I-1] * fmin(sol[3*I-1] - sol[3*I-2], 0.0) )*2/((x_[I] - x_[I-2])*(sol[3*I-1] - sol[3*I-2])))/(x_[I] - x_[I-1]) )             # <<<<<<<<<<<<<<
  * 
  *                 # dpI-1
@@ -9977,7 +9991,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_514 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 203, __pyx_L1_error)
+          __PYX_ERR(0, 212, __pyx_L1_error)
         }
         __pyx_t_515 = ((3 * __pyx_v_I) - 1);
         __pyx_t_12 = -1;
@@ -9987,7 +10001,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_515 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 203, __pyx_L1_error)
+          __PYX_ERR(0, 212, __pyx_L1_error)
         }
         __pyx_t_516 = ((3 * __pyx_v_I) - 2);
         __pyx_t_12 = -1;
@@ -9997,21 +10011,21 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_516 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 203, __pyx_L1_error)
+          __PYX_ERR(0, 212, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":202
+        /* "functions/jacobian.pyx":211
  *                 #--- dNP+ / dp--------------------------------------------------------------------------------
  *                 # dpI-2
- *                 M[I-1,2*I+I-2] = (Dt*(-DC[I-1]*chi1*( sol[I-2]* fmax(sol[3*I-1] - sol[3*I-2], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[I-1,2*I+I-2] = (M * Dt*(-DC[I-1]*chi1*( sol[I-2]* fmax(sol[3*I-1] - sol[3*I-2], 0.0)             # <<<<<<<<<<<<<<
  *                     + sol[I-1] * fmin(sol[3*I-1] - sol[3*I-2], 0.0) )*2/((x_[I] - x_[I-2])*(sol[3*I-1] - sol[3*I-2])))/(x_[I] - x_[I-1]) )
  * 
  */
         __pyx_t_65 = ((((-(*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_DC.rcbuffer->pybuffer.buf, __pyx_t_510, __pyx_pybuffernd_DC.diminfo[0].strides))) * __pyx_v_chi1) * (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_511, __pyx_pybuffernd_sol.diminfo[0].strides)) * fmax(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_512, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_513, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0)) + ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_514, __pyx_pybuffernd_sol.diminfo[0].strides)) * fmin(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_515, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_516, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0)))) * 2.0);
 
-        /* "functions/jacobian.pyx":203
+        /* "functions/jacobian.pyx":212
  *                 # dpI-2
- *                 M[I-1,2*I+I-2] = (Dt*(-DC[I-1]*chi1*( sol[I-2]* fmax(sol[3*I-1] - sol[3*I-2], 0.0)
+ *                 Jac[I-1,2*I+I-2] = (M * Dt*(-DC[I-1]*chi1*( sol[I-2]* fmax(sol[3*I-1] - sol[3*I-2], 0.0)
  *                     + sol[I-1] * fmin(sol[3*I-1] - sol[3*I-2], 0.0) )*2/((x_[I] - x_[I-2])*(sol[3*I-1] - sol[3*I-2])))/(x_[I] - x_[I-1]) )             # <<<<<<<<<<<<<<
  * 
  *                 # dpI-1
@@ -10024,7 +10038,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_517 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 203, __pyx_L1_error)
+          __PYX_ERR(0, 212, __pyx_L1_error)
         }
         __pyx_t_518 = (__pyx_v_I - 2);
         __pyx_t_12 = -1;
@@ -10034,7 +10048,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_518 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 203, __pyx_L1_error)
+          __PYX_ERR(0, 212, __pyx_L1_error)
         }
         __pyx_t_519 = ((3 * __pyx_v_I) - 1);
         __pyx_t_12 = -1;
@@ -10044,7 +10058,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_519 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 203, __pyx_L1_error)
+          __PYX_ERR(0, 212, __pyx_L1_error)
         }
         __pyx_t_520 = ((3 * __pyx_v_I) - 2);
         __pyx_t_12 = -1;
@@ -10054,26 +10068,26 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_520 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 203, __pyx_L1_error)
+          __PYX_ERR(0, 212, __pyx_L1_error)
         }
         __pyx_t_19 = (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_517, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_518, __pyx_pybuffernd_x_.diminfo[0].strides))) * ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_519, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_520, __pyx_pybuffernd_sol.diminfo[0].strides))));
         if (unlikely(__pyx_t_19 == 0)) {
           PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-          __PYX_ERR(0, 203, __pyx_L1_error)
+          __PYX_ERR(0, 212, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":202
+        /* "functions/jacobian.pyx":211
  *                 #--- dNP+ / dp--------------------------------------------------------------------------------
  *                 # dpI-2
- *                 M[I-1,2*I+I-2] = (Dt*(-DC[I-1]*chi1*( sol[I-2]* fmax(sol[3*I-1] - sol[3*I-2], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[I-1,2*I+I-2] = (M * Dt*(-DC[I-1]*chi1*( sol[I-2]* fmax(sol[3*I-1] - sol[3*I-2], 0.0)             # <<<<<<<<<<<<<<
  *                     + sol[I-1] * fmin(sol[3*I-1] - sol[3*I-2], 0.0) )*2/((x_[I] - x_[I-2])*(sol[3*I-1] - sol[3*I-2])))/(x_[I] - x_[I-1]) )
  * 
  */
-        __pyx_t_29 = (__pyx_v_Dt * (__pyx_t_65 / __pyx_t_19));
+        __pyx_t_29 = ((__pyx_v_M * __pyx_v_Dt) * (__pyx_t_65 / __pyx_t_19));
 
-        /* "functions/jacobian.pyx":203
+        /* "functions/jacobian.pyx":212
  *                 # dpI-2
- *                 M[I-1,2*I+I-2] = (Dt*(-DC[I-1]*chi1*( sol[I-2]* fmax(sol[3*I-1] - sol[3*I-2], 0.0)
+ *                 Jac[I-1,2*I+I-2] = (M * Dt*(-DC[I-1]*chi1*( sol[I-2]* fmax(sol[3*I-1] - sol[3*I-2], 0.0)
  *                     + sol[I-1] * fmin(sol[3*I-1] - sol[3*I-2], 0.0) )*2/((x_[I] - x_[I-2])*(sol[3*I-1] - sol[3*I-2])))/(x_[I] - x_[I-1]) )             # <<<<<<<<<<<<<<
  * 
  *                 # dpI-1
@@ -10086,7 +10100,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_521 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 203, __pyx_L1_error)
+          __PYX_ERR(0, 212, __pyx_L1_error)
         }
         __pyx_t_522 = (__pyx_v_I - 1);
         __pyx_t_12 = -1;
@@ -10096,18 +10110,18 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_522 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 203, __pyx_L1_error)
+          __PYX_ERR(0, 212, __pyx_L1_error)
         }
         __pyx_t_19 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_521, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_522, __pyx_pybuffernd_x_.diminfo[0].strides)));
         if (unlikely(__pyx_t_19 == 0)) {
           PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-          __PYX_ERR(0, 203, __pyx_L1_error)
+          __PYX_ERR(0, 212, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":202
+        /* "functions/jacobian.pyx":211
  *                 #--- dNP+ / dp--------------------------------------------------------------------------------
  *                 # dpI-2
- *                 M[I-1,2*I+I-2] = (Dt*(-DC[I-1]*chi1*( sol[I-2]* fmax(sol[3*I-1] - sol[3*I-2], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[I-1,2*I+I-2] = (M * Dt*(-DC[I-1]*chi1*( sol[I-2]* fmax(sol[3*I-1] - sol[3*I-2], 0.0)             # <<<<<<<<<<<<<<
  *                     + sol[I-1] * fmin(sol[3*I-1] - sol[3*I-2], 0.0) )*2/((x_[I] - x_[I-2])*(sol[3*I-1] - sol[3*I-2])))/(x_[I] - x_[I-1]) )
  * 
  */
@@ -10115,23 +10129,23 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         __pyx_t_524 = (((2 * __pyx_v_I) + __pyx_v_I) - 2);
         __pyx_t_12 = -1;
         if (__pyx_t_523 < 0) {
-          __pyx_t_523 += __pyx_pybuffernd_M.diminfo[0].shape;
+          __pyx_t_523 += __pyx_pybuffernd_Jac.diminfo[0].shape;
           if (unlikely(__pyx_t_523 < 0)) __pyx_t_12 = 0;
-        } else if (unlikely(__pyx_t_523 >= __pyx_pybuffernd_M.diminfo[0].shape)) __pyx_t_12 = 0;
+        } else if (unlikely(__pyx_t_523 >= __pyx_pybuffernd_Jac.diminfo[0].shape)) __pyx_t_12 = 0;
         if (__pyx_t_524 < 0) {
-          __pyx_t_524 += __pyx_pybuffernd_M.diminfo[1].shape;
+          __pyx_t_524 += __pyx_pybuffernd_Jac.diminfo[1].shape;
           if (unlikely(__pyx_t_524 < 0)) __pyx_t_12 = 1;
-        } else if (unlikely(__pyx_t_524 >= __pyx_pybuffernd_M.diminfo[1].shape)) __pyx_t_12 = 1;
+        } else if (unlikely(__pyx_t_524 >= __pyx_pybuffernd_Jac.diminfo[1].shape)) __pyx_t_12 = 1;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 202, __pyx_L1_error)
+          __PYX_ERR(0, 211, __pyx_L1_error)
         }
-        *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_M.rcbuffer->pybuffer.buf, __pyx_t_523, __pyx_pybuffernd_M.diminfo[0].strides, __pyx_t_524, __pyx_pybuffernd_M.diminfo[1].strides) = (__pyx_t_29 / __pyx_t_19);
+        *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_Jac.rcbuffer->pybuffer.buf, __pyx_t_523, __pyx_pybuffernd_Jac.diminfo[0].strides, __pyx_t_524, __pyx_pybuffernd_Jac.diminfo[1].strides) = (__pyx_t_29 / __pyx_t_19);
 
-        /* "functions/jacobian.pyx":206
+        /* "functions/jacobian.pyx":215
  * 
  *                 # dpI-1
- *                 M[I-1,2*I+I-1] = (Dt*(dfCdp + DC[I-1]*chi1*(sol[I-2] * fmax(sol[3*I-1] - sol[3*I-2], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[I-1,2*I+I-1] = (M * Dt*(dfCdp + DC[I-1]*chi1*(sol[I-2] * fmax(sol[3*I-1] - sol[3*I-2], 0.0)             # <<<<<<<<<<<<<<
  *                     + sol[I-1] * fmin(sol[3*I-1] - sol[3*I-2], 0.0))*2/((x_[I] - x_[I-2])*(sol[3*I-1] - sol[3*I-2])) )/(x_[I] - x_[I-1]) )
  * 
  */
@@ -10143,7 +10157,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_525 >= __pyx_pybuffernd_DC.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 206, __pyx_L1_error)
+          __PYX_ERR(0, 215, __pyx_L1_error)
         }
         __pyx_t_526 = (__pyx_v_I - 2);
         __pyx_t_12 = -1;
@@ -10153,7 +10167,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_526 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 206, __pyx_L1_error)
+          __PYX_ERR(0, 215, __pyx_L1_error)
         }
         __pyx_t_527 = ((3 * __pyx_v_I) - 1);
         __pyx_t_12 = -1;
@@ -10163,7 +10177,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_527 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 206, __pyx_L1_error)
+          __PYX_ERR(0, 215, __pyx_L1_error)
         }
         __pyx_t_528 = ((3 * __pyx_v_I) - 2);
         __pyx_t_12 = -1;
@@ -10173,12 +10187,12 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_528 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 206, __pyx_L1_error)
+          __PYX_ERR(0, 215, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":207
+        /* "functions/jacobian.pyx":216
  *                 # dpI-1
- *                 M[I-1,2*I+I-1] = (Dt*(dfCdp + DC[I-1]*chi1*(sol[I-2] * fmax(sol[3*I-1] - sol[3*I-2], 0.0)
+ *                 Jac[I-1,2*I+I-1] = (M * Dt*(dfCdp + DC[I-1]*chi1*(sol[I-2] * fmax(sol[3*I-1] - sol[3*I-2], 0.0)
  *                     + sol[I-1] * fmin(sol[3*I-1] - sol[3*I-2], 0.0))*2/((x_[I] - x_[I-2])*(sol[3*I-1] - sol[3*I-2])) )/(x_[I] - x_[I-1]) )             # <<<<<<<<<<<<<<
  * 
  *                 #--- dNP- / dp--------------------------------------------------------------------------------
@@ -10191,7 +10205,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_529 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 207, __pyx_L1_error)
+          __PYX_ERR(0, 216, __pyx_L1_error)
         }
         __pyx_t_530 = ((3 * __pyx_v_I) - 1);
         __pyx_t_12 = -1;
@@ -10201,7 +10215,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_530 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 207, __pyx_L1_error)
+          __PYX_ERR(0, 216, __pyx_L1_error)
         }
         __pyx_t_531 = ((3 * __pyx_v_I) - 2);
         __pyx_t_12 = -1;
@@ -10211,21 +10225,21 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_531 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 207, __pyx_L1_error)
+          __PYX_ERR(0, 216, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":206
+        /* "functions/jacobian.pyx":215
  * 
  *                 # dpI-1
- *                 M[I-1,2*I+I-1] = (Dt*(dfCdp + DC[I-1]*chi1*(sol[I-2] * fmax(sol[3*I-1] - sol[3*I-2], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[I-1,2*I+I-1] = (M * Dt*(dfCdp + DC[I-1]*chi1*(sol[I-2] * fmax(sol[3*I-1] - sol[3*I-2], 0.0)             # <<<<<<<<<<<<<<
  *                     + sol[I-1] * fmin(sol[3*I-1] - sol[3*I-2], 0.0))*2/((x_[I] - x_[I-2])*(sol[3*I-1] - sol[3*I-2])) )/(x_[I] - x_[I-1]) )
  * 
  */
         __pyx_t_19 = ((((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_DC.rcbuffer->pybuffer.buf, __pyx_t_525, __pyx_pybuffernd_DC.diminfo[0].strides)) * __pyx_v_chi1) * (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_526, __pyx_pybuffernd_sol.diminfo[0].strides)) * fmax(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_527, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_528, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0)) + ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_529, __pyx_pybuffernd_sol.diminfo[0].strides)) * fmin(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_530, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_531, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0)))) * 2.0);
 
-        /* "functions/jacobian.pyx":207
+        /* "functions/jacobian.pyx":216
  *                 # dpI-1
- *                 M[I-1,2*I+I-1] = (Dt*(dfCdp + DC[I-1]*chi1*(sol[I-2] * fmax(sol[3*I-1] - sol[3*I-2], 0.0)
+ *                 Jac[I-1,2*I+I-1] = (M * Dt*(dfCdp + DC[I-1]*chi1*(sol[I-2] * fmax(sol[3*I-1] - sol[3*I-2], 0.0)
  *                     + sol[I-1] * fmin(sol[3*I-1] - sol[3*I-2], 0.0))*2/((x_[I] - x_[I-2])*(sol[3*I-1] - sol[3*I-2])) )/(x_[I] - x_[I-1]) )             # <<<<<<<<<<<<<<
  * 
  *                 #--- dNP- / dp--------------------------------------------------------------------------------
@@ -10238,7 +10252,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_532 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 207, __pyx_L1_error)
+          __PYX_ERR(0, 216, __pyx_L1_error)
         }
         __pyx_t_533 = (__pyx_v_I - 2);
         __pyx_t_12 = -1;
@@ -10248,7 +10262,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_533 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 207, __pyx_L1_error)
+          __PYX_ERR(0, 216, __pyx_L1_error)
         }
         __pyx_t_534 = ((3 * __pyx_v_I) - 1);
         __pyx_t_12 = -1;
@@ -10258,7 +10272,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_534 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 207, __pyx_L1_error)
+          __PYX_ERR(0, 216, __pyx_L1_error)
         }
         __pyx_t_535 = ((3 * __pyx_v_I) - 2);
         __pyx_t_12 = -1;
@@ -10268,26 +10282,26 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_535 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 207, __pyx_L1_error)
+          __PYX_ERR(0, 216, __pyx_L1_error)
         }
         __pyx_t_29 = (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_532, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_533, __pyx_pybuffernd_x_.diminfo[0].strides))) * ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_534, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_535, __pyx_pybuffernd_sol.diminfo[0].strides))));
         if (unlikely(__pyx_t_29 == 0)) {
           PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-          __PYX_ERR(0, 207, __pyx_L1_error)
+          __PYX_ERR(0, 216, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":206
+        /* "functions/jacobian.pyx":215
  * 
  *                 # dpI-1
- *                 M[I-1,2*I+I-1] = (Dt*(dfCdp + DC[I-1]*chi1*(sol[I-2] * fmax(sol[3*I-1] - sol[3*I-2], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[I-1,2*I+I-1] = (M * Dt*(dfCdp + DC[I-1]*chi1*(sol[I-2] * fmax(sol[3*I-1] - sol[3*I-2], 0.0)             # <<<<<<<<<<<<<<
  *                     + sol[I-1] * fmin(sol[3*I-1] - sol[3*I-2], 0.0))*2/((x_[I] - x_[I-2])*(sol[3*I-1] - sol[3*I-2])) )/(x_[I] - x_[I-1]) )
  * 
  */
-        __pyx_t_65 = (__pyx_v_Dt * (__pyx_v_dfCdp + (__pyx_t_19 / __pyx_t_29)));
+        __pyx_t_65 = ((__pyx_v_M * __pyx_v_Dt) * (__pyx_v_dfCdp + (__pyx_t_19 / __pyx_t_29)));
 
-        /* "functions/jacobian.pyx":207
+        /* "functions/jacobian.pyx":216
  *                 # dpI-1
- *                 M[I-1,2*I+I-1] = (Dt*(dfCdp + DC[I-1]*chi1*(sol[I-2] * fmax(sol[3*I-1] - sol[3*I-2], 0.0)
+ *                 Jac[I-1,2*I+I-1] = (M * Dt*(dfCdp + DC[I-1]*chi1*(sol[I-2] * fmax(sol[3*I-1] - sol[3*I-2], 0.0)
  *                     + sol[I-1] * fmin(sol[3*I-1] - sol[3*I-2], 0.0))*2/((x_[I] - x_[I-2])*(sol[3*I-1] - sol[3*I-2])) )/(x_[I] - x_[I-1]) )             # <<<<<<<<<<<<<<
  * 
  *                 #--- dNP- / dp--------------------------------------------------------------------------------
@@ -10300,7 +10314,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_536 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 207, __pyx_L1_error)
+          __PYX_ERR(0, 216, __pyx_L1_error)
         }
         __pyx_t_537 = (__pyx_v_I - 1);
         __pyx_t_12 = -1;
@@ -10310,18 +10324,18 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_537 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 207, __pyx_L1_error)
+          __PYX_ERR(0, 216, __pyx_L1_error)
         }
         __pyx_t_29 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_536, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_537, __pyx_pybuffernd_x_.diminfo[0].strides)));
         if (unlikely(__pyx_t_29 == 0)) {
           PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-          __PYX_ERR(0, 207, __pyx_L1_error)
+          __PYX_ERR(0, 216, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":206
+        /* "functions/jacobian.pyx":215
  * 
  *                 # dpI-1
- *                 M[I-1,2*I+I-1] = (Dt*(dfCdp + DC[I-1]*chi1*(sol[I-2] * fmax(sol[3*I-1] - sol[3*I-2], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[I-1,2*I+I-1] = (M * Dt*(dfCdp + DC[I-1]*chi1*(sol[I-2] * fmax(sol[3*I-1] - sol[3*I-2], 0.0)             # <<<<<<<<<<<<<<
  *                     + sol[I-1] * fmin(sol[3*I-1] - sol[3*I-2], 0.0))*2/((x_[I] - x_[I-2])*(sol[3*I-1] - sol[3*I-2])) )/(x_[I] - x_[I-1]) )
  * 
  */
@@ -10329,23 +10343,23 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         __pyx_t_539 = (((2 * __pyx_v_I) + __pyx_v_I) - 1);
         __pyx_t_12 = -1;
         if (__pyx_t_538 < 0) {
-          __pyx_t_538 += __pyx_pybuffernd_M.diminfo[0].shape;
+          __pyx_t_538 += __pyx_pybuffernd_Jac.diminfo[0].shape;
           if (unlikely(__pyx_t_538 < 0)) __pyx_t_12 = 0;
-        } else if (unlikely(__pyx_t_538 >= __pyx_pybuffernd_M.diminfo[0].shape)) __pyx_t_12 = 0;
+        } else if (unlikely(__pyx_t_538 >= __pyx_pybuffernd_Jac.diminfo[0].shape)) __pyx_t_12 = 0;
         if (__pyx_t_539 < 0) {
-          __pyx_t_539 += __pyx_pybuffernd_M.diminfo[1].shape;
+          __pyx_t_539 += __pyx_pybuffernd_Jac.diminfo[1].shape;
           if (unlikely(__pyx_t_539 < 0)) __pyx_t_12 = 1;
-        } else if (unlikely(__pyx_t_539 >= __pyx_pybuffernd_M.diminfo[1].shape)) __pyx_t_12 = 1;
+        } else if (unlikely(__pyx_t_539 >= __pyx_pybuffernd_Jac.diminfo[1].shape)) __pyx_t_12 = 1;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 206, __pyx_L1_error)
+          __PYX_ERR(0, 215, __pyx_L1_error)
         }
-        *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_M.rcbuffer->pybuffer.buf, __pyx_t_538, __pyx_pybuffernd_M.diminfo[0].strides, __pyx_t_539, __pyx_pybuffernd_M.diminfo[1].strides) = (__pyx_t_65 / __pyx_t_29);
+        *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_Jac.rcbuffer->pybuffer.buf, __pyx_t_538, __pyx_pybuffernd_Jac.diminfo[0].strides, __pyx_t_539, __pyx_pybuffernd_Jac.diminfo[1].strides) = (__pyx_t_65 / __pyx_t_29);
 
-        /* "functions/jacobian.pyx":211
+        /* "functions/jacobian.pyx":220
  *                 #--- dNP- / dp--------------------------------------------------------------------------------
  *                 # dpI-2
- *                 M[2*I-1,2*I+I-2] = (Dt*(DA[I-1]*chi1*(sol[2*I-2] * fmax(sol[3*I-1] - sol[3*I-2], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[2*I-1,2*I+I-2] = (M * Dt*(DA[I-1]*chi1*(sol[2*I-2] * fmax(sol[3*I-1] - sol[3*I-2], 0.0)             # <<<<<<<<<<<<<<
  *                     + sol[2*I-1] * fmin(sol[3*I-1] - sol[3*I-2], 0.0) )*2/((x_[I] - x_[I-2])*(sol[3*I-1] - sol[3*I-2])))/(x_[I] - x_[I-1]) )
  * 
  */
@@ -10357,7 +10371,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_540 >= __pyx_pybuffernd_DA.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 211, __pyx_L1_error)
+          __PYX_ERR(0, 220, __pyx_L1_error)
         }
         __pyx_t_541 = ((2 * __pyx_v_I) - 2);
         __pyx_t_12 = -1;
@@ -10367,7 +10381,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_541 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 211, __pyx_L1_error)
+          __PYX_ERR(0, 220, __pyx_L1_error)
         }
         __pyx_t_542 = ((3 * __pyx_v_I) - 1);
         __pyx_t_12 = -1;
@@ -10377,7 +10391,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_542 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 211, __pyx_L1_error)
+          __PYX_ERR(0, 220, __pyx_L1_error)
         }
         __pyx_t_543 = ((3 * __pyx_v_I) - 2);
         __pyx_t_12 = -1;
@@ -10387,12 +10401,12 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_543 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 211, __pyx_L1_error)
+          __PYX_ERR(0, 220, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":212
+        /* "functions/jacobian.pyx":221
  *                 # dpI-2
- *                 M[2*I-1,2*I+I-2] = (Dt*(DA[I-1]*chi1*(sol[2*I-2] * fmax(sol[3*I-1] - sol[3*I-2], 0.0)
+ *                 Jac[2*I-1,2*I+I-2] = (M * Dt*(DA[I-1]*chi1*(sol[2*I-2] * fmax(sol[3*I-1] - sol[3*I-2], 0.0)
  *                     + sol[2*I-1] * fmin(sol[3*I-1] - sol[3*I-2], 0.0) )*2/((x_[I] - x_[I-2])*(sol[3*I-1] - sol[3*I-2])))/(x_[I] - x_[I-1]) )             # <<<<<<<<<<<<<<
  * 
  *                 # dpI-1
@@ -10405,7 +10419,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_544 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 212, __pyx_L1_error)
+          __PYX_ERR(0, 221, __pyx_L1_error)
         }
         __pyx_t_545 = ((3 * __pyx_v_I) - 1);
         __pyx_t_12 = -1;
@@ -10415,7 +10429,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_545 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 212, __pyx_L1_error)
+          __PYX_ERR(0, 221, __pyx_L1_error)
         }
         __pyx_t_546 = ((3 * __pyx_v_I) - 2);
         __pyx_t_12 = -1;
@@ -10425,21 +10439,21 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_546 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 212, __pyx_L1_error)
+          __PYX_ERR(0, 221, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":211
+        /* "functions/jacobian.pyx":220
  *                 #--- dNP- / dp--------------------------------------------------------------------------------
  *                 # dpI-2
- *                 M[2*I-1,2*I+I-2] = (Dt*(DA[I-1]*chi1*(sol[2*I-2] * fmax(sol[3*I-1] - sol[3*I-2], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[2*I-1,2*I+I-2] = (M * Dt*(DA[I-1]*chi1*(sol[2*I-2] * fmax(sol[3*I-1] - sol[3*I-2], 0.0)             # <<<<<<<<<<<<<<
  *                     + sol[2*I-1] * fmin(sol[3*I-1] - sol[3*I-2], 0.0) )*2/((x_[I] - x_[I-2])*(sol[3*I-1] - sol[3*I-2])))/(x_[I] - x_[I-1]) )
  * 
  */
         __pyx_t_29 = ((((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_DA.rcbuffer->pybuffer.buf, __pyx_t_540, __pyx_pybuffernd_DA.diminfo[0].strides)) * __pyx_v_chi1) * (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_541, __pyx_pybuffernd_sol.diminfo[0].strides)) * fmax(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_542, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_543, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0)) + ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_544, __pyx_pybuffernd_sol.diminfo[0].strides)) * fmin(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_545, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_546, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0)))) * 2.0);
 
-        /* "functions/jacobian.pyx":212
+        /* "functions/jacobian.pyx":221
  *                 # dpI-2
- *                 M[2*I-1,2*I+I-2] = (Dt*(DA[I-1]*chi1*(sol[2*I-2] * fmax(sol[3*I-1] - sol[3*I-2], 0.0)
+ *                 Jac[2*I-1,2*I+I-2] = (M * Dt*(DA[I-1]*chi1*(sol[2*I-2] * fmax(sol[3*I-1] - sol[3*I-2], 0.0)
  *                     + sol[2*I-1] * fmin(sol[3*I-1] - sol[3*I-2], 0.0) )*2/((x_[I] - x_[I-2])*(sol[3*I-1] - sol[3*I-2])))/(x_[I] - x_[I-1]) )             # <<<<<<<<<<<<<<
  * 
  *                 # dpI-1
@@ -10452,7 +10466,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_547 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 212, __pyx_L1_error)
+          __PYX_ERR(0, 221, __pyx_L1_error)
         }
         __pyx_t_548 = (__pyx_v_I - 2);
         __pyx_t_12 = -1;
@@ -10462,7 +10476,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_548 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 212, __pyx_L1_error)
+          __PYX_ERR(0, 221, __pyx_L1_error)
         }
         __pyx_t_549 = ((3 * __pyx_v_I) - 1);
         __pyx_t_12 = -1;
@@ -10472,7 +10486,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_549 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 212, __pyx_L1_error)
+          __PYX_ERR(0, 221, __pyx_L1_error)
         }
         __pyx_t_550 = ((3 * __pyx_v_I) - 2);
         __pyx_t_12 = -1;
@@ -10482,26 +10496,26 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_550 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 212, __pyx_L1_error)
+          __PYX_ERR(0, 221, __pyx_L1_error)
         }
         __pyx_t_65 = (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_547, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_548, __pyx_pybuffernd_x_.diminfo[0].strides))) * ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_549, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_550, __pyx_pybuffernd_sol.diminfo[0].strides))));
         if (unlikely(__pyx_t_65 == 0)) {
           PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-          __PYX_ERR(0, 212, __pyx_L1_error)
+          __PYX_ERR(0, 221, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":211
+        /* "functions/jacobian.pyx":220
  *                 #--- dNP- / dp--------------------------------------------------------------------------------
  *                 # dpI-2
- *                 M[2*I-1,2*I+I-2] = (Dt*(DA[I-1]*chi1*(sol[2*I-2] * fmax(sol[3*I-1] - sol[3*I-2], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[2*I-1,2*I+I-2] = (M * Dt*(DA[I-1]*chi1*(sol[2*I-2] * fmax(sol[3*I-1] - sol[3*I-2], 0.0)             # <<<<<<<<<<<<<<
  *                     + sol[2*I-1] * fmin(sol[3*I-1] - sol[3*I-2], 0.0) )*2/((x_[I] - x_[I-2])*(sol[3*I-1] - sol[3*I-2])))/(x_[I] - x_[I-1]) )
  * 
  */
-        __pyx_t_19 = (__pyx_v_Dt * (__pyx_t_29 / __pyx_t_65));
+        __pyx_t_19 = ((__pyx_v_M * __pyx_v_Dt) * (__pyx_t_29 / __pyx_t_65));
 
-        /* "functions/jacobian.pyx":212
+        /* "functions/jacobian.pyx":221
  *                 # dpI-2
- *                 M[2*I-1,2*I+I-2] = (Dt*(DA[I-1]*chi1*(sol[2*I-2] * fmax(sol[3*I-1] - sol[3*I-2], 0.0)
+ *                 Jac[2*I-1,2*I+I-2] = (M * Dt*(DA[I-1]*chi1*(sol[2*I-2] * fmax(sol[3*I-1] - sol[3*I-2], 0.0)
  *                     + sol[2*I-1] * fmin(sol[3*I-1] - sol[3*I-2], 0.0) )*2/((x_[I] - x_[I-2])*(sol[3*I-1] - sol[3*I-2])))/(x_[I] - x_[I-1]) )             # <<<<<<<<<<<<<<
  * 
  *                 # dpI-1
@@ -10514,7 +10528,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_551 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 212, __pyx_L1_error)
+          __PYX_ERR(0, 221, __pyx_L1_error)
         }
         __pyx_t_552 = (__pyx_v_I - 1);
         __pyx_t_12 = -1;
@@ -10524,18 +10538,18 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_552 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 212, __pyx_L1_error)
+          __PYX_ERR(0, 221, __pyx_L1_error)
         }
         __pyx_t_65 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_551, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_552, __pyx_pybuffernd_x_.diminfo[0].strides)));
         if (unlikely(__pyx_t_65 == 0)) {
           PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-          __PYX_ERR(0, 212, __pyx_L1_error)
+          __PYX_ERR(0, 221, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":211
+        /* "functions/jacobian.pyx":220
  *                 #--- dNP- / dp--------------------------------------------------------------------------------
  *                 # dpI-2
- *                 M[2*I-1,2*I+I-2] = (Dt*(DA[I-1]*chi1*(sol[2*I-2] * fmax(sol[3*I-1] - sol[3*I-2], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[2*I-1,2*I+I-2] = (M * Dt*(DA[I-1]*chi1*(sol[2*I-2] * fmax(sol[3*I-1] - sol[3*I-2], 0.0)             # <<<<<<<<<<<<<<
  *                     + sol[2*I-1] * fmin(sol[3*I-1] - sol[3*I-2], 0.0) )*2/((x_[I] - x_[I-2])*(sol[3*I-1] - sol[3*I-2])))/(x_[I] - x_[I-1]) )
  * 
  */
@@ -10543,25 +10557,25 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         __pyx_t_554 = (((2 * __pyx_v_I) + __pyx_v_I) - 2);
         __pyx_t_12 = -1;
         if (__pyx_t_553 < 0) {
-          __pyx_t_553 += __pyx_pybuffernd_M.diminfo[0].shape;
+          __pyx_t_553 += __pyx_pybuffernd_Jac.diminfo[0].shape;
           if (unlikely(__pyx_t_553 < 0)) __pyx_t_12 = 0;
-        } else if (unlikely(__pyx_t_553 >= __pyx_pybuffernd_M.diminfo[0].shape)) __pyx_t_12 = 0;
+        } else if (unlikely(__pyx_t_553 >= __pyx_pybuffernd_Jac.diminfo[0].shape)) __pyx_t_12 = 0;
         if (__pyx_t_554 < 0) {
-          __pyx_t_554 += __pyx_pybuffernd_M.diminfo[1].shape;
+          __pyx_t_554 += __pyx_pybuffernd_Jac.diminfo[1].shape;
           if (unlikely(__pyx_t_554 < 0)) __pyx_t_12 = 1;
-        } else if (unlikely(__pyx_t_554 >= __pyx_pybuffernd_M.diminfo[1].shape)) __pyx_t_12 = 1;
+        } else if (unlikely(__pyx_t_554 >= __pyx_pybuffernd_Jac.diminfo[1].shape)) __pyx_t_12 = 1;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 211, __pyx_L1_error)
+          __PYX_ERR(0, 220, __pyx_L1_error)
         }
-        *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_M.rcbuffer->pybuffer.buf, __pyx_t_553, __pyx_pybuffernd_M.diminfo[0].strides, __pyx_t_554, __pyx_pybuffernd_M.diminfo[1].strides) = (__pyx_t_19 / __pyx_t_65);
+        *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_Jac.rcbuffer->pybuffer.buf, __pyx_t_553, __pyx_pybuffernd_Jac.diminfo[0].strides, __pyx_t_554, __pyx_pybuffernd_Jac.diminfo[1].strides) = (__pyx_t_19 / __pyx_t_65);
 
-        /* "functions/jacobian.pyx":215
+        /* "functions/jacobian.pyx":224
  * 
  *                 # dpI-1
- *                 M[2*I-1,2*I+I-1] = (Dt*(-DA[I-1]*chi1*(sol[2*I-2] * fmax(sol[3*I-1] - sol[3*I-2], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[2*I-1,2*I+I-1] = (M * Dt*(-DA[I-1]*chi1*(sol[2*I-2] * fmax(sol[3*I-1] - sol[3*I-2], 0.0)             # <<<<<<<<<<<<<<
  *                     + sol[2*I-1] * fmin(sol[3*I-1] - sol[3*I-2], 0.0) )*2/((x_[I] - x_[I-2])*(sol[3*I-1] - sol[3*I-2])) )/(x_[I] - x_[I-1]) )
- *     return M
+ *     return Jac
  */
         __pyx_t_555 = (__pyx_v_I - 1);
         __pyx_t_12 = -1;
@@ -10571,7 +10585,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_555 >= __pyx_pybuffernd_DA.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 215, __pyx_L1_error)
+          __PYX_ERR(0, 224, __pyx_L1_error)
         }
         __pyx_t_556 = ((2 * __pyx_v_I) - 2);
         __pyx_t_12 = -1;
@@ -10581,7 +10595,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_556 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 215, __pyx_L1_error)
+          __PYX_ERR(0, 224, __pyx_L1_error)
         }
         __pyx_t_557 = ((3 * __pyx_v_I) - 1);
         __pyx_t_12 = -1;
@@ -10591,7 +10605,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_557 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 215, __pyx_L1_error)
+          __PYX_ERR(0, 224, __pyx_L1_error)
         }
         __pyx_t_558 = ((3 * __pyx_v_I) - 2);
         __pyx_t_12 = -1;
@@ -10601,14 +10615,14 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_558 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 215, __pyx_L1_error)
+          __PYX_ERR(0, 224, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":216
+        /* "functions/jacobian.pyx":225
  *                 # dpI-1
- *                 M[2*I-1,2*I+I-1] = (Dt*(-DA[I-1]*chi1*(sol[2*I-2] * fmax(sol[3*I-1] - sol[3*I-2], 0.0)
+ *                 Jac[2*I-1,2*I+I-1] = (M * Dt*(-DA[I-1]*chi1*(sol[2*I-2] * fmax(sol[3*I-1] - sol[3*I-2], 0.0)
  *                     + sol[2*I-1] * fmin(sol[3*I-1] - sol[3*I-2], 0.0) )*2/((x_[I] - x_[I-2])*(sol[3*I-1] - sol[3*I-2])) )/(x_[I] - x_[I-1]) )             # <<<<<<<<<<<<<<
- *     return M
+ *     return Jac
  */
         __pyx_t_559 = ((2 * __pyx_v_I) - 1);
         __pyx_t_12 = -1;
@@ -10618,7 +10632,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_559 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 216, __pyx_L1_error)
+          __PYX_ERR(0, 225, __pyx_L1_error)
         }
         __pyx_t_560 = ((3 * __pyx_v_I) - 1);
         __pyx_t_12 = -1;
@@ -10628,7 +10642,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_560 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 216, __pyx_L1_error)
+          __PYX_ERR(0, 225, __pyx_L1_error)
         }
         __pyx_t_561 = ((3 * __pyx_v_I) - 2);
         __pyx_t_12 = -1;
@@ -10638,23 +10652,23 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_561 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 216, __pyx_L1_error)
+          __PYX_ERR(0, 225, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":215
+        /* "functions/jacobian.pyx":224
  * 
  *                 # dpI-1
- *                 M[2*I-1,2*I+I-1] = (Dt*(-DA[I-1]*chi1*(sol[2*I-2] * fmax(sol[3*I-1] - sol[3*I-2], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[2*I-1,2*I+I-1] = (M * Dt*(-DA[I-1]*chi1*(sol[2*I-2] * fmax(sol[3*I-1] - sol[3*I-2], 0.0)             # <<<<<<<<<<<<<<
  *                     + sol[2*I-1] * fmin(sol[3*I-1] - sol[3*I-2], 0.0) )*2/((x_[I] - x_[I-2])*(sol[3*I-1] - sol[3*I-2])) )/(x_[I] - x_[I-1]) )
- *     return M
+ *     return Jac
  */
         __pyx_t_65 = ((((-(*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_DA.rcbuffer->pybuffer.buf, __pyx_t_555, __pyx_pybuffernd_DA.diminfo[0].strides))) * __pyx_v_chi1) * (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_556, __pyx_pybuffernd_sol.diminfo[0].strides)) * fmax(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_557, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_558, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0)) + ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_559, __pyx_pybuffernd_sol.diminfo[0].strides)) * fmin(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_560, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_561, __pyx_pybuffernd_sol.diminfo[0].strides))), 0.0)))) * 2.0);
 
-        /* "functions/jacobian.pyx":216
+        /* "functions/jacobian.pyx":225
  *                 # dpI-1
- *                 M[2*I-1,2*I+I-1] = (Dt*(-DA[I-1]*chi1*(sol[2*I-2] * fmax(sol[3*I-1] - sol[3*I-2], 0.0)
+ *                 Jac[2*I-1,2*I+I-1] = (M * Dt*(-DA[I-1]*chi1*(sol[2*I-2] * fmax(sol[3*I-1] - sol[3*I-2], 0.0)
  *                     + sol[2*I-1] * fmin(sol[3*I-1] - sol[3*I-2], 0.0) )*2/((x_[I] - x_[I-2])*(sol[3*I-1] - sol[3*I-2])) )/(x_[I] - x_[I-1]) )             # <<<<<<<<<<<<<<
- *     return M
+ *     return Jac
  */
         __pyx_t_562 = __pyx_v_I;
         __pyx_t_12 = -1;
@@ -10664,7 +10678,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_562 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 216, __pyx_L1_error)
+          __PYX_ERR(0, 225, __pyx_L1_error)
         }
         __pyx_t_563 = (__pyx_v_I - 2);
         __pyx_t_12 = -1;
@@ -10674,7 +10688,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_563 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 216, __pyx_L1_error)
+          __PYX_ERR(0, 225, __pyx_L1_error)
         }
         __pyx_t_564 = ((3 * __pyx_v_I) - 1);
         __pyx_t_12 = -1;
@@ -10684,7 +10698,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_564 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 216, __pyx_L1_error)
+          __PYX_ERR(0, 225, __pyx_L1_error)
         }
         __pyx_t_565 = ((3 * __pyx_v_I) - 2);
         __pyx_t_12 = -1;
@@ -10694,28 +10708,28 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_565 >= __pyx_pybuffernd_sol.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 216, __pyx_L1_error)
+          __PYX_ERR(0, 225, __pyx_L1_error)
         }
         __pyx_t_19 = (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_562, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_563, __pyx_pybuffernd_x_.diminfo[0].strides))) * ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_564, __pyx_pybuffernd_sol.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_sol.rcbuffer->pybuffer.buf, __pyx_t_565, __pyx_pybuffernd_sol.diminfo[0].strides))));
         if (unlikely(__pyx_t_19 == 0)) {
           PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-          __PYX_ERR(0, 216, __pyx_L1_error)
+          __PYX_ERR(0, 225, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":215
+        /* "functions/jacobian.pyx":224
  * 
  *                 # dpI-1
- *                 M[2*I-1,2*I+I-1] = (Dt*(-DA[I-1]*chi1*(sol[2*I-2] * fmax(sol[3*I-1] - sol[3*I-2], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[2*I-1,2*I+I-1] = (M * Dt*(-DA[I-1]*chi1*(sol[2*I-2] * fmax(sol[3*I-1] - sol[3*I-2], 0.0)             # <<<<<<<<<<<<<<
  *                     + sol[2*I-1] * fmin(sol[3*I-1] - sol[3*I-2], 0.0) )*2/((x_[I] - x_[I-2])*(sol[3*I-1] - sol[3*I-2])) )/(x_[I] - x_[I-1]) )
- *     return M
+ *     return Jac
  */
-        __pyx_t_29 = (__pyx_v_Dt * (__pyx_t_65 / __pyx_t_19));
+        __pyx_t_29 = ((__pyx_v_M * __pyx_v_Dt) * (__pyx_t_65 / __pyx_t_19));
 
-        /* "functions/jacobian.pyx":216
+        /* "functions/jacobian.pyx":225
  *                 # dpI-1
- *                 M[2*I-1,2*I+I-1] = (Dt*(-DA[I-1]*chi1*(sol[2*I-2] * fmax(sol[3*I-1] - sol[3*I-2], 0.0)
+ *                 Jac[2*I-1,2*I+I-1] = (M * Dt*(-DA[I-1]*chi1*(sol[2*I-2] * fmax(sol[3*I-1] - sol[3*I-2], 0.0)
  *                     + sol[2*I-1] * fmin(sol[3*I-1] - sol[3*I-2], 0.0) )*2/((x_[I] - x_[I-2])*(sol[3*I-1] - sol[3*I-2])) )/(x_[I] - x_[I-1]) )             # <<<<<<<<<<<<<<
- *     return M
+ *     return Jac
  */
         __pyx_t_566 = __pyx_v_I;
         __pyx_t_12 = -1;
@@ -10725,7 +10739,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_566 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 216, __pyx_L1_error)
+          __PYX_ERR(0, 225, __pyx_L1_error)
         }
         __pyx_t_567 = (__pyx_v_I - 1);
         __pyx_t_12 = -1;
@@ -10735,39 +10749,39 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
         } else if (unlikely(__pyx_t_567 >= __pyx_pybuffernd_x_.diminfo[0].shape)) __pyx_t_12 = 0;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 216, __pyx_L1_error)
+          __PYX_ERR(0, 225, __pyx_L1_error)
         }
         __pyx_t_19 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_566, __pyx_pybuffernd_x_.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_x_.rcbuffer->pybuffer.buf, __pyx_t_567, __pyx_pybuffernd_x_.diminfo[0].strides)));
         if (unlikely(__pyx_t_19 == 0)) {
           PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-          __PYX_ERR(0, 216, __pyx_L1_error)
+          __PYX_ERR(0, 225, __pyx_L1_error)
         }
 
-        /* "functions/jacobian.pyx":215
+        /* "functions/jacobian.pyx":224
  * 
  *                 # dpI-1
- *                 M[2*I-1,2*I+I-1] = (Dt*(-DA[I-1]*chi1*(sol[2*I-2] * fmax(sol[3*I-1] - sol[3*I-2], 0.0)             # <<<<<<<<<<<<<<
+ *                 Jac[2*I-1,2*I+I-1] = (M * Dt*(-DA[I-1]*chi1*(sol[2*I-2] * fmax(sol[3*I-1] - sol[3*I-2], 0.0)             # <<<<<<<<<<<<<<
  *                     + sol[2*I-1] * fmin(sol[3*I-1] - sol[3*I-2], 0.0) )*2/((x_[I] - x_[I-2])*(sol[3*I-1] - sol[3*I-2])) )/(x_[I] - x_[I-1]) )
- *     return M
+ *     return Jac
  */
         __pyx_t_568 = ((2 * __pyx_v_I) - 1);
         __pyx_t_569 = (((2 * __pyx_v_I) + __pyx_v_I) - 1);
         __pyx_t_12 = -1;
         if (__pyx_t_568 < 0) {
-          __pyx_t_568 += __pyx_pybuffernd_M.diminfo[0].shape;
+          __pyx_t_568 += __pyx_pybuffernd_Jac.diminfo[0].shape;
           if (unlikely(__pyx_t_568 < 0)) __pyx_t_12 = 0;
-        } else if (unlikely(__pyx_t_568 >= __pyx_pybuffernd_M.diminfo[0].shape)) __pyx_t_12 = 0;
+        } else if (unlikely(__pyx_t_568 >= __pyx_pybuffernd_Jac.diminfo[0].shape)) __pyx_t_12 = 0;
         if (__pyx_t_569 < 0) {
-          __pyx_t_569 += __pyx_pybuffernd_M.diminfo[1].shape;
+          __pyx_t_569 += __pyx_pybuffernd_Jac.diminfo[1].shape;
           if (unlikely(__pyx_t_569 < 0)) __pyx_t_12 = 1;
-        } else if (unlikely(__pyx_t_569 >= __pyx_pybuffernd_M.diminfo[1].shape)) __pyx_t_12 = 1;
+        } else if (unlikely(__pyx_t_569 >= __pyx_pybuffernd_Jac.diminfo[1].shape)) __pyx_t_12 = 1;
         if (unlikely(__pyx_t_12 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
-          __PYX_ERR(0, 215, __pyx_L1_error)
+          __PYX_ERR(0, 224, __pyx_L1_error)
         }
-        *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_M.rcbuffer->pybuffer.buf, __pyx_t_568, __pyx_pybuffernd_M.diminfo[0].strides, __pyx_t_569, __pyx_pybuffernd_M.diminfo[1].strides) = (__pyx_t_29 / __pyx_t_19);
+        *__Pyx_BufPtrStrided2d(__pyx_t_5numpy_float64_t *, __pyx_pybuffernd_Jac.rcbuffer->pybuffer.buf, __pyx_t_568, __pyx_pybuffernd_Jac.diminfo[0].strides, __pyx_t_569, __pyx_pybuffernd_Jac.diminfo[1].strides) = (__pyx_t_29 / __pyx_t_19);
 
-        /* "functions/jacobian.pyx":199
+        /* "functions/jacobian.pyx":208
  * 
  * 
  *             if not (sol[3*I-1] - sol[3*I-2]) == 0:             # <<<<<<<<<<<<<<
@@ -10776,7 +10790,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
  */
       }
 
-      /* "functions/jacobian.pyx":173
+      /* "functions/jacobian.pyx":182
  *                     + sol[I+1] * fmin(sol[2*I+1] - sol[2*I], 0.0) )*2/((x_[2] - x_[0])*(sol[2*I+1] - sol[2*I])) )/(x_[1] - x_[0]) )
  * 
  *         if i == I-1:             # <<<<<<<<<<<<<<
@@ -10786,14 +10800,14 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
     }
   }
 
-  /* "functions/jacobian.pyx":217
- *                 M[2*I-1,2*I+I-1] = (Dt*(-DA[I-1]*chi1*(sol[2*I-2] * fmax(sol[3*I-1] - sol[3*I-2], 0.0)
+  /* "functions/jacobian.pyx":226
+ *                 Jac[2*I-1,2*I+I-1] = (M * Dt*(-DA[I-1]*chi1*(sol[2*I-2] * fmax(sol[3*I-1] - sol[3*I-2], 0.0)
  *                     + sol[2*I-1] * fmin(sol[3*I-1] - sol[3*I-2], 0.0) )*2/((x_[I] - x_[I-2])*(sol[3*I-1] - sol[3*I-2])) )/(x_[I] - x_[I-1]) )
- *     return M             # <<<<<<<<<<<<<<
+ *     return Jac             # <<<<<<<<<<<<<<
  */
   __Pyx_XDECREF(__pyx_r);
-  __Pyx_INCREF(((PyObject *)__pyx_v_M));
-  __pyx_r = ((PyObject *)__pyx_v_M);
+  __Pyx_INCREF(((PyObject *)__pyx_v_Jac));
+  __pyx_r = ((PyObject *)__pyx_v_Jac);
   goto __pyx_L0;
 
   /* "functions/jacobian.pyx":6
@@ -10817,7 +10831,7 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
     __Pyx_ErrFetch(&__pyx_type, &__pyx_value, &__pyx_tb);
     __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_DA.rcbuffer->pybuffer);
     __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_DC.rcbuffer->pybuffer);
-    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_M.rcbuffer->pybuffer);
+    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_Jac.rcbuffer->pybuffer);
     __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_sol.rcbuffer->pybuffer);
     __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_x_.rcbuffer->pybuffer);
   __Pyx_ErrRestore(__pyx_type, __pyx_value, __pyx_tb);}
@@ -10827,11 +10841,11 @@ static PyObject *__pyx_pf_9functions_8jacobian_calcJac(CYTHON_UNUSED PyObject *_
   __pyx_L0:;
   __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_DA.rcbuffer->pybuffer);
   __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_DC.rcbuffer->pybuffer);
-  __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_M.rcbuffer->pybuffer);
+  __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_Jac.rcbuffer->pybuffer);
   __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_sol.rcbuffer->pybuffer);
   __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_x_.rcbuffer->pybuffer);
   __pyx_L2:;
-  __Pyx_XDECREF((PyObject *)__pyx_v_M);
+  __Pyx_XDECREF((PyObject *)__pyx_v_Jac);
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
@@ -26943,6 +26957,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_s_Indirect_dimensions_not_supporte, __pyx_k_Indirect_dimensions_not_supporte, sizeof(__pyx_k_Indirect_dimensions_not_supporte), 0, 0, 1, 0},
   {&__pyx_kp_s_Invalid_mode_expected_c_or_fortr, __pyx_k_Invalid_mode_expected_c_or_fortr, sizeof(__pyx_k_Invalid_mode_expected_c_or_fortr), 0, 0, 1, 0},
   {&__pyx_kp_s_Invalid_shape_in_axis_d_d, __pyx_k_Invalid_shape_in_axis_d_d, sizeof(__pyx_k_Invalid_shape_in_axis_d_d), 0, 0, 1, 0},
+  {&__pyx_n_s_Jac, __pyx_k_Jac, sizeof(__pyx_k_Jac), 0, 0, 1, 1},
   {&__pyx_n_s_M, __pyx_k_M, sizeof(__pyx_k_M), 0, 0, 1, 1},
   {&__pyx_n_s_MemoryError, __pyx_k_MemoryError, sizeof(__pyx_k_MemoryError), 0, 0, 1, 1},
   {&__pyx_kp_s_MemoryView_of_r_at_0x_x, __pyx_k_MemoryView_of_r_at_0x_x, sizeof(__pyx_k_MemoryView_of_r_at_0x_x), 0, 0, 1, 0},
@@ -27044,7 +27059,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, 0, 0, 0, 0, 0, 0}
 };
 static int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 26, __pyx_L1_error)
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 35, __pyx_L1_error)
   __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(1, 229, __pyx_L1_error)
   __pyx_builtin_RuntimeError = __Pyx_GetBuiltinName(__pyx_n_s_RuntimeError); if (!__pyx_builtin_RuntimeError) __PYX_ERR(1, 810, __pyx_L1_error)
   __pyx_builtin_ImportError = __Pyx_GetBuiltinName(__pyx_n_s_ImportError); if (!__pyx_builtin_ImportError) __PYX_ERR(1, 1000, __pyx_L1_error)
@@ -27392,10 +27407,10 @@ static int __Pyx_InitCachedConstants(void) {
  *             cnp.ndarray[ cnp.float64_t, ndim=1] sol,
  *             cnp.ndarray[ cnp.float64_t, ndim=1] x_,
  */
-  __pyx_tuple__31 = PyTuple_Pack(14, __pyx_n_s_I, __pyx_n_s_sol, __pyx_n_s_x, __pyx_n_s_DC, __pyx_n_s_DA, __pyx_n_s_chi1, __pyx_n_s_chi2, __pyx_n_s_Dt, __pyx_n_s_M, __pyx_n_s_i, __pyx_n_s_dfAdc, __pyx_n_s_dfAdp, __pyx_n_s_dfCdc, __pyx_n_s_dfCdp); if (unlikely(!__pyx_tuple__31)) __PYX_ERR(0, 6, __pyx_L1_error)
+  __pyx_tuple__31 = PyTuple_Pack(15, __pyx_n_s_I, __pyx_n_s_sol, __pyx_n_s_x, __pyx_n_s_DC, __pyx_n_s_DA, __pyx_n_s_chi1, __pyx_n_s_chi2, __pyx_n_s_Dt, __pyx_n_s_M, __pyx_n_s_Jac, __pyx_n_s_i, __pyx_n_s_dfAdc, __pyx_n_s_dfAdp, __pyx_n_s_dfCdc, __pyx_n_s_dfCdp); if (unlikely(!__pyx_tuple__31)) __PYX_ERR(0, 6, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__31);
   __Pyx_GIVEREF(__pyx_tuple__31);
-  __pyx_codeobj__32 = (PyObject*)__Pyx_PyCode_New(8, 0, 14, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__31, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_jacobian_pyx, __pyx_n_s_calcJac, 6, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__32)) __PYX_ERR(0, 6, __pyx_L1_error)
+  __pyx_codeobj__32 = (PyObject*)__Pyx_PyCode_New(9, 0, 15, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__31, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_jacobian_pyx, __pyx_n_s_calcJac, 6, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__32)) __PYX_ERR(0, 6, __pyx_L1_error)
 
   /* "View.MemoryView":285
  *         return self.name

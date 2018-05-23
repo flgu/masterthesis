@@ -1,7 +1,10 @@
-from cython.view cimport array as cvarray
-import numpy as np
-cimport numpy as cnp
-from libc.math cimport fmax, fmin
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Wed May 23 19:09:47 2018
+
+@author: desktop
+"""
 
 def calcJac( int I,
             cnp.ndarray[ cnp.float64_t, ndim=1] sol,

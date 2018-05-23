@@ -19,6 +19,7 @@ def residual_m0( int I,
         double [:] DCview,
         double [:] DAview,
         double Dt,
+        double M,
         double phiC,
         double [:] epsilonview ):
     '''
@@ -45,6 +46,16 @@ def residual_m0( int I,
 
     Discretization of flux:
         ( fup - fdown ) / Dx_cell
+        
+    
+    Cell volume (one dimensional) of cell with index i is Dx[i].
+    
+    
+    Nondimensionalization:
+    ----------------------
+    
+    From nondimensionalozation of the time scale we have a parameter M multiplicated to
+    time step Dt --> M * Dt. This is used to shorten the Impedance simulations.
 
     '''
 
@@ -74,12 +85,12 @@ def residual_m0( int I,
     # cation
     res_view[0] = ( solNview[0] - sol1view[0] 
     
-    + Dt * ( -DCview[1] * 2.0 * (solNview[1]-solNview[0]) / (Dxview[0] + Dxview[1])  + upfluxC ) / Dxview[0] )
+    + M * Dt * ( -DCview[1] * 2.0 * (solNview[1]-solNview[0]) / (Dxview[0] + Dxview[1])  + upfluxC ) / Dxview[0] )
 
     # anion
     res_view[I] = ( solNview[I] - sol1view[I] 
     
-    + Dt * ( -DAview[1] * 2 * (solNview[I+1]-solNview[I]) / (Dxview[1] + Dxview[0]) + upfluxA ) / Dxview[0] )
+    + M * Dt * ( -DAview[1] * 2 * (solNview[I+1]-solNview[I]) / (Dxview[1] + Dxview[0]) + upfluxA ) / Dxview[0] )
 
     # potential at x0 , boundary condition phiA = 0.0 oBdA
     res_view[2*I] = (( 2 * epsilonview[1]*(solNview[2*I+1]-solNview[2*I]) / (Dxview[0] + Dxview[1]) 
@@ -143,14 +154,14 @@ def residual_m0( int I,
         # cations
         res_view[i] = ( solNview[i] - sol1view[i] 
         
-        + Dt * ( -DCview[i+1] * 2 * (solNview[i+1] - solNview[i]) / (Dxview[i+1] + Dxview[i])
+        + M * Dt * ( -DCview[i+1] * 2 * (solNview[i+1] - solNview[i]) / (Dxview[i+1] + Dxview[i])
         
         + DCview[i] * 2 * (solNview[i] - solNview[i-1]) / (Dxview[i] + Dxview[i-1]) + upfluxC - downfluxC ) / Dxview[i] )
 
         # anions shifted about I
         res_view[I+i] = ( solNview[I+i] - sol1view[I+i] 
         
-        + Dt * ( -DAview[i+1] * 2 * (solNview[I+i+1] - solNview[I+i]) / (Dxview[i+1] + Dxview[i])
+        + M * Dt * ( -DAview[i+1] * 2 * (solNview[I+i+1] - solNview[I+i]) / (Dxview[i+1] + Dxview[i])
         
         + DAview[i] * 2 * (solNview[I+i] - solNview[I+i-1]) / (Dxview[i] + Dxview[i-1]) + upfluxA - downfluxA ) / Dxview[i])
 
@@ -189,12 +200,12 @@ def residual_m0( int I,
     # cations
     res_view[I-1] = ( solNview[I-1] - sol1view[I-1]
     
-    + Dt * ( DCview[I-1] * 2 * (solNview[I-1] - solNview[I-2]) / (Dxview[I-1] + Dxview[I-2]) -downfluxC ) / Dxview[I-1] )
+    + M * Dt * ( DCview[I-1] * 2 * (solNview[I-1] - solNview[I-2]) / (Dxview[I-1] + Dxview[I-2]) -downfluxC ) / Dxview[I-1] )
 
     # anions
     res_view[2*I-1] = ( solNview[2*I-1] - sol1view[2*I-1]
     
-    + Dt * ( DAview[I-1] * 2 * (solNview[2*I-1] - solNview[2*I-2]) / (Dxview[I-1] + Dxview[I-2]) - downfluxA ) / Dxview[I-1] )
+    + M * Dt * ( DAview[I-1] * 2 * (solNview[2*I-1] - solNview[2*I-2]) / (Dxview[I-1] + Dxview[I-2]) - downfluxA ) / Dxview[I-1] )
 
     # potential at right boundary
     res_view[3*I-1] = ( ( epsilonview[I-1] * (phiC - solNview[3*I-1]) / Dxview[I-1]
