@@ -651,7 +651,7 @@ We divide the one dimensional computational space into
  
 \begin_inset Formula 
 \begin{align}
-x_{i} & =i\cdot\Delta x\nonumber \\
+x_{i}\nonumber \\
 i & =0,1,\dots,I,I+1
 \end{align}
 
@@ -665,7 +665,8 @@ The cells are defined around each half grid point and have a width
  
 \begin_inset Formula 
 \begin{align*}
-x_{i+1}-x_{i} & =\Delta x_{i}
+\Delta x_{i} & =x_{i+1}-x_{i}\\
+i & =0,1,...,I-1
 \end{align*}
 
 \end_inset
@@ -1838,26 +1839,31 @@ The inner elements of this matrix consists of derivatives of the conservation
 \end_inset
 
 .
+ We split the evaluation of convective and diffusive parts
 \begin_inset Formula 
 \begin{align*}
  & \partial_{c_{m,j}}\left[c_{i,j}-c_{i,j-1}+\frac{\Delta t}{\Delta x_{i}}\left(f_{d,i+1,j}+f_{c,i+1,j}-f_{d,i,j}-f_{c,i,j}\right)\right]\\
- & =\delta_{m,i}+\frac{\Delta t}{\Delta x_{i}}\left(\partial_{c_{m,j}}f_{d,i+1,j}+\partial_{c_{m,j}}f_{c,i+1,j}-\partial_{c_{m,j}}f_{d,i,j}-\partial_{c_{m,j}}f_{c,i,j}\right)
+ & =\delta_{m,i}+\frac{\Delta t}{\Delta x_{i}}\partial_{c_{m,j}}\left(f_{d,i+1,j}-f_{d,i,j}\right)+\frac{\Delta t}{\Delta x_{i}}\partial_{c_{m,j}}\left(f_{c,i+1,j}-f_{c,i,j}\right)
 \end{align*}
 
 \end_inset
 
-Hence we must evaluate the derivatives of the diffusive and convective fluxes.
+Hence we must evaluate the derivatives of the diffusive and convective fluxes
 \begin_inset Formula 
 \begin{align*}
-\partial_{c_{m,j}}f_{d,i+1,j} & =\partial_{c_{m,j}}\left(-D_{i+1}\frac{2(c_{i+1,j}-c_{i,j})}{x_{i+2}-x_{i}}\right)\\
- & =-\frac{2D_{i+1}}{x_{i+2}-x_{i}}\left(\delta_{m,i+1}-\delta_{m,i}\right)\\
-\partial_{c_{m,j}}f_{d,i,j} & =\partial_{c_{m,j}}\left(-D_{i}\frac{2(c_{i,j}-c_{i-1,j})}{x_{i+1}-x_{i-1}}\right)\\
- & =-\frac{2D_{i}}{x_{i+1}-x_{i}}\left(\delta_{m,i}-\delta_{m,i-1}\right)
+\frac{\Delta t}{\Delta x_{i}}\partial_{c_{m,j}}\left(f_{d,i+1,j}-f_{d,i,j}\right) & =\frac{\Delta t}{\Delta x_{i}}\left(-\frac{2D_{i+1}}{\Delta x_{i+1}+\Delta x_{i}}\left(\delta_{m,i+1}-\delta_{m,i}\right)+\frac{2D_{i}}{\Delta x_{i}+\Delta x_{i-1}}\left(\delta_{m,i}-\delta_{m,i-1}\right)\right)
 \end{align*}
 
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+Convective:
+\end_layout
+
+\begin_layout Standard
 \begin_inset Formula 
 \begin{align*}
 \partial_{c_{m,j}}f_{c,i+1,j} & =\partial_{c_{m,j}}\left(-2D_{i+1}\chi_{1}z\frac{(\phi_{i+1,j}-\phi_{i,j})}{x_{i+2}-x_{i}}\begin{cases}
@@ -1938,11 +1944,11 @@ The explicit calculation of the Jacobian at every iteration step in equation
 \end_layout
 
 \begin_layout Subsection
-GMRES
+Preconditioning
 \end_layout
 
-\begin_layout Subsection
-Preconditioning
+\begin_layout Section
+Python Implementation
 \end_layout
 
 \begin_layout Section
@@ -2166,7 +2172,57 @@ I(x,t) & =f_{total}\left(x,t\right)\cdot f_{0}\cdot e\cdot10^{17}\label{eq:dimCu
 
 \end_inset
 
+Reference flux density starting from conservation law
+\end_layout
 
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\partial_{\tilde{t}}\tilde{c} & =-\partial_{\tilde{x}}\tilde{f}
+\end{align*}
+
+\end_inset
+
+Define a reference flux density 
+\begin_inset Formula $f_{0}=\frac{\tilde{f}}{f}$
+\end_inset
+
+ and insert other nondimensionalization constants
+\begin_inset Formula 
+\begin{align*}
+\frac{c_{0}}{T_{0}}\partial_{t} & =-\frac{f_{0}}{L}\partial_{x}f
+\end{align*}
+
+\end_inset
+
+Comparing both sides gives the reference flux density
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+f_{0} & =\frac{Lc_{0}}{T_{0}}
+\end{align*}
+
+\end_inset
+
+Here we can use our definition of the reference time 
+\begin_inset Formula $T_{0}=M\cdot\frac{L^{2}}{D_{0}}$
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+f_{0} & =\frac{Lc_{0}D_{0}}{ML^{2}}=\frac{c_{0}D_{0}}{ML}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Nondimensionalization of Cell Current
 \end_layout
 
 \begin_layout Standard
@@ -2256,6 +2312,19 @@ Because in the solution process of the time dependent Nernst Planck equation
 
 \begin_layout Chapter
 Model 0
+\end_layout
+
+\begin_layout Section
+Dimensionalization of the Problem - Practial Issues
+\end_layout
+
+\begin_layout Standard
+In order to fully resolve the double layer we have choosen to use a nanometre
+ lengthscale of the electrode seperation length 
+\begin_inset Formula $L$
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
