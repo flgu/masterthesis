@@ -1,8 +1,5 @@
 
-#%% Diffusion / Impedance Test Script
-machine = "work"
-
-import os 
+import os
 
 # import
 import numpy as np
@@ -31,35 +28,32 @@ stp = setup( path_2_setup )
 
 #%% Load different current solutions from impedance spectroscopy
 
-# Dt and N for all equal --> Difference in L
-L = 90
 
 # calculate T0 and f0 for this simulation
-T0 = L ** 2 / stp.D0
-f0 = L * stp.c0 / T0
+#f0 = L * stp.c0 / T0
 
-path_2_sol_1 = r"solutions/impedance_test_3.npy"
+path_2_current = r"solutions/imp11current.npy"
+path_2_voltage = r"solutions/imp11input_volt.npy"
 
-current_1 = np.load( path_2_sol_1 ) * f0 * st._ELE_CHARGE * 1e17
-
-
-voltage = createImpedanceVoltage( stp.N, stp.Dt, T0, stp.phi0, U_offset = 0, num = 40)
+current = np.load( path_2_current )# * f0 * st._ELE_CHARGE * 1e17
+voltage = np.load( path_2_voltage )
 
 Fvoltage = np.fft.fft(voltage)[0:int(voltage.shape[0]/2)]
+FcurrentA = np.fft.fft(-current[0,:])[0:int( stp.N/2)]
+FcurrentC = np.fft.fft(-current[1,:])[0:int( stp.N/2)]
 freq_ax = np.fft.fftfreq(voltage.shape[0],d = 0.001 )[0:int(voltage.shape[0]/2)]
 
 del voltage
 
 
 #%% FFT of input voltage
-FcurrentA = np.fft.fft(current_1[0,:])[0:int( stp.N/2)]
-FcurrentC = np.fft.fft(current_1[1,:])[0:int( stp.N/2)] 
+
 
 fig = plt.figure()
 ax = fig.add_subplot(1,1,1)
 
-ax.plot(freq_ax[1:] / T0, FcurrentA.imag[1:], color = "red")
-ax.plot(freq_ax[1:] / T0, FcurrentA.real[1:], color = "blue")
+ax.plot(freq_ax[1:] / stp.T0, FcurrentA.imag[1:], color = "red")
+ax.plot(freq_ax[1:] / stp.T0, FcurrentA.real[1:], color = "blue")
 
 
 # ticks formatting
@@ -100,7 +94,7 @@ ax = fig.add_subplot(1,1,1)
 
 
 
-ax.plot(np.abs(Z_A.real[:]), np.abs(Z_A.imag[:]), ls = "None", marker = ".", markersize = 8)
+ax.plot((Z_A.real[:]), (Z_A.imag[:]), ls = "None", marker = ".", markersize = 8)
 
 #ax.set_xlim([0 , 1e-5])
 
@@ -120,5 +114,17 @@ ax.set_ylabel(r"Imag $\left[ \Omega cm^2 \right]$")
 if saveflag == 1:
     for fmt in ["pdf", "png"]:
         fig.savefig(os.path.join(figs_path, fig_name + "." +fmt ), format = fmt, dpi = 300)
+
+plt.show()
+
+#%% Bode plot
+
+fig = plt.figure()
+ax = fig.add_subplot(1,1,1)
+
+ax.plot( freq_ax[1:] / stp.T0, np.abs(Z_A)[1:] )
+
+ax.set_yscale("log")
+ax.set_xscale("log")
 
 plt.show()

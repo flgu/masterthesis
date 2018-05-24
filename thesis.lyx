@@ -426,7 +426,7 @@ s
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset Formula $T_{0}=\frac{L^{2}}{D_{0}}$
+\begin_inset Formula $T_{0}=M\cdot\frac{L^{2}}{D_{0}}$
 \end_inset
 
 
@@ -2269,6 +2269,9 @@ status open
 \end_inset
 
 
+\end_layout
+
+\begin_layout Plain Layout
 \begin_inset Caption Below
 
 \begin_layout Plain Layout
@@ -2294,13 +2297,20 @@ Hz.
 
 \end_layout
 
-\begin_layout Plain Layout
-
-\end_layout
-
 \end_inset
 
 
+\end_layout
+
+\begin_layout Section
+Single Sine Approach
+\end_layout
+
+\begin_layout Standard
+Problem with small lengthscale, small reference time, for good resolution
+ and matching small frequencies large number of simulated time points is
+ needed.
+ Other approach fit sine to small number of simulated points
 \end_layout
 
 \begin_layout Section

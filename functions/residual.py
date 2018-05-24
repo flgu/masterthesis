@@ -158,23 +158,23 @@ def residual( I,
 
         if velup >=0:
 
-            upfluxC = velup * DC[i+1] * ( solN[i]
-                        + Dx[i] * limiter * ( solN[i+1] - solN[i] ) / (Dx[i+1] + Dx[i]) )
+            upfluxC = velup * DC[i+1] * ( solN[i] )
+                        #+ Dx[i] * limiter * ( solN[i+1] - solN[i] ) / (Dx[i+1] + Dx[i]) )
 
         else:
 
-            upfluxC = velup * DC[i+1] * ( solN[i+1]
-                - Dx[i+1]  * limiter * ( solN[i+1] - solN[i] ) / (Dx[i+1] + Dx[i]) )
+            upfluxC = velup * DC[i+1] * ( solN[i+1] )
+                #- Dx[i+1]  * limiter * ( solN[i+1] - solN[i] ) / (Dx[i+1] + Dx[i]) )
 
         if veldown >=0:
 
-            downfluxC = veldown * DC[i] * ( solN[i-1]
-                    + Dx[i-1] * limiter * (solN[i] - solN[i-1]) / (Dx[i] + Dx[i-1]) )
+            downfluxC = veldown * DC[i] * ( solN[i-1] )
+                   # + Dx[i-1] * limiter * (solN[i] - solN[i-1]) / (Dx[i] + Dx[i-1]) )
 
         else:
 
-            downfluxC = veldown * DC[i] * ( solN[i]
-                    - Dx[i] * limiter * (solN[i] - solN[i-1]) / (Dx[i] + Dx[i-1]) )
+            downfluxC = veldown * DC[i] * ( solN[i] )
+                    #- Dx[i] * limiter * (solN[i] - solN[i-1]) / (Dx[i] + Dx[i-1]) )
 
         # anions
         if (sol1[I+i] - sol1[I+i-1]) * (sol1[I+i+1] - sol1[I+i]) < 1e-15:
@@ -188,22 +188,22 @@ def residual( I,
 
         if -velup >=0:
 
-            upfluxA = -velup * DA[i+1] * ( solN[I+i]
-                    + Dx[i] * limiter * ( solN[I+i+1] - solN[I+i] ) / (Dx[i+1] + Dx[i]) )
+            upfluxA = -velup * DA[i+1] * ( solN[I+i] )
+                    # + Dx[i] * limiter * ( solN[I+i+1] - solN[I+i] ) / (Dx[i+1] + Dx[i]) )
         else:
 
-            upfluxA = -velup * DA[i+1] * ( solN[I+i+1]
-                    - Dx[i+1]  * limiter * ( solN[I+i+1] - solN[I+i] ) / (Dx[i+1] + Dx[i]) )
+            upfluxA = -velup * DA[i+1] * ( solN[I+i+1] )
+                    #- Dx[i+1]  * limiter * ( solN[I+i+1] - solN[I+i] ) / (Dx[i+1] + Dx[i]) )
 
         if -veldown >=0:
 
-            downfluxA = -veldown * DA[i] * ( solN[I+i-1]
-                    + Dx[i-1] * limiter * (solN[I+i] - solN[I+i-1]) / (Dx[i] + Dx[i-1]) )
+            downfluxA = -veldown * DA[i] * ( solN[I+i-1] )
+                    #+ Dx[i-1] * limiter * (solN[I+i] - solN[I+i-1]) / (Dx[i] + Dx[i-1]) )
 
         else:
 
-            downfluxA = -veldown * DA[i] * ( solN[I+i]
-                    - Dx[i] * limiter * (solN[I+i] - solN[I+i-1]) / (Dx[i] + Dx[i-1]) )
+            downfluxA = -veldown * DA[i] * ( solN[I+i] )
+                    #- Dx[i] * limiter * (solN[I+i] - solN[I+i-1]) / (Dx[i] + Dx[i-1]) )
 
         # end Godunov / upwinding calculation ----------------------------------
 

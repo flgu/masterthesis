@@ -5,7 +5,7 @@ import scipy
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 
-def createImpedanceVoltage(N, Dt, T0, phi0, U_offset = 0, num = 40):
+def createImpedanceVoltage(N, Dt, T0, phi0, U_offset = 0, num = 60):
 
     # create time axis
     time = np.zeros(N, dtype = np.float64)
