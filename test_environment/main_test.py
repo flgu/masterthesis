@@ -21,10 +21,6 @@ if __name__ == "__main__":
 
 
     stp = setup( path_2_setupfile )
-    stp.Dt = 1e-5
-    M = 1e0
-
-    stp.T0 = M * stp.L ** 2 / stp.D0
 
     # create voltage
     phiC = createImpedanceVoltage(stp.N, stp.Dt, stp.T0, stp.phi0, U_offset = 0, num = 40)
@@ -43,7 +39,7 @@ if __name__ == "__main__":
                                  stp.T,
                                  stp.N,
                                  stp.Dt,
-                                 M,
+                                 stp.M,
                                  sol_initial,
                                  phiC,
                                  stp.DC,
@@ -56,9 +52,3 @@ if __name__ == "__main__":
                                  stp.foxC )
 
     # dont save because its a test file
-
-#%% plotting
-fig = plt.figure()
-ax = fig.add_subplot(1,1,1)
-
-ax.plot(current[0,2:])

@@ -4,7 +4,7 @@ import time
 
 from functions.residual import residual
 import functions.system_tools as st
-from functions.jacobian import calcJac
+from functions.jacobian import constJac
 
 def createAxis(I):
 
@@ -85,11 +85,11 @@ def ImpedanceSolver_m0( I,
     sol1 = sol_initial
 
     # calculate jacobian and invert it for the first points
-    Jac = calcJac(I, np.zeros( sol1.shape ), x_, DC_vec, DA_vec, chi1, chi2, Dt, M )
+    Jac = constJac( I, M, Dt, Dx, DC_vec, DA_vec, epsilon_vec, chi2)
     Jacinv = np.linalg.inv(Jac)
 
     # delete Jacobian - only inverse J is needed
-    del Jac
+    #del Jac
 
     for j in range(1,N):
 
@@ -117,7 +117,10 @@ def ImpedanceSolver_m0( I,
                                     foxA,
                                     kC,
                                     foxC),
-                                sol1, inner_M = Jacinv, method = "lgmres")
+                                    sol1,
+                                    inner_M = Jacinv,
+                                    method = "lgmres",
+                                    verbose = 0)
 
         current[0,j] = - ( sol2[2*I] - sol1[2*I] ) / (Dx[0] * Dt * chi2)
         current[1,j] = - ( phiC[j] - sol2[3*I-1] - phiC[j-1] + sol1[3*I-1] ) / (Dx[I-1] * Dt * chi2)

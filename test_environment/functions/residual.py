@@ -1,7 +1,7 @@
 import numpy as np
 import numba as nb
 
-@nb.jit( nb.float64( nb.int32,
+@nb.jit( nb.float64[:]( nb.int32,
                     nb.float64[:],
                     nb.float64[:],
                     nb.float64[:],

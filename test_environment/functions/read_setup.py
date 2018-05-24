@@ -22,6 +22,6 @@ class setup():
                         else:
                             setattr(self, b[0].strip(), float(b[1].strip()))
 
-        self.T0 = self.L ** 2 / self.D0
+        self.T0 = self.M * self.L ** 2 / self.D0
         self.f0 = self.L * self.c0 / self.T0 # calculate reference flux density
 
