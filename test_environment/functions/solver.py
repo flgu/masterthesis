@@ -20,8 +20,26 @@ def createAxis(I):
 
     return x_, x
 
-def ImpedanceSolver_m0( I, L, c0, epsilon_m, phi0, T, N, Dt, M, sol_initial, phiC, DC, DA, epsilon):
-    
+def ImpedanceSolver_m0( I,
+                       L,
+                       c0,
+                       epsilon_m,
+                       phi0,
+                       T,
+                       N,
+                       Dt,
+                       M,
+                       sol_initial,
+                       phiC,
+                       DC,
+                       DA,
+                       epsilon,
+                       model,
+                       kA,
+                       foxA,
+                       kC,
+                       foxC ):
+
     # calculate numerical constants
     chi2 = st.calcChi1( phi0, T )
     chi1 = st.calcChi2( L, c0, phi0, epsilon_m )
@@ -29,19 +47,19 @@ def ImpedanceSolver_m0( I, L, c0, epsilon_m, phi0, T, N, Dt, M, sol_initial, phi
     # create x axis for simulation
     xi = np.zeros(I+1, dtype = np.float64)
     x_ = np.zeros(I+1, dtype = np.float64)
-    
+
     for i in range(0,I+1):
 
         xi[i] = i / I
-    
+
     # creating x axis with functional relation
     x_ = xi
     #x_ = np.sin( ( np.pi * xi  ) / 2 ) ** 2
-    
+
     # getting cell volumes
     Dx = np.zeros(I, dtype = np.float64)
     Dx = x_[1:] - x_[:I]
-    
+
     # create time axis
     t_ = np.zeros(N)
 
@@ -59,11 +77,11 @@ def ImpedanceSolver_m0( I, L, c0, epsilon_m, phi0, T, N, Dt, M, sol_initial, phi
 
     # init and preallocate
 #    sol = np.zeros([3 * I,N], dtype = np.float64)
-    
+
     sol1 = np.zeros([3 * I], dtype = np.float64)
     sol2 = np.zeros([3 * I], dtype = np.float64)
-    
-    
+
+
     sol1 = sol_initial
 
     # calculate jacobian and invert it for the first points
@@ -79,15 +97,31 @@ def ImpedanceSolver_m0( I, L, c0, epsilon_m, phi0, T, N, Dt, M, sol_initial, phi
             print("Time Step: ", j)
         elif j > 100 and np.mod(j,100) == 0:
             print("Time Step: ", j)
-        
+
         # input --> sol1  --> output sol2
-        
-        sol2 = newton_krylov( lambda y: residual( I, Dx, y, sol1, chi1, chi2, DC_vec, DA_vec, Dt, M,
-        phiC[j], epsilon_vec), sol1, inner_M = Jacinv, method = "lgmres")
+
+        sol2 = newton_krylov( lambda y: residual( I,
+                                    Dx,
+                                    y,
+                                    sol1,
+                                    chi1,
+                                    chi2,
+                                    DC_vec,
+                                    DA_vec,
+                                    Dt,
+                                    M,
+                                    phiC[j],
+                                    epsilon_vec,
+                                    model,
+                                    kA,
+                                    foxA,
+                                    kC,
+                                    foxC),
+                                sol1, inner_M = Jacinv, method = "lgmres")
 
         current[0,j] = - ( sol2[2*I] - sol1[2*I] ) / (Dx[0] * Dt * chi2)
         current[1,j] = - ( phiC[j] - sol2[3*I-1] - phiC[j-1] + sol1[3*I-1] ) / (Dx[I-1] * Dt * chi2)
-        
+
         # step solution sol1 = sol2 --> sol1 old solution j-1
         sol1 = sol2
 
