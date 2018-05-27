@@ -11,7 +11,7 @@ import numba as nb
                     nb.float64[:],
                     nb.float64,
                     nb.float64,
-                    nb.float64,
+                    #nb.float64,
                     nb.float64[:],
                     nb.int32,
                     nb.float64,
@@ -27,7 +27,7 @@ def residual( I,
         DC,
         DA,
         Dt,
-        M,
+        #M,
         phiC,
         epsilon,
         model,
@@ -96,11 +96,11 @@ def residual( I,
 
     # Anode, upflux only, substitute downflux with boundary condition
     # calculate upwinding velocities
-    velup = -chi1*2*(solN[2*I+1] - solN[2*I]) / (Dx[1] + Dx[0])
+    velup = -chi1 * 2 * (solN[2*I+1] - solN[2*I]) / (Dx[1] + Dx[0])
 
     # calc upwinding
     # cations
-    if DC[1] * velup >=0:
+    if velup >=0:
 
         upfluxC = velup * DC[1] * solN[0]
 
@@ -109,7 +109,7 @@ def residual( I,
         upfluxC = velup * DC[1] * solN[1]
 
     # anions
-    if -DA[1]*velup >=0:
+    if -velup >=0:
 
         upfluxA = -velup * DA[1] * solN[I]
 
@@ -120,12 +120,12 @@ def residual( I,
     # cation
     residual[0] = ( solN[0] - sol1[0]
 
-    + M * Dt * ( -DC[1] * 2.0 * (solN[1]-solN[0]) / (Dx[0] + Dx[1]) + upfluxC - f_A ) / Dx[0] )
+    + Dt * ( -DC[1] * 2.0 * (solN[1]-solN[0]) / (Dx[0] + Dx[1]) + upfluxC - f_A ) / Dx[0] )
 
     # anion
     residual[I] = ( solN[I] - sol1[I]
 
-    + M * Dt * ( -DA[1] * 2 * (solN[I+1]-solN[I]) / (Dx[1] + Dx[0]) + upfluxA ) / Dx[0] )
+    + Dt * ( -DA[1] * 2 * (solN[I+1]-solN[I]) / (Dx[1] + Dx[0]) + upfluxA ) / Dx[0] )
 
     # potential at x0 , boundary condition phiA = 0.0 oBdA
     residual[2*I] = (( 2 * epsilon[1]*(solN[2*I+1]-solN[2*I]) / (Dx[0] + Dx[1])
@@ -147,19 +147,19 @@ def residual( I,
         # Limiter: van Leer
 
         # cations
-        if (sol1[i] - sol1[i-1]) * (sol1[i+1] - sol1[i]) < 1e-15:
-
-            limiter = 0.0
-
-        else:
-            r = ( sol1[i] - sol1[i-1] ) / ( sol1[i+1] - sol1[i] )
-
-            limiter = 2*r / ( 1.0 + r )
+#        if (sol1[i] - sol1[i-1]) * (sol1[i+1] - sol1[i]) < 1e-15:
+#
+#            limiter = 0.0
+#
+#        else:
+#            r = ( sol1[i] - sol1[i-1] ) / ( sol1[i+1] - sol1[i] )
+#
+#            limiter = 2*r / ( 1.0 + r )
 
         if velup >=0:
 
             upfluxC = velup * DC[i+1] * ( solN[i] )
-                        #+ Dx[i] * limiter * ( solN[i+1] - solN[i] ) / (Dx[i+1] + Dx[i]) )
+                       # + Dx[i] * limiter * ( solN[i+1] - solN[i] ) / (Dx[i+1] + Dx[i]) )
 
         else:
 
@@ -169,7 +169,7 @@ def residual( I,
         if veldown >=0:
 
             downfluxC = veldown * DC[i] * ( solN[i-1] )
-                   # + Dx[i-1] * limiter * (solN[i] - solN[i-1]) / (Dx[i] + Dx[i-1]) )
+                    #+ Dx[i-1] * limiter * (solN[i] - solN[i-1]) / (Dx[i] + Dx[i-1]) )
 
         else:
 
@@ -177,19 +177,19 @@ def residual( I,
                     #- Dx[i] * limiter * (solN[i] - solN[i-1]) / (Dx[i] + Dx[i-1]) )
 
         # anions
-        if (sol1[I+i] - sol1[I+i-1]) * (sol1[I+i+1] - sol1[I+i]) < 1e-15:
-
-            limiter = 0.0
-
-        else:
-            r = ( sol1[I+i] - sol1[I+i-1] ) / ( sol1[I+i+1] - sol1[I+i] )
-
-            limiter = 2*r / ( 1.0 + r )
+#        if (sol1[I+i] - sol1[I+i-1]) * (sol1[I+i+1] - sol1[I+i]) < 1e-15:
+#
+#            limiter = 0.0
+#
+#        else:
+#            r = ( sol1[I+i] - sol1[I+i-1] ) / ( sol1[I+i+1] - sol1[I+i] )
+#
+#            limiter = 2*r / ( 1.0 + r )
 
         if -velup >=0:
 
             upfluxA = -velup * DA[i+1] * ( solN[I+i] )
-                    # + Dx[i] * limiter * ( solN[I+i+1] - solN[I+i] ) / (Dx[i+1] + Dx[i]) )
+                     #+ Dx[i] * limiter * ( solN[I+i+1] - solN[I+i] ) / (Dx[i+1] + Dx[i]) )
         else:
 
             upfluxA = -velup * DA[i+1] * ( solN[I+i+1] )
@@ -198,7 +198,7 @@ def residual( I,
         if -veldown >=0:
 
             downfluxA = -veldown * DA[i] * ( solN[I+i-1] )
-                    #+ Dx[i-1] * limiter * (solN[I+i] - solN[I+i-1]) / (Dx[i] + Dx[i-1]) )
+                   # + Dx[i-1] * limiter * (solN[I+i] - solN[I+i-1]) / (Dx[i] + Dx[i-1]) )
 
         else:
 
@@ -210,14 +210,14 @@ def residual( I,
         # cations
         residual[i] = ( solN[i] - sol1[i]
 
-        + M * Dt * ( -DC[i+1] * 2 * (solN[i+1] - solN[i]) / (Dx[i+1] + Dx[i])
+        + Dt * ( -DC[i+1] * 2 * (solN[i+1] - solN[i]) / (Dx[i+1] + Dx[i])
 
         + DC[i] * 2 * (solN[i] - solN[i-1]) / (Dx[i] + Dx[i-1]) + upfluxC - downfluxC ) / Dx[i] )
 
         # anions shifted about I
         residual[I+i] = ( solN[I+i] - sol1[I+i]
 
-        + M * Dt * ( -DA[i+1] * 2 * (solN[I+i+1] - solN[I+i]) / (Dx[i+1] + Dx[i])
+        + Dt * ( -DA[i+1] * 2 * (solN[I+i+1] - solN[I+i]) / (Dx[i+1] + Dx[i])
 
         + DA[i] * 2 * (solN[I+i] - solN[I+i-1]) / (Dx[i] + Dx[i-1]) + upfluxA - downfluxA ) / Dx[i])
 
@@ -235,7 +235,7 @@ def residual( I,
     veldown = -chi1 * 2 * (solN[3*I-1] - solN[3*I-2]) / (Dx[I-1] + Dx[I-2])
 
     # cations
-    if DC[I-1] * veldown >=0:
+    if veldown >=0:
 
         downfluxC = veldown * solN[I-2] * DC[I-1]
 
@@ -244,7 +244,7 @@ def residual( I,
         downfluxC = veldown * solN[I-1] * DC[I-1]
 
     # anions
-    if -DA[I-1] * veldown >=0:
+    if -veldown >=0:
 
         downfluxA = -veldown * solN[2*I-2] * DA[I-1]
 
@@ -256,12 +256,12 @@ def residual( I,
     # cations
     residual[I-1] = ( solN[I-1] - sol1[I-1]
 
-    + M * Dt * ( DC[I-1] * 2 * (solN[I-1] - solN[I-2]) / (Dx[I-1] + Dx[I-2]) + f_C - downfluxC ) / Dx[I-1] )
+    + Dt * ( DC[I-1] * 2 * (solN[I-1] - solN[I-2]) / (Dx[I-1] + Dx[I-2]) + f_C - downfluxC ) / Dx[I-1] )
 
     # anions
     residual[2*I-1] = ( solN[2*I-1] - sol1[2*I-1]
 
-    + M * Dt * ( DA[I-1] * 2 * (solN[2*I-1] - solN[2*I-2]) / (Dx[I-1] + Dx[I-2]) - downfluxA ) / Dx[I-1] )
+    + Dt * ( DA[I-1] * 2 * (solN[2*I-1] - solN[2*I-2]) / (Dx[I-1] + Dx[I-2]) - downfluxA ) / Dx[I-1] )
 
     # potential at right boundary
     residual[3*I-1] = ( ( epsilon[I-1] * (phiC - solN[3*I-1]) / Dx[I-1]

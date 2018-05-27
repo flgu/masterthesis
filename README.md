@@ -24,3 +24,5 @@
 2018 06 24 --> 2018 06 25
 -------------------------
 
+-[ ] test of Dt dependence and variance of impedance results
+

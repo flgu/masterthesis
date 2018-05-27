@@ -2,9 +2,9 @@ import numpy as np
 from scipy.optimize import newton_krylov
 import time
 
-from functions.residual import residual
+from functions.residual import residual_m0
 import functions.system_tools as st
-from functions.jacobian import constJac
+from functions.jacobian import calcJac
 
 def createAxis(I):
 
@@ -20,7 +20,7 @@ def createAxis(I):
 
     return x_, x
 
-def ImpedanceSolver_m0( I,
+def ImpedanceSolver( I,
                        L,
                        c0,
                        epsilon_m,
@@ -28,7 +28,7 @@ def ImpedanceSolver_m0( I,
                        T,
                        N,
                        Dt,
-                       M,
+                       #M,
                        sol_initial,
                        phiC,
                        DC,
@@ -38,7 +38,8 @@ def ImpedanceSolver_m0( I,
                        kA,
                        foxA,
                        kC,
-                       foxC ):
+                       foxC,
+                       returnmode = "current_only"):
 
     # calculate numerical constants
     chi2 = st.calcChi1( phi0, T )
@@ -60,13 +61,6 @@ def ImpedanceSolver_m0( I,
     Dx = np.zeros(I, dtype = np.float64)
     Dx = x_[1:] - x_[:I]
 
-    # create time axis
-    t_ = np.zeros(N)
-
-    for j in range(0,N):
-
-        t_[j] = j * Dt
-
     # preallocate current
     current = np.zeros([2, N], dtype = np.float64)
     epsilon_vec = np.ones(I + 1, dtype = np.float64) * epsilon
@@ -74,63 +68,131 @@ def ImpedanceSolver_m0( I,
     DA_vec = np.ones(I + 1, dtype = np.float64) * DA
 
     t1 = time.clock()
+    
+    # initialize output list
+    outlist = []
+    
 
-    # init and preallocate
-#    sol = np.zeros([3 * I,N], dtype = np.float64)
+    if returnmode == "current_only":
+        
+        print(returnmode)
+        
+        # init and preallocate
+        sol1 = np.zeros([3 * I], dtype = np.float64)
+        sol2 = np.zeros([3 * I], dtype = np.float64)
+    
+        # apply initial condition
+        sol1 = sol_initial
+    
+        # calculate jacobian and invert it for the first points
+        Jac = calcJac( I, Dt, Dx, DC_vec, DA_vec, epsilon_vec, chi2)
+        Jacinv = np.linalg.inv(Jac)
+    
+        # delete Jacobian - only inverse J is needed
+        #del Jac
+    
+        for j in range(1,N):
+    
+            if j <= 100:
+                print("Time Step: ", j)
+            elif j > 100 and np.mod(j,10) == 0:
+                print("Time Step: ", j)
+    
+            # input --> sol1  --> output sol2
+    
+            sol2 = newton_krylov( lambda y: residual( I,
+                                        Dx,
+                                        y,
+                                        sol1,
+                                        chi1,
+                                        chi2,
+                                        DC_vec,
+                                        DA_vec,
+                                        Dt,
+                                        #
+                                        phiC[j],
+                                        epsilon_vec,
+                                        model,
+                                        kA,
+                                        foxA,
+                                        kC,
+                                        foxC),
+                                        sol1,
+                                        inner_M = Jacinv,
+                                        method = "lgmres",
+                                        verbose = 0,
+                                        maxiter = 100)
+    
+            current[0,j] = - ( sol2[2*I] - sol1[2*I] ) / (Dx[0] * Dt * chi2)
+            current[1,j] = - ( phiC[j] - sol2[3*I-1] - phiC[j-1] + sol1[3*I-1] ) / (Dx[I-1] * Dt * chi2)
+    
+            # step solution sol1 = sol2 --> sol1 old solution j-1
+            sol1 = sol2
+            
+            outlist = [current]
+            
+    elif returnmode == "full_solution":
+        
+        print(returnmode)
+        
+        sol = np.zeros([3 * I, N], dtype = np.float64)    
+    
+        sol[:,0] = sol_initial
 
-    sol1 = np.zeros([3 * I], dtype = np.float64)
-    sol2 = np.zeros([3 * I], dtype = np.float64)
-
-
-    sol1 = sol_initial
-
-    # calculate jacobian and invert it for the first points
-    Jac = constJac( I, M, Dt, Dx, DC_vec, DA_vec, epsilon_vec, chi2)
-    Jacinv = np.linalg.inv(Jac)
-
-    # delete Jacobian - only inverse J is needed
-    #del Jac
-
-    for j in range(1,N):
-
-        if j <= 100:
-            print("Time Step: ", j)
-        elif j > 100 and np.mod(j,100) == 0:
-            print("Time Step: ", j)
-
-        # input --> sol1  --> output sol2
-
-        sol2 = newton_krylov( lambda y: residual( I,
-                                    Dx,
-                                    y,
-                                    sol1,
-                                    chi1,
-                                    chi2,
-                                    DC_vec,
-                                    DA_vec,
-                                    Dt,
-                                    M,
-                                    phiC[j],
-                                    epsilon_vec,
-                                    model,
-                                    kA,
-                                    foxA,
-                                    kC,
-                                    foxC),
-                                    sol1,
-                                    inner_M = Jacinv,
-                                    method = "lgmres",
-                                    verbose = 0,
-                                    maxiter = 100)
-
-        current[0,j] = - ( sol2[2*I] - sol1[2*I] ) / (Dx[0] * Dt * chi2)
-        current[1,j] = - ( phiC[j] - sol2[3*I-1] - phiC[j-1] + sol1[3*I-1] ) / (Dx[I-1] * Dt * chi2)
-
-        # step solution sol1 = sol2 --> sol1 old solution j-1
-        sol1 = sol2
-
+        # calculate jacobian and invert it for the first points
+        Jac = calcJac( I,
+                       sol_initial,
+                       x_,
+                       DC_vec,
+                       DA_vec,
+                       chi1,
+                       chi2,
+                       Dt,
+                       1.0
+                       )
+        Jacinv = np.linalg.inv(Jac)
+    
+        # delete Jacobian - only inverse J is needed
+        #del Jac
+    
+        for j in range(1,N):
+    
+            if j <= 100:
+                print("Time Step: ", j)
+            elif j > 100 and np.mod(j,10) == 0:
+                print("Time Step: ", j)
+    
+            sol[:,j] = newton_krylov( lambda y: residual_m0( I,
+                                        Dx,
+                                        y,
+                                        sol[:,j-1],
+                                        chi1,
+                                        chi2,
+                                        DC_vec,
+                                        DA_vec,
+                                        Dt,
+                                        1,
+                                        phiC[j],
+                                        epsilon_vec,
+#                                        model,
+#                                        kA,
+#                                        foxA,
+#                                        kC,
+#                                        foxC
+                                        ),
+                                        sol[:,j-1],
+                                        inner_M = Jacinv,
+                                        method = "lgmres",
+                                        verbose = 0,
+                                        maxiter = 100)
+    
+            current[0,j] = - ( sol[2*I,j] - sol[2*I,j-1] ) / (Dx[0] * Dt * chi2)
+            current[1,j] = - ( phiC[j] - sol[3*I-1,j] - phiC[j-1] + sol[3*I-1,j-1] ) / (Dx[I-1] * Dt * chi2)
+    
+            outlist = [current, sol]
+            
     t2 = time.clock()
+    
     print("Simulation Runtime: ", t2-t1)
 
-    return current
-
+    return outlist
