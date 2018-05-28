@@ -1,5 +1,5 @@
-#LyX 2.2 created this file. For more info see http://www.lyx.org/
-\lyxformat 508
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
 \begin_document
 \begin_header
 \save_transient_properties true
@@ -21,6 +21,8 @@
 \font_osf false
 \font_sf_scale 100 100
 \font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
 \graphics default
 \default_output_format default
 \output_sync 0
@@ -59,6 +61,7 @@
 \suppress_date false
 \justification true
 \use_refstyle 1
+\use_minted 0
 \index Index
 \shortcut idx
 \color #008000
@@ -67,7 +70,10 @@
 \tocdepth 3
 \paragraph_separation indent
 \paragraph_indentation default
-\quotes_language english
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
 \papercolumns 1
 \papersides 1
 \paperpagestyle default
@@ -719,6 +725,7 @@ It would be favorable if the numerical approach is also conservative.
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Flavell2014"
+literal "true"
 
 \end_inset
 
@@ -859,6 +866,38 @@ Plugging this into the equation for all inner points using
 \begin_inset Formula 
 \begin{align*}
 \epsilon_{i+1}\frac{2(\phi_{i+1}-\phi_{i})}{\Delta x_{i}\left(\Delta x_{i+1}+\Delta x_{i}\right)}-\epsilon_{i}\frac{2(\phi_{i}-\phi_{i-1})}{\Delta x_{i}\left(\Delta x_{i}+\Delta x_{i-1}\right)}+\chi_{2}\left(c_{i,j}^{+}-c_{i,j}^{-}\right) & =0
+\end{align*}
+
+\end_inset
+
+In matrix form
+\begin_inset Formula 
+\begin{align*}
+\frac{2\epsilon_{i}}{\Delta x_{i}\left(\Delta x_{i}+\Delta x_{i-1}\right)}\phi_{i-1}-\left(\frac{2\epsilon_{i}}{\Delta x_{i}\left(\Delta x_{i}+\Delta x_{i-1}\right)}+\frac{2\epsilon_{i+1}}{\Delta x_{i}\left(\Delta x_{i+1}+\Delta x_{i}\right)}\right)\phi_{i}+\frac{2\epsilon_{i+1}}{\Delta x_{i}\left(\Delta x_{i+1}+\Delta x_{i}\right)} & \phi_{i+1}+\chi_{2}\left(c_{i,j}^{+}-c_{i,j}^{-}\right)=0
+\end{align*}
+
+\end_inset
+
+At the boundary 
+\begin_inset Formula $i=0$
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+\frac{2\epsilon_{1}}{\Delta x_{0}\left(\Delta x_{1}+\Delta x_{0}\right)}\phi_{1}-\left(\frac{2\epsilon_{1}}{\Delta x_{0}\left(\Delta x_{1}+\Delta x_{0}\right)}+\frac{\epsilon_{0}}{\Delta x_{i}\Delta x_{i}}\right)\phi_{0}+\chi_{2}\left(c_{0,j}^{+}-c_{0,j}^{-}\right) & =0
+\end{align*}
+
+\end_inset
+
+At the boundary 
+\begin_inset Formula $i=I-1$
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+\frac{\epsilon_{I}}{\Delta x_{I-1}\Delta x_{I-1}}\phi_{C}-\left(\frac{2\epsilon_{I-1}}{\Delta x_{I-1}\left(\Delta x_{I-1}+\Delta x_{I-2}\right)}+\frac{\epsilon_{I}}{\Delta x_{I-1}\Delta x_{I-1}}\right)\phi_{I-1}+\frac{2\epsilon_{I-1}}{\Delta x_{I-1}\left(\Delta x_{I-1}+\Delta x_{I-2}\right)}\phi_{I-2}+\chi_{2}\left(c_{I-1,j}^{+}-c_{I-1,j}^{-}\right) & =0
 \end{align*}
 
 \end_inset
@@ -1740,6 +1779,7 @@ If we consider this equation as an iterative update process we can use the
 \begin_inset CommandInset citation
 LatexCommand cite
 key "knoll_jacobian-free_2004"
+literal "true"
 
 \end_inset
 
@@ -2164,6 +2204,7 @@ As stated in the previous sections we utilize a constant spacing in the
 \begin_inset CommandInset citation
 LatexCommand cite
 key "lasia_electrochemical_2014"
+literal "true"
 
 \end_inset
 
@@ -2199,6 +2240,7 @@ d in the NumPy FFT library
 \begin_inset CommandInset citation
 LatexCommand cite
 key "noauthor_discrete_nodate"
+literal "true"
 
 \end_inset
 
@@ -2226,6 +2268,7 @@ As the pertubation voltage
 \begin_inset CommandInset citation
 LatexCommand cite
 key "lasia_electrochemical_2014"
+literal "true"
 
 \end_inset
 
