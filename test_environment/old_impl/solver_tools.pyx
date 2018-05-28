@@ -23,8 +23,9 @@ def residual( int I,
     
     cdef:
         int i
-        cnp.ndarray[ cnp.float64_t, ndim=1] residual = np.zeros(3*I, dtype = np.float64)
-        
+        residual = np.zeros(3*I, dtype = np.float64)
+        double [:] res = residual
+
         # boundary fluxes
         double fA = 0.0
         double fC = 0.0
