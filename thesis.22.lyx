@@ -1,10 +1,15 @@
-#LyX 2.3 created this file. For more info see http://www.lyx.org/
-\lyxformat 544
+#LyX 2.2 created this file. For more info see http://www.lyx.org/
+\lyxformat 508
 \begin_document
 \begin_header
 \save_transient_properties true
 \origin unavailable
 \textclass scrreprt
+\begin_preamble
+% Added by lyx2lyx
+\renewcommand{\textendash}{--}
+\renewcommand{\textemdash}{---}
+\end_preamble
 \use_default_options true
 \maintain_unincluded_children false
 \language english
@@ -21,8 +26,6 @@
 \font_osf false
 \font_sf_scale 100 100
 \font_tt_scale 100 100
-\use_microtype false
-\use_dash_ligatures true
 \graphics default
 \default_output_format default
 \output_sync 0
@@ -61,7 +64,6 @@
 \suppress_date false
 \justification true
 \use_refstyle 1
-\use_minted 0
 \index Index
 \shortcut idx
 \color #008000
@@ -70,10 +72,7 @@
 \tocdepth 3
 \paragraph_separation indent
 \paragraph_indentation default
-\is_math_indent 0
-\math_numbering_side default
-\quotes_style english
-\dynamic_quotes 0
+\quotes_language english
 \papercolumns 1
 \papersides 1
 \paperpagestyle default
@@ -725,7 +724,6 @@ It would be favorable if the numerical approach is also conservative.
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Flavell2014"
-literal "true"
 
 \end_inset
 
@@ -1375,7 +1373,7 @@ So far we discretized just the spatial axis using finite volumes, now we
 
 .
  In our implementation we use a fixed step width 
-\begin_inset Formula $\Delta t=t_{j+1}-t_{j}$
+\begin_inset Formula $\Delta t=t_{j}-t_{j-1}$
 \end_inset
 
 .
@@ -1384,12 +1382,21 @@ So far we discretized just the spatial axis using finite volumes, now we
 \begin_layout Standard
 \begin_inset Formula 
 \begin{align}
-\frac{dc_{i}(t)}{dt} & \approx\frac{c_{i,j+1}-c_{i,j}}{\Delta t}\label{eq:BDF1_formula}
+\frac{dc_{i}(t)}{dt} & \approx\frac{c_{i,j}-c_{i,j-1}}{\Delta t}\label{eq:BDF1_formula}
 \end{align}
 
 \end_inset
 
+and the second order accurate BDF 2.
+\begin_inset Formula 
+\begin{align}
+\frac{dc_{i}(t)}{dt} & \approx\frac{3c_{i,j}-4c_{i,j-1}+c_{i,j-2}}{2\Delta t}\label{eq:BDF2_formula}
+\end{align}
 
+\end_inset
+
+The first steps of a simulation are performed using the one step BDF 1 after
+ this our solver method switches to BDF 2 for higher accuracy.
 \end_layout
 
 \begin_layout Subsection
@@ -1779,7 +1786,6 @@ If we consider this equation as an iterative update process we can use the
 \begin_inset CommandInset citation
 LatexCommand cite
 key "knoll_jacobian-free_2004"
-literal "true"
 
 \end_inset
 
@@ -2184,8 +2190,36 @@ Electrochemical Impedance Spectroscopy
 \end_layout
 
 \begin_layout Standard
-Definition of Impedance .
+We define electrical impedance of a system making use of the Fourier transform
+ of the electrical current, which we denote with 
+\begin_inset Formula $I_{\omega}$
+\end_inset
+
+, and the transform of the applied voltage, also denoted with a subscript
  
+\begin_inset Formula $V_{\omega}$
+\end_inset
+
+.
+ Then we define the complex impedance of the system as the quotient of the
+ Fourier transforms.
+\begin_inset Formula 
+\begin{align*}
+Z & =\frac{V_{\omega}}{I_{\omega}}=\left|Z\right|e^{i\theta}
+\end{align*}
+
+\end_inset
+
+The absolute length of this complex vector is 
+\begin_inset Formula $\left|Z\right|$
+\end_inset
+
+and the phase shift of current with respect to voltage is the angle in the
+ complex plane 
+\begin_inset Formula $\theta$
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Subsection
@@ -2204,7 +2238,6 @@ As stated in the previous sections we utilize a constant spacing in the
 \begin_inset CommandInset citation
 LatexCommand cite
 key "lasia_electrochemical_2014"
-literal "true"
 
 \end_inset
 
@@ -2240,7 +2273,6 @@ d in the NumPy FFT library
 \begin_inset CommandInset citation
 LatexCommand cite
 key "noauthor_discrete_nodate"
-literal "true"
 
 \end_inset
 
@@ -2268,7 +2300,6 @@ As the pertubation voltage
 \begin_inset CommandInset citation
 LatexCommand cite
 key "lasia_electrochemical_2014"
-literal "true"
 
 \end_inset
 
@@ -2521,14 +2552,13 @@ ref{eq:jtotal} is valid at all times and for all points in the computational
 
 \begin_layout Standard
 The time derivative of the electrostatic potential, Maxwell's displacement
- current, is evaluated similar to the PDE solver by applying the Euler backwards
- scheme.
+ current, is evaluated similar to the PDE solver by applying the BDF 2 scheme.
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
 \begin{align}
-\partial_{t}\partial_{x}\phi & =\frac{\partial_{x}\phi\left(t\right)-\partial_{x}\phi\left(t-\Delta t\right)}{\Delta t}
+\partial_{t}\partial_{x}\phi & =\frac{3\partial_{x}\phi_{j}-4\partial_{x}\phi_{j-1}+\partial_{x}\phi_{j-2}}{2\Delta t}
 \end{align}
 
 \end_inset
@@ -2543,18 +2573,12 @@ Using this equation we can calculate the discrete current density as follows.
 \begin_layout Standard
 \begin_inset Formula 
 \begin{align}
-f_{total}\left(x_{1},t_{j}\right) & =f_{C}^{+}\left(t_{j}\right)+\frac{1}{\chi_{2}}\frac{\partial_{x}\phi_{1,j}-\partial_{x}\phi_{1,j-1}}{\Delta t}
+f_{total}\left(x_{1},t_{j}\right) & =f_{C}^{+}\left(t_{j}\right)+\frac{1}{\chi_{2}}\frac{3\partial_{x}\phi_{j}-4\partial_{x}\phi_{j-1}+\partial_{x}\phi_{j-2}}{2\Delta t}
 \end{align}
 
 \end_inset
 
 
-\end_layout
-
-\begin_layout Standard
-Because in the solution process of the time dependent Nernst Planck equation
- all variables are calculated, we can perform the current density calculation
- afterwards.
 \end_layout
 
 \begin_layout Chapter
@@ -2617,6 +2641,181 @@ Therefore we can formulate a control parameter of the system to investigate
 Influence of Electrode Separation Length
 \end_layout
 
+\begin_layout Section
+Steady State Analysis
+\end_layout
+
+\begin_layout Itemize
+Double Layer creation
+\end_layout
+
+\begin_layout Itemize
+New equilibrium states reached
+\end_layout
+
+\begin_layout Itemize
+At voltages 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename figures/model_0_sweep.pdf
+
+\end_inset
+
+
+\begin_inset Caption Below
+
+\begin_layout Plain Layout
+Applied Catode voltage from 5mV up to 300mV, 
+\begin_inset Formula $D_{0}=D_{C}=D_{A}=10^{-12}\frac{m^{2}}{s}$
+\end_inset
+
+, 
+\begin_inset Formula $T=300K$
+\end_inset
+
+, 
+\begin_inset Formula $L=10nm$
+\end_inset
+
+, 
+\begin_inset Formula $c_{0}=1M$
+\end_inset
+
+, initial condition for both ion types 
+\begin_inset Formula $c^{\pm}\left(0\right)=\frac{c_{0}}{2}$
+\end_inset
+
+, 
+\begin_inset Formula $\Delta t=10^{-4},$
+\end_inset
+
+
+\begin_inset Formula $I=500$
+\end_inset
+
+,
+\begin_inset Formula $\epsilon_{m}=80,$
+\end_inset
+
+
+\begin_inset Formula $\epsilon=1$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+High voltage limit.
+ 
+\end_layout
+
+\begin_layout Itemize
+Totally symmetric
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename figures/model_0_sweep_limit.pdf
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Below
+
+\begin_layout Plain Layout
+Applied Catode voltages 50mV, 100mV, 150mV, 200mV 
+\begin_inset Formula $D_{0}=D_{C}=D_{A}=10^{-12}\frac{m^{2}}{s}$
+\end_inset
+
+, 
+\begin_inset Formula $T=300K$
+\end_inset
+
+, 
+\begin_inset Formula $L=10nm$
+\end_inset
+
+, 
+\begin_inset Formula $c_{0}=1M$
+\end_inset
+
+, initial condition for both ion types 
+\begin_inset Formula $c^{\pm}\left(0\right)=\frac{c_{0}}{2}$
+\end_inset
+
+, 
+\begin_inset Formula $\Delta t=10^{-4},$
+\end_inset
+
+
+\begin_inset Formula $I=500$
+\end_inset
+
+,
+\begin_inset Formula $\epsilon_{m}=80,$
+\end_inset
+
+
+\begin_inset Formula $\epsilon=1$
+\end_inset
+
+ .
+ Relaxation to equilibrium
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Chapter
 Model 1
 \end_layout
@@ -2643,18 +2842,18 @@ Ion transfer process.
 \begin_layout Standard
 \begin_inset Formula 
 \begin{align}
-Ox^{+}+e^{-} & \leftrightharpoons Red
+O^{+}+e^{-} & \leftrightharpoons R
 \end{align}
 
 \end_inset
 
 A reduced species 
-\begin_inset Formula $Red$
+\begin_inset Formula $R$
 \end_inset
 
  in the metal electrode, outside of the computational domain, transforms
  during the reaction into an oxidized species 
-\begin_inset Formula $Ox^{+}$
+\begin_inset Formula $O^{+}$
 \end_inset
 
 , which is positively charged, and an negative charge electron 
@@ -2668,11 +2867,11 @@ A reduced species
  are expressed as the sum of a forward rate and a backward rate.
  These rates have a probabilistic nature and are modelled with rate constants
  for oxidation reaction 
-\begin_inset Formula $k_{ox}$
+\begin_inset Formula $k_{o}$
 \end_inset
 
  and reduction reaction 
-\begin_inset Formula $k_{red}$
+\begin_inset Formula $k_{r}$
 \end_inset
 
 .
@@ -2685,7 +2884,7 @@ cite{bard_electrochemical_2001}.
 \begin_inset Formula 
 \begin{align}
 \text{net flux}=\text{oxidation flux}-\text{reduction flux}\nonumber \\
-f_{net}=f_{ox}-f_{red}=c_{red}-k_{red}c_{ox}
+f_{n}=f_{o}-f_{r}=c_{r}-k_{r}c_{o}
 \end{align}
 
 \end_inset
@@ -2712,7 +2911,7 @@ The particle flux
  Therefore a rate constant has units of a reaction velocity.
 \begin_inset Formula 
 \begin{align*}
-\left[k\right]=\frac{m}{s}
+\left[k\right] & =\frac{m}{s}
 \end{align*}
 
 \end_inset
@@ -2786,6 +2985,23 @@ k_{red}=A_{red}\exp\left(-\frac{\Delta G_{red}(\phi_{S})}{k_{B}T}\right)
 \end_inset
 
  are frequency factors which gives the rates without energy barrier.
+\end_layout
+
+\begin_layout Standard
+Energy Barrier
+\end_layout
+
+\begin_layout Chapter
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Taylor Expansion of dG
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection
@@ -2884,37 +3100,32 @@ f_{C}(t_{j})=k_{C}c_{I-1}^{+}(t_{j})-f_{ox,C}
 
 \end_layout
 
-\begin_layout Standard
-
-\backslash
-section{Numerical Analysis of Steady States} 
+\begin_layout Section
+Numerical Analysis of Steady States
 \end_layout
 
 \begin_layout Standard
-% Steady state condition for the boundary condition, answer to the question
- when the net boundary flux vanishes? % 
+Steady state condition for the boundary condition, answer to the question
+ when the net boundary flux vanishes? 
 \begin_inset Formula 
 \begin{align}
-f_{A}=0\rightarrow c_{0}^{+}=\frac{f_{ox,A}}{k_{A}}\ notag\\
-f_{C}=0\rightarrow c_{I-1}^{+}=\frac{f_{ox,C}}{k_{C}}\ notag\\
+f_{A}=0\rightarrow c_{0}^{+} & =\frac{f_{ox,A}}{k_{A}}=K_{A}\\
+f_{C}=0\rightarrow c_{I-1}^{+} & =\frac{f_{ox,C}}{k_{C}}=K_{C}\nonumber 
 \end{align}
 
 \end_inset
 
- % The steady state at the boundaries depends on the choice of the boundary
+ The steady state at the boundaries depends on the choice of the boundary
  values but foremost on the concentration at the boundary.
  Therefore the steady state depends on the steady state condition of the
- Transport equation.
+ transport equation in the electrolyte.
 \end_layout
 
 \begin_layout Standard
-
-\backslash
-section{Current - Voltage Relations} % We define an operational steady state
- criterion: % 
+We define an operational steady state criterion: % 
 \begin_inset Formula 
 \begin{align}
-\left\lVert c^{+}(t_{j})-c^{+}(t_{j-1})\right\rVert <10^{-8}\label{eq:steady_state_criterion}
+\left\lVert c^{+}(t_{j})-c^{+}(t_{j-1})\right\rVert <10^{-7}\label{eq:steady_state_criterion}
 \end{align}
 
 \end_inset
@@ -2924,10 +3135,46 @@ section{Current - Voltage Relations} % We define an operational steady state
  % Apply step voltages 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Subsection
+Symmetrical 
+\end_layout
 
-\backslash
-section{Impedance Analysis}
+\begin_layout Itemize
+Frage Wie verändert sich equilibrium bei eingeschalteter linearer kinetic
+\end_layout
+
+\begin_layout Itemize
+Gibt es einen steady state?
+\end_layout
+
+\begin_layout Itemize
+Wähle zunächst initial condition für alle x gleich
+\begin_inset Formula 
+\begin{align*}
+\begin{pmatrix}c^{+}\left(0\right)\\
+c^{-}\left(0\right)\\
+\phi\left(0\right)
+\end{pmatrix} & =\begin{pmatrix}0.5\\
+0.5\\
+0
+\end{pmatrix}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Damit ist automatisch bei allen Werten 
+\begin_inset Formula $K_{A}=K_{C}=0.5$
+\end_inset
+
+ equilibrium.
+\end_layout
+
+\begin_layout Itemize
+Untersuche Auslenkungen aus dem Equilibirum durch catode voltage
 \end_layout
 
 \begin_layout Chapter
@@ -2935,21 +3182,20 @@ Model 2
 \end_layout
 
 \begin_layout Standard
+Taylor expansion of Gibbs energy up to a linear term in electrode
+\end_layout
+
+\begin_layout Standard
 Model of electron transfer the reaction at electrode surface isinfluenced
  by the electrostatic potential of the electrode.
 \end_layout
 
-\begin_layout Standard
-
-\backslash
-section{Arrhenius Equation}
+\begin_layout Itemize
+Energy Barrier as difference from electrode potential to solution potential
 \end_layout
 
 \begin_layout Standard
-% 
-\backslash
-subsection{Introduction of Butler Volmer Boundary Conditions} % The Butler
- Volmer theory 
+The Butler Volmer theory 
 \backslash
 cite{schmickler_interfacial_1996} assumes, that the energy of a state is
  in first order approximation given by the electrostatic energy.
@@ -3358,259 +3604,6 @@ status open
 
 \begin_layout Plain Layout
 
-def createImpedanceVoltage(N, Dt, U_offset = 0, num = 40):
-\end_layout
-
-\begin_layout Plain Layout
-
-	
-\end_layout
-
-\begin_layout Plain Layout
-
-	# 2018.05.15
-\end_layout
-
-\begin_layout Plain Layout
-
-	
-\end_layout
-
-\begin_layout Plain Layout
-
-    # create time axis     time = np.zeros(N, dtype = np.float64)
-\end_layout
-
-\begin_layout Plain Layout
-
-    for j in range(0,N):         
-\end_layout
-
-\begin_layout Plain Layout
-
-		time[j] = j*Dt
-\end_layout
-
-\begin_layout Plain Layout
-
-    # Sampling and Nyquist Frequency
-\end_layout
-
-\begin_layout Plain Layout
-
-    f_Ny = np.floor(1.0 / (2.2 * Dt))
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-
-	# Maximal frerquency with secturity 2.2     
-\end_layout
-
-\begin_layout Plain Layout
-
-	f_s = 1.0 / (N * Dt)
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-
-    # create factor array
-\end_layout
-
-\begin_layout Plain Layout
-
-    fac_arr = np.concatenate( (np.array([2, 4, 6, 8]), np.geomspace(10,np.floor(f_Ny
- / f_s), num = num)) )
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-
-    # minimization of the total amplitude through minimization of single
- amplitudes
-\end_layout
-
-\begin_layout Plain Layout
-
-    def calcMultiSine( single_ampl, *args ):
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-
-        # extract tuple *args (factor_array, f_sample, time, phi0)
-\end_layout
-
-\begin_layout Plain Layout
-
-        factor_array  = args[0][0]
-\end_layout
-
-\begin_layout Plain Layout
-
-        f_sample = args[0][1]
-\end_layout
-
-\begin_layout Plain Layout
-
-        time = args[0][2]
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-
-        # define voltage output vector
-\end_layout
-
-\begin_layout Plain Layout
-
-        voltage = np.zeros(N, dtype = np.float64)
-\end_layout
-
-\begin_layout Plain Layout
-
-        # loop over all multiplicative factors
-\end_layout
-
-\begin_layout Plain Layout
-
-        for i in range(0, factor_array.size):
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-
-            freq = f_sample * int(factor_array[i]) # calc frequency
-\end_layout
-
-\begin_layout Plain Layout
-
-            voltage += single_ampl * np.sin( 2 * np.pi * freq * time ) # add
- sine to voltage output
-\end_layout
-
-\begin_layout Plain Layout
-
-        
-\end_layout
-
-\begin_layout Plain Layout
-
-		# calc total amplitude
-\end_layout
-
-\begin_layout Plain Layout
-
-        total_ampl = np.abs( voltage.max() - voltage.min() )
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-
-        return np.abs(total_ampl - 1.0 / 2.0 )
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-
-    # minimize total amplitude
-\end_layout
-
-\begin_layout Plain Layout
-
-    singl_ampl_opt = minimize( calcMultiSine, 1e-2, args = [fac_arr, f_s,
- time], tol = 1e-7, bounds = ((0.0, None),)  )
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-
-    # use optimized amplitude and create output
-\end_layout
-
-\begin_layout Plain Layout
-
-    voltage = np.zeros(N, dtype = np.float64)
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-
-    # loop over all multiplicative factors
-\end_layout
-
-\begin_layout Plain Layout
-
-    for i in range(0, fac_arr.size):
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-
-        freq = f_s * int(fac_arr[i]) # calc frequency
-\end_layout
-
-\begin_layout Plain Layout
-
-        voltage += singl_ampl_opt.x * np.sin( 2 * np.pi * freq * time ) # add
- sine to voltage output
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-
-    # add constants offset     
-\end_layout
-
-\begin_layout Plain Layout
-
-	voltage += U_offset
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-
-    return voltage
 \end_layout
 
 \end_inset
