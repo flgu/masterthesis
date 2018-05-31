@@ -452,7 +452,7 @@ def solver( setup ):
 
         # set results in setup obj
         setup.set_sol_data( sol[:,:j+1] )
-
+        setup.set_current_data( current[:,j+1] )
 
         # save results
         
