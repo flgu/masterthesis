@@ -407,20 +407,51 @@ def constJac( I,
     return Jac
 
 
-def calcAnodicCurrent( double phiN, double phi1, double phi2, double Dt, double Dx, double chi2 ):
+
+def calcAnodicCurrent( double phiN,
+                        double phi1,
+                        double phi2,
+                        double Dt,
+                        double Dx,
+                        double chi2,
+                        int model,
+                        double kA,
+                        double foxA,
+                        double solA ):
 
     cdef double current_A = 0.0
     # BDF 2
-    current_A = -(3.0 * (phiN) - 4.0 * (phi1) + (phi2)) / (2.0 * Dt * Dx * chi2)
+    if model == 0:
+        current_A = -(3.0 * (phiN) - 4.0 * (phi1) + (phi2)) / (2.0 * Dt * Dx * chi2)
+    elif model == 1:
+        
+        current_A = foxA - kA * solA - (3.0 * (phiN) - 4.0 * (phi1) + (phi2)) / (2.0 * Dt * Dx * chi2)
 
     return current_A 
 
-def calcCatodicCurrent( double phiN, double phi1, double phi2, double phiCN, double phiC1,
-                        double phiC2, double Dt, double Dx, double chi2 ):
+def calcCatodicCurrent( double phiN,
+                        double phi1,
+                        double phi2,
+                        double phiCN,
+                        double phiC1,
+                        double phiC2,
+                        double Dt,
+                        double Dx,
+                        double chi2,
+                        int model,
+                        double kC,
+                        double foxC,
+                        double solC ):
 
     cdef double current_C = 0.0
 
     # BDF 2
-    current_C = -(3.0 * (phiN - phiCN) - 4.0 * (phi1 - phiC1) + (phi2 - phiC2)) / (2.0 * Dt * Dx * chi2)
+    if model == 0:
+        
+        current_C = ( -(3.0 * (phiN - phiCN) - 4.0 * (phi1 - phiC1) + (phi2 - phiC2)) / (2.0 * Dt * Dx * chi2) )
 
+    elif model == 1:
+
+        current_C = kC * solC - foxC -(3.0 * (phiN - phiCN) - 4.0 * (phi1 - phiC1) + (phi2 - phiC2)) / (2.0 * Dt * Dx * chi2)
+        
     return current_C

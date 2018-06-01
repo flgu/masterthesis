@@ -2991,6 +2991,123 @@ k_{red}=A_{red}\exp\left(-\frac{\Delta G_{red}(\phi_{S})}{k_{B}T}\right)
 Energy Barrier
 \end_layout
 
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename figures/model_1_1.pdf
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+I = 500, N = 2 ** 15, Dt = 1e-4, T = 300, L = 10, lengthscale = 1e9, c0_in
+ = 1.0, DA = 1.0, DC = 1.0, D0_in = 1e-12, epsilon = 1.0, epsilon_m = 80.0, testname
+ = "model_1", model = 1, sim_method = "single_const", kA = 1e0, kC = 1e0,
+ foxA = 0.5e0, foxC = 0.5e0
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+l
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename figures/model_1_sweep1.pdf
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+I = 500, N = 2 ** 15, Dt = 1e-4, T = 300, L = 10, lengthscale = 1e9, c0_in
+ = 1.0, DA = 1.0, DC = 1.0, D0_in = 1e-12, epsilon = 1.0, epsilon_m = 80.0, testname
+ = "model_1", model = 1, sim_method = "single_const", kA = 1e0, kC = 1e0,
+ foxA = 0.5e0, foxC = 0.5e0
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+l
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename figures/I_U_model1.pdf
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+I = 500, N = 2 ** 15, Dt = 1e-4, T = 300, L = 10, lengthscale = 1e9, c0_in
+ = 1.0, DA = 1.0, DC = 1.0, D0_in = 1e-12, epsilon = 1.0, epsilon_m = 80.0, testname
+ = "model_1", model = 1, sim_method = "single_const", kA = 1e0, kC = 1e0,
+ foxA = 0.5e0, foxC = 0.5e0
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Chapter
 \begin_inset Note Note
 status open

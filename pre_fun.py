@@ -432,14 +432,16 @@ def solver( setup ):
             if j >= 2:
 
                 # anodic current
-                current[0,j] = calcAnodicCurrent( sol[2*I,j], sol[2*I,j-1], sol[2*I,j-2], Dt, Dx[0], setup.chi2 )
+                current[0,j] = calcAnodicCurrent( sol[2*I,j], sol[2*I,j-1], sol[2*I,j-2], Dt, Dx[0], setup.chi2,
+                                setup.model, kA, foxA, sol[0,j] )
 
                 # catodic current
                 current[1,j] = calcCatodicCurrent( sol[3*I-1,j], sol[3*I-1,j-1], sol[3*I-1,j-2],
-                                    phiC[j], phiC[j-1], phiC[j-2], Dt, Dx[I-1], setup.chi2 )
+                                    phiC[j], phiC[j-1], phiC[j-2], Dt, Dx[I-1], setup.chi2,
+                                    setup.model, kC, foxC, sol[I-1,j] )
 
             # check convergence to steady state
-            if j > 50 and np.linalg.norm(np.subtract(sol[0:2*I,j], sol[0:2*I,j-1])) < setup.steady_state_tol:
+            if j > 50 and np.linalg.norm(np.subtract(sol[0:I,j], sol[0:I,j-1])) < setup.steady_state_tol:
                 print("Steady State reached")
                 break
 
@@ -452,7 +454,7 @@ def solver( setup ):
 
         # set results in setup obj
         setup.set_sol_data( sol[:,:j+1] )
-        setup.set_current_data( current[:,j+1] )
+        setup.set_current_data( current[:,:j+1] )
 
         # save results
         
