@@ -1,15 +1,10 @@
-#LyX 2.2 created this file. For more info see http://www.lyx.org/
-\lyxformat 508
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
 \begin_document
 \begin_header
 \save_transient_properties true
 \origin unavailable
 \textclass scrreprt
-\begin_preamble
-% Added by lyx2lyx
-\renewcommand{\textendash}{--}
-\renewcommand{\textemdash}{---}
-\end_preamble
 \use_default_options true
 \maintain_unincluded_children false
 \language english
@@ -26,6 +21,8 @@
 \font_osf false
 \font_sf_scale 100 100
 \font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
 \graphics default
 \default_output_format default
 \output_sync 0
@@ -64,6 +61,7 @@
 \suppress_date false
 \justification true
 \use_refstyle 1
+\use_minted 0
 \index Index
 \shortcut idx
 \color #008000
@@ -72,7 +70,10 @@
 \tocdepth 3
 \paragraph_separation indent
 \paragraph_indentation default
-\quotes_language english
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
 \papercolumns 1
 \papersides 1
 \paperpagestyle default
@@ -724,6 +725,7 @@ It would be favorable if the numerical approach is also conservative.
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Flavell2014"
+literal "true"
 
 \end_inset
 
@@ -1786,6 +1788,7 @@ If we consider this equation as an iterative update process we can use the
 \begin_inset CommandInset citation
 LatexCommand cite
 key "knoll_jacobian-free_2004"
+literal "true"
 
 \end_inset
 
@@ -2238,6 +2241,7 @@ As stated in the previous sections we utilize a constant spacing in the
 \begin_inset CommandInset citation
 LatexCommand cite
 key "lasia_electrochemical_2014"
+literal "true"
 
 \end_inset
 
@@ -2273,6 +2277,7 @@ d in the NumPy FFT library
 \begin_inset CommandInset citation
 LatexCommand cite
 key "noauthor_discrete_nodate"
+literal "true"
 
 \end_inset
 
@@ -2300,6 +2305,7 @@ As the pertubation voltage
 \begin_inset CommandInset citation
 LatexCommand cite
 key "lasia_electrochemical_2014"
+literal "true"
 
 \end_inset
 
@@ -3296,6 +3302,211 @@ Untersuche Auslenkungen aus dem Equilibirum durch catode voltage
 
 \begin_layout Itemize
 Wiederholung der Untersuchungen aus Model 0 bei kleinen spannungen
+\end_layout
+
+\begin_layout Section
+Anode Catode Differenz
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename figures/20180602_model_1_sweep_high.pdf
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+I = 500, N = 2 ** 15, Dt = 1e-4, T = 300, L = 10, lengthscale = 1e9, c0_in
+ = 1.0, DA = 1.0, DC = 1.0, D0_in = 1e-10, epsilon = 1.0, epsilon_m = 80.0, testname
+ = "model_1", model = 1, sim_method = "single_const", kA = 1e-2, kC = 1e-2,
+ foxA = 0.5e-2, foxC = 0.5e-2,
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+l
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename figures/20180602_model_1_sweep_low.pdf
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+I = 500, N = 2 ** 15, Dt = 1e-4, T = 300, L = 10, lengthscale = 1e9, c0_in
+ = 1.0, DA = 1.0, DC = 1.0, D0_in = 1e-10, epsilon = 1.0, epsilon_m = 80.0, testname
+ = "model_1", model = 1, sim_method = "single_const", kA = 1e-2, kC = 1e-2,
+ foxA = 0.5e-2, foxC = 0.5e-2,
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+l
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename figures/20180602_model_1_test1_anode_high.pdf
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename figures/20180602_model_1_test1_anode_low.pdf
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+I = 500, N = 2 ** 15, Dt = 1e-4, T = 300, L = 10, lengthscale = 1e9, c0_in
+ = 1.0, DA = 1.0, DC = 1.0, D0_in = 1e-10, epsilon = 1.0, epsilon_m = 80.0, testname
+ = "model_1", model = 1, sim_method = "single_const", kA = 1e-2, kC = 1e-2,
+ foxA = 0.5e-2, foxC = 0.5e-2,
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+l
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename figures/20180602_model_1_test1_catode_low.pdf
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename figures/20180602_model_1_test1_catode_high.pdf
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+I = 500, N = 2 ** 15, Dt = 1e-4, T = 300, L = 10, lengthscale = 1e9, c0_in
+ = 1.0, DA = 1.0, DC = 1.0, D0_in = 1e-10, epsilon = 1.0, epsilon_m = 80.0, testname
+ = "model_1", model = 1, sim_method = "single_const", kA = 1e-2, kC = 1e-2,
+ foxA = 0.5e-2, foxC = 0.5e-2,
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+l
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename figures/20180602_model1_test1_UI.pdf
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+I = 500, N = 2 ** 15, Dt = 1e-4, T = 300, L = 10, lengthscale = 1e9, c0_in
+ = 1.0, DA = 1.0, DC = 1.0, D0_in = 1e-10, epsilon = 1.0, epsilon_m = 80.0, testname
+ = "model_1", model = 1, sim_method = "single_const", kA = 1e-2, kC = 1e-2,
+ foxA = 0.5e-2, foxC = 0.5e-2,
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Chapter
