@@ -8,13 +8,14 @@ from scipy.optimize import curve_fit
 from scipy.optimize import minimize
 import os
 
-from solver_tools_new import residual as res, constJac
+from mid_fun import residual as res, constJac, calcAnodicCurrent, calcCatodicCurrent
 from pre_fun import Setup, calcAxis
 
 def solver( setup, reaction_bc, phiC ):
     
     I = setup.I
     N = setup.N
+    Dt = setup.Dt
     M = 1.0
         
     # initial condition
@@ -140,7 +141,7 @@ def solver( setup, reaction_bc, phiC ):
 
             if j <= 20:
                 print("Time Step: ", j)
-            elif j < 100 and j > 20 and np.mod(j,10) == 0:
+            elif j < 100 and j > 20 and np.mod(j,20) == 0:
                 print("Time Step: ", j)
             elif j > 20 and np.mod(j,5000) == 0:
                 print("Time Step: ", j)
@@ -219,7 +220,8 @@ if __name__ == "__main__":
 		            epsilon = 1.0,
 		            epsilon_m = 80.0,
 		            testname = "test1",
-	             	model = 0  )
+	             	model = 0,
+                    out_method = "c_only"  )
 
 	# Setup
 	stp2 = Setup( 	I = 1000,
@@ -239,7 +241,7 @@ if __name__ == "__main__":
 	             	out_method = "c_only"  )
 
 	# Setup
-	stp2 = Setup( 	I = 1000,
+	stp3 = Setup( 	I = 1000,
 	             	N = 2 ** 20,
 	             	Dt = 1e-4,
 	             	T = 300,
@@ -256,8 +258,8 @@ if __name__ == "__main__":
 	             	out_method = "c_only"  )
 
 	# Setup
-	stp4 = Setup( 	I = 10,
-	             	N = 2 ** 10,
+	stp4 = Setup( 	I = 1000,
+	             	N = 2 ** 20,
 	             	Dt = 1e-4,
 	     	        T = 300,
 	 	            L = 40,
