@@ -1,0 +1,3736 @@
+#LyX 2.2 created this file. For more info see http://www.lyx.org/
+\lyxformat 508
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass scrreprt
+\begin_preamble
+% Added by lyx2lyx
+\renewcommand{\textendash}{--}
+\renewcommand{\textemdash}{---}
+\end_preamble
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command bibtex
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder false
+\pdf_colorlinks false
+\pdf_backref false
+\pdf_pdfusetitle true
+\papersize default
+\use_geometry false
+\use_package amsmath 2
+\use_package amssymb 2
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
+\newcommand{\diag}{\operatorname{diag}\,}
+{diag\,}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter
+Introduction
+\end_layout
+
+\begin_layout Section
+Battery Model
+\end_layout
+
+\begin_layout Section
+Formulation of Basic Equations
+\end_layout
+
+\begin_layout Standard
+We consider the concentrations 
+\begin_inset Formula $\ensuremath{c^{\pm}(x,t)}$
+\end_inset
+
+ measured in number of ions per volume 
+\begin_inset Formula $\left[\frac{1}{m^{3}}\right]$
+\end_inset
+
+ of two monovalent ion types in an electrolyte, anions with valency 
+\begin_inset Formula $z^{-}=-1$
+\end_inset
+
+ and cations with 
+\begin_inset Formula $z^{+}=1$
+\end_inset
+
+.
+ Mass conservation law in a control volume relates the ion flux density
+ 
+\begin_inset Formula $f^{\pm}$
+\end_inset
+
+ measured in
+\begin_inset Formula $\left[\frac{1}{m^{2}s}\right]$
+\end_inset
+
+ to the change of the concentration in time.
+\begin_inset Formula 
+\begin{align}
+\partial_{t}c^{\pm}\left(x,t\right) & =-\partial_{x}f^{\pm}\left(x,t\right)\label{eq:mass_conservation_law}
+\end{align}
+
+\end_inset
+
+The ionic flux consists of a diffusion term and an electromigration term.
+ 
+\begin_inset Formula 
+\begin{align*}
+f_{diffusion}^{\pm} & =-D^{\pm}(x)\partial_{x}c^{\pm}\left(x,t\right)\\
+f_{migration}^{\pm} & =-D^{\pm}(x)e\beta z^{\pm}c^{\pm}(x,t)\partial_{x}\phi\left(x,t\right)
+\end{align*}
+
+\end_inset
+
+Combining these flux equations leads to the Nernst Planck flux.
+\begin_inset Formula 
+\begin{align}
+f^{\pm} & =-D^{\pm}(x)\left(\partial_{x}c^{\pm}\left(x,t\right)+e\beta z^{\pm}c^{\pm}\left(x,t\right)\partial_{x}\phi\left(x,t\right)\right)\label{eq:Nernst_Planck_flux}
+\end{align}
+
+\end_inset
+
+ % The "mean field" self consistent electrostatic potential is generated
+ by the charge density of the ions through the Poisson equation.
+ The solvent enters the model only through the dielectric constant
+\begin_inset Formula $\epsilon=\epsilon_{medium}\epsilon_{0}$
+\end_inset
+
+.
+ % 
+\begin_inset Formula 
+\begin{align}
+\partial_{x}\left(\epsilon(x)\partial_{x}\phi\left(x,t\right)\right) & =-e(z^{+}c^{+}\left(x,t\right)+z^{-}c^{-}\left(x,t\right))\label{eq:Poisson_eq}
+\end{align}
+
+\end_inset
+
+The mean electric field 
+\begin_inset Formula $E(x,t)$
+\end_inset
+
+ can be derived from Poisson equation 
+\backslash
+ref{eq:PoissonEq}.
+ % 
+\begin_inset Formula 
+\begin{align}
+E(x,t) & =-\frac{\partial\phi(x,t)}{\partial x}
+\end{align}
+
+\end_inset
+
+These equations are just giving the time evolution of a charged ion concentratio
+n because if diffusion and a mean electrostatic potential.
+ For the behavior at the boundaries, the electrode electrolyte interface
+ respectively, one has to provide proper boundary conditions.
+ For simplicity we use constant diffusivities 
+\begin_inset Formula $D^{\pm}(x)=D^{\pm}$
+\end_inset
+
+ and dieelectric constant 
+\begin_inset Formula $\epsilon(x)=\epsilon$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Section
+Nondimensionalization
+\end_layout
+
+\begin_layout Standard
+Following the usual procedure of numerical analysis of a set of partial
+ differential equations we reformulate the basic equations in unitfree or
+ nondimensionalized form.
+ Therefore we choose reference constants and normalize the equations with
+ these reference entities.
+ As an example we scale the x axis with the electrode separation distance
+ 
+\begin_inset Formula $L$
+\end_inset
+
+.
+ Because of that the numerical x axis is scaled to 
+\begin_inset Formula $x\in\left[0,1\right]$
+\end_inset
+
+.
+ The time axis is scaled using the diffusion time scale
+\begin_inset Formula $T=\frac{L^{2}}{D_{0}}$
+\end_inset
+
+ using a reference diffusion constant 
+\begin_inset Formula $D_{0}$
+\end_inset
+
+.
+ Within this time an ion diffuses the whole electrode separation distance
+ 
+\begin_inset Formula $L$
+\end_inset
+
+.
+ For the dielectric constant we use the dielectric constant of water as
+ the reference.
+ Using these reference values one can apply following transformation scheme.
+\begin_inset Formula 
+\begin{align}
+x_{num} & =\frac{x_{real}}{x_{ref}}
+\end{align}
+
+\end_inset
+
+In the following table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:reference_entities"
+
+\end_inset
+
+ all reference constants are listed.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="8" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0pt">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Real Entity
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Unit
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Reference Entity
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Space
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+m
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $L$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Concentration
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+mol/l
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $c_{0}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Potential
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+V
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\phi_{0}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Time
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+s
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $T_{0}=M\cdot\frac{L^{2}}{D_{0}}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ Diffusion Constant
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $m^{2}s^{-1}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $D_{0}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Dielectric Constant
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $Fm^{-1}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\bar{\epsilon}=80\epsilon_{0}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Flux Density
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $s^{-1}m^{-2}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $f_{0}=\frac{D_{0}c_{0}}{L}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Below
+
+\begin_layout Plain Layout
+Reference entities for nondimensionalization of Poisson Nernst Planck equations.
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:reference_entities"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+If we plug this in the basic equation we get an nondimensionalized system.
+ % 
+\begin_inset Formula 
+\begin{align}
+\text{Flux Equation:}\nonumber \\
+j^{\pm}=-D^{\pm}\frac{\partial c^{\pm}}{\partial x}-z^{\pm}D^{\pm}\chi_{1}c^{\pm}\frac{\partial\phi}{\partial x}\\
+\text{Nernst Planck Equation:}\nonumber \\
+\frac{\partial c^{\pm}}{\partial t}=D^{\pm}\frac{\partial}{\partial x}\left[\frac{\partial c}{\partial x}+z^{\pm}\chi_{1}c^{\pm}\frac{\partial\phi}{\partial x}\right]\\
+\text{Poisson Equation:}\nonumber \\
+\frac{\partial^{2}\phi}{\partial x^{2}}=-\frac{\chi_{2}}{\epsilon}\left(z^{+}c^{+}+z^{-}c^{-}\right)\\
+\text{Total Cell Flux Density:}\nonumber \\
+j_{total}=j^{+}+j^{-}+\frac{1}{\chi_{2}}\frac{\partial^{2}\phi}{\partial t\partial x}
+\end{align}
+
+\end_inset
+
+All constants are merged into the unitless numerical constants, see equation
+ 
+\backslash
+ref{eq:NonDimConstants}.
+ For these constants we use the Bjerrum length which gives the lengthscale
+ at which electrostatic interaction energy equals thermal energy.
+ % 
+\begin_inset Formula 
+\begin{align}
+\lambda_{B}=\frac{e^{2}}{4\pi\bar{\epsilon}\epsilon_{0}k_{B}T}=\frac{\beta e^{2}}{4\pi\bar{\epsilon}\epsilon_{0}}\label{eq:BjerrumLength}
+\end{align}
+
+\end_inset
+
+ % Constants, which are used for the numerical solution: % 
+\begin_inset Formula 
+\begin{align}
+\chi_{1}=e\beta\phi_{0}\nonumber \\
+\chi_{2}=\frac{ec_{0}L^{2}}{\bar{\epsilon}\phi_{0}}\nonumber \\
+\epsilon=\frac{\tilde{\epsilon}}{\bar{\epsilon}}\nonumber \\
+D^{\pm}=\frac{\tilde{D}^{\pm}}{D_{0}}
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter
+Methods
+\end_layout
+
+\begin_layout Section
+Finite Volume Mesh
+\end_layout
+
+\begin_layout Standard
+Divergence theorem (Gauss Integral Law)
+\end_layout
+
+\begin_layout Standard
+rewrite potential driven flux as convective
+\end_layout
+
+\begin_layout Standard
+replace surface integral of the cell by a summation over the surface integral
+ over the single fluxes
+\end_layout
+
+\begin_layout Standard
+Approximation!! Gaussian quadrature of surface integral of single side
+\end_layout
+
+\begin_layout Standard
+piecewise constants approximation of concentration values and potential
+ values!!!
+\end_layout
+
+\begin_layout Standard
+cell centered approach
+\end_layout
+
+\begin_layout Standard
+We divide the one dimensional computational space into 
+\begin_inset Formula $I$
+\end_inset
+
+ finite volumes.
+ The edges of these cells which are splitting the axis are denote by 
+\begin_inset Formula $x\in\left[0,1\right]$
+\end_inset
+
+.
+ 
+\begin_inset Formula 
+\begin{align}
+x_{i}\nonumber \\
+i & =0,1,\dots,I,I+1
+\end{align}
+
+\end_inset
+
+The cells are defined around each half grid point and have a width 
+\begin_inset Formula $\Delta x_{i}$
+\end_inset
+
+.
+ 
+\begin_inset Formula 
+\begin{align*}
+\Delta x_{i} & =x_{i+1}-x_{i}\\
+i & =0,1,...,I-1
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Discretization of the Conservation Law
+\end_layout
+
+\begin_layout Standard
+The fundament of the Nernst Planck transport equation is the mass conservation
+ law 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:mass_conservation_law"
+
+\end_inset
+
+, which relates the change of ion concentrations in time with the spatial
+ change of ion flux.
+ 
+\begin_inset Formula 
+\begin{align*}
+\partial_{t}c^{\pm}(x,t) & =-\partial_{x}f^{\pm}(x,t)
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+It would be favorable if the numerical approach is also conservative.
+ Our first finite difference approach was not convinient because of severe
+ numerical dissipation.
+ We encountered similar problems like they were reported by Flavell et.
+ al.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Flavell2014"
+
+\end_inset
+
+ with a standard finite difference approach.
+ Therefore we decided to use a finite volume discretization scheme, which
+ is conservative by nature.
+ The next step is to integrate the mass conservation law 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:mass_conservation_law"
+
+\end_inset
+
+ over a cell.
+ Because the discretization procedure do not differ for anions and cations
+ we drop the superscript 
+\begin_inset Formula $\pm$
+\end_inset
+
+.
+ 
+\begin_inset Formula 
+\begin{align}
+\int_{x_{i}}^{x_{i+1}}\partial_{t}c(x,t)dx+\int_{x_{i}}^{x_{i+1}}\partial_{x}f(x,t)dx & =0
+\end{align}
+
+\end_inset
+
+We interchange the time derivative and the integral and apply Gaussian integral
+ theorem on the second term.
+ The integral over the one dimensional volumen 
+\begin_inset Formula $\Delta x_{i}$
+\end_inset
+
+ reduces to the sum of the fluxes out of the control volume at half grid
+ points in the direction of the surface normal pointing outside the volume.
+ 
+\begin_inset Formula 
+\begin{align}
+\partial_{t}\int_{x_{i}}^{x_{i+1}}c(x,t)dx+f(c(x_{i+1}),t)-f(c(x_{i}),t) & =0
+\end{align}
+
+\end_inset
+
+We define the cell average concentration over the volume in a cell centered
+ at a half grid point 
+\begin_inset Formula $x_{i+\frac{1}{2}}$
+\end_inset
+
+, but denoted by the index 
+\begin_inset Formula $i$
+\end_inset
+
+.
+ 
+\begin_inset Formula 
+\begin{align}
+c_{i}(t) & =\frac{1}{\Delta x_{i}}\int_{x_{i}}^{x_{i+1}}c(x,t)dx
+\end{align}
+
+\end_inset
+
+Plugging this back into the equation leads to a system of ODE's.
+ 
+\begin_inset Formula 
+\begin{align}
+\partial_{t}c_{i}(t)+\frac{f(c(x_{i+1}),t)-f(c(x_{i}),t)}{\Delta x_{i}} & =0\label{eq:ode_conservation_law}
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Discretization of Poisson Equation
+\end_layout
+
+\begin_layout Standard
+The Poisson equation, which expresses the electrostatic interaction of the
+ ions through a mean potential 
+\begin_inset Formula $\phi(x,t)$
+\end_inset
+
+, have to be solved simultaneously to the transport equations of both ion
+ types.
+ 
+\begin_inset Formula 
+\begin{align}
+\partial_{x}\epsilon\partial_{x}\phi(x,t) & =-\chi_{2}\left(z^{+}c^{+}(x,t)+z^{-}c^{-}(x,t)\right)
+\end{align}
+
+\end_inset
+
+We integrate this equation over a control cell and evaluate the left hand
+ side.
+ 
+\begin_inset Formula 
+\begin{align}
+\int_{x_{i}}^{x_{i+1}}\partial_{x}\epsilon\partial_{x}\phi(x,t)dx & =-\int_{x_{i}}^{x_{i+1}}\chi_{2}\left(z^{+}c^{+}(x,t)+z^{-}c^{-}(x,t)\right)dx\nonumber \\
+\epsilon_{i+1}\partial_{x}\phi(x_{i+1},t)-\epsilon_{i}\partial_{x}\phi(x_{i},t) & =-\chi_{2}\left(z^{+}\int_{x_{i}}^{x_{i+1}}c^{+}(x,t)dx+z^{-}\int_{x_{i}}^{x_{i+1}}c^{-}(x,t)dx\right)\nonumber \\
+\epsilon_{i+1}\partial_{x}\phi(x_{i+1},t)-\epsilon_{i}\partial_{x}\phi(x_{i},t) & =-\Delta x_{i}\chi_{2}\left(z^{+}c_{i}^{+}(t)dx+z^{-}c_{i}^{-}(t)\right)
+\end{align}
+
+\end_inset
+
+We define the potential values at the cell centers at half grid points and
+ denote them similar tho the concentrations with 
+\begin_inset Formula $\phi(x_{i+\frac{1}{2}},t_{j})=\phi_{i,j}$
+\end_inset
+
+ .
+ Because the potential is not explicitly time dependent we drop the time
+ index.
+ We have to approximate the first derivatives at the cell interfaces.
+ For that we use a second order central finite difference scheme.
+ 
+\begin_inset Formula 
+\begin{align}
+\partial_{x}\phi(x_{i},t) & \approx\frac{\phi_{i}-\phi_{i-1}}{\frac{\Delta x_{1}}{2}+\frac{\Delta x_{i-1}}{2}}=\frac{2(\phi_{i}-\phi_{i-1})}{\Delta x_{i}+\Delta x_{i-1}}\nonumber \\
+\partial_{x}\phi(x_{i+1},t) & \approx\frac{\phi_{i+1}-\phi_{i}}{\frac{\Delta x_{1+1}}{2}+\frac{\Delta x_{i}}{2}}=\frac{2(\phi_{i+1}-\phi_{i})}{\Delta x_{i+1}+\Delta x_{i}}
+\end{align}
+
+\end_inset
+
+Plugging this into the equation for all inner points using 
+\begin_inset Formula $z^{+}=1$
+\end_inset
+
+ and 
+\begin_inset Formula $z^{-}=-1$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\epsilon_{i+1}\frac{2(\phi_{i+1}-\phi_{i})}{\Delta x_{i}\left(\Delta x_{i+1}+\Delta x_{i}\right)}-\epsilon_{i}\frac{2(\phi_{i}-\phi_{i-1})}{\Delta x_{i}\left(\Delta x_{i}+\Delta x_{i-1}\right)}+\chi_{2}\left(c_{i,j}^{+}-c_{i,j}^{-}\right) & =0
+\end{align*}
+
+\end_inset
+
+In matrix form
+\begin_inset Formula 
+\begin{align*}
+\frac{2\epsilon_{i}}{\Delta x_{i}\left(\Delta x_{i}+\Delta x_{i-1}\right)}\phi_{i-1}-\left(\frac{2\epsilon_{i}}{\Delta x_{i}\left(\Delta x_{i}+\Delta x_{i-1}\right)}+\frac{2\epsilon_{i+1}}{\Delta x_{i}\left(\Delta x_{i+1}+\Delta x_{i}\right)}\right)\phi_{i}+\frac{2\epsilon_{i+1}}{\Delta x_{i}\left(\Delta x_{i+1}+\Delta x_{i}\right)} & \phi_{i+1}+\chi_{2}\left(c_{i,j}^{+}-c_{i,j}^{-}\right)=0
+\end{align*}
+
+\end_inset
+
+At the boundary 
+\begin_inset Formula $i=0$
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+\frac{2\epsilon_{1}}{\Delta x_{0}\left(\Delta x_{1}+\Delta x_{0}\right)}\phi_{1}-\left(\frac{2\epsilon_{1}}{\Delta x_{0}\left(\Delta x_{1}+\Delta x_{0}\right)}+\frac{\epsilon_{0}}{\Delta x_{i}\Delta x_{i}}\right)\phi_{0}+\chi_{2}\left(c_{0,j}^{+}-c_{0,j}^{-}\right) & =0
+\end{align*}
+
+\end_inset
+
+At the boundary 
+\begin_inset Formula $i=I-1$
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+\frac{\epsilon_{I}}{\Delta x_{I-1}\Delta x_{I-1}}\phi_{C}-\left(\frac{2\epsilon_{I-1}}{\Delta x_{I-1}\left(\Delta x_{I-1}+\Delta x_{I-2}\right)}+\frac{\epsilon_{I}}{\Delta x_{I-1}\Delta x_{I-1}}\right)\phi_{I-1}+\frac{2\epsilon_{I-1}}{\Delta x_{I-1}\left(\Delta x_{I-1}+\Delta x_{I-2}\right)}\phi_{I-2}+\chi_{2}\left(c_{I-1,j}^{+}-c_{I-1,j}^{-}\right) & =0
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Boundary Condition
+\end_layout
+
+\begin_layout Standard
+As the boundary condition we impose the electrostatic potentials at both
+ electrodes.
+ 
+\begin_inset Formula $\phi_{A}$
+\end_inset
+
+ at the anode and 
+\begin_inset Formula $\phi_{C}$
+\end_inset
+
+ at the catode respectively.
+ Numerically we use two ghost cell centers at 
+\begin_inset Formula $x_{-\frac{1}{2}}$
+\end_inset
+
+ and 
+\begin_inset Formula $x_{I+\frac{1}{2}}$
+\end_inset
+
+ outside of the computational domain.
+ The width of this ghost cell is held equal to the first or the last cell
+ respectively, hence we can simply approximate the derivatives at the boundary
+ interfaces.
+ 
+\begin_inset Formula 
+\begin{align*}
+\partial_{x}\phi(x_{0},t) & =\frac{\phi_{0}(t)-\phi_{A}(t)}{x_{1}-x_{0}}\\
+\partial_{x}\phi(x_{I},t) & =\frac{\phi_{C}(t)-\phi_{I-1}(t)}{x_{I}-x_{I-1}}
+\end{align*}
+
+\end_inset
+
+Without loss of generality we set 
+\begin_inset Formula $\phi_{A}=0$
+\end_inset
+
+, 
+\begin_inset Formula $z^{+}=1$
+\end_inset
+
+ and 
+\begin_inset Formula $z^{-}=-1$
+\end_inset
+
+, this leads to to equations at the anode boundary:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\epsilon_{1}\frac{2(\phi_{1}-\phi_{0})}{\left(x_{1}-x_{0}\right)\left(x_{2}-x_{0}\right)}-\epsilon_{0}\frac{\phi_{0}(t)}{\left(x_{1}-x_{0}\right)\left(x_{1}-x_{0}\right)} & =-\chi_{2}\left(c_{0}^{+}(t)dx-c_{0}^{-}(t)\right)\\
+\frac{1}{\left(x_{1}-x_{0}\right)}\left[-\left(\frac{2\epsilon_{1}}{\left(x_{2}-x_{0}\right)}+\frac{\epsilon_{0}}{\left(x_{1}-x_{0}\right)}\right)\phi_{0}\left(t\right)+\frac{2\epsilon_{1}}{\left(x_{2}-x_{0}\right)}\phi_{1}\right] & =-\chi_{2}\left(c_{0}^{+}(t)dx-c_{0}^{-}(t)\right)
+\end{align*}
+
+\end_inset
+
+At the catode boundary:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\epsilon_{I}\frac{\phi_{C}(t)-\phi_{I-1}(t)}{\left(x_{I}-x_{I-1}\right)\left(x_{I}-x_{I-1}\right)}-\epsilon_{I-1}\frac{2(\phi_{I-1}\left(t\right)-\phi_{I-2}\left(t\right))}{\left(x_{I}-x_{I-1}\right)\left(x_{I}-x_{I-2}\right)} & =-\chi_{2}\left(c_{I-1}^{+}(t)-c_{I-1}^{-}(t)\right)\\
+\frac{2\epsilon_{I-1}}{\left(x_{I}-x_{I-1}\right)\left(x_{I}-x_{I-2}\right)}\phi_{I-2}\left(t\right)-\frac{1}{\left(x_{I}-x_{I-1}\right)}\left(\frac{2\epsilon_{I-1}}{\left(x_{I}-x_{I-2}\right)}+\frac{\epsilon_{I}}{\left(x_{I}-x_{I-1}\right)}\right)\phi_{I-1}(t) & =-\chi_{2}\left(c_{I-1}^{+}(t)-c_{I-1}^{-}(t)\right)-\frac{\epsilon_{I}}{\left(x_{I}-x_{I-1}\right)\left(x_{I}-x_{I-1}\right)}\phi_{C}(t)
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Matrix Equation
+\end_layout
+
+\begin_layout Standard
+Writing this as Matrix equation with Matrix 
+\begin_inset Formula $N$
+\end_inset
+
+ with elements 
+\begin_inset Formula $N_{i,j}$
+\end_inset
+
+ for the fully implicit solution of this equation.
+\begin_inset Formula 
+\begin{align*}
+\epsilon_{i+1}\frac{2(\phi_{i+1}-\phi_{i})}{\left(x_{i+1}-x_{i}\right)\left(x_{i+2}-x_{i}\right)}-\epsilon_{i}\frac{2(\phi_{i}\left(t\right)-\phi_{i-1}\left(t\right))}{\left(x_{i+1}-x_{i}\right)\left(x_{i+1}-x_{i-1}\right)} & =\left[N_{i,i-1},N_{i,i},N_{i,i+1}\right]\\
+\frac{2\epsilon_{i}}{\left(x_{i+1}-x_{i}\right)\left(x_{i+1}-x_{i-1}\right)}\phi_{i-1}\left(t\right)-\frac{2}{\left(x_{i+1}-x_{i}\right)}\left(\frac{\epsilon_{i+1}}{x_{i+2}-x_{i}}+\frac{\epsilon_{i}}{x_{i+1}-x_{i-1}}\right)\phi_{i}\left(t\right)+\frac{2\epsilon_{i+1}}{\left(x_{i+1}-x_{i}\right)\left(x_{i+2}-x_{i}\right)}\phi_{i+1}\left(t\right) & =\left[N_{i,i-1},N_{i,i},N_{i,i+1}\right]
+\end{align*}
+
+\end_inset
+
+At the boundaries:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+-\frac{1}{\left(x_{1}-x_{0}\right)}\left(\frac{2\epsilon_{1}}{\left(x_{2}-x_{0}\right)}+\frac{\epsilon_{0}}{\left(x_{1}-x_{0}\right)}\right)\phi_{0}(t)+\frac{2\epsilon_{1}}{\left(x_{1}-x_{0}\right)\left(x_{2}-x_{0}\right)}\phi_{1} & =\left[N_{0,0},N_{0,1}\right]\\
+\frac{2\epsilon_{I-1}}{\left(x_{I}-x_{I-1}\right)\left(x_{I}-x_{I-2}\right)}\phi_{I-2}\left(t\right)-\frac{1}{\left(x_{I}-x_{I-1}\right)}\left(\frac{\epsilon_{I}}{\left(x_{I}-x_{I-1}\right)}+\frac{2\epsilon_{I-1}}{\left(x_{I}-x_{I-2}\right)}\right)\phi_{I-1}(t) & =\left[N_{I-1,I-2},N_{I-1,I-1}\right]
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Discretization of Flux Equations
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align}
+\frac{dc_{i}(t)}{dt}+\frac{f_{d}\left(c\left(x_{i+1},t\right)\right)-f_{d}\left(c\left(x_{i},t\right)\right)}{\Delta x_{i}}+\frac{f_{c}\left(c\left(x_{i+1},t\right)\right)-f_{c}\left(c\left(x_{i},t\right)\right)}{\Delta x_{i}} & =0\label{eq:discrete_conservation_law}
+\end{align}
+
+\end_inset
+
+Consider the interfacial fluxes at cell edges.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align}
+f\left(c(x_{i},t),\phi(x_{i},t)\right) & =-D_{i}\partial_{x}c(x_{i},t)-D_{i}\chi_{1}zc(x_{i},t)\partial_{x}\phi(x_{i},t)
+\end{align}
+
+\end_inset
+
+We split this flux equation in diffusive and convective terms.
+ We always subtract downward fluxes from upward fluxes.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align}
+f_{d}(c(x_{i+1}),t)-f_{d}(c(x_{i}),t) & =-D_{i+1}\partial_{x}c(x_{i+1},t)+D_{i}\partial_{x}c(x_{i},t)\nonumber \\
+f_{c}(c(x_{i+1}),t)-f_{c}(c(x_{i}),t) & =-D_{i+1}\chi_{1}zc(x_{i+1},t)\partial_{x}\phi(x_{i+1},t)+D_{i}\chi_{1}zc(x_{i},t)\partial_{x}\phi(x_{i},t)
+\end{align}
+
+\end_inset
+
+Furthermore we have to approximate the interfacial fluxes using cell average
+ concentrations and potential defined at cell centers.
+ 
+\end_layout
+
+\begin_layout Subsection
+Diffusive Part
+\end_layout
+
+\begin_layout Standard
+We approximate the derivative in the diffusive part with a second order
+ finite difference approximation centered at the cell interfaces.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align}
+\partial c(x_{i},t) & \approx\frac{2\left(c_{i,j}-c_{i-1,j}\right)}{\Delta x_{i}+\Delta x_{i-1}}\nonumber \\
+\partial c(x_{i+1},t) & \approx\frac{2\left(c_{i+1,j}-c_{i,j}\right)}{\Delta x_{i+1}+\Delta x_{i}}
+\end{align}
+
+\end_inset
+
+Therefore we can rewrite the diffusive flux equation.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align}
+f_{d}(c(x_{i+1},t))-f_{d}(c(x_{i},t)) & \approx f_{d,i+1,j}-f_{d,i,j}=-D_{i+1}\frac{2\left(c_{i+1,j}-c_{i,j}\right)}{\Delta x_{i+1}+\Delta x_{i}}+D_{i}\frac{2\left(c_{i,j}-c_{i-1,j}\right)}{\Delta x_{i}+\Delta x_{i-1}}\label{eq:discrete_diffusive_flux}
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Convective Part
+\end_layout
+
+\begin_layout Standard
+The convective part is the nonlinear term which couples the concentrations
+ to the driving electrostatic potential.
+ Here we have to pay attention to the direction of propagation of information.
+ Therefore we use a simple first order upwinding scheme.
+ The velocity 
+\begin_inset Formula $v$
+\end_inset
+
+ of the movement of the concentration profile is defined as the derivative
+ of the electrostatic potential at the cell interfaces.
+ 
+\begin_inset Formula 
+\begin{align*}
+v & =-D_{i}\chi_{1}zc(x_{i},t)\partial_{x}\phi(x_{i},t)
+\end{align*}
+
+\end_inset
+
+Here we again use a central second order finite difference scheme.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\partial_{x}\phi(x_{i},t) & \approx-\chi_{1}z\frac{2\left(\phi_{i}-\phi_{i-1}\right)}{\Delta x_{i}+\Delta x_{i-1}}=v_{i,j}\\
+\partial_{x}\phi(x_{i+1},t) & \approx-\chi_{1}z\frac{2\left(\phi_{i+1}-\phi_{i}\right)}{\Delta x_{i+1}+\Delta x_{i}}=v_{i+1,j}
+\end{align*}
+
+\end_inset
+
+In order to include the flow of information we define the following upwind
+ formula.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+f_{c}(c(x_{i}),t)\approx f_{c,i,j} & =D_{i}v_{i,j}\begin{cases}
+c_{i-1,j} & ,\text{if }v_{i,j}\geq0\\
+c_{i,j} & ,\text{if }v_{i,j}<0
+\end{cases}
+\end{align*}
+
+\end_inset
+
+On the other cell interface
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+f_{c}(c(x_{i+1}),t) & \approx f_{c,i+1,j}=D_{i+1}v_{i+1,j}\begin{cases}
+c_{i,j} & ,\text{if }v_{i+1,j}\geq0\\
+c_{i+1,j} & ,\text{if }v_{i+1,j}<0
+\end{cases}
+\end{align*}
+
+\end_inset
+
+We can write this Godunov scheme in a more compact notation.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+f_{c,i,j} & =\frac{v_{i}\left(t\right)\cdot}{2}\left(c_{i-1}\left(t\right)+c_{i}\left(t\right)\right)-\frac{\left|v_{i}\left(t\right)\right|\cdot}{2}\left(c_{i}\left(t\right)-c_{i-1}\left(t\right)\right)\\
+f_{c,i+1,j} & =\frac{v_{i+1}\left(t\right)\cdot}{2}\left(c_{i}\left(t\right)+c_{i+1}\left(t\right)\right)-\frac{\left|v_{i+1}\left(t\right)\right|\cdot}{2}\left(c_{i+1}\left(t\right)-c_{i}\left(t\right)\right)
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Reconstruction linearReconstruction
+\end_layout
+
+\begin_layout Standard
+Reconstruct Fluxes at cell interfaces from cell averaged values using piecewose
+ linear functions.
+\end_layout
+
+\begin_layout Standard
+Flux from left to right at cell interface at 
+\begin_inset Formula $x_{i+1}$
+\end_inset
+
+ ist denoted with 
+\begin_inset Formula $f_{i+1}^{L}$
+\end_inset
+
+ and flux at this interface coming from the right to the left is denoted
+ with 
+\begin_inset Formula $f_{i+1}^{R}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+if 
+\begin_inset Formula $c_{i}$
+\end_inset
+
+ is the local maximum 
+\begin_inset Formula $f_{i+1}^{L}=c_{i}$
+\end_inset
+
+, if not local maximum piecewise linear reconstruction 
+\end_layout
+
+\begin_layout Standard
+Sensor for linearity function 
+\begin_inset Formula $r$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+r & =\frac{c_{i+1}-c_{i}}{c_{i}-c_{i-1}}
+\end{align*}
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+Reconstruction at left cell edge
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+f_{i}^{R} & =c_{i}-\frac{c_{i}-c_{i-1}}{\Delta x_{i}+\Delta x_{i-1}}\Delta x_{i}\phi\left(r\right)
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+f_{i}^{L} & =c_{i-1}+\frac{c_{i}-c_{i-1}}{\Delta x_{i}+\Delta x_{i-1}}\Delta x_{i-1}\phi\left(r\right)
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Reconstruction at right cell edge
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+f_{i+1}^{L} & =c_{i}+\frac{c_{i+1}-c_{i}}{\Delta x_{i+1}+\Delta x_{i}}\cdot\Delta x_{i}\phi\left(r\right)
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+f_{i+1}^{R} & =c_{i+1}-\frac{c_{i+1}-c_{i}}{\Delta x_{i+1}+\Delta x_{i}}\Delta x_{i+1}\phi\left(r\right)
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Limiter function van Leer:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\phi\left(r\right) & =\begin{cases}
+0 & r\leq0\\
+\frac{2r}{1+r} & r>0
+\end{cases}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Boundary Conditions
+\end_layout
+
+\begin_layout Standard
+At the boundaries we impose an anode flux 
+\begin_inset Formula $f_{A}$
+\end_inset
+
+ and an catode flux 
+\begin_inset Formula $f_{C}$
+\end_inset
+
+ which in general are nonlinear function of the cation concentration and
+ the electrostatic potential.
+ At the left boundary we replace the downflux 
+\begin_inset Formula $-\left(f_{c}\left(c\left(x_{0}\right),t\right)+f_{d}\left(c\left(x_{0}\right),t\right)\right)=-f_{A}$
+\end_inset
+
+ and at the right boundary 
+\begin_inset Formula $f_{c}\left(c\left(x_{I}\right),t\right)+f_{d}\left(c\left(x_{I}\right),t\right)=f_{C}$
+\end_inset
+
+.
+ The specific functions 
+\begin_inset Formula $f_{A}$
+\end_inset
+
+ and 
+\begin_inset Formula $f_{C}$
+\end_inset
+
+ are specified for each electrode reaction model.
+ So at the anode:
+\begin_inset Formula 
+\begin{align*}
+\frac{dc_{0}(t)}{dt}+\frac{1}{\Delta x_{0}}\left(f_{d}\left(c\left(x_{1},t\right)\right)+f_{c}\left(c\left(x_{1},t\right)\right)-f_{A}\left(t\right)\right) & =0\\
+\frac{dc_{0}(t)}{dt}+\frac{1}{x_{1}-x_{0}}\left(-D_{1}\frac{2(c_{1}(t)-c_{0}(t))}{x_{2}-x_{0}}+f_{c}\left(c\left(x_{1},t\right)\right)-f_{A}\left(t\right)\right) & =0
+\end{align*}
+
+\end_inset
+
+And on the other boundary, the right electrode:
+\begin_inset Formula 
+\begin{align*}
+\frac{dc_{I-1}(t)}{dt}+\frac{1}{\Delta x_{I-1}}\left(f_{C}-f_{d}\left(c\left(x_{I-1},t\right)\right)-f_{c}\left(c\left(x_{I-1},t\right)\right)\right) & =0\\
+\frac{dc_{I-1}(t)}{dt}+\frac{1}{x_{I}-x_{I-1}}\left(f_{C}+D_{I-1}\frac{2(c_{I-1}(t)-c_{I-2}(t))}{x_{I}-x_{I-2}}-f_{c}\left(c\left(x_{I-1},t\right)\right)\right) & =0
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Time Discretization
+\end_layout
+
+\begin_layout Standard
+So far we discretized just the spatial axis using finite volumes, now we
+ take care about the time derivatives.
+ We discretize the time derivatives using backwards differencing formulas
+ which are implicit.
+ We denote each time step with index 
+\begin_inset Formula $j$
+\end_inset
+
+, such that 
+\begin_inset Formula $t_{j}=j\cdot\Delta t$
+\end_inset
+
+ with 
+\begin_inset Formula $j=0,1,2,...$
+\end_inset
+
+.
+ In our implementation we use a fixed step width 
+\begin_inset Formula $\Delta t=t_{j}-t_{j-1}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align}
+\frac{dc_{i}(t)}{dt} & \approx\frac{c_{i,j}-c_{i,j-1}}{\Delta t}\label{eq:BDF1_formula}
+\end{align}
+
+\end_inset
+
+and the second order accurate BDF 2.
+\begin_inset Formula 
+\begin{align}
+\frac{dc_{i}(t)}{dt} & \approx\frac{3c_{i,j}-4c_{i,j-1}+c_{i,j-2}}{2\Delta t}\label{eq:BDF2_formula}
+\end{align}
+
+\end_inset
+
+The first steps of a simulation are performed using the one step BDF 1 after
+ this our solver method switches to BDF 2 for higher accuracy.
+\end_layout
+
+\begin_layout Subsection
+\begin_inset Note Note
+status open
+
+\begin_layout Subsection
+Implicit Explicit (Imex)
+\end_layout
+
+\begin_layout Plain Layout
+At a time step 
+\begin_inset Formula $j$
+\end_inset
+
+ at time 
+\begin_inset Formula $t_{j}$
+\end_inset
+
+ assuming that all values before are calculated.
+ The stiff diffusion terms are evaluated implicit at the new time 
+\begin_inset Formula $j+1$
+\end_inset
+
+, but the coupled convective terms are evaluated at the old time step explicitly.
+ Therefore we combine both first order implicit and explicit Euler methods.
+ For a cell with concentration and potential values 
+\begin_inset Formula $c_{i},\phi_{i}$
+\end_inset
+
+ and volume 
+\begin_inset Formula $\Delta x_{i}=x_{i+1}-x_{i}$
+\end_inset
+
+.
+ We abbreviate the discretized convective fluxes at 
+\begin_inset Formula $x_{i},t_{j}$
+\end_inset
+
+ with 
+\begin_inset Formula $f_{c,i,j}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\begin{align*}
+\frac{c_{i,j+1}-c_{i,j}}{\Delta t}+\frac{f_{d}\left(c\left(x_{i+1},t_{j+1}\right)\right)-f_{d}\left(c\left(x_{i},t_{j+1}\right)\right)}{\Delta x_{i}}+\frac{f_{c}\left(c\left(x_{i+1},t_{j}\right)\right)-f_{c}\left(c\left(x_{i},t_{j}\right)\right)}{\Delta x_{i}} & =0\\
+\frac{c_{i,j+1}-c_{i,j}}{\Delta t}+\frac{1}{x_{i+1}-x_{i}}\left(-D_{i+1}\frac{2(c_{i+1,j+1}-c_{i,j+1})}{x_{i+2}-x_{i}}+D_{i}\frac{2(c_{i,j+1}-c_{i-1,j+1})}{x_{i+1}-x_{i-1}}+f_{c,i+1,j}-f_{c,i,j}\right) & =0\\
+c_{i,j+1}+\frac{\Delta t}{x_{i+1}-x_{i}}\left(-D_{i+1}\frac{2(c_{i+1,j+1}-c_{i,j+1})}{x_{i+2}-x_{i}}+D_{i}\frac{2(c_{i,j+1}-c_{i-1,j+1})}{x_{i+1}-x_{i-1}}\right) & =-\frac{\Delta t}{x_{i+1}-x_{i}}\left(f_{c,i+1,j}-f_{c,i,j}\right)+c_{i,j}
+\end{align*}
+
+\end_inset
+
+This equation can be expressed as a matrix equation for the unknown concentratio
+n values at 
+\begin_inset Formula $j+1$
+\end_inset
+
+ using equation 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:discrete_diffusive_flux"
+
+\end_inset
+
+.
+ At the boundaries:
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\begin{align}
+\frac{c_{0,j+1}-c_{0,j}}{\Delta t}+\frac{1}{x_{1}-x_{0}}\left(-D_{1}\frac{2(c_{1,j+1}-c_{0,j+1})}{x_{2}-x_{0}}+f_{c,1,j}-f_{A,j}\right) & =0\nonumber \\
+c_{0,j+1}-\frac{2\Delta tD_{1}}{x_{1}-x_{0}}\frac{(c_{1,j+1}-c_{0,j+1})}{x_{2}-x_{0}} & =-\frac{\Delta t}{x_{1}-x_{0}}\left(f_{c,1,j}-f_{A,j}\right)+c_{0,j}\\
+\frac{c_{I-1,j+1}-c_{I-1,j}}{\Delta t}+\frac{1}{x_{I}-x_{I-1}}\left(f_{C,j}+D_{I-1}\frac{2(c_{I-1,j+1}-c_{I-2,j+1})}{x_{I}-x_{I-2}}-f_{c,I-1,j}\right) & =0\nonumber \\
+c_{I-1,j+1}+\frac{2\Delta tD_{I-1}}{x_{I}-x_{I-1}}\frac{(c_{I-1,j+1}-c_{I-2,j+1})}{x_{I}-x_{I-2}} & =-\frac{\Delta t}{x_{I}-x_{I-1}}\left(f_{C,j}-f_{c,I-1,j}\right)+c_{I-1,j}
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+\begin_inset Note Note
+status open
+
+\begin_layout Subsubsection
+Matrix Equation
+\end_layout
+
+\begin_layout Plain Layout
+System Matrix 
+\begin_inset Formula $M$
+\end_inset
+
+ with elements 
+\begin_inset Formula $M_{i,j}$
+\end_inset
+
+.
+ We denote all matrix elements for inner points with squared brackets.
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\begin{align*}
+-\frac{2\Delta tD_{i+1}}{\left(x_{i+1}-x_{i}\right)\left(x_{i+2}-x_{i}\right)}c_{i+1}+\left(1+\frac{2\Delta tD_{i+1}}{\left(x_{i+1}-x_{i}\right)\left(x_{i+2}-x_{i}\right)}+\frac{2\Delta tD_{i}}{\left(x_{i+1}-x_{i}\right)\left(x_{i+1}-x_{i-1}\right)}\right)c_{i}(t)-\frac{2\Delta tD_{i}}{\left(x_{i+1}-x_{i}\right)\left(x_{i+1}-x_{i-1}\right)}c_{i-1}(t) & =\left[M_{i,i-1},M_{i,i},M_{i,i+1}\right]
+\end{align*}
+
+\end_inset
+
+At the boundaries:
+\begin_inset Formula 
+\begin{align*}
+\left(1+\frac{2\Delta tD_{1}}{\left(x_{1}-x_{0}\right)\left(x_{2}-x_{0}\right)}\right)c_{0}-\frac{2\Delta tD_{1}}{\left(x_{1}-x_{0}\right)\left(x_{2}-x_{0}\right)}c_{1} & =\left[M_{0,0},M_{0,1}\right]\\
+-\frac{2\Delta tD_{I-1}}{\left(x_{I}-x_{I-1}\right)\left(x_{I}-x_{I-2}\right)}c_{I-2}+\left(1+\frac{2\Delta tD_{I-1}}{\left(x_{I}-x_{I-1}\right)\left(x_{I}-x_{I-2}\right)}\right)c_{I-1} & =\left[M_{I-1,I-2},M_{I-1,I-1}\right]
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Fully Implicit Time Discretization
+\end_layout
+
+\begin_layout Standard
+We use a fully implicit version based on the backwards differenting formulas.
+ Therefore we discretize the flux equations at the next time step 
+\begin_inset Formula $t_{j+1}=t_{j}+\Delta t$
+\end_inset
+
+.
+ In order to simplify our notation we denote allready discretized fluxes
+ with indizes 
+\begin_inset Formula $i$
+\end_inset
+
+ for the cell interface location and with 
+\begin_inset Formula $j$
+\end_inset
+
+ for the time step.
+\begin_inset Formula 
+\begin{align*}
+f_{d}\left(c\left(x_{i},t_{j}\right)\right) & =f_{d,i,j}
+\end{align*}
+
+\end_inset
+
+Using this notation and the definition of the BDF1 formula we can rewrite
+ our discrete conservation law.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align}
+\frac{c_{i,j}-c_{i,j-1}}{\Delta t}+\frac{f_{d,i+1,j}-f_{d,i,j}}{\Delta x_{i}}+\frac{f_{c,i+1,j}-f_{c,i,j}}{\Delta x_{i}} & =0\nonumber \\
+c_{i,j}-c_{i,j-1}+\frac{\Delta t}{\Delta x_{i}}\left(f_{d,i+1,j}+f_{c,i+1,j}-f_{d,i,j}-f_{c,i,j}\right) & =0\label{eq:fully_implicit_conservation_law}
+\end{align}
+
+\end_inset
+
+At the electrode boundaries we replace the fluxes out of the electrolyte
+ with boundary condition fluxes 
+\begin_inset Formula $f_{A}\left(t\right)$
+\end_inset
+
+ and 
+\begin_inset Formula $f_{C}\left(t\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align}
+c_{0,j}-c_{0,j-1}+\frac{\Delta t}{\Delta x_{0}}\left(f_{d,1,j}+f_{c,1,j}-f_{A}\left(t\right)\right) & =0\nonumber \\
+c_{I-1,j}-c_{I-1,j-1}+\frac{\Delta t}{\Delta x_{I-1}}\left(f_{C}\left(t\right)-f_{d,I-1,j}-f_{c,I-1,j}\right) & =0\label{eq:fully_implicit_conservation_law_bc}
+\end{align}
+
+\end_inset
+
+Since the electrostatic potential is not explicitly time dependent it will
+ also be evaluated at the newest time step 
+\begin_inset Formula $t_{j}$
+\end_inset
+
+.
+\begin_inset Formula 
+\begin{align*}
+\epsilon_{i+1}\frac{2(\phi_{i+1}\left(t\right)-\phi_{i}\left(t\right))}{\left(x_{i+1}-x_{i}\right)\left(x_{i+2}-x_{i}\right)}-\epsilon_{i}\frac{2(\phi_{i}\left(t\right)-\phi_{i-1}\left(t\right))}{\left(x_{i+1}-x_{i}\right)\left(x_{i+1}-x_{i-1}\right)} & =-\chi_{2}\left(c_{i}^{+}(t)-c_{i}^{-}(t)\right)\\
+\epsilon_{i+1}\frac{2(\phi_{i+1,j}-\phi_{i,j})}{\left(x_{i+1}-x_{i}\right)\left(x_{i+2}-x_{i}\right)}-\epsilon_{i}\frac{2(\phi_{i,j}-\phi_{i-1,j})}{\left(x_{i+1}-x_{i}\right)\left(x_{i+1}-x_{i-1}\right)} & =-\chi_{2}\left(c_{i,j}^{+}-c_{i,j}^{-}\right)
+\end{align*}
+
+\end_inset
+
+And at the boundaries we evaluate the electrode potential also at the newest
+ time step.
+\begin_inset Formula 
+\begin{align*}
+\phi_{C,j} & =\phi_{C}\left(t_{j}\right)
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Nonlinear Solver
+\end_layout
+
+\begin_layout Subsection
+Nonlinear System
+\end_layout
+
+\begin_layout Standard
+The discretized Poisson Nernst Planck equations are a system of coupled
+ nonlinear equations.
+ In order to solve this system we have choosen to deploy a Newton iteration
+ based solution method solving the coupled nonlinear system at once.
+ We write all equations in a residual form forming the residual vector 
+\begin_inset Formula $\mathbf{F}$
+\end_inset
+
+.
+ The first 
+\begin_inset Formula $0,...,I-1$
+\end_inset
+
+ components are the discretized Nernst Planck equations for the positive
+ cations 
+\begin_inset Formula $c_{i}^{+}$
+\end_inset
+
+, followed by the equations for the anions 
+\begin_inset Formula $c_{i}^{-}$
+\end_inset
+
+ at 
+\begin_inset Formula $I,...,2I-1$
+\end_inset
+
+ and afterwards the discretized Poisson equation with elements at 
+\begin_inset Formula $2I,...,3I-1$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align}
+\begin{pmatrix}c_{i,j}^{+}-c_{i,j-1}^{+}+\frac{\Delta t}{\Delta x_{i}}\left(f_{d,i+1,j}^{+}+f_{c,i+1,j}^{+}-f_{d,i,j}^{+}-f_{c,i,j}^{+}\right)\\
+\vdots\\
+c_{i,j}^{-}-c_{i,j-1}^{-}+\frac{\Delta t}{\Delta x_{i}}\left(f_{d,i+1,j}^{-}+f_{c,i+1,j}^{-}-f_{d,i,j}^{-}-f_{c,i,j}^{-}\right)\\
+\vdots\\
+\frac{\phi_{i-1}-2\phi_{i}+\phi_{i+1}}{\Delta x^{2}}+\frac{\chi_{2}}{\epsilon}\left(z^{+}c_{i}(t)+z^{-}c_{i}(t\right)
+\end{pmatrix} & =\bm{F}(\mathbf{x}_{j})=0\label{eq:residual_vector_nonlin_sys}
+\end{align}
+
+\end_inset
+
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+The solution vector of this system is structured similarly.
+\begin_inset Formula 
+\begin{align*}
+\bm{x}_{j} & =\begin{pmatrix}\vdots\\
+c_{i,j}^{+}\\
+\vdots\\
+c_{i,j}^{-}\\
+\vdots\\
+\phi_{i,j}\\
+\vdots
+\end{pmatrix}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We can expand the residual vector using a multivariate Taylor expansion
+ around an expansion point 
+\begin_inset Formula $\bm{x}_{j,k}$
+\end_inset
+
+ and stop after the linear term.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align}
+\bm{F}\left(\bm{x}_{j}\right) & \approx\bm{F}\left(\bm{x}_{j,k}\right)+\bm{F}^{\prime}\left(\bm{x}_{j,k}\right)\left(\bm{x}_{j}-\bm{x}_{j,k}\right)\label{eq:newton_taylor_expansion}
+\end{align}
+
+\end_inset
+
+ This linear approximation uses the Jacobian 
+\begin_inset Formula $\bm{F}^{\prime}\left(\bm{x}_{j,k}\right)$
+\end_inset
+
+ of the system.
+ 
+\begin_inset Formula 
+\begin{align}
+\bm{F}^{\prime}\left(\bm{x}_{j,k}\right) & =\begin{pmatrix}\partial_{c_{i,j}^{+}}F_{0,..,I-1} & \partial_{c_{i,j}^{-}}F_{0,..,I-1} & \partial_{\phi}F_{0,..,I-1}\\
+\partial_{c_{i,j}^{+}}F_{I,..,2I-1} & \partial_{c_{i,j}^{-}}F_{I,..,2I-1} & \partial_{\phi}F_{I,..,2I-1}\\
+\partial_{c_{i,j}^{+}}F_{2I,..,3I-1} & \partial_{c_{i,j}^{-}}F_{2I,..,3I-1} & \partial_{\phi}F_{2I,..,3I-1}
+\end{pmatrix}\label{eq:jacobian_matrix}
+\end{align}
+
+\end_inset
+
+ In this equation every element of the matrix is a 
+\begin_inset Formula $I\times I$
+\end_inset
+
+ matrix by itself.
+ We set 
+\begin_inset Formula $\bm{F}\left(\bm{x_{j}}\right)=0$
+\end_inset
+
+ in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:newton_taylor_expansion"
+
+\end_inset
+
+ because we are interested in finding the residual solution of the system.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+0 & =\bm{F}\left(\bm{x}_{j,k}\right)+\bm{F}^{\prime}\left(\bm{x}_{j,k}\right)\left(\bm{x}_{j}-\bm{x}_{j,k}\right)\\
+\bm{x}_{j} & =\bm{x}_{j,k}-\left[\bm{F}^{\prime}\left(\bm{x}_{j,k}\right)\right]^{-1}\bm{F}\left(\bm{x}_{j,k}\right)
+\end{align*}
+
+\end_inset
+
+If we consider this equation as an iterative update process we can use the
+ index 
+\begin_inset Formula $k$
+\end_inset
+
+ as the Newton update stage.
+\begin_inset Formula 
+\begin{align*}
+\bm{x}_{j,k+1} & =\bm{x}_{j,k}-\left[\bm{F}^{\prime}\left(\bm{x}_{j,k}\right)\right]^{-1}\bm{F}\left(\bm{x}_{j,k}\right)
+\end{align*}
+
+\end_inset
+
+ Following the review article by Knoll and Keyes 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "knoll_jacobian-free_2004"
+
+\end_inset
+
+ the usual approach is as follows.
+\end_layout
+
+\begin_layout Enumerate
+Solve the linear system 
+\begin_inset Formula 
+\begin{align*}
+\bm{F}^{\prime}\left(\bm{x}_{j,k}\right)\bm{\delta x}_{j,k} & =-\bm{F}\left(\bm{x}_{j,k}\right)
+\end{align*}
+
+\end_inset
+
+for the unknown 
+\begin_inset Formula $\bm{\delta x}_{j,k}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Update the solution vector
+\begin_inset Formula 
+\begin{align*}
+\bm{x}_{j,k+1} & =\bm{x}_{j,k}+\bm{\delta x}_{j,k}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Check convergence criterion
+\begin_inset Formula 
+\begin{align*}
+\frac{\left\Vert \bm{\delta x}_{j,k}\right\Vert }{\left\Vert \bm{x}_{j,k}\right\Vert } & <tol
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+So far the solution method consists of two nested loops, the outer time
+ stepping loop and the inner Newton iteration.
+ Each Newton iteration a linear system has to be solved.
+\end_layout
+
+\begin_layout Subsection
+Jacobian
+\end_layout
+
+\begin_layout Standard
+For the linearization of the equation system we need to calculate the Jacobian,
+ see equation 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:jacobian_matrix"
+
+\end_inset
+
+, of the system.
+ All six submatrices have a simple structure.
+ Because of simplicity we number all submatrices in the following manner.
+\begin_inset Formula 
+\begin{align*}
+\bm{F}^{\prime}\left(\bm{x}_{j,k}\right) & =\begin{pmatrix}\bm{A}_{00} & \bm{A}_{01} & \bm{A}_{02}\\
+\bm{A}_{10} & \bm{A}_{11} & \bm{A}_{12}\\
+\bm{A}_{20} & \bm{A}_{21} & \bm{A}_{22}
+\end{pmatrix}
+\end{align*}
+
+\end_inset
+
+If we consider that the derivatives of cation transport equations with respect
+ to anions vanishes and vice versa, we can simplify the structure.
+\begin_inset Formula 
+\begin{align*}
+\bm{F}^{\prime}\left(\bm{x}_{j,k}\right) & =\begin{pmatrix}\bm{A}_{00} & 0 & \bm{A}_{02}\\
+0 & \bm{A}_{11} & \bm{A}_{12}\\
+\bm{A}_{20} & \bm{A}_{21} & \bm{A}_{22}
+\end{pmatrix}
+\end{align*}
+
+\end_inset
+
+Matrices 
+\begin_inset Formula $\bm{A}_{00}$
+\end_inset
+
+ and 
+\begin_inset Formula $\bm{A}_{11}$
+\end_inset
+
+ differ only by the ion type and the sign of the valency of the ions, therefore
+ we can limit our calculation to 
+\begin_inset Formula $\bm{A}_{00}$
+\end_inset
+
+.
+ We perform these calculations without explicitly distinguishing between
+ anions and cations therefore we drop the superscript 
+\begin_inset Formula $\pm$
+\end_inset
+
+.
+\begin_inset Formula 
+\begin{align*}
+\bm{A}_{00} & =\partial_{c_{i,j}^{+}}F_{0,..,I-1}
+\end{align*}
+
+\end_inset
+
+The inner elements of this matrix consists of derivatives of the conservation
+ law.
+ We write the derivative with respect to a concentration 
+\begin_inset Formula $c_{m}$
+\end_inset
+
+ and we use the Kronecker delta 
+\begin_inset Formula $\delta_{i,j}$
+\end_inset
+
+.
+ We split the evaluation of convective and diffusive parts
+\begin_inset Formula 
+\begin{align*}
+\left(\bm{A}_{00}\right)_{i,m} & =\partial_{c_{m,j}}\left[c_{i,j}-c_{i,j-1}+\frac{\Delta t}{\Delta x_{i}}\left(f_{d,i+1,j}+f_{c,i+1,j}-f_{d,i,j}-f_{c,i,j}\right)\right]\\
+ & =\delta_{m,i}+\frac{\Delta t}{\Delta x_{i}}\partial_{c_{m,j}}\left(f_{d,i+1,j}-f_{d,i,j}\right)+\frac{\Delta t}{\Delta x_{i}}\partial_{c_{m,j}}\left(f_{c,i+1,j}-f_{c,i,j}\right)
+\end{align*}
+
+\end_inset
+
+Hence we must evaluate the derivatives of the diffusive and convective fluxes
+\end_layout
+
+\begin_layout Standard
+Diffusive fluxes
+\begin_inset Formula 
+\begin{align*}
+\frac{\Delta t}{\Delta x_{i}}\partial_{c_{m,j}}\left(f_{d,i+1,j}-f_{d,i,j}\right) & =\frac{\Delta t}{\Delta x_{i}}\left(-\frac{2D_{i+1}}{\Delta x_{i+1}+\Delta x_{i}}\left(\delta_{m,i+1}-\delta_{m,i}\right)+\frac{2D_{i}}{\Delta x_{i}+\Delta x_{i-1}}\left(\delta_{m,i}-\delta_{m,i-1}\right)\right)
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+For convective fluxes only consider first order upwinding:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\partial_{c_{m,j}}\left(f_{c,i+1,j}-f_{c,i,j}\right) & =D_{i+1}v_{i+1,j}\begin{cases}
+\delta_{m,i} & ,\text{ if }v_{i+1,j}\geq0\\
+\delta_{m,i+1} & ,\text{ if }v_{i+1,j}<0
+\end{cases}-D_{i}v_{i,j}\begin{cases}
+\delta_{m,i-1} & ,\text{ if }v_{i,j}\geq0\\
+\delta_{m,i} & ,\text{ if }v_{i,j}<0
+\end{cases}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We see that 
+\begin_inset Formula $\bm{A}_{00}$
+\end_inset
+
+ is a tridiagonal matrix with entries 
+\begin_inset Formula $\left(\bm{A}_{00}\right)_{i,i-1},\left(\bm{A}_{00}\right)_{i,i},\left(\bm{A}_{00}\right)_{i,i+1}$
+\end_inset
+
+.
+ All other components vanish.
+ Neglect time index j, 
+\begin_inset Formula 
+\begin{align*}
+\left(\bm{A}_{00}\right)_{i,i-1} & =\frac{\Delta t}{\Delta x_{i}}\left(-\frac{2D_{i}}{\Delta x_{i}+\Delta x_{i-1}}-D_{i}v_{i}\begin{cases}
+1 & ,\text{ if }v_{i}>0\\
+0 & ,\text{ else }
+\end{cases}\right)\\
+\left(\bm{A}_{00}\right)_{i,i} & =1+\frac{\Delta t}{\Delta x_{i}}\left(\frac{2D_{i+1}}{\Delta x_{i+1}+\Delta x_{i}}+\frac{2D_{i}}{\Delta x_{i}+\Delta x_{i-1}}+D_{i+1}v_{i+1}\begin{cases}
+1 & ,\text{ if }v_{i+1}>0\\
+0 & ,\text{ else}
+\end{cases}-D_{i}v_{i}\begin{cases}
+0 & ,\text{ else}\\
+1 & ,\text{if }v_{i}<0
+\end{cases}\right)\\
+\left(\bm{A}_{00}\right)_{i,i+1} & =\frac{\Delta t}{\Delta x_{i}}\left(-\frac{2D_{i+1}}{\Delta x_{i+1}+\Delta x_{i}}+D_{i+1}v_{i+1}\begin{cases}
+0 & ,\text{ else }\\
+1 & ,\text{ if }v_{i+1}<0
+\end{cases}\right)
+\end{align*}
+
+\end_inset
+
+Derivatives of poisson Equation with respect to concentrations have also
+ a very simple structure
+\begin_inset Formula 
+\[
+\partial_{c_{m}^{\pm}}\left(\epsilon_{i+1}\frac{2(\phi_{i+1}-\phi_{i})}{\Delta x_{i}\left(\Delta x_{i+1}+\Delta x_{i}\right)}-\epsilon_{i}\frac{2(\phi_{i}-\phi_{i-1})}{\Delta x_{i}\left(\Delta x_{i}+\Delta x_{i-1}\right)}+\chi_{2}\left(c_{i,j}^{+}-c_{i,j}^{-}\right)\right)=\chi_{2}\delta_{m,i}^{+}-\chi_{2}\delta_{m,i}^{-}
+\]
+
+\end_inset
+
+Therefore the matrices have only a diagonal
+\begin_inset Formula 
+\begin{align*}
+\bm{A}_{20} & =\diag\left(\chi_{2}\right)\\
+\bm{A}_{21} & =\diag\left(-\chi_{2}\right)
+\end{align*}
+
+\end_inset
+
+Derivatives with respect to the potential first naturally of the Poisson
+ equation 
+\begin_inset Formula $\bm{A}_{22}$
+\end_inset
+
+.
+\begin_inset Formula 
+\begin{align*}
+\left(\bm{A}_{22}\right)_{i,m} & =\partial_{c_{m}^{\pm}}\left(\epsilon_{i+1}\frac{2(\phi_{i+1}-\phi_{i})}{\Delta x_{i}\left(\Delta x_{i+1}+\Delta x_{i}\right)}-\epsilon_{i}\frac{2(\phi_{i}-\phi_{i-1})}{\Delta x_{i}\left(\Delta x_{i}+\Delta x_{i-1}\right)}+\chi_{2}\left(c_{i,j}^{+}-c_{i,j}^{-}\right)\right)\\
+ & =\frac{2\epsilon_{i+1}}{\Delta x_{i}\left(\Delta x_{i+1}+\Delta x_{i}\right)}(\delta_{m,i+1}-\delta_{m,i})-\frac{2\epsilon_{i}}{\Delta x_{i}\left(\Delta x_{i}+\Delta x_{i-1}\right)}(\delta_{m,i}-\delta_{m,i-1})
+\end{align*}
+
+\end_inset
+
+This gives the following tridiagonal elements.
+\begin_inset Formula 
+\begin{align*}
+\left(\bm{A}_{22}\right)_{i,i-1} & =\frac{2\epsilon_{i}}{\Delta x_{i}\left(\Delta x_{i}+\Delta x_{i-1}\right)}\\
+\left(\bm{A}_{22}\right)_{i,i} & =-2\left(\frac{\epsilon_{i+1}}{\Delta x_{i}\left(\Delta x_{i+1}+\Delta x_{i}\right)}+\frac{\epsilon_{i}}{\Delta x_{i}\left(\Delta x_{i}+\Delta x_{i-1}\right)}\right)\\
+\left(\bm{A}_{22}\right)_{i,i+1} & =\frac{2\epsilon_{i+1}}{\Delta x_{i}\left(\Delta x_{i+1}+\Delta x_{i}\right)}
+\end{align*}
+
+\end_inset
+
+Derivatives of transport equation with respect to the potential 
+\begin_inset Formula $\bm{A}_{02}$
+\end_inset
+
+ and 
+\begin_inset Formula $\bm{A}_{12}$
+\end_inset
+
+.
+ This derivatives only acts on the coupling terms in the convective fluxes.
+\begin_inset Formula 
+\begin{align*}
+\left(\bm{A}_{02}\right)_{i,m} & =\partial_{\phi_{m}}\left[c_{i,j}-c_{i,j-1}+\frac{\Delta t}{\Delta x_{i}}\left(f_{d,i+1,j}+f_{c,i+1,j}-f_{d,i,j}-f_{c,i,j}\right)\right]\\
+ & =\frac{\Delta t}{\Delta x_{i}}\left(\partial_{\phi_{m}}f_{c,i+1,j}-\partial_{\phi_{m}}f_{c,i,j}\right)\\
+ & =\frac{\Delta t}{\Delta x_{i}}\left(D_{i+1}\partial_{\phi_{m}}v_{i+1,j}\begin{cases}
+c_{i,j} & ,\text{if }v_{i+1,j}\geq0\\
+c_{i+1,j} & ,\text{if }v_{i+1,j}<0
+\end{cases}-D_{i}\partial_{\phi_{m}}v_{i,j}\begin{cases}
+c_{i-1,j} & ,\text{if }v_{i,j}\geq0\\
+c_{i,j} & ,\text{if }v_{i,j}<0
+\end{cases}\right)
+\end{align*}
+
+\end_inset
+
+Derivatives acts on the velocity terms
+\begin_inset Formula 
+\begin{align*}
+\partial_{\phi_{m}}v_{i} & =-\frac{2\chi_{1}z}{\Delta x_{i}+\Delta x_{i-1}}\left(\delta{}_{m,i}-\delta_{m,i-1}\right)\\
+\partial_{\phi_{m}}v_{i+1} & =-\frac{2\chi_{1}z}{\Delta x_{i+1}+\Delta x_{i}}\left(\delta_{m,i+1}-\delta_{m,i}\right)
+\end{align*}
+
+\end_inset
+
+This gives also a tridiagonal matrix.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\left(\bm{A}_{02}\right)_{i,i-1} & =-\frac{\Delta t}{\Delta x_{i}}\frac{2D_{i}\chi_{1}z}{\Delta x_{i}+\Delta x_{i-1}}\begin{cases}
+c_{i-1,j} & ,\text{ if }v_{i,j}\geq0\\
+c_{i,j} & ,\text{ if }v_{i,j}<0
+\end{cases}\\
+\left(\bm{A}_{02}\right)_{i,i} & =\frac{\Delta t}{\Delta x_{i}}\left(\frac{2D_{i+1}\chi_{1}z}{\Delta x_{i+1}+\Delta x_{i}}\begin{cases}
+c_{i,j} & ,\text{if }v_{i+1,j}\geq0\\
+c_{i+1,j} & ,\text{if }v_{i+1,j}<0
+\end{cases}+\frac{2D_{i}\chi_{1}z}{\Delta x_{i}+\Delta x_{i-1}}\begin{cases}
+c_{i-1,j} & ,\text{if }v_{i,j}\geq0\\
+c_{i,j} & ,\text{if }v_{i,j}<0
+\end{cases}\right)\\
+\left(\bm{A}_{02}\right)_{i,i+1} & =-\frac{\Delta t}{\Delta x_{i}}\frac{2D_{i+1}\chi_{1}z}{\Delta x_{i+1}+\Delta x_{i}}\begin{cases}
+c_{i} & ,\text{ if }v_{i+1}\geq0\\
+c_{i+1} & ,\text{ if }v_{i+1}<0
+\end{cases}
+\end{align*}
+
+\end_inset
+
+With respect to the implementation we can seperate constant parts of the
+ matrices from parts depending on concentration or potential values which
+ have to be calculated both denoted with superscripts const and calc.
+\begin_inset Formula 
+\begin{align*}
+\begin{pmatrix}\bm{A}_{00} & 0 & \bm{A}_{02}\\
+0 & \bm{A}_{11} & \bm{A}_{12}\\
+\bm{A}_{20} & \bm{A}_{21} & \bm{A}_{22}
+\end{pmatrix} & =\begin{pmatrix}\bm{A}_{00}^{const} & 0 & \bm{A}_{02}^{const}\\
+0 & \bm{A}_{11}^{const} & \bm{A}_{12}^{const}\\
+\bm{A}_{20}^{const} & \bm{A}_{21}^{const} & \bm{A}_{22}^{const}
+\end{pmatrix}+\begin{pmatrix}\bm{A}_{00}^{calc} & 0 & \bm{A}_{02}^{calc}\\
+0 & \bm{A}_{11}^{calc} & \bm{A}_{12}^{calc}\\
+0 & 0 & 0
+\end{pmatrix}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Kontrolliere Implementierung
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Newton Krylov Approach
+\end_layout
+
+\begin_layout Standard
+The explicit calculation of the Jacobian at every iteration step in equation
+ is computational expensive or not even possible.
+ Therefore a widely used method is to approximate the Jacobian using finite
+ differences.
+ 
+\end_layout
+
+\begin_layout Subsection
+Preconditioning
+\end_layout
+
+\begin_layout Standard
+Testing gives that constant matrix approximation to jacobian reduces the
+ steps made drastically, so we calculate just the constant part of the jacobian
+ and use it as the preconditioner
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename figures/sparsity_pattern.pdf
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Sparsity pattern of Jacobian matrix with just the constant part used for
+ preconditioning.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Python Implementation
+\end_layout
+
+\begin_layout Section
+Electrochemical Impedance Spectroscopy
+\end_layout
+
+\begin_layout Standard
+We define electrical impedance of a system making use of the Fourier transform
+ of the electrical current, which we denote with 
+\begin_inset Formula $I_{\omega}$
+\end_inset
+
+, and the transform of the applied voltage, also denoted with a subscript
+ 
+\begin_inset Formula $V_{\omega}$
+\end_inset
+
+.
+ Then we define the complex impedance of the system as the quotient of the
+ Fourier transforms.
+\begin_inset Formula 
+\begin{align*}
+Z & =\frac{V_{\omega}}{I_{\omega}}=\left|Z\right|e^{i\theta}
+\end{align*}
+
+\end_inset
+
+The absolute length of this complex vector is 
+\begin_inset Formula $\left|Z\right|$
+\end_inset
+
+and the phase shift of current with respect to voltage is the angle in the
+ complex plane 
+\begin_inset Formula $\theta$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Calculation of Impedance Using Fourier Transform
+\end_layout
+
+\begin_layout Standard
+As stated in the previous sections we utilize a constant spacing in the
+ time domain 
+\begin_inset Formula $t_{j}-t_{j-1}=\Delta t=const$
+\end_inset
+
+.
+ This gives us the possibility to calculate the impedance with  Discrete
+ Fourier Transform from Lasia 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "lasia_electrochemical_2014"
+
+\end_inset
+
+.
+ Therefore we have a predefined time axis with 
+\begin_inset Formula $N$
+\end_inset
+
+ elements.
+\begin_inset Formula 
+\begin{align*}
+t_{j} & =j\cdot\Delta t\\
+j & =0,1,...,N-1
+\end{align*}
+
+\end_inset
+
+This gives us a sampling frequency, which determines the frequency resolution.
+ Here we have to convert the nondimensionalized entities back.
+\begin_inset Formula 
+\begin{align*}
+f_{sample} & =\frac{1}{N\cdot\Delta t\cdot T_{0}}
+\end{align*}
+
+\end_inset
+
+We ensure that the number of time sample points 
+\begin_inset Formula $N$
+\end_inset
+
+ is a power of 2 in order to use the Fast Fourier Transform algorithm implemente
+d in the NumPy FFT library 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "noauthor_discrete_nodate"
+
+\end_inset
+
+The maximal resolvable frequency is limited by the Nyquist frequency.
+\begin_inset Formula 
+\begin{align*}
+f_{Nyquist} & =\frac{1}{2\cdot\Delta t\cdot T_{0}}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Multi-Sine Pertubation
+\end_layout
+
+\begin_layout Standard
+As the pertubation voltage 
+\begin_inset Formula $v\left(t\right)$
+\end_inset
+
+ we follow one approach from Lasia 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "lasia_electrochemical_2014"
+
+\end_inset
+
+ and apply a sum of 
+\begin_inset Formula $K$
+\end_inset
+
+ sine voltages.
+\begin_inset Formula 
+\begin{align*}
+v\left(t\right) & =v_{0}\sum_{i=0}^{K}\sin\left(\omega_{k}t\right)
+\end{align*}
+
+\end_inset
+
+In order to keep the system linear we minimze the amplitudes 
+\begin_inset Formula $v_{0}$
+\end_inset
+
+ such that the total amplitude is smaller than the half of the thermal voltage.
+\begin_inset Formula 
+\begin{align*}
+\left|\max\left(v\left(t\right)\right)-\min\left(v\left(t\right)\right)\right| & \leq\frac{k_{B}T}{2\cdot e}
+\end{align*}
+
+\end_inset
+
+We use 50 different sine's equally spaced in the logarithmic frequency domain.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename figures/sec_272_voltage_input_example.pdf
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Below
+
+\begin_layout Plain Layout
+Example of a multi sine input voltage for a sample size 
+\begin_inset Formula $N=2^{19}$
+\end_inset
+
+ and a time spacing 
+\begin_inset Formula $\Delta t=0.001$
+\end_inset
+
+ which yields a sampling frequency 
+\begin_inset Formula $f_{sampling}\approx19$
+\end_inset
+
+Hz.
+ The upper plot shows the voltage in the time domain, the lower one the
+ imaginary part of the Fourier transform.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Single Sine Approach
+\end_layout
+
+\begin_layout Standard
+Problem with small lengthscale, small reference time, for good resolution
+ and matching small frequencies large number of simulated time points is
+ needed.
+ Other approach fit sine to small number of simulated points
+\end_layout
+
+\begin_layout Section
+Current Calculation
+\end_layout
+
+\begin_layout Standard
+The total current density 
+\begin_inset Formula $I(x,t)$
+\end_inset
+
+ through the cell equals the sum of the ionic current contributions and
+ Maxwell's displacement current generated by the change of the electrostatic
+ potential.
+ This formulation was used in many basic papers in this field 
+\backslash
+cite{CohenCooley1965, BrumleveBuck1978}.
+ The cell's current density ist usually given in units of 
+\begin_inset Formula $\frac{mA}{cm^{2}}$
+\end_inset
+
+.
+ If we use the reference current density 
+\begin_inset Formula $f_{0}=\frac{D_{0}c_{0}}{L}$
+\end_inset
+
+ in units of 
+\begin_inset Formula $\frac{1}{\text{length}^{2}\cdot\text{s}}$
+\end_inset
+
+.
+ Our usually used lengthscale is given in nm, so we can use the factor 
+\begin_inset Formula $10^{17}\cdot e$
+\end_inset
+
+ for the conversion to 
+\begin_inset Formula $\frac{mA}{cm^{2}}$
+\end_inset
+
+.
+ We can calculate the dimensionless current density 
+\begin_inset Formula $f_{total}(x,t)$
+\end_inset
+
+ through the cell.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align}
+I(x,t) & =f_{total}\left(x,t\right)\cdot f_{0}\cdot e\cdot10^{17}\label{eq:dimCurrentDensity}
+\end{align}
+
+\end_inset
+
+Reference flux density starting from conservation law
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\partial_{\tilde{t}}\tilde{c} & =-\partial_{\tilde{x}}\tilde{f}
+\end{align*}
+
+\end_inset
+
+Define a reference flux density 
+\begin_inset Formula $f_{0}=\frac{\tilde{f}}{f}$
+\end_inset
+
+ and insert other nondimensionalization constants
+\begin_inset Formula 
+\begin{align*}
+\frac{c_{0}}{T_{0}}\partial_{t} & =-\frac{f_{0}}{L}\partial_{x}f
+\end{align*}
+
+\end_inset
+
+Comparing both sides gives the reference flux density
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+f_{0} & =\frac{Lc_{0}}{T_{0}}
+\end{align*}
+
+\end_inset
+
+Here we can use our definition of the reference time 
+\begin_inset Formula $T_{0}=M\cdot\frac{L^{2}}{D_{0}}$
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+f_{0} & =\frac{Lc_{0}D_{0}}{ML^{2}}=\frac{c_{0}D_{0}}{ML}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Nondimensionalization of Cell Current
+\end_layout
+
+\begin_layout Standard
+The dimensionless total current density can be formulated following the
+ definitions in and using the dimensionless electrostatic potential 
+\begin_inset Formula $\phi(x,t)$
+\end_inset
+
+, the ionic currents for anions 
+\begin_inset Formula $j^{-}(x,t)$
+\end_inset
+
+, cation 
+\begin_inset Formula $j^{+}(x,t)$
+\end_inset
+
+ and parameter 
+\begin_inset Formula $\chi_{2}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align}
+f_{total}\left(x,t\right) & =f^{+}\left(x,t\right)+f^{-}\left(x,t\right)+\frac{1}{\chi_{2}}\partial_{t}\partial_{x}\phi\left(x,t\right)\label{eq:jtotal}
+\end{align}
+
+\end_inset
+
+
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Vorzeichen beim Potential - E Feld
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Equation 
+\backslash
+ref{eq:jtotal} is valid at all times and for all points in the computational
+ domain.
+ Therefore we can evaluate this equation for example at the right electrode,
+ where it has a very simple form.
+ The ionic current densities at the boundaries are equal to the fluxes through
+ the electrode surface, hence to the boundary condition functions 
+\begin_inset Formula $f_{C}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The time derivative of the electrostatic potential, Maxwell's displacement
+ current, is evaluated similar to the PDE solver by applying the BDF 2 scheme.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align}
+\partial_{t}\partial_{x}\phi & =\frac{3\partial_{x}\phi_{j}-4\partial_{x}\phi_{j-1}+\partial_{x}\phi_{j-2}}{2\Delta t}
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Using this equation we can calculate the discrete current density as follows.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align}
+f_{total}\left(x_{1},t_{j}\right) & =f_{C}^{+}\left(t_{j}\right)+\frac{1}{\chi_{2}}\frac{3\partial_{x}\phi_{j}-4\partial_{x}\phi_{j-1}+\partial_{x}\phi_{j-2}}{2\Delta t}
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter
+Model 0
+\end_layout
+
+\begin_layout Section
+Dimensionalization of the Problem - Practial Issues
+\end_layout
+
+\begin_layout Standard
+In order to fully resolve the double layer we have choosen to use a nanometre
+ lengthscale of the electrode seperation length 
+\begin_inset Formula $L$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Equations
+\end_layout
+
+\begin_layout Standard
+In this model approach we consider fully blocking electrodes, which means,
+ that ions cannot penetrate into the electrodes.
+ We achieve this by setting the boundary fluxes for the cations to zero.
+ The anion flux at the boundaries is zero by default.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align}
+f_{A}\left(t\right) & =0\label{eq:model_0_flux_boundary_conditions}\\
+f_{C}\left(t\right) & =0
+\end{align}
+
+\end_inset
+
+Therefore we can formulate a control parameter of the system to investigate
+ the stability of the solution, the integrated ion concentration has to
+ be time invariant.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align}
+\partial_{t}\int_{0}^{1}c^{\pm}\left(x,t\right)dx & =0\nonumber \\
+\partial_{t}\sum_{i=0}^{I-1}\int_{x_{i}}^{x_{i+1}}c^{\pm}\left(x,t\right)dx & =0\nonumber \\
+\partial_{t}\sum_{i=0}^{I-1}\Delta x_{i}c_{i}^{\pm}\left(t\right) & =0\nonumber \\
+\sum_{i=0}^{I-1}\Delta x_{i}c_{i}^{\pm}\left(t\right) & =const=c^{\pm}\left(t=0\right)\label{eq:model_0_const_conc}
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Influence of Electrode Separation Length
+\end_layout
+
+\begin_layout Section
+Steady State Analysis
+\end_layout
+
+\begin_layout Itemize
+Double Layer creation
+\end_layout
+
+\begin_layout Itemize
+New equilibrium states reached
+\end_layout
+
+\begin_layout Itemize
+At voltages 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename figures/model_0_sweep.pdf
+
+\end_inset
+
+
+\begin_inset Caption Below
+
+\begin_layout Plain Layout
+Applied Catode voltage from 5mV up to 300mV, 
+\begin_inset Formula $D_{0}=D_{C}=D_{A}=10^{-12}\frac{m^{2}}{s}$
+\end_inset
+
+, 
+\begin_inset Formula $T=300K$
+\end_inset
+
+, 
+\begin_inset Formula $L=10nm$
+\end_inset
+
+, 
+\begin_inset Formula $c_{0}=1M$
+\end_inset
+
+, initial condition for both ion types 
+\begin_inset Formula $c^{\pm}\left(0\right)=\frac{c_{0}}{2}$
+\end_inset
+
+, 
+\begin_inset Formula $\Delta t=10^{-4},$
+\end_inset
+
+
+\begin_inset Formula $I=500$
+\end_inset
+
+,
+\begin_inset Formula $\epsilon_{m}=80,$
+\end_inset
+
+
+\begin_inset Formula $\epsilon=1$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+High voltage limit.
+ 
+\end_layout
+
+\begin_layout Itemize
+Totally symmetric
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename figures/model_0_sweep_limit.pdf
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Below
+
+\begin_layout Plain Layout
+Applied Catode voltages 50mV, 100mV, 150mV, 200mV 
+\begin_inset Formula $D_{0}=D_{C}=D_{A}=10^{-12}\frac{m^{2}}{s}$
+\end_inset
+
+, 
+\begin_inset Formula $T=300K$
+\end_inset
+
+, 
+\begin_inset Formula $L=10nm$
+\end_inset
+
+, 
+\begin_inset Formula $c_{0}=1M$
+\end_inset
+
+, initial condition for both ion types 
+\begin_inset Formula $c^{\pm}\left(0\right)=\frac{c_{0}}{2}$
+\end_inset
+
+, 
+\begin_inset Formula $\Delta t=10^{-4},$
+\end_inset
+
+
+\begin_inset Formula $I=500$
+\end_inset
+
+,
+\begin_inset Formula $\epsilon_{m}=80,$
+\end_inset
+
+
+\begin_inset Formula $\epsilon=1$
+\end_inset
+
+ .
+ Relaxation to equilibrium
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter
+Model 1
+\end_layout
+
+\begin_layout Section
+Introducing Electrode Reactions
+\end_layout
+
+\begin_layout Standard
+Ion transfer process.
+ Ion is incorporated in metal or solved in solution.
+ Two states of the species: solvated and oxidized or intercaleted in the
+ metal, reduced and electroneutral.
+ The current through the electrode surface is due to incorporation or solvation
+ of charged ions.
+ Electrontransfer implicit in this picture.
+ Ion flux through the electrode surface due to chemical reactions.
+ These fluxes act as boundary conditions at the point like boundaries of
+ the transport equation.
+ These reactions have a simple form of a reversible reduction and oxidation
+ process.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align}
+O^{+}+e^{-} & \leftrightharpoons R
+\end{align}
+
+\end_inset
+
+A reduced species 
+\begin_inset Formula $R$
+\end_inset
+
+ in the metal electrode, outside of the computational domain, transforms
+ during the reaction into an oxidized species 
+\begin_inset Formula $O^{+}$
+\end_inset
+
+, which is positively charged, and an negative charge electron 
+\begin_inset Formula $e^{-}$
+\end_inset
+
+.
+ The electron is than available for charge transport through the external
+ device.
+ Reduction and oxidation processes are taking place simultaniously, they
+ are expressed as the sum of a forward rate and a backward rate.
+ These rates have a probabilistic nature and are modelled with rate constants
+ for oxidation reaction 
+\begin_inset Formula $k_{o}$
+\end_inset
+
+ and reduction reaction 
+\begin_inset Formula $k_{r}$
+\end_inset
+
+.
+ The particle flux consists of the concentration of the involved species
+ in an reaction volume and the rate constants 
+\backslash
+cite{bard_electrochemical_2001}.
+ We can express the net particle flux of species over the electrode electrolyte
+ interface as the sum of an oxidation and a reduction flux.
+\begin_inset Formula 
+\begin{align}
+\text{net flux}=\text{oxidation flux}-\text{reduction flux}\nonumber \\
+f_{n}=f_{o}-f_{r}=c_{r}-k_{r}c_{o}
+\end{align}
+
+\end_inset
+
+The particle flux 
+\begin_inset Formula $f$
+\end_inset
+
+ through the electrode surface is measured in units of 
+\begin_inset Formula $\frac{1}{\text{area}\cdot\text{second}}$
+\end_inset
+
+.
+ This can be validated by taking a look at the underlying conservation law.
+\begin_inset Formula 
+\begin{align*}
+\left[\partial_{t}c\right]=\left[-\partial_{x}f\right]\\
+\frac{1}{sm^{3}}=\frac{1}{m}\cdot\frac{1}{sm^{2}}\\
+\left[f\right]=\frac{1}{sm^{2}}
+\end{align*}
+
+\end_inset
+
+ Therefore a rate constant has units of a reaction velocity.
+\begin_inset Formula 
+\begin{align*}
+\left[k\right] & =\frac{m}{s}
+\end{align*}
+
+\end_inset
+
+In our model the reduced species, the metal atoms, are bound to the electrode
+ and the oxidized species are the positive ions with concentration 
+\begin_inset Formula $c^{+}(x,t)$
+\end_inset
+
+ in the electrolyte.
+ Negative ions are assumed to be inert and have the role of supporting ions.
+ The reaction occurs only at the pointlike boundary of the simulation domain.
+\end_layout
+
+\begin_layout Subsection
+Arrhenius Law
+\end_layout
+
+\begin_layout Standard
+The structure of the kinetic rate constants 
+\begin_inset Formula $k_{ox}$
+\end_inset
+
+ and 
+\begin_inset Formula $k_{red}$
+\end_inset
+
+ is probabilistic in nature.
+ We follow the Arrhenius law approach from Schmickler 
+\backslash
+cite{schmickler_interfacial_1996}.
+ One reactive molecule can occupy two stable states in an energy landscape,
+ the oxidized state and the reduced state.
+ Both states are separated by an energy barrier, which is the Gibbs energy
+ of activation 
+\begin_inset Formula $\Delta G_{ox}$
+\end_inset
+
+ and 
+\begin_inset Formula $\Delta G_{red}$
+\end_inset
+
+ for both processes.
+ Following the explanation of Schmickler 
+\backslash
+cite{schmickler_interfacial_1996} the phenomenological assumption here is
+ that the activation energies are functions of the electrostatic potential
+ in the metal 
+\begin_inset Formula $\phi_{M}$
+\end_inset
+
+ and the solution 
+\begin_inset Formula $\phi_{S}$
+\end_inset
+
+ respectively.
+\begin_inset Formula 
+\begin{align}
+k_{ox}=A_{ox}\exp\left(-\frac{\Delta G_{ox}(\phi_{M})}{k_{B}T}\right)\nonumber \\
+k_{red}=A_{red}\exp\left(-\frac{\Delta G_{red}(\phi_{S})}{k_{B}T}\right)
+\end{align}
+
+\end_inset
+
+
+\begin_inset Formula $A_{ox}$
+\end_inset
+
+ and 
+\begin_inset Formula $A_{red}$
+\end_inset
+
+ are frequency factors which gives the rates without energy barrier.
+\end_layout
+
+\begin_layout Standard
+Energy Barrier
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename figures/model_1_1.pdf
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+I = 500, N = 2 ** 15, Dt = 1e-4, T = 300, L = 10, lengthscale = 1e9, c0_in
+ = 1.0, DA = 1.0, DC = 1.0, D0_in = 1e-12, epsilon = 1.0, epsilon_m = 80.0, testname
+ = "model_1", model = 1, sim_method = "single_const", kA = 1e0, kC = 1e0,
+ foxA = 0.5e0, foxC = 0.5e0
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+l
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename figures/model_1_sweep1.pdf
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+I = 500, N = 2 ** 15, Dt = 1e-4, T = 300, L = 10, lengthscale = 1e9, c0_in
+ = 1.0, DA = 1.0, DC = 1.0, D0_in = 1e-12, epsilon = 1.0, epsilon_m = 80.0, testname
+ = "model_1", model = 1, sim_method = "single_const", kA = 1e0, kC = 1e0,
+ foxA = 0.5e0, foxC = 0.5e0
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+l
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename figures/I_U_model1.pdf
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+I = 500, N = 2 ** 15, Dt = 1e-4, T = 300, L = 10, lengthscale = 1e9, c0_in
+ = 1.0, DA = 1.0, DC = 1.0, D0_in = 1e-12, epsilon = 1.0, epsilon_m = 80.0, testname
+ = "model_1", model = 1, sim_method = "single_const", kA = 1e0, kC = 1e0,
+ foxA = 0.5e0, foxC = 0.5e0
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Taylor Expansion of dG
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+First Model: Linear Kinetics
+\end_layout
+
+\begin_layout Standard
+As stated before the energy barriers of the rate constants are functions
+ of the electrostatic energy at the two possible states.
+ In an Taylor expansion of the Gibbs energy along the electrostatic potential
+ and a not further specified equilibrium potential difference between solution
+ and metal 
+\begin_inset Formula $E_{0}$
+\end_inset
+
+, which will be more elaborated in the upcoming sections, the Gibbs energies
+ of activation are constants.
+\begin_inset Formula 
+\begin{align}
+k_{ox}=A_{ox}\exp\left(-\frac{\Delta G_{ox}}{k_{B}T}\right)=k_{ox}^{\prime}\nonumber \\
+k_{red}=A_{red}\exp\left(-\frac{\Delta G_{red}}{k_{B}T}\right)=k_{red}^{\prime}
+\end{align}
+
+\end_inset
+
+In this situation the energy states of reacting species is determined a
+ priori by the choice of effective rate constants.
+ Therefore the flux through the boundary is only determined by the concentration
+ of involved species.
+ Each electrode has never in equilibrium with the solution, but the whole
+ system has an equilibrium determined by the mass transport through the
+ electrolyte, therefore following the Transport equations.
+ If we consider the choice of the x direction a positive flux is going from
+ the anode into the electrolyte, hence we define the net anode flux as 
+\begin_inset Formula 
+\begin{align}
+f_{A}=k_{ox}c_{red}-k_{red}c_{ox}
+\end{align}
+
+\end_inset
+
+On the other boundary the positive direction points from the electrolyte
+ into the catode electrode, hence we define the catode boundary flux as
+\begin_inset Formula 
+\begin{align}
+f_{C}=k_{red}c_{ox}-k_{ox}c_{red}
+\end{align}
+
+\end_inset
+
+ 
+\backslash
+subsection{Implementation}
+\end_layout
+
+\begin_layout Standard
+In our finite volume implementation we impose an boundary flux at the anode
+ 
+\begin_inset Formula $f_{A}$
+\end_inset
+
+ and catode 
+\begin_inset Formula $f_{C}$
+\end_inset
+
+.
+ We assume that the concentration of the nearest control volume beside the
+ boundary point is the concentration available for reaction.
+ We assume also that in the simulation time the amount of metal molecules
+ in the electrodes, which are available for the reaction, does not change
+ in time.
+ Therefore we use a constant oxidation flux 
+\begin_inset Formula $f_{ox}$
+\end_inset
+
+ at both boundaries.
+ Following the nondimensionalization procedure we reformulate both reaction
+ equations in a dimensionless form using reference rate constants $k_{ref}$
+ and the reference flux density $f_{ref} = 
+\backslash
+frac{D_0c_0}{L}$.
+ Here we give the dimensionless, discretized form of the boundary fluxes
+ at time step 
+\begin_inset Formula $t_{j}$
+\end_inset
+
+.
+\begin_inset Formula 
+\begin{align}
+f_{A}(t_{j})=f_{ox,A}-k_{A}c_{0}^{+}(t_{j})+\nonumber \\
+f_{C}(t_{j})=k_{C}c_{I-1}^{+}(t_{j})-f_{ox,C}
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Numerical Analysis of Steady States
+\end_layout
+
+\begin_layout Standard
+Steady state condition for the boundary condition, answer to the question
+ when the net boundary flux vanishes? 
+\begin_inset Formula 
+\begin{align}
+f_{A}=0\rightarrow c_{0}^{+} & =\frac{f_{ox,A}}{k_{A}}=K_{A}\\
+f_{C}=0\rightarrow c_{I-1}^{+} & =\frac{f_{ox,C}}{k_{C}}=K_{C}\nonumber 
+\end{align}
+
+\end_inset
+
+ The steady state at the boundaries depends on the choice of the boundary
+ values but foremost on the concentration at the boundary.
+ Therefore the steady state depends on the steady state condition of the
+ transport equation in the electrolyte.
+\end_layout
+
+\begin_layout Standard
+We define an operational steady state criterion: % 
+\begin_inset Formula 
+\begin{align}
+\left\lVert c^{+}(t_{j})-c^{+}(t_{j-1})\right\rVert <10^{-7}\label{eq:steady_state_criterion}
+\end{align}
+
+\end_inset
+
+ % Steady state current density is calculated with the values at the operational
+ steady state.
+ % Apply step voltages 
+\end_layout
+
+\begin_layout Subsection
+Symmetrical 
+\end_layout
+
+\begin_layout Itemize
+Frage Wie verändert sich equilibrium bei eingeschalteter linearer kinetic
+\end_layout
+
+\begin_layout Itemize
+Gibt es einen steady state?
+\end_layout
+
+\begin_layout Itemize
+Wähle zunächst initial condition für alle x gleich
+\begin_inset Formula 
+\begin{align*}
+\begin{pmatrix}c^{+}\left(0\right)\\
+c^{-}\left(0\right)\\
+\phi\left(0\right)
+\end{pmatrix} & =\begin{pmatrix}0.5\\
+0.5\\
+0
+\end{pmatrix}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Damit ist automatisch bei allen Werten 
+\begin_inset Formula $K_{A}=K_{C}=0.5$
+\end_inset
+
+ equilibrium.
+\end_layout
+
+\begin_layout Itemize
+Untersuche Auslenkungen aus dem Equilibirum durch catode voltage
+\end_layout
+
+\begin_layout Itemize
+Wiederholung der Untersuchungen aus Model 0 bei kleinen spannungen
+\end_layout
+
+\begin_layout Chapter
+Model 2
+\end_layout
+
+\begin_layout Standard
+Taylor expansion of Gibbs energy up to a linear term in electrode
+\end_layout
+
+\begin_layout Standard
+Model of electron transfer the reaction at electrode surface isinfluenced
+ by the electrostatic potential of the electrode.
+\end_layout
+
+\begin_layout Itemize
+Energy Barrier as difference from electrode potential to solution potential
+\end_layout
+
+\begin_layout Standard
+The Butler Volmer theory 
+\backslash
+cite{schmickler_interfacial_1996} assumes, that the energy of a state is
+ in first order approximation given by the electrostatic energy.
+ Hence the stated total equilibrium state from before is given by an energy
+ level $E_0$.
+ We assume that when raise the electrostatic energy of the reduced state
+ it will more likely loose an electron and become oxidized.
+ On the other hand the energy level of the oxidized state will less likely
+ become reduced.
+ Therefore we need the difference of the energy to the energy in the equilibrium
+ state.
+ In order to quantify the symmetry of the change of the effective energy
+ barrier usually a symmetry factor $0 
+\backslash
+leq 
+\backslash
+alpha 
+\backslash
+leq 1$ is introduced.
+ %
+\begin_inset Formula 
+\begin{align}
+k_{ox}=k_{0}\exp\left(\frac{\alpha(E-E_{0})}{k_{B}T}\right)\nonumber \\
+k_{red}=k_{0}\exp\left(-\frac{(1-\alpha)(E-E_{0})}{k_{B}T}\right)
+\end{align}
+
+\end_inset
+
+ % If we plug these rate constants into the flux euation we obtain a Butler
+ Volmer reaction model.
+ %
+\begin_inset Formula 
+\begin{align}
+f_{net}=k_{ox}c_{red}-k_{red}c_{ox}\nonumber \\
+f_{net}=k_{0}\left(c_{red}\exp\left(\frac{\alpha(E-E_{0})}{k_{B}T}\right)-c_{ox}\exp\left(-\frac{(1-\alpha)(E-E_{0})}{k_{B}T}\right)\right)
+\end{align}
+
+\end_inset
+
+ % 
+\backslash
+subsection{Nernst Equation Equilibrium} % The equilibrium at energy $E_0$
+ is obtained when $c_{ox} = c_{red}$ and the net flux vanishes $f_{net}
+ = 0$.
+ In a thermodynamic sense this equilibrium is obtained under ideal conditions.
+ Every equilibrium electrostatic energy under nonideal conditions has to
+ follow the Nernst equation 
+\backslash
+cite{bard_electrochemical_2001}.
+ Here is problem that in the nonenergy view only potential differences are
+ accesable as voltages, therefore we have to reformulate the above equations
+ using electrode voltages.
+ In the nondimensional form $
+\backslash
+frac{
+\backslash
+tilde{
+\backslash
+phi}}{
+\backslash
+phi_0} = 
+\backslash
+phi$ we dont have to distinguish between energies and potentials.
+ We denote the electrostatic potential of the oxidized state with $
+\backslash
+phi_{ox}$ and of the reduced state with $
+\backslash
+phi_{red}$.
+ If we assume that the oxidized state lives in the solution and the reduced
+ state in the metal phase, like we do in our model, the electrode voltage
+ 
+\begin_inset Formula $\Delta\phi=\phi_{solution}-\phi_{metal}=\phi_{ox}-\phi_{red}$
+\end_inset
+
+.
+ We start with the equilibrium state $E_0$ at that energy level the electrode
+ potential vanishes.
+ % 
+\begin_inset Formula 
+\begin{align}
+\Delta\phi_{0}=\phi_{ox}-\phi_{red}=E_{0}-E_{0}=0
+\end{align}
+
+\end_inset
+
+ % If we assume that the electrode voltage has to be negative in order to
+ accelerate the oxidation process, than the oxidation barrier shrinks with
+ $
+\backslash
+Delta E + 
+\backslash
+alpha 
+\backslash
+cdot 
+\backslash
+Delta 
+\backslash
+phi$ with $
+\backslash
+Delta 
+\backslash
+phi < 0$, and the reduction process vice versa.
+ % 
+\begin_inset Formula 
+\begin{align}
+k_{ox}=k_{0}\exp\left(-\alpha\Delta\phi\right)\nonumber \\
+k_{red}=k_{0}\exp\left((1-\alpha)\Delta\phi\right)
+\end{align}
+
+\end_inset
+
+ % The Nernst equation for the equilibrium electrode potential in non ideal
+ conditions, not $E_0$, reads as follows.
+ % 
+\begin_inset Formula 
+\begin{align}
+\Delta\phi_{eq}=\Delta\phi_{0}+\ln\left(\frac{c_{ox}}{c_{red}}\right)=\ln\left(\frac{c_{ox}}{c_{red}}\right)\label{eq:nernst_equation}
+\end{align}
+
+\end_inset
+
+ % In this nonideal equilibrium the net flux also vanishes, but the electrode
+ potential is dermined by the concentrations of the involved species.
+ % The net flux equation in this form reads.
+ % 
+\begin_inset Formula 
+\begin{align}
+f_{net}=k_{0}\left(c_{red}\exp\left(-\alpha\Delta\phi\right)-c_{ox}\exp\left((1-\alpha)\Delta\phi\right)\right)
+\end{align}
+
+\end_inset
+
+ % At the nonideal equilibrium the net flux vanishes $f_{net}=0$ and reduces
+ to the Nernst equation.
+ % 
+\backslash
+begin{align} f_{net} = 0 = k_0 
+\backslash
+left( c_{red} 
+\backslash
+exp
+\backslash
+left( - 
+\backslash
+alpha 
+\backslash
+Delta 
+\backslash
+phi_{eq} 
+\backslash
+right) - c_{ox} 
+\backslash
+exp
+\backslash
+left( (1-
+\backslash
+alpha) 
+\backslash
+Delta 
+\backslash
+phi_{eq} 
+\backslash
+right) 
+\backslash
+right) 
+\backslash
+notag 
+\backslash
+
+\backslash
+ c_{red} 
+\backslash
+exp
+\backslash
+left( - 
+\backslash
+alpha 
+\backslash
+Delta 
+\backslash
+phi_{eq} 
+\backslash
+right) = c_{ox} 
+\backslash
+exp
+\backslash
+left( (1-
+\backslash
+alpha) 
+\backslash
+Delta 
+\backslash
+phi_{eq} 
+\backslash
+right) 
+\backslash
+right) 
+\backslash
+notag 
+\backslash
+
+\backslash
+ 
+\backslash
+ln 
+\backslash
+left( 
+\backslash
+frac{c_{ox}}{c_{red}}
+\backslash
+right) = 
+\backslash
+phi_{eq} 
+\backslash
+end{align} % If we use this equation taking the power of $
+\backslash
+alpha$ and $1-
+\backslash
+alpha$ and consider the deviation from the nonideal equilibrium $
+\backslash
+Delta 
+\backslash
+phi - 
+\backslash
+Delta 
+\backslash
+phi_{eq} = 
+\backslash
+eta$, also called overpotential, we can rewrite the Butler Volmer equation.
+ % 
+\begin_inset Formula 
+\begin{align}
+f_{net}=k_{0}\left(c_{red}\exp\left(-\alpha(\Delta\phi-\Delta\phi_{eq}+\Delta\phi_{ex})\right)-c_{ox}\exp\left((1-\alpha)(\Delta\phi-\Delta\phi_{eq}+\Delta\phi_{ex})\right)\right)\nonumber \\
+f_{net}=k_{0}\left(c_{red}\exp\left(-\alpha(\eta+\Delta\phi_{ex})\right)-c_{ox}\exp\left((1-\alpha)(\eta+\Delta\phi_{ex})\right)\right)\nonumber \\
+f_{net}=k_{0}c_{red}^{1-\alpha}c_{ox}^{\alpha}\left(\exp\left(-\alpha\eta\right)-\exp\left((1-\alpha)\eta\right)\right)\nonumber \\
+f_{net}=f_{0}\left(\exp\left(-\alpha\eta\right)-\exp\left((1-\alpha)\eta\right)\right)
+\end{align}
+
+\end_inset
+
+ % Introducing the exchange flux $f_0 = k_0 c_{red}^{1-
+\backslash
+alpha} c_{ox}^
+\backslash
+alpha$.
+ Here one have to keep in mind that the concentrations are equilibrium concentra
+tions and for the solution side following the equilibrium condition of the
+ Nernst Planck transport equations.
+\end_layout
+
+\begin_layout Standard
+
+\backslash
+section{Introduction of Butler Volmer Boundary Conditions} % Here we recap
+ the theory from Schmickler assuming that the Gibbs energies are functions
+ of the dimensionless electrode potentials $
+\backslash
+phi = 
+\backslash
+frac{
+\backslash
+tilde{
+\backslash
+phi}}{
+\backslash
+phi_0} = 
+\backslash
+frac{
+\backslash
+tilde{
+\backslash
+phi} k_B T}{e}$.
+ %
+\begin_inset Formula 
+\begin{align}
+k_{ox}=A\exp\left(-\frac{\Delta G_{ox}(\phi)}{k_{B}T}\right)\nonumber \\
+k_{red}=A\exp\left(-\frac{\Delta G_{red}(\phi)}{k_{B}T}\right)
+\end{align}
+
+\end_inset
+
+ % In a first order Taylor expansion we can rewrite Gibbs energy in terms
+ of the deviation of the electrostatic energy from a standard equilibrium
+ potential $E_{0}$, which is measured under standard conditions against
+ a $H$ reference electrode.
+ % 
+\begin_inset Formula 
+\begin{align}
+\Delta G_{ox}(\phi)\approx\Delta G_{ox}(E_{0})-\alpha_{ox}F(\phi-E_{0})\nonumber \\
+\Delta G_{red}(\phi)\approx\Delta G_{red}(E_{0})+\alpha_{red}F(\phi-E_{0})
+\end{align}
+
+\end_inset
+
+ % Here we used Faradays constant $F$ and the transfer coefficient $
+\backslash
+alpha_{ox}$ and $
+\backslash
+alpha_{red}$, which are related by $
+\backslash
+alpha_{ox} + 
+\backslash
+alpha_{red} = 1$.
+ The signs are choosen such that an increase in electrode potential decreases
+ the energy barrier and accelerates the oxidation process.
+ If we plug these Taylor terms into the net reaction flux at the boundaries
+ we obtain the so called Butler Volmer equation.
+ %
+\end_layout
+
+\begin_layout Standard
+% 
+\backslash
+subsection{Equilibrium Ideal Conditions} % Under ideal conditions the concentrat
+ions of oxidized and reduced species are equal and the energy barrier for
+ the reaction has the same magnitude for both directions % 
+\begin_inset Formula 
+\begin{align}
+c_{ox}(E_{0})=c_{red}(E_{0})\nonumber \\
+\Delta G_{ox}(E_{0})=\Delta G_{red}(E_{0})
+\end{align}
+
+\end_inset
+
+ % This means also that the net flux through the boundary is zero, which
+ yields that.
+ % 
+\begin_inset Formula 
+\begin{align}
+k_{ox}(E_{0})c_{red}(E_{0})=k_{red}(E_{0})c_{ox}(E_{0})\nonumber \\
+k_{ox}(E_{0})=k_{red}(E_{0})
+\end{align}
+
+\end_inset
+
+ % The standard equilibrium potential is the potential where both rate constants
+ have the same value 
+\backslash
+cite{bard_electrochemical_2001}.
+ So we can rewrite the equation also using the relationship for the transfer
+ coefficients.
+ We also used the dimensionless formulation, such that all constants are
+ gone.
+ % 
+\begin_inset Formula 
+\begin{align}
+f_{net}=k_{0}\left(c_{red}\exp\left(\alpha(\phi-E_{0})\right)-c_{ox}\exp\left(-(1-\alpha)(\phi-E_{0})\right)\right)
+\end{align}
+
+\end_inset
+
+ % 
+\backslash
+subsection{Nernst Equation - Nonideal Equilibrium Condition} % In equilibrium
+ the dynamics theory must collaps to a thermodynamic description of the
+ system.
+ Therefore electrode kinetic equation must obay the Nernst equation in equilibri
+um .
+ This gives a relationship between the equilibrium potential $
+\backslash
+phi_{eq}$ under non ideal conditions, the reference standard equilibrium
+ potential $E_0$ and the concentrations $c_{ox}$ and $c_{red}$.
+ %
+\end_layout
+
+\begin_layout Standard
+% In equilibrium under ideal conditions $c_{ox} = c_{red}$ and $
+\backslash
+phi_{eq} = E_0$.
+\end_layout
+
+\begin_layout Standard
+% A reduced species $Red$ in the metal electrode reacts by producing an
+ oxidized species $Ox^+$, which is positively charged,
+\end_layout
+
+\begin_layout Standard
+Equilibrium potentials at both electrodes, $E_{0,A}$ at anode and $E_{0,C}$.
+ Rate constants are
+\end_layout
+
+\begin_layout Standard
+The forward reaction is an electron loosing process, therefore it becomes
+ easier to loose electrons if the energy of the state is higher.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+bibfiles "masterthesis_citations"
+options "bibtotoc,plain"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter
+Attachements
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
