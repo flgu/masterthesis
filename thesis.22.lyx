@@ -3500,6 +3500,77 @@ I = 500, N = 2 ** 15, Dt = 1e-4, T = 300, L = 10, lengthscale = 1e9, c0_in
 
 \end_layout
 
+\end_inset
+
+l
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename figures/20180602_model1_test2_UI.pdf
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+I = 500, N = 2 ** 15, Dt = 1e-4, T = 300, L = 10, lengthscale = 1e9, c0_in
+ = 1.0, DA = 1.0, DC = 1.0, D0_in = 1e-10, epsilon = 1.0, epsilon_m = 80.0, testname
+ = "model_1", model = 1, sim_method = "single_const", kA = 1e-3, kC = 1e-3,
+ foxA = 0.5e-3, foxC = 0.5e-3
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+l
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename figures/20180602_model_1_test1_anode_highlow_1.pdf
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Plain Layout
 
 \end_layout
