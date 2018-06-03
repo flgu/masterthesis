@@ -127,7 +127,7 @@ class Setup():
                 self.model = model    
     
 #----- setter methods for simulation data ------------------------------------------------------------
-    def set_current_data( self, current ):
+    def set_current_data( self, current, steady_state = False ):
         """
         Save simulated current data automatically converted to mA / cm^2
         Void
@@ -141,6 +141,11 @@ class Setup():
         # automatically convert to mA / cm^2
         self.current_data = current * self.f0 * self.ELE_CHARGE * 1e17
         self.simulation_date = str(date.today())
+
+        # extract steady state data
+        if steady_state == True:
+
+            self.current_ss = current[:,-1] * self.f0 * self.ELE_CHARGE * 1e17
         
     def set_input_voltage_data( self, voltage, nondim = True ):
         """
@@ -187,7 +192,7 @@ class Setup():
             
         
         
-    def set_sol_data( self, sol ):
+    def set_sol_data( self, sol, steady_state = False ):
         """
         Save solution matrix. Automatic convert to M and mV
         Void
@@ -201,7 +206,13 @@ class Setup():
         # convert to potential to mV
         sol[2*self.I:3*self.I,:] *= self.phi0 * 1e3
         
-        self.sol_data = sol
+        if steady_state == False:
+
+            self.sol_data = sol
+
+        else:
+
+            self.sol_data = sol[:,-1]
 
 #------- load and save methods -------------------------------------------------------------------
     @classmethod
@@ -249,13 +260,43 @@ class Setup():
         """
         
         # create time axis
-        t = np.zeros(N, dtype = np.float64)
-        for j in range(0,N):
+        t = np.zeros(self.N, dtype = np.float64)
+        for j in range(0,self.N):
 
-            t[j] = j * Dt
+            t[j] = j * self.Dt
             
-        return t,
-    
+        return t
+    def createVoltage( self, ampl, num = 30 ):
+
+        # create time axis
+        t = self.create_time_axis()
+        
+        voltage = np.zeros(self.N, dtype = np.float64)
+
+        # Sampling and Nyquist Frequency
+        f_Ny = np.floor(1.0 / (2.2 * self.Dt)) # Maximal frerquency with secturity 2.2, floor that
+        f_s = 1.0 / (self.N * self.Dt)
+
+        singl_ampl = ampl * 1e-3 / self.phi0
+
+        # create factor array
+        fac_arr = np.concatenate( (np.array([2, 4, 6, 8]), np.geomspace(10,np.floor(f_Ny / f_s), num = num)) )
+
+        # loop over all multiplicative factors
+        for i in range(0, fac_arr.size):
+
+            freq = f_s * int(fac_arr[i]) # calc frequency
+
+            voltage += singl_ampl * np.sin( 2 * np.pi * freq * t ) # add sine to voltage output
+
+        print("Min Freq, Frequency Resolution Df [Hz]: ", 1.0 / (self.N * self.Dt * self.T0))
+        print("Min Freq, Frequency Resolution Df [None]: ", 1.0 / (self.N * self.Dt))
+        print("Maximal Frequency, Nyquist [Hz]: ", 1.0 / (self.T0 * 2.2 * self.Dt))
+        print("Maximal Frequency, Nyquist [None]: ", 1.0 / (2.2 * self.Dt))
+        print("Number of Points: ", self.N)
+        print("Total Amplitude [mV]: ", np.abs( voltage.max() - voltage.min() ) * self.phi0 *1e3)
+
+        return voltage
     
 
 
@@ -286,46 +327,7 @@ def calcAxis( I ):
 
     return Dx, centers
 
-def createVoltage( setup, ampl ):
 
-    N = setup.N
-    Dt = setup.Dt
-    phi0 = setup.phi0
-    T0 = setup.T0
-
-    # create time axis
-    t = np.zeros(N, dtype = np.float64)
-    for j in range(0,N):
-
-        t[j] = j * Dt
-
-
-    voltage = np.zeros(N, dtype = np.float64)
-
-    # Sampling and Nyquist Frequency
-    f_Ny = np.floor(1.0 / (2.2 * Dt)) # Maximal frerquency with secturity 2.2, floor that
-    f_s = 1.0 / (N * Dt)
-
-    singl_ampl = ampl * 1e-3 / setup.phi0
-
-    # create factor array
-    fac_arr = np.concatenate( (np.array([2, 4, 6, 8]), np.geomspace(10,np.floor(f_Ny / f_s), num = 60)) )
-
-    # loop over all multiplicative factors
-    for i in range(0, fac_arr.size):
-
-        freq = f_s * int(fac_arr[i]) # calc frequency
-
-        voltage += singl_ampl * np.sin( 2 * np.pi * freq * t ) # add sine to voltage output
-
-    print("Min Freq, Frequency Resolution Df [Hz]: ", 1.0 / (N * Dt * T0))
-    print("Min Freq, Frequency Resolution Df [None]: ", 1.0 / (N * Dt))
-    print("Maximal Frequency, Nyquist [Hz]: ", 1.0 / (T0 * 2.2 * Dt))
-    print("Maximal Frequency, Nyquist [None]: ", 1.0 / (2.2 * Dt))
-    print("Number of Points: ", N)
-    print("Total Amplitude [mV]: ", np.abs( voltage.max() - voltage.min() ) * phi0 *1e3)
-
-    return voltage, t
 
 def solver( setup ):
 
@@ -441,7 +443,7 @@ def solver( setup ):
                                     setup.model, kC, foxC, sol[I-1,j] )
 
             # check convergence to steady state
-            if j > 50 and np.linalg.norm(np.subtract(sol[0:I,j], sol[0:I,j-1])) < setup.steady_state_tol:
+            if j > 50 and np.linalg.norm(np.subtract(sol[:,j], sol[:,j-1])) < setup.steady_state_tol:
                 print("Steady State reached")
                 break
 
@@ -452,19 +454,13 @@ def solver( setup ):
             setup.set_input_voltage_data( phiC[:j+1], nondim = False  )
             setup.N = j+1
 
+
         # set results in setup obj
-        setup.set_sol_data( sol[:,:j+1] )
-        setup.set_current_data( current[:,:j+1] )
+        setup.set_sol_data( sol[:,:j+1], steady_state = True )
+        setup.set_current_data( current[:,:j+1], steady_state = True )
 
         # save results
-        
-        #np.save(setup.testname + "_sol.npy", sol)
-        #np.save(setup.testname + "_current.npy", current)
-
-        
-
-
-
+        setup.save()
 
 
     elif setup.sim_method == "full_imp":
@@ -541,6 +537,11 @@ def solver( setup ):
         # current only output method
     if setup.sim_method == "c_only_imp":
 
+        print('Start Impedance - current only - Simulation')
+
+        # create impedance voltage
+        phiC = setup.createVoltage( 0.5 )
+
         # allocate output vectors
 
         sol1 = np.zeros([3 * I], dtype = np.float64)
@@ -599,11 +600,13 @@ def solver( setup ):
             if j >= 2:
 
                 # anodic current
-                current[0,j] = calcAnodicCurrent( sol1[2*I], sol2[2*I], sol3[2*I], Dt, Dx[0], setup.chi2 )
+                current[0,j] = calcAnodicCurrent( sol1[2*I], sol2[2*I], sol3[2*I], Dt, Dx[0], setup.chi2,
+                                setup.model, kA, foxA, sol1[0] )
 
                 # catodic current
                 current[1,j] = calcCatodicCurrent( sol1[3*I-1], sol2[3*I-1], sol3[3*I-1],
-                                    phiC[j], phiC[j-1], phiC[j-2], Dt, Dx[I-1], setup.chi2 )
+                                    phiC[j], phiC[j-1], phiC[j-2], Dt, Dx[I-1], setup.chi2,
+                                    setup.model, kC, foxC, sol1[I-1] )
             # step solution
             sol3  = sol2
             sol2 = sol1
