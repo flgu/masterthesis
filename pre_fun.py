@@ -443,19 +443,20 @@ def solver( setup ):
                                     setup.model, kC, foxC, sol[I-1,j] )
 
             # check convergence to steady state
-            if j > 50 and np.linalg.norm(np.subtract(sol[:,j], sol[:,j-1])) < setup.steady_state_tol:
-                print("Steady State reached")
-                break
+            if not setup.steady_state_tol == None:
+                if j > 50 and np.linalg.norm(np.subtract(sol[:,j], sol[:,j-1])) < setup.steady_state_tol:
+                    print("Steady State reached")
+                    break
 
         print("Save Results")
 
         if j<N-1:
-
-            setup.set_input_voltage_data( phiC[:j+1], nondim = False  )
+            
             setup.N = j+1
 
 
         # set results in setup obj
+        setup.set_input_voltage_data( phiC[:j+1], nondim = False  )
         setup.set_sol_data( sol[:,:j+1], steady_state = True )
         setup.set_current_data( current[:,:j+1], steady_state = True )
 
