@@ -9,6 +9,7 @@ from libc.math cimport exp
 @cython.wraparound(False)   # Deactivate negative indexing.
 def residual( 
                int I,
+               int I_middle,
                double [:] Dx not None,
                double [:] solN not None, 
                double [:] sol1 not None,
@@ -24,6 +25,8 @@ def residual(
                double foxC,
                double E0_A,
                double E0_C,
+               double cA,
+               double cC,
                double alpha,
                double phiC,
                double [:] epsilon not None,
@@ -100,11 +103,12 @@ def residual(
         # Potential difference between electrode and nearest solution
         fA = foxA - kA * solN[0]
         fC = kC * solN[I-1] - foxC
-        
+
     elif model == 2:
 
-        fA = foxA * exp( -alpha * ( E0_A - solN[2*I] )) - kC * solN[0] * exp( (1 - alpha) * ( E0_A - solN[2*I] ))
-        fC = kA * solN[I-1] * exp( (1 - alpha) * ( E0_C - (phiC - solN[3*I-1]) )) - foxC * exp( -alpha * ( E0_C - (phiC - solN[3*I-1]) ))
+        fA = ( kA * cA *  exp( alpha * (  solN[2*I + I_middle] - E0_A )) - kA * solN[0 + I_middle] * exp( -(1 - alpha) * ( solN[2*I + I_middle] - E0_A )) )
+        fC = kC * solN[I-1 - I_middle] * exp( -(1 - alpha) * ( phiC - solN[3*I-1 - I_middle] - E0_C )) - kC * cC * exp( alpha * ( phiC - solN[3*I-1 - I_middle] - E0_C ))
+        
 
     # upwinding
     
@@ -428,17 +432,33 @@ def calcAnodicCurrent( double phiN,
                         int model,
                         double kA,
                         double foxA,
+                        double E0_A,
+                        double cA,
+                        double alpha,
                         double solA ):
-
+    """
+    
+    """
     cdef double current_A = 0.0
     # BDF 2
     if model == 0:
+        
         current_A = -(3.0 * (phiN) - 4.0 * (phi1) + (phi2)) / (2.0 * Dt * Dx * chi2)
+
     elif model == 1:
         
         current_A = foxA - kA * solA - (3.0 * (phiN) - 4.0 * (phi1) + (phi2)) / (2.0 * Dt * Dx * chi2)
 
+    elif model == 2:
+
+        # calc Butler Volmer flux
+        fA =( kA * cA *  exp( alpha * (  phiN - E0_A )) - kA * solA * exp( -(1 - alpha) * ( phiN - E0_A )) )
+
+        current_A = fA -(3.0 * (phiN) - 4.0 * (phi1) + (phi2)) / (2.0 * Dt * Dx * chi2)
+
     return current_A 
+
+
 
 def calcCatodicCurrent( double phiN,
                         double phi1,
@@ -452,6 +472,9 @@ def calcCatodicCurrent( double phiN,
                         int model,
                         double kC,
                         double foxC,
+                        double E0_C,
+                        double cC,
+                        double alpha,
                         double solC ):
 
     cdef double current_C = 0.0
@@ -459,11 +482,18 @@ def calcCatodicCurrent( double phiN,
     # BDF 2
     if model == 0:
         
-        current_C = ( -(3.0 * (phiN - phiCN) - 4.0 * (phi1 - phiC1) + (phi2 - phiC2)) / (2.0 * Dt * Dx * chi2) )
+        current_C = -(3.0 * (phiN - phiCN) - 4.0 * (phi1 - phiC1) + (phi2 - phiC2)) / (2.0 * Dt * Dx * chi2)
 
     elif model == 1:
 
         current_C = kC * solC - foxC -(3.0 * (phiN - phiCN) - 4.0 * (phi1 - phiC1) + (phi2 - phiC2)) / (2.0 * Dt * Dx * chi2)
+
+    elif model == 2:
+
+        # calc Butler Volmer flux
+        fC = kC * solC * exp( -(1 - alpha) * ( phiCN - phiN - E0_C )) - kC * cC * exp( alpha * ( phiCN - phiN - E0_C ))
+
+        current_C = fC -(3.0 * (phiN - phiCN) - 4.0 * (phi1 - phiC1) + (phi2 - phiC2)) / (2.0 * Dt * Dx * chi2)
         
     return current_C
 
@@ -473,6 +503,7 @@ def calcCatodicCurrent( double phiN,
 
 def time_step_full( int N,
                     int I,
+                    int I_middle,
                     double [:] Dx,
                     sol,
                     double chi1,
@@ -486,6 +517,8 @@ def time_step_full( int N,
                     double foxC,
                     double E0_A,
                     double E0_C,
+                    double cA,
+                    double cC,
                     double alpha,
                     double [:] phiC,
                     double [:] epsilon_vec,
@@ -526,6 +559,7 @@ def time_step_full( int N,
 
         sol[:,j] = newton_krylov( lambda y: residual(
                                     I,
+                                    I_middle,
                                     Dx,
                                     y,
                                     sol[:,j-1], # sol1 (j-1)
@@ -541,6 +575,8 @@ def time_step_full( int N,
                                     foxC,
                                     E0_A,
                                     E0_C,
+                                    cA,
+                                    cC,
                                     alpha,
                                     phiC[j],
                                     epsilon_vec,
@@ -558,21 +594,25 @@ def time_step_full( int N,
         if j >= 2:
 
             # anodic current
-            current[0,j] = calcAnodicCurrent( sol[ 2 * I, j],
-                                              sol[ 2 * I, j-1],
-                                              sol[2 * I,j-2],
+            current[0,j] = calcAnodicCurrent( sol[ 2 * I + I_middle, j],
+                                              sol[ 2 * I + I_middle, j-1],
+                                              sol[2 * I + I_middle,j-2],
                                               Dt,
                                               Dx[0],
                                               chi2,
                                               model,
                                               kA,
                                               foxA,
-                                              sol[0,j] )
+                                              E0_A,
+                                              cA,
+                                              alpha,
+                                              sol[0 + I_middle,j],
+                                               )
 
             # catodic current
-            current[1,j] = calcCatodicCurrent( sol[ 3 * I-1, j],
-                                               sol[ 3 * I-1, j-1],
-                                               sol[ 3 * I-1, j-2],
+            current[1,j] = calcCatodicCurrent( sol[ 3 * I-1 - I_middle, j],
+                                               sol[ 3 * I-1 - I_middle, j-1],
+                                               sol[ 3 * I-1 - I_middle, j-2],
                                                phiC[j],
                                                phiC[j-1],
                                                phiC[j-2],
@@ -582,7 +622,11 @@ def time_step_full( int N,
                                                model,
                                                kC,
                                                foxC,
-                                               sol[ I-1,j] )
+                                               E0_C,
+                                               cC,
+                                               alpha,
+                                               sol[ I-1 - I_middle,j] )
+
 
         # check convergence to steady state
         if not steady_state_tol == 0.0:
@@ -594,6 +638,7 @@ def time_step_full( int N,
 
 def time_step_red( int N,
                     int I,
+                    int I_middle,
                     double [:] Dx,
                     sol_initial,
                     double chi1,
@@ -607,6 +652,8 @@ def time_step_red( int N,
                     double foxC,
                     double E0_A,
                     double E0_C,
+                    double cA,
+                    double cC,
                     double alpha,
                     double [:] phiC,
                     double [:] epsilon_vec,
@@ -657,6 +704,7 @@ def time_step_red( int N,
 
         sol1 = newton_krylov( lambda y: residual(
                                     I,
+                                    I_middle,
                                     Dx,
                                     y,
                                     sol2, # sol1 (j-1)
@@ -672,6 +720,8 @@ def time_step_red( int N,
                                     foxC,
                                     E0_A,
                                     E0_C,
+                                    cA,
+                                    cC,
                                     alpha,
                                     phiC[j],
                                     epsilon_vec,
@@ -689,21 +739,24 @@ def time_step_red( int N,
         if j >= 2:
 
             # anodic current
-            current[0,j] = calcAnodicCurrent( sol1[ 2 * I],
-                                              sol2[ 2 * I],
-                                              sol3[2 * I],
+            current[0,j] = calcAnodicCurrent( sol1[ 2 * I + I_middle],
+                                              sol2[ 2 * I + I_middle],
+                                              sol3[2 * I + I_middle],
                                               Dt,
                                               Dx[0],
                                               chi2,
                                               model,
                                               kA,
                                               foxA,
-                                              sol1[0] )
+                                              E0_A,
+                                              cA,
+                                              alpha,
+                                              sol1[0 + I_middle] )
 
             # catodic current
-            current[1,j] = calcCatodicCurrent( sol1[ 3 * I-1],
-                                               sol2[ 3 * I-1],
-                                               sol3[ 3 * I-1],
+            current[1,j] = calcCatodicCurrent( sol1[ 3 * I-1 - I_middle],
+                                               sol2[ 3 * I-1 - I_middle],
+                                               sol3[ 3 * I-1 - I_middle],
                                                phiC[j],
                                                phiC[j-1],
                                                phiC[j-2],
@@ -713,7 +766,10 @@ def time_step_red( int N,
                                                model,
                                                kC,
                                                foxC,
-                                               sol1[ I-1] )
+                                               E0_C,
+                                               cC,
+                                               alpha,
+                                               sol1[ I-1 - I_middle] )
          # step solution
         sol3  = sol2
         sol2 = sol1

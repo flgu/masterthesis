@@ -28,10 +28,12 @@ class Setup():
     BOLTZMANN_CONST = 1.38064852e-23 # [Joule/Kelvin], constant value
 
 
-    def __init__( self, I, N, Dt, T, L, lengthscale, c0_in, DA, DC, D0_in, 
-                 epsilon, epsilon_m, testname, model, sim_method, kA, kC, foxA, foxC, E0_A, E0_C, alpha, **kwargs ):
+    def __init__( self, I, I_middle, N, Dt, T, L, lengthscale, c0_in, DA, DC, D0_in, 
+                 epsilon, epsilon_m, testname, model, sim_method, kA, kC, foxA, foxC, E0_A, E0_C, cA, cC,
+                  alpha, **kwargs ):
 
         self.I = I
+        self.I_middle = I_middle
         self.N = N
         self.Dt = Dt
         self.T = T
@@ -52,6 +54,8 @@ class Setup():
         self.foxC = foxC
         self.E0_A = E0_A
         self.E0_C = E0_C
+        self.cA = cA
+        self.cC = cC
         self.alpha = alpha
 
         # possible output method:
@@ -88,7 +92,7 @@ class Setup():
         Setter method for model
         Void
         """
-        test_attr = ['kA', 'kC', 'foxA', 'foxC', 'E0_C', 'E0_A', 'alpha']
+        test_attr = ['kA', 'kC', 'foxA', 'foxC', 'E0_C', 'E0_A', 'cA', 'cC', 'alpha']
         logical_list = []
         
         if model == 0:
@@ -371,6 +375,7 @@ class Setup():
 
             sol, current, j = time_step_full( self.N,
                     self.I,
+                    self.I_middle,
                     Dx,
                     sol,
                     self.chi1,
@@ -384,6 +389,8 @@ class Setup():
                     self.foxC,
                     self.E0_A,
                     self.E0_C,
+                    self.cA,
+                    self.cC,
                     self.alpha,
                     phiC,
                     epsilon_vec,
@@ -393,7 +400,7 @@ class Setup():
                     self.steady_state_tol
                      )
 
-            print("Save Results")
+            
 
             if j<self.N-1:
                 
@@ -401,13 +408,13 @@ class Setup():
 
 
             # set results in setup obj
-            self.norm = np.linalg.norm(sol, ord = 2, axis = 0)
             self.set_input_voltage_data( phiC[:j+1], nondim = False  )
             self.set_sol_data( sol[:,:j+1], steady_state = True )
             self.set_current_data( current[:,:j+1], steady_state = True )
             self.total_concentration = np.tensordot(sol[0:self.I,:],Dx, axes = ([0], [0]) )
 
             # save results
+            print("Save Results")
             self.save()
 
 
@@ -457,6 +464,8 @@ class Setup():
                                             self.foxC,
                                             self.E0_A,
                                             self.E0_C,
+                                            self.cA,
+                                            self.cC,
                                             self.alpha,
                                             phiC[j],
                                             epsilon_vec,
@@ -495,6 +504,7 @@ class Setup():
 
             current = time_step_red( self.N,
                     self.I,
+                    self.I_middle,
                     Dx,
                     sol_initial,
                     self.chi1,
@@ -508,6 +518,8 @@ class Setup():
                     self.foxC,
                     self.E0_A,
                     self.E0_C,
+                    self.cA,
+                    self.cC,
                     self.alpha,
                     phiC,
                     epsilon_vec,

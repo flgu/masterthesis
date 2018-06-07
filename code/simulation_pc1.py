@@ -15,7 +15,7 @@ from pre_fun import *
 def caller( setup ):
 
   setup.solver()
-	
+  
 
 if __name__ == "__main__":
 
@@ -58,6 +58,8 @@ if __name__ == "__main__":
         stp.set_input_voltage_data( voltage_list[i] )
 
         setup_list.append( stp )
+
+    
 
     # Start simulation
     pool = mp.Pool(processes = 4)
