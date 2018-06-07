@@ -168,7 +168,16 @@ f^{\pm} & =-D^{\pm}(x)\left(\partial_{x}c^{\pm}\left(x,t\right)+e\beta z^{\pm}c^
 
 \end_inset
 
- % The "mean field" self consistent electrostatic potential is generated
+Inserting this into the conservation law gives the basic transport model
+ for the ion concentrations.
+\begin_inset Formula 
+\begin{align}
+\partial_{t}c^{\pm}\left(x,t\right) & =-\partial_{x}\left(-D^{\pm}(x)\left(\partial_{x}c^{\pm}\left(x,t\right)+e\beta z^{\pm}c^{\pm}\left(x,t\right)\partial_{x}\phi\left(x,t\right)\right)\right)\label{eq:transport_equation}
+\end{align}
+
+\end_inset
+
+% The "mean field" self consistent electrostatic potential is generated
  by the charge density of the ions through the Poisson equation.
  The solvent enters the model only through the dielectric constant
 \begin_inset Formula $\epsilon=\epsilon_{medium}\epsilon_{0}$
@@ -2637,6 +2646,62 @@ Therefore we can formulate a control parameter of the system to investigate
 
 \end_layout
 
+\begin_layout Itemize
+Steady state of the equation 
+\begin_inset Formula $\partial_{t}c^{\pm}=0$
+\end_inset
+
+ and no flux boundary conditions gives an analytic solution to the system
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula 
+\begin{align*}
+\partial_{t}c^{\pm}\left(x,t\right) & =-\partial_{x}\left(-D^{\pm}(x)\left(\partial_{x}c^{\pm}\left(x,t\right)+\chi_{1}z^{\pm}c^{\pm}\left(x,t\right)\partial_{x}\phi\left(x,t\right)\right)\right)\\
+0 & =-\partial_{x}\left(-D^{\pm}(x)\left(\partial_{x}c^{\pm}\left(x\right)+\chi_{1}z^{\pm}c^{\pm}\left(x,t\right)\partial_{x}\phi\left(x\right)\right)\right)\\
+const. & =C_{1}=-D^{\pm}(x)\left(\partial_{x}c^{\pm}\left(x\right)+\chi_{1}z^{\pm}c^{\pm}\left(x,t\right)\partial_{x}\phi\left(x\right)\right)
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Consider constant diffusivities in the electrolyte.
+\begin_inset Formula 
+\begin{align*}
+-\frac{C_{1}}{D} & =\partial_{x}c^{\pm}\left(x\right)+\chi_{1}z^{\pm}c^{\pm}\left(x\right)\partial_{x}\phi\left(x\right)\\
+-\frac{C_{1}}{Dc^{\pm}\left(x\right)}-\frac{1}{c^{\pm}\left(x\right)}\partial_{x}c^{\pm}\left(x\right) & =\chi_{1}z^{\pm}\partial_{x}\phi\left(x\right)\\
+-\int\frac{C_{1}}{Dc^{\pm}\left(x\right)}dx-\int\partial_{x}\ln\left(c^{\pm}\left(x\right)\right)dx & =\chi_{1}z^{\pm}\int\partial_{x}\phi\left(x\right)dx\\
+\frac{C_{1}}{D}\ln\left(c^{\pm}\left(x\right)\right)-\ln\left(c^{\pm}\left(x\right)\right) & =\chi_{1}z^{\pm}\phi\left(x\right)+C_{2}\\
+\ln\left(c^{\pm}\left(x\right)\right) & =-\frac{\chi_{1}z^{\pm}\phi\left(x\right)}{\left[1-\frac{C_{1}}{D}\right]}+C_{2}\\
+c^{\pm}\left(x\right) & =c_{0}\exp\left(-\frac{\chi_{1}z^{\pm}\phi\left(x\right)}{\left[1-\frac{C_{1}}{D}\right]}\right)
+\end{align*}
+
+\end_inset
+
+In equilibrium we can assume that the flux vanishes everwhere, so we can
+ set the constant 
+\begin_inset Formula $C_{1}=0$
+\end_inset
+
+.
+ This leads to a classic Boltzmann distribution of the concentration in
+ the electrolyte.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula 
+\begin{align*}
+c^{\pm}\left(x\right) & =c_{0}\exp\left(-\chi_{1}z^{\pm}\phi\left(x\right)\right)
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section
 Influence of Electrode Separation Length
 \end_layout
@@ -2899,6 +2964,223 @@ Following this the overall change of the concentration in the electrolyte
 
 \end_layout
 
+\begin_layout Itemize
+Extension of the model to electrontransferreactions (following Schmickler
+ Grundlagen der Elektrochemie)
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula 
+\begin{align}
+O^{+}+e^{-} & \leftrightharpoons R
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Ions were created or destroyed by transfor of an electron with charge 
+\begin_inset Formula $q=-e$
+\end_inset
+
+, (we assume valency 1)
+\end_layout
+
+\begin_layout Itemize
+We also assume that the structure of the molecules are not modfied by this
+ electrontransfer, so this is similar to an outer sphere reaction
+\end_layout
+
+\begin_layout Itemize
+The ativation energy barrier of the transfer reaction is given by the GIbbs
+ enthalpie 
+\begin_inset Formula $\Delta G_{O}\left(\phi_{el}\right)$
+\end_inset
+
+ and 
+\begin_inset Formula $\Delta G_{R}\left(\phi_{el}\right)$
+\end_inset
+
+, which is assumed to be functions of the electrode electrostatic potential
+ 
+\begin_inset Formula $\phi_{el}$
+\end_inset
+
+.
+ Therefore the enthaltpie can be expanded in a Taylorseries about the equilibriu
+m potential 
+\begin_inset Formula $\phi_{el}^{0}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula 
+\begin{align*}
+\Delta G_{O}\left(\phi_{el}\right) & =\Delta G_{O}\left(\phi_{el}^{0}\right)+\left.\frac{\partial\Delta G_{O}}{\partial\phi_{el}}\right|_{\phi_{el}^{0}}\left(\phi_{el}-\phi_{el}^{0}\right)\\
+\Delta G_{R}\left(\phi_{el}\right) & =\Delta G_{R}\left(\phi_{el}^{0}\right)+\left.\frac{\partial\Delta G_{R}}{\partial\phi_{el}}\right|_{\phi_{el}^{0}}\left(\phi_{el}-\phi_{el}^{0}\right)
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Introducing the weighting factors one can write
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula 
+\begin{align*}
+\alpha & =-\frac{1}{F}\left.\frac{\partial\Delta G_{O}}{\partial\phi_{el}}\right|_{\phi_{el}^{0}}\\
+\beta & =\frac{1}{F}\left.\frac{\partial\Delta G_{R}}{\partial\phi_{el}}\right|_{\phi_{el}^{0}}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula 
+\begin{align*}
+\Delta G_{O}\left(\phi_{el}\right) & =\Delta G_{O}\left(\phi_{el}^{0}\right)-\alpha F\left(\phi_{el}-\phi_{el}^{0}\right)\\
+\Delta G_{R}\left(\phi_{el}\right) & =\Delta G_{R}\left(\phi_{el}^{0}\right)+\beta F\left(\phi_{el}-\phi_{el}^{0}\right)
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Higher electrodepotential leads to a smaller activation barrier.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $F\phi_{el}$
+\end_inset
+
+ is the electrostatic contribution to the gibbs energy
+\end_layout
+
+\begin_layout Itemize
+The equilibrium barrier is equal for both directions 
+\begin_inset Formula $\Delta G_{R}\left(\phi_{el}^{0}\right)=\Delta G_{O}\left(\phi_{el}^{0}\right)$
+\end_inset
+
+, because at the equilibrium potential the net flux vanishes.
+\end_layout
+
+\begin_layout Itemize
+weighting factors 
+\begin_inset Formula 
+\begin{align*}
+\alpha+\beta & =1
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+This leads to Butler Volmer equation in nondimensionalized form, which takes
+ all constants away
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula 
+\begin{align*}
+f_{net} & =k_{0}c_{R}\exp\left(\alpha\left(\phi_{el}-\phi_{el}^{0}\right)\right)-k_{0}c_{O}\exp\left(-\left(1-\alpha\right)\left(\phi_{el}-\phi_{el}^{0}\right)\right)
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Here the concentration of the involved species at the electrode surface
+\end_layout
+
+\begin_layout Itemize
+In our model we assume that the electron transfer between electrode and
+ ion occurs over the phase boundary at the electrode surface.
+\end_layout
+
+\begin_layout Itemize
+Simultaniously the reduced species is transfered into the electrode, where
+ it is intercalated.
+\end_layout
+
+\begin_layout Itemize
+So the energy difference of the electron is given by the difference between
+ electrode, denoted by M for metal, and solution directly at the electrode
+ surface
+\begin_inset Formula $\phi_{el}\approx\Delta\phi_{el}=\phi_{sol}-\phi_{M}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula 
+\begin{align*}
+\Delta\phi_{A} & =\phi_{0,j}-\phi_{A,j}\\
+\Delta\phi_{C} & =\phi_{C}-\phi_{I-1,j}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+We denote the equilibrium potentials with 
+\begin_inset Formula $E_{A}^{0}$
+\end_inset
+
+ for the anode and 
+\begin_inset Formula $E_{C}^{0}$
+\end_inset
+
+ for the catode.
+\end_layout
+
+\begin_layout Itemize
+We can write for the boundary fluxes (
+\begin_inset Formula $\phi_{A}=0$
+\end_inset
+
+)
+\begin_inset Formula 
+\begin{align*}
+f_{A} & =k_{A}c_{A,j}\exp\left(\alpha\left(\phi_{0,j}-E_{A}^{0}\right)\right)-k_{A}c_{0,j}\exp\left(-\left(1-\alpha\right)\left(\phi_{0,j}-E_{A}^{0}\right)\right)\\
+f_{C} & =k_{C}c_{I-1,j}\exp\left(-\left(1-\alpha\right)\left(\phi_{C}-\phi_{I-1,j}-E_{C}^{0}\right)\right)-k_{C}c_{C,j}\exp\left(\alpha\left(\phi_{C}-\phi_{I-1,j}-E_{C}^{0}\right)\right)
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Here we denote the concentration in the anode with 
+\begin_inset Formula $c_{A}$
+\end_inset
+
+ and in the catode with 
+\begin_inset Formula $c_{C}$
+\end_inset
+
+, for simplicity we assume, that there are constant
+\end_layout
+
 \begin_layout Standard
 Ion transfer process.
  Ion is incorporated in metal or solved in solution.
@@ -2915,13 +3197,6 @@ Ion transfer process.
 \end_layout
 
 \begin_layout Standard
-\begin_inset Formula 
-\begin{align}
-O^{+}+e^{-} & \leftrightharpoons R
-\end{align}
-
-\end_inset
-
 A reduced species 
 \begin_inset Formula $R$
 \end_inset
