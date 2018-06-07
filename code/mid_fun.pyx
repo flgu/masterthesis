@@ -3,6 +3,7 @@ from numpy.linalg import inv
 from scipy.optimize import newton_krylov
 cimport numpy as cnp
 cimport cython
+from libc.math cimport exp
 
 @cython.boundscheck(False)  # Deactivate bounds checking
 @cython.wraparound(False)   # Deactivate negative indexing.
@@ -21,6 +22,9 @@ def residual(
                double kC, 
                double foxA, 
                double foxC,
+               double E0_A,
+               double E0_C,
+               double alpha,
                double phiC,
                double [:] epsilon not None,
                int model,
@@ -99,8 +103,8 @@ def residual(
         
     elif model == 2:
 
-        fA = 0.0
-        fC = 0.0
+        fA = foxA * exp( -alpha * ( E0_A - solN[2*I] )) - kC * solN[0] * exp( (1 - alpha) * ( E0_A - solN[2*I] ))
+        fC = kA * solN[I-1] * exp( (1 - alpha) * ( E0_C - (phiC - solN[3*I-1]) )) - foxC * exp( -alpha * ( E0_C - (phiC - solN[3*I-1]) ))
 
     # upwinding
     
@@ -480,6 +484,9 @@ def time_step_full( int N,
                     double kC,
                     double foxA,
                     double foxC,
+                    double E0_A,
+                    double E0_C,
+                    double alpha,
                     double [:] phiC,
                     double [:] epsilon_vec,
                     int model,
@@ -532,6 +539,9 @@ def time_step_full( int N,
                                     kC,
                                     foxA,
                                     foxC,
+                                    E0_A,
+                                    E0_C,
+                                    alpha,
                                     phiC[j],
                                     epsilon_vec,
                                     model,
@@ -595,6 +605,9 @@ def time_step_red( int N,
                     double kC,
                     double foxA,
                     double foxC,
+                    double E0_A,
+                    double E0_C,
+                    double alpha,
                     double [:] phiC,
                     double [:] epsilon_vec,
                     int model,
@@ -657,6 +670,9 @@ def time_step_red( int N,
                                     kC,
                                     foxA,
                                     foxC,
+                                    E0_A,
+                                    E0_C,
+                                    alpha,
                                     phiC[j],
                                     epsilon_vec,
                                     model,
