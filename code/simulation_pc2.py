@@ -76,14 +76,18 @@ stp3 = Setup(  I = 500,
 
 
 
+def caller( setup ):
+	setup.solver()
+	
+
 if __name__ == "__main__":
 
     t1 = clock()
 
 	# start multiprocessing
-    p1 = mp.Process( target = stp1.solver() )
-    p2 = mp.Process( target = stp2.solver() )
-    p3 = mp.Process( target = stp3.solver() )
+    p1 = mp.Process( target = caller, args = (stp1, ) )
+    p2 = mp.Process( target = caller, args = (stp2, ) )
+    p3 = mp.Process( target = caller, args = (stp3, ) )
     #p4 = mp.Process( target = solver, args = ( stp4, ))
 
 
