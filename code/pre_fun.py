@@ -29,7 +29,7 @@ class Setup():
 
 
     def __init__( self, I, N, Dt, T, L, lengthscale, c0_in, DA, DC, D0_in, 
-                 epsilon, epsilon_m, testname, model, sim_method, kA, kC, foxA, foxC, **kwargs ):
+                 epsilon, epsilon_m, testname, model, sim_method, kA, kC, foxA, foxC, E0_A, E0_C, alpha, **kwargs ):
 
         self.I = I
         self.N = N
@@ -50,6 +50,9 @@ class Setup():
         self.kC = kC
         self.foxA = foxA
         self.foxC = foxC
+        self.E0_A = E0_A
+        self.E0_C = E0_C
+        self.alpha = alpha
 
         # possible output method:
         #                        - full: saves current and full solution vector
@@ -85,7 +88,7 @@ class Setup():
         Setter method for model
         Void
         """
-        test_attr = ['kA', 'kC', 'foxA', 'foxC']
+        test_attr = ['kA', 'kC', 'foxA', 'foxC', 'E0_C', 'E0_A', 'alpha']
         logical_list = []
         
         if model == 0:
@@ -379,6 +382,9 @@ class Setup():
                     self.kC,
                     self.foxA,
                     self.foxC,
+                    self.E0_A,
+                    self.E0_C,
+                    self.alpha,
                     phiC,
                     epsilon_vec,
                     self.model,
@@ -399,8 +405,7 @@ class Setup():
             self.set_input_voltage_data( phiC[:j+1], nondim = False  )
             self.set_sol_data( sol[:,:j+1], steady_state = True )
             self.set_current_data( current[:,:j+1], steady_state = True )
-           # fehler bei der calculation
-           # self.total_concentration = np.tensordot(sol,Dx, axes = ([0], [0]) )
+            self.total_concentration = np.tensordot(sol[0:self.I,:],Dx, axes = ([0], [0]) )
 
             # save results
             self.save()
@@ -450,6 +455,9 @@ class Setup():
                                             self.kC,
                                             self.foxA,
                                             self.foxC,
+                                            self.E0_A,
+                                            self.E0_C,
+                                            self.alpha,
                                             phiC[j],
                                             epsilon_vec,
                                             self.model,
@@ -498,6 +506,9 @@ class Setup():
                     self.kC,
                     self.foxA,
                     self.foxC,
+                    self.E0_A,
+                    self.E0_C,
+                    self.alpha,
                     phiC,
                     epsilon_vec,
                     self.model,
