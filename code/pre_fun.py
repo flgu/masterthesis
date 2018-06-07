@@ -50,8 +50,7 @@ class Setup():
         # reaction boundary conditions
         self.kA = kA
         self.kC = kC
-        self.E0_A = E0_A
-        self.E0_C = E0_C
+        
         self.cA = cA
         self.cC = cC
         self.alpha = alpha
@@ -71,6 +70,10 @@ class Setup():
 
         self.T0 = self.L ** 2 / self.D0
         
+        # Butler Volmer euqilibrium energies
+        self.E0_A = E0_A / self.phi0
+        self.E0_C = E0_C / self.phi0
+
         # call setter methods
         self.set_ref_flux()
         
