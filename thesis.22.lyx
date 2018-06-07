@@ -607,12 +607,23 @@ ref{eq:NonDimConstants}.
  % 
 \begin_inset Formula 
 \begin{align}
-\lambda_{B}=\frac{e^{2}}{4\pi\bar{\epsilon}\epsilon_{0}k_{B}T}=\frac{\beta e^{2}}{4\pi\bar{\epsilon}\epsilon_{0}}\label{eq:BjerrumLength}
+\lambda_{B} & =\frac{e^{2}}{4\pi\bar{\epsilon}\epsilon_{0}k_{B}T}=\frac{\beta e^{2}}{4\pi\bar{\epsilon}\epsilon_{0}}\label{eq:BjerrumLength}
 \end{align}
 
 \end_inset
 
- % Constants, which are used for the numerical solution: % 
+Debye length
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\lambda_{D} & =\sqrt{\frac{\bar{\epsilon}k_{B}T}{N_{A}e^{2}\sum_{i}z_{i}^{2}c_{i}}}
+\end{align*}
+
+\end_inset
+
+Constants, which are used for the numerical solution: % 
 \begin_inset Formula 
 \begin{align}
 \chi_{1}=e\beta\phi_{0}\nonumber \\
@@ -2681,12 +2692,7 @@ c^{\pm}\left(x\right) & =c_{0}\exp\left(-\frac{\chi_{1}z^{\pm}\phi\left(x\right)
 
 \end_inset
 
-In equilibrium we can assume that the flux vanishes everwhere, so we can
- set the constant 
-\begin_inset Formula $C_{1}=0$
-\end_inset
-
-.
+We merge the denominator in the exponential into one constant.
  This leads to a classic Boltzmann distribution of the concentration in
  the electrolyte.
 \end_layout
@@ -2694,7 +2700,7 @@ In equilibrium we can assume that the flux vanishes everwhere, so we can
 \begin_layout Itemize
 \begin_inset Formula 
 \begin{align*}
-c^{\pm}\left(x\right) & =c_{0}\exp\left(-\chi_{1}z^{\pm}\phi\left(x\right)\right)
+c^{\pm}\left(x\right) & =c_{0}\exp\left(-\chi_{1}z^{\pm}C_{1}^{\prime}\phi\left(x\right)\right)
 \end{align*}
 
 \end_inset
@@ -2711,7 +2717,27 @@ Steady State Analysis
 \end_layout
 
 \begin_layout Itemize
-Double Layer creation
+Apply step voltage in the voltage range from 
+\begin_inset Formula $0mV$
+\end_inset
+
+ to 
+\begin_inset Formula $100mV$
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+\phi_{C}\left(t\right) & =\phi_{C}\cdot\Theta\left(t\right)
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Double Layer emergence
 \end_layout
 
 \begin_layout Itemize
@@ -2719,7 +2745,11 @@ New equilibrium states reached
 \end_layout
 
 \begin_layout Itemize
-At voltages 
+Totally symmetric between negative and positive choosen 
+\begin_inset Formula $\phi_{C}$
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -2729,56 +2759,22 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\begin_inset Graphics
+	filename figures/20180607_model_0_sweep1.pdf
+
+\end_inset
+
 
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Graphics
-	filename figures/model_0_sweep.pdf
-
-\end_inset
-
-
-\begin_inset Caption Below
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Applied Catode voltage from 5mV up to 300mV, 
-\begin_inset Formula $D_{0}=D_{C}=D_{A}=10^{-12}\frac{m^{2}}{s}$
-\end_inset
-
-, 
-\begin_inset Formula $T=300K$
-\end_inset
-
-, 
-\begin_inset Formula $L=10nm$
-\end_inset
-
-, 
-\begin_inset Formula $c_{0}=1M$
-\end_inset
-
-, initial condition for both ion types 
-\begin_inset Formula $c^{\pm}\left(0\right)=\frac{c_{0}}{2}$
-\end_inset
-
-, 
-\begin_inset Formula $\Delta t=10^{-4},$
-\end_inset
-
-
-\begin_inset Formula $I=500$
-\end_inset
-
-,
-\begin_inset Formula $\epsilon_{m}=80,$
-\end_inset
-
-
-\begin_inset Formula $\epsilon=1$
-\end_inset
-
- 
+'D0': 100000000.0, 'DA': 1.0, 'DC': 1.0, 'Dt': 0.0001, 'I': 500, 'L': 10, 'N':
+ 3098, 'T': 300, 'T0': 1e-06, 'alpha': 0.0, 'c0': 0.6022140857, 'cA': 0.0,
+ 'cC': 0.0, 'chi1': 1.0, 'chi2': 526.9004702828952, 'epsilon': 1.0, 'epsilon_m':
+ 80.0,
 \end_layout
 
 \end_inset
@@ -2796,27 +2792,18 @@ Applied Catode voltage from 5mV up to 300mV,
 \end_layout
 
 \begin_layout Itemize
-High voltage limit.
- 
+The time evolution of the system can be shown by the boundary currents
 \end_layout
 
 \begin_layout Itemize
-Totally symmetric
-\end_layout
-
-\begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
 status open
 
 \begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
 \begin_inset Graphics
-	filename figures/model_0_sweep_limit.pdf
+	filename figures/20180607_model_0__both_0_complete.pdf
 
 \end_inset
 
@@ -2824,47 +2811,14 @@ status open
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption Below
+\begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Applied Catode voltages 50mV, 100mV, 150mV, 200mV 
-\begin_inset Formula $D_{0}=D_{C}=D_{A}=10^{-12}\frac{m^{2}}{s}$
-\end_inset
-
-, 
-\begin_inset Formula $T=300K$
-\end_inset
-
-, 
-\begin_inset Formula $L=10nm$
-\end_inset
-
-, 
-\begin_inset Formula $c_{0}=1M$
-\end_inset
-
-, initial condition for both ion types 
-\begin_inset Formula $c^{\pm}\left(0\right)=\frac{c_{0}}{2}$
-\end_inset
-
-, 
-\begin_inset Formula $\Delta t=10^{-4},$
-\end_inset
-
-
-\begin_inset Formula $I=500$
-\end_inset
-
-,
-\begin_inset Formula $\epsilon_{m}=80,$
-\end_inset
-
-
-\begin_inset Formula $\epsilon=1$
-\end_inset
-
- .
- Relaxation to equilibrium
+Symlog plot, anode current is black, catode current is green.
+ 'D0': 100000000.0, 'DA': 1.0, 'DC': 1.0, 'Dt': 0.0001, 'I': 500, 'L': 10, 'N':
+ 3098, 'T': 300, 'T0': 1e-06, 'alpha': 0.0, 'c0': 0.6022140857, 'cA': 0.0,
+ 'cC': 0.0, 'chi1': 1.0, 'chi2': 526.9004702828952, 'epsilon': 1.0, 'epsilon_m':
+ 80.0,
 \end_layout
 
 \end_inset
@@ -2872,13 +2826,52 @@ Applied Catode voltages 50mV, 100mV, 150mV, 200mV
 
 \end_layout
 
-\begin_layout Plain Layout
-
-\end_layout
-
 \end_inset
 
 
+\end_layout
+
+\begin_layout Itemize
+The current shows that the currents are also symmetric for catode and anode,
+ but with different sign.
+\end_layout
+
+\begin_layout Itemize
+The figure shows the charging of the double with two time constants, first
+ the decreasing exponential relation, followed by a small linear part.
+ This can be understood as the charging of a RC circuit.
+\end_layout
+
+\begin_layout Itemize
+In steady state the current vanishes.
+\end_layout
+
+\begin_layout Section
+Asymmetrics Diffusion Constants
+\end_layout
+
+\begin_layout Itemize
+What happens if the diffusion constant of cations is bigger than the constant
+ of anions?
+\end_layout
+
+\begin_layout Itemize
+In usually Li ion batteries the reactive Li molecules are smaller than the
+ supporting ions, therefore the problem of asymmetric diffusion naturally
+ arises.
+\end_layout
+
+\begin_layout Itemize
+This leads to a splitting of timescales.
+ We choose a 
+\begin_inset Formula $D_{0}=10^{-10}\frac{m^{2}}{s}$
+\end_inset
+
+ and we modify 
+\begin_inset Formula $D^{+}$
+\end_inset
+
+relative to that.
 \end_layout
 
 \begin_layout Chapter
@@ -2932,6 +2925,39 @@ and
 \end_layout
 
 \begin_layout Itemize
+Because a reaction is an activated process, which is probabilistic by nature,
+ and the rate constants are assumed to have an Arrhenius law dependence
+ on temperature and energy barrier 
+\begin_inset Formula $\Delta E_{O,R}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align}
+k_{O} & =A_{O}\exp\left(-\frac{\Delta E_{O}}{k_{B}T}\right)\nonumber \\
+k_{R} & =A_{R}\exp\left(-\frac{\Delta E_{R}}{k_{B}T}\right)
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $A_{ox}$
+\end_inset
+
+ and 
+\begin_inset Formula $A_{red}$
+\end_inset
+
+ are frequency factors which gives the rates without energy barrier.
+\end_layout
+
+\begin_layout Itemize
 The change of the concentration in a reaction control volume for reduction
  and oxidization process follows simple ODE's
 \end_layout
@@ -2962,6 +2988,138 @@ Following this the overall change of the concentration in the electrolyte
 \end_inset
 
 
+\end_layout
+
+\begin_layout Itemize
+This equation can be written in terms of fluxes.
+ The particle flux 
+\begin_inset Formula $f$
+\end_inset
+
+ through the electrode surface is measured in units of 
+\begin_inset Formula $\frac{1}{\text{area}\cdot\text{second}}$
+\end_inset
+
+.
+ This can be validated by taking a look at the underlying conservation law.
+\begin_inset Formula 
+\begin{align*}
+\left[\partial_{t}c\right] & =\left[-\partial_{x}f\right]\\
+\frac{1}{sm^{3}} & =\frac{1}{m}\cdot\frac{1}{sm^{2}}\\
+\left[f\right] & =\frac{1}{sm^{2}}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Therefore a rate constant has units of a reaction velocity.
+\begin_inset Formula 
+\begin{align*}
+\left[k\right] & =\frac{m}{s}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Ion transfer process.
+ Ion is incorporated in metal or solved in solution.
+ Two states of the species: solvated and oxidized or intercaleted in the
+ metal, reduced and electroneutral.
+ The current through the electrode surface is due to incorporation or solvation
+ of charged ions.
+ Electrontransfer implicit in this picture.
+ Ion flux through the electrode surface due to chemical reactions.
+ These fluxes act as boundary conditions at the point like boundaries of
+ the transport equation.
+ These reactions have a simple form of a reversible reduction and oxidation
+ process.
+\end_layout
+
+\begin_layout Standard
+A reduced species 
+\begin_inset Formula $R$
+\end_inset
+
+ in the metal electrode, outside of the computational domain, transforms
+ during the reaction into an oxidized species 
+\begin_inset Formula $O^{+}$
+\end_inset
+
+, which is positively charged, and an negative charge electron 
+\begin_inset Formula $e^{-}$
+\end_inset
+
+.
+ The electron is than available for charge transport through the external
+ device.
+ Reduction and oxidation processes are taking place simultaniously, they
+ sdare expressed as the sum of a forward rate and a backward rate.
+ These rates have a probabilistic nature and are modedflled with rate constants
+ for oxidation reaction 
+\begin_inset Formula $k_{o}$
+\end_inset
+
+ and reduction reaction 
+\begin_inset Formula $k_{r}$
+\end_inset
+
+.
+ The particle flux consists of the concentration of the involved species
+ in an reaction volume and the rate constants 
+\backslash
+cite{bard_electrochemical_2001}.
+ We can express the net particle flux of species over the electrode electrolyte
+ interface as the sum of an oxidation and a reduction flux.
+\begin_inset Formula 
+\begin{align}
+\text{net flux}=\text{oxidation flux}-\text{reduction flux}\nonumber \\
+f_{n}=f_{o}-f_{r}=c_{r}-k_{r}c_{o}
+\end{align}
+
+\end_inset
+
+TIn our model the reduced species, the metal atoms, are bound to the electrode
+ and the oxidized species are the positive ions with concentration 
+\begin_inset Formula $c^{+}(x,t)$
+\end_inset
+
+ in the electrolyte.
+ Negative ions are assumed to be inert and have the role of supporting ions.
+ The reaction occurs only at the pointlike boundary of the simulation domain.
+\end_layout
+
+\begin_layout Subsection
+Linear Kinetics
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula 
+\begin{align}
+f_{A}=k_{ox}c_{red}-k_{red}c_{ox}
+\end{align}
+
+\end_inset
+
+On the other boundary the positive direction points from the electrolyte
+ into the catode electrode, hence we define the catode boundary flux as
+\begin_inset Formula 
+\begin{align}
+f_{C}=k_{red}c_{ox}-k_{ox}c_{red}
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Butler Volmer Kinetics
 \end_layout
 
 \begin_layout Itemize
@@ -3109,8 +3267,72 @@ Here the concentration of the involved species at the electrode surface
 \end_layout
 
 \begin_layout Itemize
+In the classical kinetic description one assumes, that both reduced and
+ oxidized species are present in the solution and the electron tunnels from
+ the electrode into the oxidized species or vice versa.
+\end_layout
+
+\begin_layout Itemize
+Following Newman a typical picture is that one assumes a dependence on the
+ potential difference between metal and bulk solution 
+\begin_inset Formula $\phi_{el}\to\Delta\phi_{el}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+The electron tunnels through the double layer 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename BV_fig.pdf
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Newman: classical Butler Volmer approach using 
+\begin_inset Formula $\Delta\phi_{el}=\phi_{sol}-\phi_{M}$
+\end_inset
+
+ as barrier for the electron transfer.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Modified Butler Volmer Kinetics
+\end_layout
+
+\begin_layout Itemize
 In our model we assume that the electron transfer between electrode and
- ion occurs over the phase boundary at the electrode surface.
+ ion and ion transfer over the phase boundary occurs simultaniously at the
+ electrode surface.
 \end_layout
 
 \begin_layout Itemize
@@ -3119,9 +3341,9 @@ Simultaniously the reduced species is transfered into the electrode, where
 \end_layout
 
 \begin_layout Itemize
-So the energy difference of the electron is given by the difference between
- electrode, denoted by M for metal, and solution directly at the electrode
- surface
+So the energy difference of the electron is given by the local difference
+ between electrode, denoted by M for metal, and solution directly at the
+ electrode surface
 \begin_inset Formula $\phi_{el}\approx\Delta\phi_{el}=\phi_{sol}-\phi_{M}$
 \end_inset
 
@@ -3181,177 +3403,6 @@ Here we denote the concentration in the anode with
 , for simplicity we assume, that there are constant
 \end_layout
 
-\begin_layout Standard
-Ion transfer process.
- Ion is incorporated in metal or solved in solution.
- Two states of the species: solvated and oxidized or intercaleted in the
- metal, reduced and electroneutral.
- The current through the electrode surface is due to incorporation or solvation
- of charged ions.
- Electrontransfer implicit in this picture.
- Ion flux through the electrode surface due to chemical reactions.
- These fluxes act as boundary conditions at the point like boundaries of
- the transport equation.
- These reactions have a simple form of a reversible reduction and oxidation
- process.
-\end_layout
-
-\begin_layout Standard
-A reduced species 
-\begin_inset Formula $R$
-\end_inset
-
- in the metal electrode, outside of the computational domain, transforms
- during the reaction into an oxidized species 
-\begin_inset Formula $O^{+}$
-\end_inset
-
-, which is positively charged, and an negative charge electron 
-\begin_inset Formula $e^{-}$
-\end_inset
-
-.
- The electron is than available for charge transport through the external
- device.
- Reduction and oxidation processes are taking place simultaniously, they
- sdare expressed as the sum of a forward rate and a backward rate.
- These rates have a probabilistic nature and are modedflled with rate constants
- for oxidation reaction 
-\begin_inset Formula $k_{o}$
-\end_inset
-
- and reduction reaction 
-\begin_inset Formula $k_{r}$
-\end_inset
-
-.
- The particle flux consists of the concentration of the involved species
- in an reaction volume and the rate constants 
-\backslash
-cite{bard_electrochemical_2001}.
- We can express the net particle flux of species over the electrode electrolyte
- interface as the sum of an oxidation and a reduction flux.
-\begin_inset Formula 
-\begin{align}
-\text{net flux}=\text{oxidation flux}-\text{reduction flux}\nonumber \\
-f_{n}=f_{o}-f_{r}=c_{r}-k_{r}c_{o}
-\end{align}
-
-\end_inset
-
-The particle flux 
-\begin_inset Formula $f$
-\end_inset
-
- through the electrode surface is measured in units of 
-\begin_inset Formula $\frac{1}{\text{area}\cdot\text{second}}$
-\end_inset
-
-.
- This can be validated by taking a look at the underlying conservation law.
-\begin_inset Formula 
-\begin{align*}
-\left[\partial_{t}c\right]=\left[-\partial_{x}f\right]\\
-\frac{1}{sm^{3}}=\frac{1}{m}\cdot\frac{1}{sm^{2}}\\
-\left[f\right]=\frac{1}{sm^{2}}
-\end{align*}
-
-\end_inset
-
- Therefore a rate constant has units of a reaction velocity.
-\begin_inset Formula 
-\begin{align*}
-\left[k\right] & =\frac{m}{s}
-\end{align*}
-
-\end_inset
-
-In our model the reduced species, the metal atoms, are bound to the electrode
- and the oxidized species are the positive ions with concentration 
-\begin_inset Formula $c^{+}(x,t)$
-\end_inset
-
- in the electrolyte.
- Negative ions are assumed to be inert and have the role of supporting ions.
- The reaction occurs only at the pointlike boundary of the simulation domain.
-\end_layout
-
-\begin_layout Subsection
-Arrhenius Law
-\end_layout
-
-\begin_layout Standard
-The structure of the kinetic rate constants 
-\begin_inset Formula $k_{ox}$
-\end_inset
-
- and 
-\begin_inset Formula $k_{red}$
-\end_inset
-
- is probabilistic in nature.
- We follow the Arrhenius law approach from Schmickler 
-\backslash
-cite{schmickler_interfacial_1996}.
- One reactive molecule can occupy two stable states in an energy landscape,
- the oxidized state and the reduced state.
- Both states are separated by an energy barrier, which is the Gibbs energy
- of activation 
-\begin_inset Formula $\Delta G_{ox}$
-\end_inset
-
- and 
-\begin_inset Formula $\Delta G_{red}$
-\end_inset
-
- for both processes.
- Following the explanation of Schmickler 
-\backslash
-cite{schmickler_interfacial_1996} the phenomenological assumption here is
- that the activation energies are functions of the electrostatic potential
- in the metal 
-\begin_inset Formula $\phi_{M}$
-\end_inset
-
- and the solution 
-\begin_inset Formula $\phi_{S}$
-\end_inset
-
- respectively.
-\begin_inset Formula 
-\begin{align}
-k_{ox}=A_{ox}\exp\left(-\frac{\Delta G_{ox}(\phi_{M})}{k_{B}T}\right)\nonumber \\
-k_{red}=A_{red}\exp\left(-\frac{\Delta G_{red}(\phi_{S})}{k_{B}T}\right)
-\end{align}
-
-\end_inset
-
-
-\begin_inset Formula $A_{ox}$
-\end_inset
-
- and 
-\begin_inset Formula $A_{red}$
-\end_inset
-
- are frequency factors which gives the rates without energy barrier.
-\end_layout
-
-\begin_layout Standard
-Models:
-\end_layout
-
-\begin_layout Itemize
-Model 1: linear Kinetics.
- Implicit potential dependence.
- Energy barrier only on concentrations.
-\end_layout
-
-\begin_layout Itemize
-Model 2: full Butler Volmer Kinetic.
- Explicit dependence of electrons on potential.
-\end_layout
-
 \begin_layout Subsection
 First Model: Linear Kinetics
 \end_layout
@@ -3384,23 +3435,6 @@ In this situation the energy states of reacting species is determined a
  electrolyte, therefore following the Transport equations.
  If we consider the choice of the x direction a positive flux is going from
  the anode into the electrolyte, hence we define the net anode flux as 
-\begin_inset Formula 
-\begin{align}
-f_{A}=k_{ox}c_{red}-k_{red}c_{ox}
-\end{align}
-
-\end_inset
-
-On the other boundary the positive direction points from the electrolyte
- into the catode electrode, hence we define the catode boundary flux as
-\begin_inset Formula 
-\begin{align}
-f_{C}=k_{red}c_{ox}-k_{ox}c_{red}
-\end{align}
-
-\end_inset
-
- 
 \backslash
 subsection{Implementation}
 \end_layout

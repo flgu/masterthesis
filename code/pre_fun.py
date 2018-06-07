@@ -29,7 +29,7 @@ class Setup():
 
 
     def __init__( self, I, I_middle, N, Dt, T, L, lengthscale, c0_in, DA, DC, D0_in, 
-                 epsilon, epsilon_m, testname, model, sim_method, kA, kC, foxA, foxC, E0_A, E0_C, cA, cC,
+                 epsilon, epsilon_m, testname, model, sim_method, kA, kC, E0_A, E0_C, cA, cC,
                   alpha, **kwargs ):
 
         self.I = I
@@ -50,8 +50,6 @@ class Setup():
         # reaction boundary conditions
         self.kA = kA
         self.kC = kC
-        self.foxA = foxA
-        self.foxC = foxC
         self.E0_A = E0_A
         self.E0_C = E0_C
         self.cA = cA
@@ -92,7 +90,7 @@ class Setup():
         Setter method for model
         Void
         """
-        test_attr = ['kA', 'kC', 'foxA', 'foxC', 'E0_C', 'E0_A', 'cA', 'cC', 'alpha']
+        test_attr = ['kA', 'kC', 'E0_C', 'E0_A', 'cA', 'cC', 'alpha']
         logical_list = []
         
         if model == 0:
@@ -220,6 +218,12 @@ class Setup():
         else:
 
             self.sol_data = sol[:,-1]
+
+    def calcDebyeLength( self, ionic_strength ):
+        """
+        Calculate the Debye screenin length based on setup reference values
+        """
+        return np.sqrt( (self.epsilon_m * self.EPSILON_VAC * self.BOLTZMANN_CONST * self.T ) / ( self.AVOGADRO_CONST * (self.ELE_CHARGE ** 2) * ionic_strength )    )
 
 #------- load and save methods -------------------------------------------------------------------
     @classmethod
@@ -385,8 +389,6 @@ class Setup():
                     self.Dt,
                     self.kA,
                     self.kC,
-                    self.foxA,
-                    self.foxC,
                     self.E0_A,
                     self.E0_C,
                     self.cA,
@@ -460,8 +462,6 @@ class Setup():
                                             self.Dt,
                                             self.kA,
                                             self.kC,
-                                            self.foxA,
-                                            self.foxC,
                                             self.E0_A,
                                             self.E0_C,
                                             self.cA,
@@ -514,8 +514,6 @@ class Setup():
                     self.Dt,
                     self.kA,
                     self.kC,
-                    self.foxA,
-                    self.foxC,
                     self.E0_A,
                     self.E0_C,
                     self.cA,

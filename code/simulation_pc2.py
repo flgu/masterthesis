@@ -27,13 +27,14 @@ if __name__ == "__main__":
     # create setups
     for i in range(0, voltage_list.__len__()):
 
-        name = '20180607_model_0_sweep_3_' + str(i)
+        name = '20180607_model_1_sweep_test1_' + str(i)
 
         stp = Setup(  I = 500,
+                    I_middle = 0,
                     N = 2 ** 16,
                     Dt = 1e-4,
                     T = 300,
-                    L = 40,
+                    L = 10,
                     lengthscale = 1e9,
                     c0_in = 1.0,
                     DA = 1.0,
@@ -42,22 +43,162 @@ if __name__ == "__main__":
                     epsilon = 1.0,
                     epsilon_m = 80.0,
                     testname = name,
-                    model = 0,
+                    model = 1,
                     sim_method = "single_const",
-                    kA = 0.0,
-                    kC = 0.0,
-                    foxA = 0.0,
-                    foxC = 0.0,
+                    kA = 1.0,
+                    kC = 1.0,
                     E0_A = 0.0,
                     E0_C = 0.0,
-                    cA = 0.0,
-                    cC = 0.0,
+                    cA = 0.5,
+                    cC = 0.5,
                     alpha = 0.0,
                     steady_state_tol = 1e-7,)
 
         stp.set_input_voltage_data( voltage_list[i] )
 
         setup_list.append( stp )
+
+    print("Setup 1 created, len:", setup_list.__len__())
+
+    for i in range(0, voltage_list.__len__()):
+
+        name = '20180607_model_1_sweep_test2_' + str(i)
+
+        stp = Setup(  I = 500,
+                    I_middle = 0,
+                    N = 2 ** 16,
+                    Dt = 1e-4,
+                    T = 300,
+                    L = 10,
+                    lengthscale = 1e9,
+                    c0_in = 1.0,
+                    DA = 1.0,
+                    DC = 1.0,
+                    D0_in = 1e-10,
+                    epsilon = 1.0,
+                    epsilon_m = 80.0,
+                    testname = name,
+                    model = 2,
+                    sim_method = "single_const",
+                    kA = 1.0e-1,
+                    kC = 1.0e-1,
+                    E0_A = 0.0,
+                    E0_C = 0.0,
+                    cA = 0.5,
+                    cC = 0.5,
+                    alpha = 0.0,
+                    steady_state_tol = 1e-7,)
+
+        stp.set_input_voltage_data( voltage_list[i] )
+
+        setup_list.append( stp )
+
+    print("Setup 2 created, len:", setup_list.__len__())
+
+    for i in range(0, voltage_list.__len__()):
+
+        name = '20180607_model_1_sweep_test3_' + str(i)
+
+        stp = Setup(  I = 500,
+                    I_middle = 0,
+                    N = 2 ** 16,
+                    Dt = 1e-4,
+                    T = 300,
+                    L = 10,
+                    lengthscale = 1e9,
+                    c0_in = 1.0,
+                    DA = 1.0,
+                    DC = 1.0,
+                    D0_in = 1e-10,
+                    epsilon = 1.0,
+                    epsilon_m = 80.0,
+                    testname = name,
+                    model = 2,
+                    sim_method = "single_const",
+                    kA = 1.0e-2,
+                    kC = 1.0e-2,
+                    E0_A = 0.0,
+                    E0_C = 0.0,
+                    cA = 0.5,
+                    cC = 0.5,
+                    alpha = 0.0,
+                    steady_state_tol = 1e-7,)
+
+        stp.set_input_voltage_data( voltage_list[i] )
+
+        setup_list.append( stp )
+
+    print("Setup 3 created, len:", setup_list.__len__())
+
+    for i in range(0, voltage_list.__len__()):
+
+        name = '20180607_model_1_sweep_test4_' + str(i)
+
+        stp = Setup(  I = 500,
+                    I_middle = 0,
+                    N = 2 ** 16,
+                    Dt = 1e-4,
+                    T = 300,
+                    L = 10,
+                    lengthscale = 1e9,
+                    c0_in = 1.0,
+                    DA = 1.0,
+                    DC = 1.0,
+                    D0_in = 1e-10,
+                    epsilon = 1.0,
+                    epsilon_m = 80.0,
+                    testname = name,
+                    model = 2,
+                    sim_method = "single_const",
+                    kA = 1.0e-3,
+                    kC = 1.0e-3,
+                    E0_A = 0.0,
+                    E0_C = 0.0,
+                    cA = 0.5,
+                    cC = 0.5,
+                    alpha = 0.0,
+                    steady_state_tol = 1e-7,)
+
+        stp.set_input_voltage_data( voltage_list[i] )
+
+        setup_list.append( stp )
+
+    print("Setup 4 created, len:", setup_list.__len__())
+
+    for i in range(0, voltage_list.__len__()):
+
+        name = '20180607_model_1_sweep_test5_' + str(i)
+
+        stp = Setup(  I = 500,
+                    I_middle = 0,
+                    N = 2 ** 16,
+                    Dt = 1e-4,
+                    T = 300,
+                    L = 10,
+                    lengthscale = 1e9,
+                    c0_in = 1.0,
+                    DA = 1.0,
+                    DC = 1.0,
+                    D0_in = 1e-10,
+                    epsilon = 1.0,
+                    epsilon_m = 80.0,
+                    testname = name,
+                    model = 2,
+                    sim_method = "single_const",
+                    kA = 1.0e-4,
+                    kC = 1.0e-4,
+                    E0_A = 0.0,
+                    E0_C = 0.0,
+                    cA = 0.5,
+                    cC = 0.5,
+                    alpha = 0.0,
+                    steady_state_tol = 1e-7,)
+
+        stp.set_input_voltage_data( voltage_list[i] )
+
+        setup_list.append( stp )
+
+    print("Setup 5 created, len:", setup_list.__len__())
 
     # Start simulation
     pool = mp.Pool(processes = 4)

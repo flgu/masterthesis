@@ -21,8 +21,6 @@ def residual(
                double Dt, 
                double kA, 
                double kC, 
-               double foxA, 
-               double foxC,
                double E0_A,
                double E0_C,
                double cA,
@@ -52,9 +50,9 @@ def residual(
         epsilon = permitivitty vector of solvent, 1D array float64
         model = declaration of model, scalar int32
         kA = bondary condition anode, scalar double64
-        foxA = bondary condition anode, scala, double64
+
         kC = bondary condition catode, scalar double64
-        foxC = bondary condition catode, scalar double64
+
 
     BDF: c_j - c_j-1 + Dt/Dx_i (f_up - f_down)
 
@@ -101,8 +99,8 @@ def residual(
     elif model == 1:
 
         # Potential difference between electrode and nearest solution
-        fA = foxA - kA * solN[0]
-        fC = kC * solN[I-1] - foxC
+        fA = kA * cA - kA * solN[0]
+        fC = kC * solN[I-1] - kC * cC
 
     elif model == 2:
 
@@ -431,7 +429,6 @@ def calcAnodicCurrent( double phiN,
                         double chi2,
                         int model,
                         double kA,
-                        double foxA,
                         double E0_A,
                         double cA,
                         double alpha,
@@ -447,7 +444,7 @@ def calcAnodicCurrent( double phiN,
 
     elif model == 1:
         
-        current_A = foxA - kA * solA - (3.0 * (phiN) - 4.0 * (phi1) + (phi2)) / (2.0 * Dt * Dx * chi2)
+        current_A = kA * cA - kA * solA - (3.0 * (phiN) - 4.0 * (phi1) + (phi2)) / (2.0 * Dt * Dx * chi2)
 
     elif model == 2:
 
@@ -471,7 +468,6 @@ def calcCatodicCurrent( double phiN,
                         double chi2,
                         int model,
                         double kC,
-                        double foxC,
                         double E0_C,
                         double cC,
                         double alpha,
@@ -486,7 +482,7 @@ def calcCatodicCurrent( double phiN,
 
     elif model == 1:
 
-        current_C = kC * solC - foxC -(3.0 * (phiN - phiCN) - 4.0 * (phi1 - phiC1) + (phi2 - phiC2)) / (2.0 * Dt * Dx * chi2)
+        current_C = kC * solC - kC * cC -(3.0 * (phiN - phiCN) - 4.0 * (phi1 - phiC1) + (phi2 - phiC2)) / (2.0 * Dt * Dx * chi2)
 
     elif model == 2:
 
@@ -513,8 +509,6 @@ def time_step_full( int N,
                     double Dt,
                     double kA,
                     double kC,
-                    double foxA,
-                    double foxC,
                     double E0_A,
                     double E0_C,
                     double cA,
@@ -571,8 +565,6 @@ def time_step_full( int N,
                                     Dt,
                                     kA,
                                     kC,
-                                    foxA,
-                                    foxC,
                                     E0_A,
                                     E0_C,
                                     cA,
@@ -602,7 +594,6 @@ def time_step_full( int N,
                                               chi2,
                                               model,
                                               kA,
-                                              foxA,
                                               E0_A,
                                               cA,
                                               alpha,
@@ -621,7 +612,6 @@ def time_step_full( int N,
                                                chi2,
                                                model,
                                                kC,
-                                               foxC,
                                                E0_C,
                                                cC,
                                                alpha,
@@ -648,8 +638,6 @@ def time_step_red( int N,
                     double Dt,
                     double kA,
                     double kC,
-                    double foxA,
-                    double foxC,
                     double E0_A,
                     double E0_C,
                     double cA,
@@ -716,8 +704,6 @@ def time_step_red( int N,
                                     Dt,
                                     kA,
                                     kC,
-                                    foxA,
-                                    foxC,
                                     E0_A,
                                     E0_C,
                                     cA,
@@ -747,7 +733,6 @@ def time_step_red( int N,
                                               chi2,
                                               model,
                                               kA,
-                                              foxA,
                                               E0_A,
                                               cA,
                                               alpha,
@@ -765,7 +750,6 @@ def time_step_red( int N,
                                                chi2,
                                                model,
                                                kC,
-                                               foxC,
                                                E0_C,
                                                cC,
                                                alpha,
