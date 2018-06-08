@@ -28,12 +28,11 @@ class Setup():
     BOLTZMANN_CONST = 1.38064852e-23 # [Joule/Kelvin], constant value
 
 
-    def __init__( self, I, I_middle, N, Dt, T, L, lengthscale, c0_in, DA, DC, D0_in, 
-                 epsilon, epsilon_m, testname, model, sim_method, kA, kC, E0_A, E0_C, cA, cC,
+    def __init__( self, I, N, Dt, T, L, lengthscale, c0_in, DA, DC, D0_in, 
+                 epsilon, epsilon_m, testname, model, sim_method, kAox, kAred, kCox, kCred, cA, cC,
                   alpha, **kwargs ):
 
         self.I = I
-        self.I_middle = I_middle
         self.N = N
         self.Dt = Dt
         self.T = T
@@ -48,10 +47,10 @@ class Setup():
         self.testname = testname
 
         # reaction boundary conditions
-        self.kA = kA
-        self.kC = kC
-        self.E0_A = E0_A
-        self.E0_C = E0_C
+        self.kAox = kAox
+        self.kAred = kAred
+        self.kCox = kCox
+        self.kCred = kCred
         self.cA = cA
         self.cC = cC
         self.alpha = alpha
@@ -90,7 +89,7 @@ class Setup():
         Setter method for model
         Void
         """
-        test_attr = ['kA', 'kC', 'E0_C', 'E0_A', 'cA', 'cC', 'alpha']
+        test_attr = ['kAox', 'kAred', 'kCox', 'kCred', 'cA', 'cC', 'alpha']
         logical_list = []
         
         if model == 0:
@@ -101,7 +100,7 @@ class Setup():
                 
                     if not getattr( self, element) == 0:
                     
-                        raise ValueError('Model and boundary conditiosn mismatch!')
+                        raise ValueError('Model and boundary conditions mismatch!')
                 
                 except AttributeError:
                     
@@ -379,7 +378,6 @@ class Setup():
 
             sol, current, j = time_step_full( self.N,
                     self.I,
-                    self.I_middle,
                     Dx,
                     sol,
                     self.chi1,
@@ -387,10 +385,10 @@ class Setup():
                     DC_vec,
                     DA_vec,
                     self.Dt,
-                    self.kA,
-                    self.kC,
-                    self.E0_A,
-                    self.E0_C,
+                    self.kAox,
+                    self.kAred,
+                    self.kCox,
+                    self.kCred,
                     self.cA,
                     self.cC,
                     self.alpha,
@@ -419,80 +417,80 @@ class Setup():
             print("Save Results")
             self.save()
 
+# Not used anymore
+        # elif self.sim_method == "full_imp":
+        #     phiC, t = createVoltage( setup, 0.2 )
+        #     # allocate output vectors
 
-        elif self.sim_method == "full_imp":
-            phiC, t = createVoltage( setup, 0.2 )
-            # allocate output vectors
+        #     sol = np.zeros([3 * self.I, self.N], dtype = np.float64)
 
-            sol = np.zeros([3 * self.I, self.N], dtype = np.float64)
+        #     sol[:,0] = sol_initial
 
-            sol[:,0] = sol_initial
+        #     print("Start 'full' Simulation")
 
-            print("Start 'full' Simulation")
+        #     for j in range(1, self.N):
 
-            for j in range(1, self.N):
+        #         if j <= 20:
+        #             print("Time Step: ", j)
+        #         elif j > 20 and np.mod(j,100) == 0:
+        #             print("Time Step: ", j)
 
-                if j <= 20:
-                    print("Time Step: ", j)
-                elif j > 20 and np.mod(j,100) == 0:
-                    print("Time Step: ", j)
+        #         if j < 5:
 
-                if j < 5:
+        #             t_step_method = 1
 
-                    t_step_method = 1
+        #             sol2 = sol[:,j-1]
 
-                    sol2 = sol[:,j-1]
+        #         else:
 
-                else:
+        #             t_step_method = 2
 
-                    t_step_method = 2
+        #             sol2 = sol[:,j-2]
 
-                    sol2 = sol[:,j-2]
+        #         sol[:,j] = newton_krylov( lambda y: res(
+        #                                     self.I,
+        #                                     Dx,
+        #                                     y,
+        #                                     sol[:,j-1], # sol1 (j-1)
+        #                                     sol2, # sol2 (j-2) for BDF2 only
+        #                                     self.chi1,
+        #                                     self.chi2,
+        #                                     DC_vec,
+        #                                     DA_vec,
+        #                                     self.Dt,
+        #                                     self.kAox,
+        #                                     self.kAred,
+        #                                     self.kCox,
+        #                                     self.kCred,
+        #                                     self.cA,
+        #                                     self.cC,
+        #                                     self.alpha,
+        #                                     phiC[j],
+        #                                     epsilon_vec,
+        #                                     self.model,
+        #                                     t_step_method,
+        #                                     M
+        #                                     ),
+        #                                     sol[:,j-1],
+        #                                     inner_M = Jacinv,
+        #                                     method = "lgmres",
+        #                                     verbose = 0,
+        #                                     maxiter = 100)
 
-                sol[:,j] = newton_krylov( lambda y: res(
-                                            self.I,
-                                            Dx,
-                                            y,
-                                            sol[:,j-1], # sol1 (j-1)
-                                            sol2, # sol2 (j-2) for BDF2 only
-                                            self.chi1,
-                                            self.chi2,
-                                            DC_vec,
-                                            DA_vec,
-                                            self.Dt,
-                                            self.kA,
-                                            self.kC,
-                                            self.E0_A,
-                                            self.E0_C,
-                                            self.cA,
-                                            self.cC,
-                                            self.alpha,
-                                            phiC[j],
-                                            epsilon_vec,
-                                            self.model,
-                                            t_step_method,
-                                            M
-                                            ),
-                                            sol[:,j-1],
-                                            inner_M = Jacinv,
-                                            method = "lgmres",
-                                            verbose = 0,
-                                            maxiter = 100)
+        #         # start current calculation if j >= 2, when the system reacts properly
+        #         if j >= 2:
 
-                # start current calculation if j >= 2, when the system reacts properly
-                if j >= 2:
+        #             # anodic current
+        #             current[0,j] = calcAnodicCurrent( sol[2*I,j], sol[2*I,j-1], sol[2*I,j-2], self.Dt, Dx[0], self.chi2 )
 
-                    # anodic current
-                    current[0,j] = calcAnodicCurrent( sol[2*I,j], sol[2*I,j-1], sol[2*I,j-2], self.Dt, Dx[0], self.chi2 )
+        #             # catodic current
+        #             current[1,j] = calcCatodicCurrent( sol[3*I-1,j], sol[3*I-1,j-1], sol[3*I-1,j-2],
+        #                                 phiC[j], phiC[j-1], phiC[j-2], self.Dt, Dx[I-1], self.chi2 )
 
-                    # catodic current
-                    current[1,j] = calcCatodicCurrent( sol[3*I-1,j], sol[3*I-1,j-1], sol[3*I-1,j-2],
-                                        phiC[j], phiC[j-1], phiC[j-2], self.Dt, Dx[I-1], self.chi2 )
-
-            # save results
-            print("Save Results")
-            np.save(setup.testname + "_sol.npy", sol)
-            np.save(setup.testname + "_current.npy", current)
+        #     # save results
+        #     print("Save Results")
+        #     np.save(setup.testname + "_sol.npy", sol)
+        #     np.save(setup.testname + "_current.npy", current)
 
             # current only output method
         if self.sim_method == "c_only_imp":
@@ -504,7 +502,6 @@ class Setup():
 
             current = time_step_red( self.N,
                     self.I,
-                    self.I_middle,
                     Dx,
                     sol_initial,
                     self.chi1,
@@ -512,10 +509,10 @@ class Setup():
                     DC_vec,
                     DA_vec,
                     self.Dt,
-                    self.kA,
-                    self.kC,
-                    self.E0_A,
-                    self.E0_C,
+                    self.kAox,
+                    self.kAred,
+                    self.kCox,
+                    self.kCred,
                     self.cA,
                     self.cC,
                     self.alpha,
@@ -528,12 +525,11 @@ class Setup():
                      )
 
             self.set_current_data( current )
-            self.set_input_voltage_data( phiC )
+            self.set_input_voltage_data( phiC, nondim = False )
 
             # save results
             print("Save Results")
             self.save()
-
 # end --------------------------------------------------------------------------------------------------------
 
 

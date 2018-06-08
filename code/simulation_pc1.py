@@ -19,7 +19,7 @@ def caller( setup ):
 
 if __name__ == "__main__":
 
-    k_list = [1e0, 1e-2, 1e-4]
+    k_list = [1e0, 1e-2, 1e-4, 1e-6]
 
     setup_list = []
 
@@ -55,11 +55,9 @@ if __name__ == "__main__":
                     alpha = 0.0,
                     steady_state_tol = 1e-7,)
 
-        stp.set_input_voltage_data( voltage_list[i] )
-
         setup_list.append( stp )
 
-    
+    print("Len Setup_list", setup_list.__len__() )
 
     # Start simulation
     pool = mp.Pool(processes = 4)
