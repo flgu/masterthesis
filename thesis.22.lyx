@@ -623,7 +623,7 @@ Debye length
 
 \end_inset
 
-Constants, which are used for the numerical solution: % 
+Constants, which are used for the numerical solution: 
 \begin_inset Formula 
 \begin{align}
 \chi_{1}=e\beta\phi_{0}\nonumber \\
@@ -2396,6 +2396,12 @@ Hz.
 
 \end_layout
 
+\begin_layout Itemize
+Just small frequencies because on the short lengthscale all time scales
+ are very small, so for small frequencies we have a quasi equilibrium system
+ and we omit frequency dependence
+\end_layout
+
 \begin_layout Section
 Single Sine Approach
 \end_layout
@@ -2520,11 +2526,11 @@ The dimensionless total current density can be formulated following the
 \end_inset
 
 , the ionic currents for anions 
-\begin_inset Formula $j^{-}(x,t)$
+\begin_inset Formula $f^{-}(x,t)$
 \end_inset
 
 , cation 
-\begin_inset Formula $j^{+}(x,t)$
+\begin_inset Formula $f^{+}(x,t)$
 \end_inset
 
  and parameter 
@@ -2537,7 +2543,7 @@ The dimensionless total current density can be formulated following the
 \begin_layout Standard
 \begin_inset Formula 
 \begin{align}
-f_{total}\left(x,t\right) & =f^{+}\left(x,t\right)+f^{-}\left(x,t\right)+\frac{1}{\chi_{2}}\partial_{t}\partial_{x}\phi\left(x,t\right)\label{eq:jtotal}
+f_{total}\left(x,t\right) & =f^{+}\left(x,t\right)+f^{-}\left(x,t\right)-\frac{1}{\chi_{2}}\partial_{t}\partial_{x}\phi\left(x,t\right)\label{eq:jtotal}
 \end{align}
 
 \end_inset
@@ -2547,7 +2553,12 @@ f_{total}\left(x,t\right) & =f^{+}\left(x,t\right)+f^{-}\left(x,t\right)+\frac{1
 status open
 
 \begin_layout Plain Layout
-Vorzeichen beim Potential - E Feld
+Vorzeichen beim Potential - E Feld bei Catode anders
+\end_layout
+
+\begin_layout Plain Layout
+Unterscheidung zwischen physikalischer Stromrichtung und technischer Stromrichtu
+ng
 \end_layout
 
 \end_inset
@@ -2556,10 +2567,7 @@ Vorzeichen beim Potential - E Feld
 \end_layout
 
 \begin_layout Standard
-Equation 
-\backslash
-ref{eq:jtotal} is valid at all times and for all points in the computational
- domain.
+Equation is valid at all times and for all points in the computational domain.
  Therefore we can evaluate this equation for example at the right electrode,
  where it has a very simple form.
  The ionic current densities at the boundaries are equal to the fluxes through
@@ -2803,7 +2811,7 @@ status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename figures/20180607_model_0__both_0_complete.pdf
+	filename figures/20180608_model_0__anode_0.pdf
 
 \end_inset
 
@@ -2872,6 +2880,64 @@ This leads to a splitting of timescales.
 \end_inset
 
 relative to that.
+ we have choosen 
+\begin_inset Formula $D^{+}=5\cdot D_{0}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Steady state is equal, interesting is the time dependence, which can be
+ analyzed by terms of the current
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename figures/20180608_model_0_sweep_current_0.pdf
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+'D0': 100000000.0, 'DA': 1.0, 'DC': 5.0, 'Dt': 0.0001, 'I': 500, 'L': 10, 'N':
+ 6634, 'T': 300, 'T0': 1e-06, 'alpha': 0.0, 'c0': 0.6022140857, 'cA': 0.0,
+ 'cC': 0.0, 'chi1': 1.0, 'chi2': 526.9004702828952, 'current_data': array([[
+ 0.00000000e+00, 0.00000000e+00, 1.00361744e+06, ..., -1.91613509e-01, -1.91323116e-01,
+ -1.91033645e-01], [ 0.00000000e+00, 0.00000000e+00, -7.07331408e+08, ..., -1.91613925e-
+01, -1.91322999e-01, -1.91033801e-01]]), 'current_ss': array([-0.19103365,
+ -0.1910338 ]), 'epsilon': 1.0, 'epsilon_m': 80.0, 'f0': 6022140.857000001,
+ 'input_voltage_data': array([1.54726961, 1.54726961, 1.54726961, ..., 1.54726961,
+ 1.54726961, 1.54726961]), 'kAox': 0, 'kAred': 0, 'kCox': 0.0, 'kCred': 0.0,
+ 'lengthscale': 1000000000.0, 'model': 0, 'phi0': 0.025851991011651636, 'sim_metho
+d': 'single_const', 'simulation_date': '2018-06-08', 'sol_data': array([
+ 1.02699993, 0.99367993, 0.96291029, ..., 37.39714916, 38.22324574, 39.09011294]),
+ 'steady_state_tol': 1e-07
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+One can see three different time constants in the double layer charging
 \end_layout
 
 \begin_layout Chapter
@@ -3930,19 +3996,6 @@ Energy Barrier
 Linear Boundary Conditions
 \end_layout
 
-\begin_layout Standard
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-Taylor Expansion of dG
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
 \begin_layout Itemize
 Question: can we get Butler Volmer kind of current voltage relationships
  with linear kinetics?
@@ -4351,7 +4404,7 @@ I = 500, N = 2 ** 15, Dt = 1e-4, T = 300, L = 10, lengthscale = 1e9, c0_in
 l
 \end_layout
 
-\begin_layout Standard
+\begin_layout Section
 \begin_inset Float figure
 wide false
 sideways false
@@ -4375,6 +4428,261 @@ status open
 
 \begin_layout Plain Layout
 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Impedance Spectroscopy
+\end_layout
+
+\begin_layout Itemize
+Symmetric anode and catode boundary conditions 
+\begin_inset Formula $k_{A,ox}=k_{A,red}=k_{C,ox}=k_{C,red}=1\cdot10^{k}$
+\end_inset
+
+ for different 
+\begin_inset Formula $k=0,-2,-4,-6$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Concentration in electrodes equal and constant 
+\begin_inset Formula $c_{A}=c_{C}=0.5$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+WIth the initial condition 
+\begin_inset Formula $c^{+}\left(t=0\right)=0.5$
+\end_inset
+
+ over the electrolyte the system is at equilibrium with 
+\begin_inset Formula $\phi_{C}=0$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+Small amplitude about 
+\begin_inset Formula $\approx13mV$
+\end_inset
+
+ with 
+\begin_inset Formula $60$
+\end_inset
+
+ sines
+\end_layout
+
+\begin_layout Itemize
+sampling frequency 
+\begin_inset Formula $f_{s}=1192Hz$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+We investigated how does the time scale splitting from reaction time constant
+ to diffusion time constant affect the impedance plots.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename figures/20180607_model_1_imp_test1_0_Z_Nyquist.pdf
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset Formula $k=0$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename figures/20180607_model_1_imp_test1_1_Z_Nyquist.pdf
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset Formula $k=-2$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename figures/20180607_model_1_imp_test1_2_Z_Nyquist.pdf
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset Formula $k=-4$
+\end_inset
+
+D0': 100000000.0, 'DA': 1.0, 'DC': 1.0, 'Dt': 0.0001, 'E0_A': 0.0, 'E0_C': 0.0,
+ 'I': 500, 'I_middle': 0, 'L': 40, 'N': 524288, 'T': 300, 'T0': 1.6e-05,
+ 'alpha': 0.0, 'c0': 0.6022140857, 'cA': 0.5, 'cC': 0.5, 'chi1': 1.0, 'chi2':
+ 8430.407524526323, 'current_data': array([[ 0.
+ , 0.
+ , 1087.68448756, ..., 818.26131212, -1047.35987911, 1689.52590837], [ 0.
+ , 0.
+ , -1087.68454136, ..., -818.26040804, 1047.3607862 , -1689.52500373]]), 'epsilon':
+ 1.0, 'epsilon_m': 80.0, 'f0': 1505535.2142500002, 'input_voltage_data': array([
+ 0.
+ , 4.06307904, 3.0885904 , ..., -3.69214617, -3.0885904 , -4.06307904]), 'kA': 1e-06,
+ 'kC': 1e-06, 'lengthscale': 1000000000.0, 'model': 1, 'phi0': 0.02585199101165163
+6, 'sim_method': 'c_only_imp', 'simulation_date': '2018-06-08', 'steady_state_to
+l': 1e-07
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename figures/20180607_model_1_imp_test1_3_Z_Nyquist.pdf
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset Formula $k=-6$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Slower electrode reactions leads to diffusion controlled impedance
+\end_layout
+
+\begin_layout Itemize
+Strange inductivity at slow frequencies, so more simulations with smaller
+ frequencies 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename figures/20180607_model_1_imp_test1_all_Z_Bode.pdf
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Bode plot
 \end_layout
 
 \end_inset

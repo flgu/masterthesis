@@ -19,8 +19,8 @@ def caller( setup ):
 
 if __name__ == "__main__":
 
-    voltage_list = [-40e-3, -30e-3, -20e-3, -15e-3, -10e-3 , -5e-3, -1e-3,
-     1e-3, 5e-3, 10e-3, 15e-3, 20e-3, 30e-3, 40e-3 ]
+    # voltage_list = [-40e-3, -30e-3, -20e-3, -15e-3, -10e-3 , -5e-3, -1e-3,
+    #  1e-3, 5e-3, 10e-3, 15e-3, 20e-3, 30e-3, 40e-3 ]
 
     setup_list = []
 
@@ -58,37 +58,38 @@ if __name__ == "__main__":
 
     #     setup_list.append( stp )
 
-    print("Setup 1 created, len:", setup_list.__len__())
+    k_list = [1e0, 1e-2, 1e-4, 1e-6]
 
-    for i in range(0, voltage_list.__len__()):
+    setup_list = []
 
-        name = '20180608_model_0_sweep_1_' + str(i)
+    # create setups
+    for i in range(0, k_list.__len__()):
+
+        name = '20180608_model_2_imp_0_' + str(i)
 
         stp = Setup(  I = 500,
-                    N = 2 ** 16,
+                    N = 2 ** 19,
                     Dt = 1e-4,
                     T = 300,
-                    L = 10,
+                    L = 40,
                     lengthscale = 1e9,
                     c0_in = 1.0,
                     DA = 1.0,
-                    DC = 5.0,
+                    DC = 1.0,
                     D0_in = 1e-10,
                     epsilon = 1.0,
                     epsilon_m = 80.0,
                     testname = name,
-                    model = 0,
-                    sim_method = "single_const",
-                    kAox = 0,
-                    kAred = 0,
-                    kCox = 0.0,
-                    kCred = 0.0,
-                    cA = 0.0,
-                    cC = 0.0,
-                    alpha = 0.0,
+                    model = 1,
+                    sim_method = "c_only_imp",
+                    kAox = k_list[i],
+                    kAred = k_list[i],
+                    kCox = k_list[i],
+                    kCred = k_list[i],
+                    cA = 0.5,
+                    cC = 0.5,
+                    alpha = 0.5,
                     steady_state_tol = 1e-7,)
-
-        stp.set_input_voltage_data( voltage_list[i] )
 
         setup_list.append( stp )
 
