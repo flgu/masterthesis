@@ -70,6 +70,7 @@ class Setup():
 
         self.T0 = self.L ** 2 / self.D0
         
+
         # call setter methods
         self.set_ref_flux()
         
@@ -318,7 +319,7 @@ class Setup():
         singl_ampl = ampl * 1e-3 / self.phi0
 
         # create factor array
-        fac_arr = np.concatenate( (np.array([2, 4, 6, 8]), np.geomspace(10,np.floor(f_Ny / f_s), num = num)) )
+        fac_arr = np.concatenate( (np.array([3, 6, 9]), np.geomspace(10,np.floor(f_Ny / f_s), num = num)) )
 
         # loop over all multiplicative factors
         for i in range(0, fac_arr.size):
